@@ -1,0 +1,39 @@
+{% extends 'layout_auth.html.twig' %}
+{% block title %}Check your email - Orion{% endblock %}
+
+{% block auth_content %}
+<div class="auth-form-inner p-6 sm:p-8 text-center">
+    <a href="{{ path('app_home') }}" class="inline-block">
+        <img src="{{ asset('images/orion_light_mode.png') }}" alt="Orion" class="h-12 mx-auto dark:invert">
+    </a>
+
+    <div class="w-16 h-16 mx-auto mt-8 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center mb-6">
+        <svg class="w-8 h-8 text-emerald-600 dark:text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+        </svg>
+    </div>
+
+    <h1 class="text-2xl font-bold text-slate-900 dark:text-white mb-3">Check Your Email</h1>
+    <p class="text-slate-600 dark:text-slate-400 mb-6">
+        We've sent a 6-digit verification code to your email address.
+        Please check your inbox and enter the code to verify your account.
+    </p>
+
+    <div class="space-y-4">
+        <a href="{{ path('app_verify_email') }}"
+           class="block w-full py-3 px-4 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-lg transition">
+            Verify Email Now
+        </a>
+
+        <p class="text-sm text-slate-500 dark:text-slate-400">
+            The code will expire in 15 minutes
+        </p>
+    </div>
+
+    <p class="mt-6 text-center text-slate-600 dark:text-slate-400">
+        <a href="{{ path('app_login') }}" class="font-medium text-emerald-600 hover:text-emerald-500 dark:text-emerald-400">
+            Back to Login
+        </a>
+    </p>
+</div>
+{% endblock %}

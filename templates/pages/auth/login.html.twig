@@ -1,0 +1,259 @@
+{% extends 'layout_auth.html.twig' %}
+{% block title %}Log in — Orion{% endblock %}
+
+{% block auth_content %}
+<div class="auth-form-inner p-6 sm:p-8">
+
+            {# Brand header #}
+            <div class="text-center mb-2">
+                <a href="{{ path('app_login') }}" class="inline-flex items-center justify-center">
+                    <img
+                        src="{{ asset('images/orion_light_mode.png') }}"
+                        alt="Orion Logo"
+                        class="h-20 sm:h-24 w-auto object-contain
+                               drop-shadow-[0_0_25px_rgba(16,185,129,0.55)]
+                               hover:scale-105 transition-transform duration-300"
+                    />
+                </a>
+
+                <h1 class="mt-8 text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+                    Log in
+                </h1>
+                <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">
+                    Enter your credentials to access your account.
+                </p>
+            </div>
+
+            {# Server-side error: always show generic message (never expose technical details) #}
+            {% if error|default(null) or app.request.query.get('auth_error') %}
+                <div class="mt-4 p-4 rounded-xl bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400" role="alert">
+                    Unable to authenticate. Please try again later.
+                </div>
+            {% endif %}
+
+            <div id="login-error" class="mt-4 p-4 rounded-xl bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400 hidden" role="alert"></div>
+
+            {# Stateless login: submit to POST /api/login, store JWT in localStorage #}
+            <form id="login-form" class="mt-8 space-y-6" action="#" method="post" novalidate data-validate="login">
+
+                {# Email #}
+                <div>
+                    <label for="email" class="block text-sm font-semibold text-slate-700 dark:text-slate-200">
+                        Email
+                    </label>
+                    <input
+                        id="email"
+                        name="email"
+                        type="email"
+                        autocomplete="email"
+                        required
+                        value="{{ last_username|default('') }}"
+                        placeholder="you@example.com"
+                        class="mt-2 block w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900
+                               placeholder-slate-400 shadow-sm outline-none
+                               focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/20
+                               dark:border-slate-700 dark:bg-slate-900/40 dark:text-white dark:placeholder-slate-400
+                               dark:focus:border-emerald-400 dark:focus:ring-emerald-400/20"
+                    />
+                </div>
+
+                {# Password with Eye Toggle #}
+                <div>
+                    <label for="password" class="block text-sm font-semibold text-slate-700 dark:text-slate-200">
+                        Password
+                    </label>
+
+                    <div class="relative mt-2">
+                        <input
+                            id="password"
+                            name="password"
+                            type="password"
+                            autocomplete="current-password"
+                            required
+                            placeholder="••••••••"
+                            class="block w-full rounded-xl border border-slate-300 bg-white px-4 py-3 pr-12 text-slate-900
+                                   placeholder-slate-400 shadow-sm outline-none
+                                   focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/20
+                                   dark:border-slate-700 dark:bg-slate-900/40 dark:text-white dark:placeholder-slate-400
+                                   dark:focus:border-emerald-400 dark:focus:ring-emerald-400/20"
+                        />
+
+                        <button
+                            type="button"
+                            id="togglePasswordBtn"
+                            class="absolute inset-y-0 right-3 flex items-center text-slate-400 hover:text-emerald-600
+                                   dark:text-slate-400 dark:hover:text-emerald-400 transition"
+                            aria-label="Toggle password visibility"
+                        >
+                            {# Eye icon (default) #}
+                            <svg id="eyeIcon" xmlns="http://www.w3.org/2000/svg"
+                                 class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                                 stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                      d="M2.458 12C3.732 7.943 7.523 5 12 5
+                                         c4.478 0 8.268 2.943 9.542 7
+                                         -1.274 4.057-5.064 7-9.542 7
+                                         -4.477 0-8.268-2.943-9.542-7z"/>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <div class="mt-3 flex items-center justify-between">
+                        <a href="{{ path('auth_face_login') }}" class="text-xs font-semibold text-emerald-600 hover:underline dark:text-emerald-400">
+                            🔐 Login with Face
+                        </a>
+                        <a href="{{ path('app_forgot_password') }}" class="text-sm font-semibold text-slate-600 hover:underline dark:text-slate-400">
+                            Forgot password?
+                        </a>
+                    </div>
+                </div>
+
+                {# Remember me + Theme #}
+                <div class="flex items-center justify-between">
+                    <label for="_remember_me" class="inline-flex items-center gap-3 text-sm text-slate-700 dark:text-slate-200">
+                        <span class="relative inline-flex items-center">
+                            <input
+                                id="_remember_me"
+                                name="_remember_me"
+                                type="checkbox"
+                                class="peer sr-only"
+                            />
+                            <span class="h-5 w-5 rounded-md border border-slate-400 bg-white transition-colors
+                                         peer-checked:bg-emerald-600 peer-checked:border-emerald-600
+                                         peer-focus:ring-4 peer-focus:ring-emerald-500/30
+                                         dark:border-slate-700 dark:bg-slate-900/40"></span>
+                            <svg class="pointer-events-none absolute inset-0 m-auto h-3 w-3 text-white opacity-0 transition-opacity peer-checked:opacity-100"
+                                 viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                <path fill-rule="evenodd" d="M16.704 5.293a1 1 0 010 1.414l-7.25 7.25a1 1 0 01-1.414 0l-3.25-3.25a1 1 0 111.414-1.414l2.543 2.543 6.543-6.543a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                        </span>
+                        <span>Remember me</span>
+                    </label>
+
+                    <button
+                        type="button"
+                        onclick="window.toggleTheme && window.toggleTheme()"
+                        class="text-sm font-semibold text-slate-600 hover:text-emerald-600 transition
+                               dark:text-slate-300 dark:hover:text-emerald-400"
+                    >
+                        Toggle theme
+                    </button>
+                </div>
+
+                {# Submit #}
+                <button
+                    type="submit"
+                    id="login-submit"
+                    class="w-full inline-flex items-center justify-center rounded-xl bg-emerald-600 px-6 py-3
+                           text-sm font-extrabold text-white shadow-sm
+                           hover:bg-emerald-700 transition
+                           focus:outline-none focus:ring-4 focus:ring-emerald-500/30
+                           disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                    Log in
+                </button>
+            </form>
+
+            <p class="mt-6 text-center text-sm text-slate-600 dark:text-slate-300">
+                Don't have an account?
+                <a href="{{ path('app_register') }}" class="font-semibold text-emerald-600 hover:underline dark:text-emerald-400">
+                    Sign up
+                </a>
+            </p>
+
+</div>
+
+{# Inline JS: eye toggle + login via POST /api/login, store JWT in localStorage. #}
+<script>
+(function () {
+    const btn = document.getElementById('togglePasswordBtn');
+    const input = document.getElementById('password');
+    const icon = document.getElementById('eyeIcon');
+
+    if (btn && input && icon) {
+        btn.addEventListener('click', () => {
+            const isHidden = input.type === 'password';
+            input.type = isHidden ? 'text' : 'password';
+            if (isHidden) {
+                icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" d="M3 3l18 18M10.477 10.48a3 3 0 004.243 4.243"/><path stroke-linecap="round" stroke-linejoin="round" d="M6.228 6.228A9.97 9.97 0 002.458 12 C3.732 16.057 7.523 19 12 19 c1.355 0 2.648-.27 3.825-.76M9.88 4.243 A9.956 9.956 0 0112 5 c4.478 0 8.268 2.943 9.542 7 a9.97 9.97 0 01-4.29 5.455"/>';
+            } else {
+                icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5 c4.478 0 8.268 2.943 9.542 7 -1.274 4.057-5.064 7-9.542 7 -4.477 0-8.268-2.943-9.542-7z"/>';
+            }
+        });
+    }
+
+    // Stateless login via /api/login
+    const form = document.getElementById('login-form');
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+    const loginError = document.getElementById('login-error');
+    const loginSubmit = document.getElementById('login-submit');
+
+    if (form && emailInput && passwordInput && loginError && loginSubmit) {
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            loginError.classList.add('hidden');
+            loginError.textContent = '';
+
+            const email = (emailInput.value || '').trim();
+            const password = (passwordInput.value || '');
+
+            if (!email || !password) {
+                loginError.textContent = 'Email and password are required.';
+                loginError.classList.remove('hidden');
+                return;
+            }
+
+            loginSubmit.disabled = true;
+
+            try {
+                const res = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email, password }),
+                });
+
+                const data = await res.json().catch(() => ({}));
+
+                if (!res.ok) {
+                    loginError.textContent = data.message || 'Login failed.';
+                    loginError.classList.remove('hidden');
+                    return;
+                }
+
+                if (data.two_factor_required && data.temp_token) {
+                    window.location.href = '{{ path('app_2fa') }}' + '?temp_token=' + encodeURIComponent(data.temp_token);
+                    return;
+                }
+
+                if (!data.token) {
+                    loginError.textContent = 'Login failed (no token returned).';
+                    loginError.classList.remove('hidden');
+                    return;
+                }
+
+                localStorage.setItem('token', data.token);
+
+                const role = (data.user && data.user.role) ? String(data.user.role) : 'CLIENT';
+                const routes = {
+                    'ADMIN': '{{ path('admin_dashboard') }}',
+                    'WORKER': '{{ path('worker_dashboard') }}',
+                    'CLIENT': '{{ path('client_dashboard') }}'
+                };
+                window.location.href = routes[role] || routes.CLIENT;
+            } catch (err) {
+                loginError.textContent = 'Login failed. Please try again.';
+                loginError.classList.remove('hidden');
+            } finally {
+                loginSubmit.disabled = false;
+            }
+        });
+    }
+})();
+</script>
+{% endblock %}

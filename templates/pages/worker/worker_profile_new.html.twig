@@ -1,0 +1,126 @@
+{% extends 'layout_app.html.twig' %}
+
+{% block title %}Create Profile{% endblock %}
+
+{% set topbar_title = 'Create Profile' %}
+
+{% block main %}
+<div class="max-w-5xl mx-auto px-4 sm:px-6 py-8" data-turbo="false">
+    {# ---------- Page header ---------- #}
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
+        <div>
+            <h1 class="text-2xl font-bold text-slate-900 dark:text-white tracking-tight">Create Professional Profile</h1>
+            <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">Configurez votre identité professionnelle sur la plateforme</p>
+        </div>
+        <a href="{{ path('worker_profiles_index') }}" class="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white border border-slate-200 dark:border-slate-600 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 hover:border-[#0FAF7A]/30 transition-all duration-200 shadow-sm">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            Back
+        </a>
+    </div>
+
+    <!-- CV Upload Card -->
+    <div id="cv-upload-section" class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-lg shadow-slate-200/50 dark:shadow-slate-900/50 overflow-hidden mb-8">
+        <div class="border-b border-slate-200 dark:border-slate-800 px-6 py-5 bg-gradient-to-r from-slate-50 to-white dark:from-slate-800/50 dark:to-slate-900">
+            <h2 class="text-lg font-semibold text-slate-900 dark:text-white flex items-center gap-2">
+                <span class="w-9 h-9 rounded-xl bg-[#0FAF7A]/10 flex items-center justify-center">
+                    <svg class="w-5 h-5 text-[#0FAF7A]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+                    </svg>
+                </span>
+                Upload Your CV (Optional)
+            </h2>
+            <p class="text-sm text-slate-600 dark:text-slate-400 mt-1 ml-11">Let AI auto-fill your profile from your CV</p>
+        </div>
+        <div class="p-8">
+            <!-- Drag and Drop Area -->
+            <div id="cv-drop-zone" class="border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-2xl p-10 text-center hover:border-[#0FAF7A] hover:bg-[#0FAF7A]/5 dark:hover:bg-[#0FAF7A]/10 transition-all duration-300 cursor-pointer group">
+                <div class="flex flex-col items-center gap-4">
+                    <div class="w-16 h-16 bg-[#0FAF7A]/10 rounded-full flex items-center justify-center group-hover:bg-[#0FAF7A]/20 transition-all">
+                        <svg class="w-8 h-8 text-[#0FAF7A]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="text-slate-700 dark:text-slate-300 font-medium">Drop your CV here or click to browse</p>
+                        <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">PDF, DOC, DOCX, JPG, PNG (max 10MB)</p>
+                    </div>
+                    <input type="file" id="cv-file-input" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" class="hidden">
+                </div>
+            </div>
+
+            <!-- Upload Progress -->
+            <div id="cv-upload-progress" class="hidden mt-4">
+                <div class="flex items-center gap-3">
+                    <div class="flex-1">
+                        <div class="h-2 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+                            <div id="cv-progress-bar" class="h-full bg-[#0FAF7A] transition-all duration-300" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <span id="cv-progress-text" class="text-sm text-slate-600 dark:text-slate-400">0%</span>
+                </div>
+            </div>
+
+            <!-- AI Processing -->
+            <div id="cv-ai-processing" class="hidden mt-4 p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-xl">
+                <div class="flex items-center gap-3">
+                    <div class="animate-spin w-5 h-5 border-2 border-blue-500 border-t-transparent rounded-full"></div>
+                    <span class="text-sm text-blue-700 dark:text-blue-300 font-medium">AI is analyzing your CV...</span>
+                </div>
+            </div>
+
+            <!-- Success Message -->
+            <div id="cv-success" class="hidden mt-4 p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-xl">
+                <div class="flex items-center gap-3">
+                    <svg class="w-5 h-5 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    <span class="text-sm text-green-700 dark:text-green-300 font-medium">Profile auto-filled successfully! Review and edit below.</span>
+                </div>
+            </div>
+
+            <!-- Error Message -->
+            <div id="cv-error" class="hidden mt-4 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl">
+                <div class="flex items-center gap-3">
+                    <svg class="w-5 h-5 text-red-600 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                    <span id="cv-error-text" class="text-sm text-red-700 dark:text-red-300 font-medium"></span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Form Card -->
+    <div id="profile-form-section" class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-lg shadow-slate-200/50 dark:shadow-slate-900/50 overflow-hidden">
+        <div class="border-b border-slate-200 dark:border-slate-800 px-6 py-5 bg-gradient-to-r from-slate-50 to-white dark:from-slate-800/50 dark:to-slate-900">
+            <h2 class="text-lg font-semibold text-slate-900 dark:text-white flex items-center gap-2">
+                <span class="w-9 h-9 rounded-xl bg-[#0FAF7A]/10 flex items-center justify-center">
+                    <svg class="w-5 h-5 text-[#0FAF7A]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                </span>
+                Profile Details
+            </h2>
+        </div>
+        <div class="p-8">
+            {{ form_start(form, {'attr': {'data-ajax-form': 'true', 'class': 'space-y-8', 'novalidate': 'novalidate', 'data-validate': 'worker-profile'}}) }}
+                {% include 'pages/worker/_worker_profile_form_fields.html.twig' with {
+                    form: form,
+                    submit_label: 'Create my profile',
+                    cancel_path: path('worker_profiles_index'),
+                    categories: categories
+                } %}
+            {{ form_end(form) }}
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/cv_upload.js') }}?v=3.3" data-turbo-track="reload"></script>
+{% endblock %}

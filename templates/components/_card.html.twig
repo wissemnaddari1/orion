@@ -1,0 +1,11 @@
+{# _card.html.twig
+   Parameters: title (string, optional), subtitle (string, optional), flush (bool, no padding), class (string) #}
+<div class="rounded-xl border border-gray-200 bg-white shadow-sm transition-shadow duration-200 hover:shadow-md {{ flush|default(false) ? '' : 'p-6' }} {{ class|default('') }}">
+    {% if title is defined and title %}
+        <div class="{{ flush|default(false) ? 'p-6 pb-0' : '' }} mb-4">
+            <h2 class="text-lg font-semibold text-[#000000]">{{ title }}</h2>
+            {% if subtitle is defined and subtitle %}<p class="mt-1 text-sm text-[#3F3F3F]">{{ subtitle }}</p>{% endif %}
+        </div>
+    {% endif %}
+    {% block card_content %}{% endblock %}
+</div>

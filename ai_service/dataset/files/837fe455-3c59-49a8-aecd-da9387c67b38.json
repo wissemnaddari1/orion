@@ -1,0 +1,17 @@
+{
+  "title": "Account manager with over 3 years of",
+  "bio": "",
+  "experience_years": 3,
+  "hourly_rate": "",
+  "location": "Toulouse, France",
+  "skills": [
+    "French",
+    "English",
+    "Spanish",
+    "Chinese"
+  ],
+  "phoneNumber": "06 02 03 040",
+  "email": "",
+  "confidence": 66,
+  "strategy": "enhanced_regex"
+}

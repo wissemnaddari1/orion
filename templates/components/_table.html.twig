@@ -1,0 +1,30 @@
+{# _table.html.twig
+   Parameters: headers (array of strings), rows (array of row arrays or objects with keys matching headers), striped (bool), responsive (bool) #}
+{% set striped = striped|default(true) %}
+{% set responsive = responsive|default(true) %}
+<div class="{{ responsive ? 'overflow-x-auto rounded-xl border border-gray-200' : '' }}">
+    <table class="min-w-full divide-y divide-gray-200 text-left text-sm" role="table">
+        <thead class="bg-gray-50">
+            <tr>
+                {% for header in headers|default([]) %}
+                    <th scope="col" class="px-4 py-3 font-semibold text-[#3F3F3F]">{{ header }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-200 bg-white">
+            {% for row in rows|default([]) %}
+                <tr class="{{ striped and loop.index0 is odd ? 'bg-gray-50/50' : '' }} hover:bg-gray-50/80 transition-colors">
+                    {% if row is iterable and row is not mapping %}
+                        {% for cell in row %}
+                            <td class="px-4 py-3 text-[#000000]">{{ cell }}</td>
+                        {% endfor %}
+                    {% else %}
+                        {% for header in headers|default([]) %}
+                            <td class="px-4 py-3 text-[#000000]">{{ row[header]|default('—') }}</td>
+                        {% endfor %}
+                    {% endif %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>

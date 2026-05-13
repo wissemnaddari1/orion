@@ -1,0 +1,844 @@
+/**
+ * Orion Auth — Shared animated background for all authentication pages
+ * Premium blob animation in dark + light mode. Fixed layers, no seams on scroll.
+ * Supports prefers-reduced-motion.
+ * Animation uses translate3d + scale + opacity for GPU performance.
+ */
+
+/* Prevent mobile/Chrome background jump */
+html.auth-page {
+  height: 100%;
+}
+
+body.auth-page {
+  height: 100%;
+  margin: 0;
+  overflow-x: hidden;
+  background-color: #0a1628;
+}
+
+body.auth-page:not(.dark) {
+  background: #f6f8fb;
+}
+
+/* ---------------------------------------------------------------------------
+   Base container — fixed to viewport, never scrolls
+   --------------------------------------------------------------------------- */
+.auth-bg {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  background-color: var(--auth-bg-base, #0a1628);
+}
+
+/* ---------------------------------------------------------------------------
+   Blob layers — animated radial gradients (teal/green/blue)
+   Shared structure via CSS variables; colors differ per mode.
+   Blur applied outside animation for GPU-friendly motion (translate3d + scale + opacity).
+   --------------------------------------------------------------------------- */
+.auth-bg .blob {
+  position: absolute;
+  inset: -20%;
+  will-change: transform;
+  border-radius: 50%;
+  filter: blur(var(--blob-blur, 48px));
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+/* Dark mode blobs — vibrant teal/emerald/cyan */
+.auth-bg .blob.b1 {
+  background: var(--blob-1-bg, radial-gradient(
+    ellipse 60% 55% at 25% 30%,
+    rgba(20, 184, 166, 0.38) 0%,
+    rgba(6, 182, 212, 0.18) 40%,
+    transparent 70%
+  ));
+  animation: blob-drift-1 var(--blob-duration-1, 18s) var(--blob-ease, cubic-bezier(0.4, 0, 0.2, 1)) infinite;
+}
+
+.auth-bg .blob.b2 {
+  background: var(--blob-2-bg, radial-gradient(
+    ellipse 55% 60% at 75% 60%,
+    rgba(16, 185, 129, 0.32) 0%,
+    rgba(5, 150, 105, 0.14) 40%,
+    transparent 72%
+  ));
+  animation: blob-drift-2 var(--blob-duration-2, 26s) var(--blob-ease, cubic-bezier(0.4, 0, 0.2, 1)) infinite 2s;
+}
+
+.auth-bg .blob.b3 {
+  background: var(--blob-3-bg, radial-gradient(
+    ellipse 50% 65% at 50% 15%,
+    rgba(34, 211, 238, 0.28) 0%,
+    rgba(59, 130, 246, 0.12) 45%,
+    transparent 75%
+  ));
+  animation: blob-drift-3 var(--blob-duration-3, 34s) var(--blob-ease, cubic-bezier(0.4, 0, 0.2, 1)) infinite 4s;
+}
+
+.auth-bg .blob.b4 {
+  background: var(--blob-4-bg, radial-gradient(
+    ellipse 58% 52% at 15% 70%,
+    rgba(59, 130, 246, 0.22) 0%,
+    rgba(99, 102, 241, 0.1) 45%,
+    transparent 72%
+  ));
+  animation: blob-drift-4 var(--blob-duration-4, 28s) var(--blob-ease, cubic-bezier(0.4, 0, 0.2, 1)) infinite 1s;
+}
+
+.auth-bg .blob.b5 {
+  background: var(--blob-5-bg, radial-gradient(
+    ellipse 52% 58% at 85% 25%,
+    rgba(139, 92, 246, 0.2) 0%,
+    rgba(168, 85, 247, 0.08) 48%,
+    transparent 75%
+  ));
+  animation: blob-drift-5 var(--blob-duration-5, 22s) var(--blob-ease, cubic-bezier(0.4, 0, 0.2, 1)) infinite 3s;
+}
+
+/* Blob keyframes — translate3d + scale + opacity only (GPU-friendly) */
+@keyframes blob-drift-1 {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); opacity: 1; }
+  25% { transform: translate3d(10%, 6%, 0) scale(1.12); opacity: 0.95; }
+  50% { transform: translate3d(-8%, 12%, 0) scale(0.9); opacity: 1; }
+  75% { transform: translate3d(6%, -8%, 0) scale(1.06); opacity: 0.98; }
+}
+
+@keyframes blob-drift-2 {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); opacity: 1; }
+  33% { transform: translate3d(-12%, -8%, 0) scale(1.1); opacity: 0.92; }
+  66% { transform: translate3d(8%, 10%, 0) scale(0.92); opacity: 1; }
+}
+
+@keyframes blob-drift-3 {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); opacity: 1; }
+  50% { transform: translate3d(-6%, -10%, 0) scale(1.18); opacity: 0.94; }
+}
+
+@keyframes blob-drift-4 {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); opacity: 1; }
+  40% { transform: translate3d(-10%, 8%, 0) scale(1.08); opacity: 0.9; }
+  80% { transform: translate3d(14%, -6%, 0) scale(0.95); opacity: 1; }
+}
+
+@keyframes blob-drift-5 {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); opacity: 1; }
+  30% { transform: translate3d(8%, -12%, 0) scale(1.12); opacity: 0.93; }
+  70% { transform: translate3d(-6%, 10%, 0) scale(0.9); opacity: 1; }
+}
+
+/* ---------------------------------------------------------------------------
+   Noise layer — reduces gradient banding
+   --------------------------------------------------------------------------- */
+.auth-bg .noise {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ---------------------------------------------------------------------------
+   Full-page overlay — fixed, blur, no pointer-events
+   Gradient + backdrop for form readability.
+   --------------------------------------------------------------------------- */
+.auth-overlay {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+  pointer-events: none;
+  background: var(--auth-overlay-bg, rgba(5, 10, 20, 0.55));
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
+}
+
+/* ---------------------------------------------------------------------------
+   Scrolling content area — background/overlay are NOT inside this
+   --------------------------------------------------------------------------- */
+.auth-shell {
+  position: relative;
+  z-index: 2;
+  min-height: 100vh;
+}
+
+.auth-container,
+.auth-bg__content {
+  position: relative;
+  z-index: 3;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem 1rem;
+}
+
+/* Card — premium glass / frosted effect (auth-card is alias) */
+.auth-bg__card,
+.auth-card {
+  width: 100%;
+  max-width: 28rem; /* 448px — most forms */
+  padding: 2rem; /* 32px — consistent spacing */
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.05) 0%,
+    rgba(255, 255, 255, 0.02) 100%
+  ), rgba(15, 25, 45, 0.45);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.5),
+    0 0 40px rgba(0, 255, 200, 0.06);
+  transition: all 0.3s ease;
+}
+
+.auth-bg__card:hover {
+  box-shadow:
+    0 25px 80px rgba(0, 0, 0, 0.6),
+    0 0 60px rgba(0, 255, 200, 0.12);
+}
+
+.auth-bg__card--wide {
+  max-width: 37.5rem; /* 600px — register, register freelancer */
+}
+
+.auth-bg__card--compact {
+  padding: 1.75rem; /* 28px */
+  max-width: 36.25rem; /* 580px */
+}
+
+.auth-bg__card--compact.auth-bg__card--wide {
+  max-width: 36.25rem; /* 580px */
+}
+
+/* Form inner — transparent so glass shows through */
+.auth-form-inner {
+  /* no solid background */
+}
+
+/* ---------------------------------------------------------------------------
+   Register form — compact 2-step layout
+   --------------------------------------------------------------------------- */
+.register-form-compact {
+  padding: 0.125rem 0;
+}
+
+.register-form-compact .register-field-grid {
+  display: flex;
+  flex-direction: column;
+}
+
+.register-form-compact .register-label {
+  display: block;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: rgb(51 65 85);
+  margin-bottom: 0.375rem;
+}
+
+.dark .register-form-compact .register-label {
+  color: rgb(203 213 225);
+}
+
+.register-form-compact input,
+.register-form-compact select,
+.register-form-compact textarea {
+  padding: 0.5rem 0.75rem !important;
+  font-size: 0.9375rem;
+  border-radius: 0.5rem;
+}
+
+/* Step indicator */
+.register-steps-indicator {
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.dark .register-steps-indicator {
+  border-color: rgba(255, 255, 255, 0.06);
+}
+
+:root:not(.dark) .register-steps-indicator {
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+.register-step-btn {
+  padding: 0.375rem 0.75rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: rgb(100 116 139);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.register-step-btn:hover {
+  color: rgb(71 85 105);
+}
+
+.dark .register-step-btn {
+  color: rgb(148 163 184);
+}
+
+.dark .register-step-btn:hover {
+  color: rgb(203 213 225);
+}
+
+.register-step-btn.active {
+  color: rgb(16 185 129);
+  background: rgba(16, 185, 129, 0.1);
+}
+
+.dark .register-step-btn.active {
+  color: rgb(52 211 153);
+  background: rgba(16, 185, 129, 0.15);
+}
+
+/* Inline errors — compact */
+.register-error {
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+  min-height: 1.25rem;
+}
+
+/* Symfony form errors — compact */
+.register-form-compact .invalid-feedback {
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+}
+
+/* Password checklist — compact + show on focus */
+.password-checklist-wrapper {
+  margin-top: 0.5rem;
+}
+
+.password-checklist-compact {
+  font-size: 0.8rem;
+  line-height: 1.4;
+  padding: 0.5rem 0.75rem;
+  margin: 0;
+  border-radius: 0.5rem;
+  background: rgba(10, 20, 35, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.25rem 1rem;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.2s ease, opacity 0.2s ease, margin 0.2s ease;
+}
+
+.register-password-group:focus-within .password-checklist-compact {
+  max-height: 12rem;
+  opacity: 1;
+}
+
+:root:not(.dark) .password-checklist-compact {
+  background: rgba(0, 0, 0, 0.04);
+  border-color: rgba(0, 0, 0, 0.06);
+}
+
+.password-checklist-compact li {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.password-checklist-compact .rule-icon {
+  flex-shrink: 0;
+  width: 0.875rem;
+  height: 0.875rem;
+  font-size: 0.7rem;
+}
+
+/* Terms label */
+.register-terms-label {
+  font-size: 0.8125rem;
+  color: rgb(100 116 139);
+}
+
+.dark .register-terms-label {
+  color: rgb(148 163 184);
+}
+
+/* Buttons */
+.register-btn-continue,
+.register-btn-submit {
+  padding: 0.625rem 1rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: white;
+  background: rgb(16 185 129);
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.register-btn-continue:hover,
+.register-btn-submit:hover {
+  background: rgb(5 150 105);
+}
+
+.register-btn-back {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+:root:not(.dark) .register-btn-back {
+  border-color: rgba(0, 0, 0, 0.12);
+}
+
+/* Certificate upload — compact */
+.register-certificate-group .border-dashed {
+  min-height: 5rem;
+}
+
+.register-certificate-group input[type="file"] {
+  font-size: 0.8125rem;
+}
+
+/* Auth inputs — readable on glass background */
+.auth-bg__card input[type="text"],
+.auth-bg__card input[type="email"],
+.auth-bg__card input[type="password"],
+.auth-bg__card input[type="file"],
+.auth-bg__card textarea,
+.auth-bg__card select {
+  background: rgba(10, 20, 35, 0.6) !important;
+  border-color: rgba(255, 255, 255, 0.06) !important;
+}
+
+.auth-bg__card input::placeholder,
+.auth-bg__card textarea::placeholder {
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.auth-bg__card input:focus,
+.auth-bg__card textarea:focus,
+.auth-bg__card select:focus {
+  border-color: rgba(16, 185, 129, 0.5) !important;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
+}
+
+/* ---------------------------------------------------------------------------
+   Join Orion — role selection page
+   --------------------------------------------------------------------------- */
+.register-page {
+  width: 100%;
+  max-width: 37.5rem; /* 600px */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Hero header */
+.register-hero__logo {
+  display: block;
+}
+
+.register-hero__title {
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.register-hero__subtitle {
+  letter-spacing: 0.01em;
+}
+
+/* Role card — reusable component */
+.role-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1.25rem 1.25rem;
+  border-radius: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.03);
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  outline: none;
+}
+
+.role-card:hover {
+  transform: translateY(-2px);
+  border-color: transparent;
+}
+
+.role-card:focus-visible {
+  outline: 2px solid rgb(16 185 129);
+  outline-offset: 2px;
+}
+
+:root:not(.dark) .role-card {
+  background: rgba(255, 255, 255, 0.95);
+  border-color: rgba(0, 0, 0, 0.08);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+:root:not(.dark) .role-card:hover {
+  border-color: transparent;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+}
+
+/* Client accent — teal/blue */
+.role-card--client:hover {
+  box-shadow: 0 8px 30px -8px rgba(20, 184, 166, 0.35), 0 0 0 1px rgba(20, 184, 166, 0.2);
+}
+
+.role-card--client:focus-visible {
+  outline-color: rgb(20 184 166);
+}
+
+/* Freelancer accent — purple */
+.role-card--freelancer:hover {
+  box-shadow: 0 8px 30px -8px rgba(139, 92, 246, 0.35), 0 0 0 1px rgba(139, 92, 246, 0.2);
+}
+
+.role-card--freelancer:focus-visible {
+  outline-color: rgb(139 92 246);
+}
+
+.role-card__icon {
+  flex-shrink: 0;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease;
+}
+
+.role-card:hover .role-card__icon {
+  transform: scale(1.05);
+}
+
+.role-card__icon--client {
+  background: rgba(20, 184, 166, 0.15);
+  color: rgb(20 184 166);
+}
+
+.role-card__icon--freelancer {
+  background: rgba(139, 92, 246, 0.15);
+  color: rgb(139 92 246);
+}
+
+.role-card__content {
+  flex: 1;
+  min-width: 0;
+}
+
+.role-card__title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: rgb(15 23 42);
+  transition: color 0.2s ease;
+}
+
+.dark .role-card__title {
+  color: rgb(248 250 252);
+}
+
+.role-card--client:hover .role-card__title {
+  color: rgb(13 148 136);
+}
+
+.dark .role-card--client:hover .role-card__title {
+  color: rgb(45 212 191);
+}
+
+.role-card--freelancer:hover .role-card__title {
+  color: rgb(124 58 237);
+}
+
+.dark .role-card--freelancer:hover .role-card__title {
+  color: rgb(167 139 250);
+}
+
+.role-card__desc {
+  margin-top: 0.25rem;
+  font-size: 0.9375rem;
+  color: rgb(100 116 139);
+}
+
+.dark .role-card__desc {
+  color: rgb(148 163 184);
+}
+
+.role-card__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  margin-top: 0.5rem;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: rgb(180 83 9);
+  background: rgba(251, 191, 36, 0.15);
+  border-radius: 9999px;
+}
+
+.dark .role-card__badge {
+  color: rgb(253 224 71);
+  background: rgba(251, 191, 36, 0.2);
+}
+
+.role-card__arrow {
+  flex-shrink: 0;
+  color: rgb(148 163 184);
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.dark .role-card__arrow {
+  color: rgb(100 116 139);
+}
+
+.role-card--client:hover .role-card__arrow {
+  transform: translateX(4px);
+  color: rgb(20 184 166);
+}
+
+.dark .role-card--client:hover .role-card__arrow {
+  color: rgb(45 212 191);
+}
+
+.role-card--freelancer:hover .role-card__arrow {
+  transform: translateX(4px);
+  color: rgb(139 92 246);
+}
+
+.dark .role-card--freelancer:hover .role-card__arrow {
+  color: rgb(167 139 250);
+}
+
+/* Footer */
+.register-footer a {
+  text-decoration: none;
+}
+
+/* ---------------------------------------------------------------------------
+   Light mode — airy pastel blobs (mint/teal, sky blue, soft violet)
+   CSS variables override colors; same animation structure as dark mode.
+   --------------------------------------------------------------------------- */
+:root:not(.dark) {
+  --auth-bg-base: transparent;
+  --blob-blur: 44px;
+  --blob-1-bg: radial-gradient(
+    ellipse 65% 50% at 20% 25%,
+    rgba(167, 243, 208, 0.82) 0%,
+    rgba(110, 231, 183, 0.5) 40%,
+    transparent 70%
+  );
+  --blob-2-bg: radial-gradient(
+    ellipse 55% 55% at 80% 55%,
+    rgba(186, 230, 253, 0.78) 0%,
+    rgba(125, 211, 252, 0.45) 40%,
+    transparent 70%
+  );
+  --blob-3-bg: radial-gradient(
+    ellipse 50% 60% at 50% 20%,
+    rgba(221, 214, 254, 0.75) 0%,
+    rgba(196, 181, 253, 0.42) 45%,
+    transparent 72%
+  );
+  --blob-4-bg: radial-gradient(
+    ellipse 58% 52% at 15% 70%,
+    rgba(165, 243, 252, 0.72) 0%,
+    rgba(103, 232, 249, 0.38) 48%,
+    transparent 74%
+  );
+  --blob-5-bg: radial-gradient(
+    ellipse 52% 58% at 85% 25%,
+    rgba(233, 213, 255, 0.78) 0%,
+    rgba(216, 180, 254, 0.4) 50%,
+    transparent 76%
+  );
+  --auth-overlay-bg: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.18) 0%,
+    rgba(248, 250, 252, 0.08) 45%,
+    rgba(241, 245, 249, 0.12) 75%,
+    rgba(255, 255, 255, 0.15) 100%
+  );
+}
+
+:root:not(.dark) .auth-bg {
+  background: linear-gradient(
+    180deg,
+    #f6f8fb 0%,
+    #eef2f7 50%,
+    #f8fafc 100%
+  );
+}
+
+:root:not(.dark) .auth-bg .noise {
+  opacity: 0.06;
+}
+
+:root:not(.dark) .auth-overlay {
+  background: var(--auth-overlay-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+/* Light overlay: subtle noise for texture + form readability */
+:root:not(.dark) .auth-overlay::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.03;
+  pointer-events: none;
+  mix-blend-mode: overlay;
+}
+
+:root:not(.dark) .auth-bg__card {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.95) 0%,
+    rgba(255, 255, 255, 0.85) 100%
+  );
+  border-color: rgba(0, 0, 0, 0.08);
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.08),
+    0 0 40px rgba(16, 185, 129, 0.04);
+}
+
+:root:not(.dark) .auth-bg__card:hover {
+  box-shadow:
+    0 25px 80px rgba(0, 0, 0, 0.12),
+    0 0 60px rgba(16, 185, 129, 0.08);
+}
+
+:root:not(.dark) .auth-bg__card input[type="text"],
+:root:not(.dark) .auth-bg__card input[type="email"],
+:root:not(.dark) .auth-bg__card input[type="password"],
+:root:not(.dark) .auth-bg__card input[type="file"],
+:root:not(.dark) .auth-bg__card textarea,
+:root:not(.dark) .auth-bg__card select {
+  background: rgba(255, 255, 255, 0.9) !important;
+  border-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+:root:not(.dark) .auth-bg__card input::placeholder,
+:root:not(.dark) .auth-bg__card textarea::placeholder {
+  color: rgba(0, 0, 0, 0.4);
+}
+
+/* ---------------------------------------------------------------------------
+   prefers-reduced-motion — static blobs, no animation
+   --------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .auth-bg .blob {
+    animation: none !important;
+    will-change: auto;
+  }
+
+  .role-card:hover {
+    transform: none;
+  }
+
+  .role-card:hover .role-card__icon {
+    transform: none;
+  }
+
+  .role-card:hover .role-card__arrow {
+    transform: none;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Face Login — camera container, status badge, tips
+   --------------------------------------------------------------------------- */
+.face-camera-container {
+  position: relative;
+  width: 100%;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+  background: rgba(10, 20, 35, 0.5);
+}
+
+:root:not(.dark) .face-camera-container {
+  border-color: rgba(0, 0, 0, 0.1);
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.face-camera-video {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+.face-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.375rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+}
+
+.face-status-badge--scanning {
+  background: rgba(148, 163, 184, 0.2);
+  color: rgb(100 116 139);
+}
+
+.dark .face-status-badge--scanning {
+  background: rgba(148, 163, 184, 0.15);
+  color: rgb(148 163 184);
+}
+
+.face-status-badge--detected {
+  background: rgba(16, 185, 129, 0.2);
+  color: rgb(5 150 105);
+}
+
+.dark .face-status-badge--detected {
+  background: rgba(16, 185, 129, 0.25);
+  color: rgb(52 211 153);
+}
+
+.face-status-badge--none {
+  background: rgba(245, 158, 11, 0.2);
+  color: rgb(180 83 9);
+}
+
+.dark .face-status-badge--none {
+  background: rgba(245, 158, 11, 0.2);
+  color: rgb(253 224 71);
+}
+
+.face-tips {
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  font-size: 0.8125rem;
+  color: rgb(100 116 139);
+  background: rgba(0, 0, 0, 0.03);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.dark .face-tips {
+  color: rgb(148 163 184);
+  background: rgba(255, 255, 255, 0.03);
+  border-color: rgba(255, 255, 255, 0.06);
+}

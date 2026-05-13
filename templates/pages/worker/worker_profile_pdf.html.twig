@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        @page {
+            margin: 0;
+        }
+        body {
+            font-family: 'Helvetica', 'Arial', sans-serif;
+            color: #1e293b;
+            line-height: 1.5;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+        }
+        /* Top Branding Bar */
+        .branding-bar {
+            background-color: #0f172a;
+            color: #ffffff;
+            padding: 15px 50px;
+            text-align: right;
+            font-size: 14px;
+            letter-spacing: 2px;
+            font-weight: bold;
+        }
+        .container {
+            padding: 50px;
+        }
+        /* Header Section */
+        .header {
+            margin-bottom: 40px;
+            position: relative;
+        }
+        .main-title {
+            font-size: 42px;
+            font-weight: bold;
+            color: #0f172a;
+            margin: 0;
+            line-height: 1.1;
+        }
+        .category-subtitle {
+            font-size: 20px;
+            color: #0FAF7A;
+            font-weight: bold;
+            margin-top: 5px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .verified-badge {
+            display: inline-block;
+            background: #dcfce7;
+            color: #166534;
+            padding: 6px 18px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-top: 15px;
+            border-left: 5px solid #166534;
+        }
+
+        /* Two Column Layout */
+        .content-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .col-left {
+            width: 65%;
+            vertical-align: top;
+            padding-right: 40px;
+        }
+        .col-right {
+            width: 35%;
+            vertical-align: top;
+            background-color: #f8fafc;
+            padding: 35px;
+            border-radius: 20px;
+            border: 1px solid #f1f5f9;
+        }
+
+        /* Section Styling */
+        .section {
+            margin-bottom: 40px;
+        }
+        .section-title {
+            font-size: 15px;
+            font-weight: bold;
+            color: #0f172a;
+            margin-bottom: 18px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-bottom: 3px solid #0FAF7A;
+            padding-bottom: 8px;
+            width: fit-content;
+        }
+        .bio-text {
+            font-size: 14px;
+            color: #334155;
+            text-align: justify;
+            white-space: pre-wrap;
+        }
+
+        /* Information List */
+        .info-row {
+            margin-bottom: 25px;
+        }
+        .info-label {
+            font-size: 11px;
+            color: #64748b;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+        .info-value {
+            font-size: 16px;
+            font-weight: bold;
+            color: #0f172a;
+        }
+        .status-pill {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: bold;
+            {% if profile.availabilityStatus == 'available' %}
+                background-color: #dcfce7;
+                color: #166534;
+            {% elseif profile.availabilityStatus == 'busy' %}
+                background-color: #fef9c3;
+                color: #854d0e;
+            {% else %}
+                background-color: #fee2e2;
+                color: #991b1b;
+            {% endif %}
+        }
+
+        /* Skills/Badges */
+        .skill-list {
+            margin-top: 10px;
+        }
+        .skill-item {
+            display: inline-block;
+            background: #f1f5f9;
+            color: #475569;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 11px;
+            margin-right: 5px;
+            margin-bottom: 8px;
+            border: 1px solid #e2e8f0;
+        }
+
+        /* Footer */
+        .footer {
+            position: fixed;
+            bottom: 40px;
+            left: 50px;
+            right: 50px;
+            font-size: 10px;
+            color: #94a3b8;
+            text-align: center;
+            border-top: 2px solid #f1f5f9;
+            padding-top: 20px;
+        }
+        .orion-logo {
+            font-weight: bold;
+            color: #0FAF7A;
+        }
+        
+        .contact-info {
+            font-size: 11px;
+            color: #64748b;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="branding-bar">
+        ORION <span style="font-weight: normal; opacity: 0.7;">| PROFESSIONAL NETWORK</span>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <h1 class="main-title">{{ profile.title }}</h1>
+            <div class="category-subtitle">{{ profile.workerCategory.name }}</div>
+            {% if profile.verified %}
+                <div class="verified-badge">✓ PROFESSIONNEL VÉRIFIÉ PAR ORION NETWORK</div>
+            {% endif %}
+        </div>
+
+        <table class="content-table">
+            <tr>
+                <td class="col-left">
+                    <div class="section">
+                        <div class="section-title">Présentation</div>
+                        <div class="bio-text">{{ profile.bio }}</div>
+                    </div>
+
+                    <div class="section">
+                        <div class="section-title">Expertise Professionnelle</div>
+                        <div class="bio-text">
+                            Spécialisé en <strong>{{ profile.workerCategory.name }}</strong>, ce professionnel justifie de <strong>{{ profile.experienceYears }} ans</strong> d'expérience concrète sur le terrain. Son parcours témoigne d'une maîtrise rigoureuse des standards de qualité exigés au sein du réseau ORION.
+                        </div>
+                        <div class="skill-list" style="margin-top: 20px;">
+                            <div class="skill-item">Qualité Certifiée</div>
+                            <div class="skill-item">Standards ORION</div>
+                            <div class="skill-item">Relation Client</div>
+                            <div class="skill-item">Savoir-faire Technique</div>
+                            <div class="skill-item">Fiabilité</div>
+                        </div>
+                    </div>
+
+                    <div class="section" style="background-color: #f8fafc; padding: 20px; border-radius: 10px; border-left: 5px solid #0FAF7A;">
+                        <div style="font-size: 12px; font-weight: bold; color: #0f172a; margin-bottom: 5px;">Engagement Qualité ORION</div>
+                        <div style="font-size: 11px; color: #64748b; font-style: italic;">
+                            "En tant que membre certifié du réseau Orion, ce professionnel s'engage à respecter une charte d'excellence incluant ponctualité, transparence tarifaire et satisfaction garantie."
+                        </div>
+                    </div>
+                </td>
+                <td class="col-right">
+                    <div class="section">
+                        <div class="section-title">Informations</div>
+                        
+                        <div class="info-row">
+                            <div class="info-label">Taux de Service</div>
+                            <div class="info-value">{{ profile.hourlyRate }} € / h</div>
+                        </div>
+
+                        <div class="info-row">
+                            <div class="info-label">Expérience</div>
+                            <div class="info-value">{{ profile.experienceYears }} Ans</div>
+                        </div>
+
+                        <div class="info-row">
+                            <div class="info-label">Statut Actuel</div>
+                            <div class="status-pill">
+                                {% if profile.availabilityStatus == 'available' %}Disponible{% elseif profile.availabilityStatus == 'busy' %}En Mission{% else %}Indisponible{% endif %}
+                            </div>
+                        </div>
+
+                        <div class="info-row">
+                            <div class="info-label">Zone d'Intervention</div>
+                            <div class="info-value" style="font-size: 13px; font-weight: normal; color: #475569;">
+                                {{ profile.location }}
+                            </div>
+                        </div>
+
+                        <div class="info-row" style="margin-top: 40px; border-top: 1px solid #e2e8f0; pt-20">
+                            <div class="info-label">Membre Depuis</div>
+                            <div class="info-value" style="font-size: 12px; font-weight: normal;">{{ profile.createdAt|date('F Y') }}</div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 60px; text-align: center;">
+                        <div style="font-size: 11px; color: #94a3b8; margin-bottom: 12px; font-weight: bold;">VÉRIFICATION EN LIGNE</div>
+                        <div style="width: 100px; height: 100px; background-color: #ffffff; margin: 0 auto; border: 2px solid #e2e8f0; padding: 10px; border-radius: 10px;">
+                            <div style="width: 100%; height: 100%; background-color: #f1f5f9; position: relative;">
+                                <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 9px; color: #94a3b8; text-align: center;">VALID QR</div>
+                            </div>
+                        </div>
+                        <div style="font-size: 9px; color: #cbd5e1; margin-top: 8px;">REF: PRFL-{{ profile.id }}-ORION</div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="footer">
+        <div class="contact-info">
+            Document officiel de certification de profil - Délivré par <span class="orion-logo">ORION PROFESSIONAL NETWORK</span>
+        </div>
+        <div style="margin-top: 8px;">
+            Exporté le {{ "now"|date("d F Y") }} à {{ "now"|date("H:i") }} | Version 2.4 | © 2026 Orion Network Inc.
+        </div>
+    </div>
+</body>
+</html>

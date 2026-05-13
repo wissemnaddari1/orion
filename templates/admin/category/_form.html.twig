@@ -1,0 +1,43 @@
+{{ form_start(form, {'attr': {'class': 'space-y-8', 'novalidate': 'novalidate', 'data-validate': 'admin-category'}}) }}
+    {# Section: General Information #}
+    <div class="space-y-6">
+        <h3 class="text-xs font-bold text-slate-500 uppercase tracking-widest px-1">General Information</h3>
+        
+        <div class="space-y-4">
+            <div class="group">
+                {{ form_label(form.name, null, {'label_attr': {'class': 'block text-sm font-medium text-slate-300 mb-2 group-focus-within:text-[#0FAF7A] transition-colors'}}) }}
+                {{ form_widget(form.name, {
+                    'attr': {
+                        'class': 'block w-full bg-[#0f172a]/50 border-slate-800 rounded-xl px-4 py-3 text-slate-200 placeholder-slate-500 focus:ring-2 focus:ring-[#0FAF7A]/20 focus:border-[#0FAF7A] transition-all duration-200',
+                        'placeholder': 'Ex: Technical Issue, Billing, Account Access...'
+                    }
+                }) }}
+                {{ form_errors(form.name, {'attr': {'class': 'mt-2 text-sm text-red-400'}}) }}
+            </div>
+
+            <div class="group">
+                {{ form_label(form.description, null, {'label_attr': {'class': 'block text-sm font-medium text-slate-300 mb-2 group-focus-within:text-[#0FAF7A] transition-colors'}}) }}
+                {{ form_widget(form.description, {
+                    'attr': {
+                        'class': 'block w-full bg-[#0f172a]/50 border-slate-800 rounded-xl px-4 py-3 text-slate-200 placeholder-slate-500 focus:ring-2 focus:ring-[#0FAF7A]/20 focus:border-[#0FAF7A] transition-all duration-200 resize-none',
+                        'rows': 4,
+                        'placeholder': 'Describe what kinds of tickets belong to this category...'
+                    }
+                }) }}
+                {{ form_errors(form.description, {'attr': {'class': 'mt-2 text-sm text-red-400'}}) }}
+            </div>
+        </div>
+    </div>
+
+
+    {{ form_widget(form._token) }}
+
+    <div class="flex items-center justify-end gap-4 pt-8 border-t border-slate-800/50">
+        <a href="{{ path('admin_category_ticket_index') }}" class="px-6 py-3 text-sm font-bold text-slate-400 hover:text-white transition-colors">
+            Annuler
+        </a>
+        <button type="submit" class="px-8 py-3 bg-[#0FAF7A] hover:bg-[#0c8f63] text-white rounded-xl font-bold transition-all duration-300 shadow-lg shadow-[#0FAF7A]/20 transform hover:-translate-y-0.5">
+            Save ticket category
+        </button>
+    </div>
+{{ form_end(form, {'render_rest': false}) }}

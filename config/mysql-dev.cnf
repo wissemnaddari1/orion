@@ -1,0 +1,18 @@
+# MySQL/MariaDB development config snippet
+# Copy this block into your MySQL config (my.ini on Windows, my.cnf on Linux)
+# or include this file, then restart MySQL.
+#
+# Windows: typically C:\ProgramData\MySQL\MySQL Server 8.0\my.ini
+# Linux:   /etc/mysql/my.cnf or /etc/my.cnf
+#
+# DO NOT use flush_log_at_trx_commit=2 in production (use 1 for full ACID).
+
+[mysqld]
+# InnoDB buffer pool: 512MB for dev (recommended 256-512MB min; prod: 50-70% RAM)
+innodb_buffer_pool_size = 536870912
+
+# Strict mode: prevent silent truncation and invalid data
+sql_mode = 'NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO'
+
+# Dev only: faster commits (flush to OS cache, disk every second). Use 1 in production.
+innodb_flush_log_at_trx_commit = 2

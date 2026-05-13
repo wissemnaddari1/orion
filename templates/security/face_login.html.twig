@@ -1,0 +1,185 @@
+{% extends 'layout_auth.html.twig' %}
+{% block title %}Face Login — Orion{% endblock %}
+
+{% block auth_content %}
+<div class="auth-form-inner p-6 sm:p-8">
+    {# Brand header — matches login/register #}
+    <div class="text-center mb-2">
+        <a href="{{ path('app_login') }}" class="inline-flex items-center justify-center">
+            <img
+                src="{{ asset('images/orion_light_mode.png') }}"
+                alt="Orion Logo"
+                class="h-20 sm:h-24 w-auto object-contain
+                       drop-shadow-[0_0_25px_rgba(16,185,129,0.55)]
+                       hover:scale-105 transition-transform duration-300 dark:invert"
+            />
+        </a>
+        <h1 class="mt-8 text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+            🔐 Face Login
+        </h1>
+        <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">
+            Position your face in the frame. We'll scan <strong>automatically</strong>—no need to click. No email needed if you've already enrolled your face.
+        </p>
+    </div>
+
+    <div id="face_message" class="mt-4 p-4 rounded-xl hidden" role="alert"></div>
+
+    {# Camera preview — styled container per design system #}
+    <div class="mt-8 space-y-4">
+        <div class="face-camera-container">
+            <video id="face_video" autoplay playsinline muted class="face-camera-video"></video>
+        </div>
+        <canvas id="face_canvas" class="hidden"></canvas>
+        <div id="face_status_badge" class="face-status-badge face-status-badge--scanning" data-state="scanning">
+            <span id="face_status" class="face-status-text">Starting camera…</span>
+        </div>
+    </div>
+
+    {# Back to standard login — matches other auth pages #}
+    <p class="mt-6 text-center text-sm text-slate-600 dark:text-slate-300">
+        <a href="{{ path('app_login') }}" class="font-semibold text-emerald-600 hover:underline dark:text-emerald-400">
+            ← Back to standard login
+        </a>
+    </p>
+
+    {# Tips — muted, visually lighter #}
+    <div class="mt-6 face-tips">
+        <strong>Tips:</strong> Face the camera directly, ensure good lighting, and remove glasses if they block your eyes.
+    </div>
+</div>
+
+<script>
+(function () {
+    const video = document.getElementById('face_video');
+    const canvas = document.getElementById('face_canvas');
+    const statusEl = document.getElementById('face_status');
+    const badgeEl = document.getElementById('face_status_badge');
+    const messageEl = document.getElementById('face_message');
+    const verifyUrl = '{{ path('auth_face_verify') }}';
+    let isSubmitting = false;
+    let rafId = null;
+
+    function setBadgeState(state, text) {
+        if (badgeEl) {
+            badgeEl.className = 'face-status-badge face-status-badge--' + state;
+            badgeEl.setAttribute('data-state', state);
+        }
+        if (statusEl) statusEl.textContent = text;
+    }
+
+    function showMessage(text, isError) {
+        const el = document.getElementById('face_message');
+        if (!el) return;
+        el.textContent = text;
+        el.classList.remove('hidden', 'bg-red-100', 'text-red-800', 'dark:bg-red-900/20', 'dark:text-red-400',
+                            'bg-emerald-100', 'text-emerald-800', 'dark:bg-emerald-900/20', 'dark:text-emerald-400');
+        if (isError) {
+            el.classList.add('bg-red-100', 'text-red-800', 'dark:bg-red-900/20', 'dark:text-red-400');
+        } else {
+            el.classList.add('bg-emerald-100', 'text-emerald-800', 'dark:bg-emerald-900/20', 'dark:text-emerald-400');
+        }
+    }
+
+    function hideMessage() {
+        const el = document.getElementById('face_message');
+        if (el) el.classList.add('hidden');
+    }
+
+    function captureAndVerify() {
+        if (isSubmitting || !video.videoWidth || !video.videoHeight) return;
+        isSubmitting = true;
+        if (rafId != null) cancelAnimationFrame(rafId);
+        rafId = null;
+
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+        const dataUrl = canvas.toDataURL('image/jpeg', 0.9);
+
+        hideMessage();
+        setBadgeState('scanning', 'Verifying face…');
+
+        var abortController = new AbortController();
+        var timeoutId = setTimeout(function () {
+            abortController.abort();
+        }, 25000);
+
+        fetch(verifyUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'same-origin',
+            body: JSON.stringify({ imageBase64: dataUrl }),
+            signal: abortController.signal
+        })
+        .then(function (res) {
+            clearTimeout(timeoutId);
+            return res.json().catch(function () { return {}; }).then(function (data) { return { res: res, data: data }; });
+        })
+        .then(function (_ref) {
+            var res = _ref.res;
+            var data = _ref.data;
+            if (res.ok && data.success && data.redirect) {
+                if (data.token) {
+                    localStorage.setItem('token', data.token);
+                }
+                setBadgeState('detected', 'Face detected');
+                showMessage('Face recognized. Redirecting…', false);
+                window.location.href = data.redirect;
+                return;
+            }
+            var msg = data.error || (res.status === 429 ? 'Too many attempts. Please try again in a minute.' : 'Face not recognized. Try again or use email & password.');
+            showMessage(msg, true);
+            setBadgeState('none', 'No face detected');
+            isSubmitting = false;
+            setTimeout(function () { startAutoScanLoop(); }, 2500);
+        })
+        .catch(function (err) {
+            clearTimeout(timeoutId);
+            var isTimeout = err.name === 'AbortError';
+            if (isTimeout) {
+                showMessage('Verification is taking longer than usual. Hold still and we\'ll try again.', true);
+            } else {
+                showMessage('Network error. Please check your connection and try again.', true);
+            }
+            setBadgeState('none', 'No face detected');
+            isSubmitting = false;
+            setTimeout(function () { startAutoScanLoop(); }, 2500);
+        });
+    }
+
+    function startAutoScanLoop() {
+        if (isSubmitting || !video.srcObject || !video.videoWidth || !video.videoHeight) return;
+        setBadgeState('scanning', 'Position your face in the frame. Scanning automatically…');
+        var countdown = 2;
+        var countdownInterval = setInterval(function () {
+            if (isSubmitting) { clearInterval(countdownInterval); return; }
+            if (countdown > 0) {
+                setBadgeState('scanning', 'Hold still. Scanning in ' + countdown + '…');
+                countdown--;
+            } else {
+                clearInterval(countdownInterval);
+                captureAndVerify();
+            }
+        }, 1000);
+    }
+
+    async function startCamera() {
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' }, audio: false });
+            video.srcObject = stream;
+            video.onloadedmetadata = function () {
+                video.onloadedmetadata = null;
+                if (!isSubmitting) startAutoScanLoop();
+            };
+            setBadgeState('scanning', 'Starting camera…');
+        } catch (err) {
+            setBadgeState('none', 'No face detected');
+            showMessage('Unable to access camera. Please allow camera permissions or use email login.', true);
+        }
+    }
+
+    startCamera();
+})();
+</script>
+{% endblock %}

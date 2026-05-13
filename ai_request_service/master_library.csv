@@ -1,0 +1,92 @@
+title,category,description,is_mandatory,type,importance,format
+Project Scope Statement,Frontend Developer,"Formal document defining project boundaries, deliverables, and exclusions agreed by all stakeholders.",1,File,High,PDF
+Performance Benchmarks,Frontend Developer,"Minimum Lighthouse scores, Core Web Vitals targets, page load time thresholds, and uptime SLA.",1,File,High,PDF
+Browser Compatibility Matrix,Frontend Developer,Required browser and OS combinations to be tested and officially supported at launch.,1,Text,Medium,
+Responsive Design Spec,Frontend Developer,"Breakpoint definitions, fluid grid rules, and component behavior across mobile, tablet, and desktop.",1,File,Medium,PDF
+UI Component Specifications,Frontend Developer,"Detailed spec of every UI component including states, props, breakpoints, and interaction behavior.",1,File,High,PDF
+State Management Plan,Frontend Developer,"Chosen state management approach, store structure, data flow diagrams, and persistence rules.",0,File,Medium,PDF
+Frontend Tech Stack Agreement,Frontend Developer,"Agreed framework, build tool, linting rules, and package manager for the project.",1,Text,High,
+Component Testing Standards,Frontend Developer,"Unit and integration test coverage targets, testing library choice, mocking strategy, and CI gate.",1,Text,High,
+SEO and Keywords Strategy,Frontend Developer,"Target keywords, meta tag guidelines, URL structure, and on-page SEO optimization requirements.",0,Text,Low,
+Third-Party Integrations List,Frontend Developer,"All external APIs, analytics tools, tag managers, and SDKs the frontend must connect to.",0,Text,Medium,
+Database ERD,Backend Developer,"Entity Relationship Diagram showing all tables, column types, and foreign key relationships.",1,File,High,Image
+API Documentation,Backend Developer,"Complete REST endpoint specs including auth methods, request/response schemas, and error codes.",1,File,High,PDF
+Authentication and Security,Backend Developer,"OAuth2 or JWT strategy, role definitions, password policy, and data encryption standards.",1,Text,High,
+Data Retention Policy,Backend Developer,"Rules governing storage duration, archiving strategy, backup frequency, and secure deletion.",0,File,High,PDF
+GDPR Compliance Checklist,Backend Developer,"Data subject rights, consent logging, right to erasure flow, and DPA contact details.",1,File,High,PDF
+Error Handling Standards,Backend Developer,"Standardized error codes, response envelope structure, logging format, and escalation rules.",1,Text,High,
+Database Migration Plan,Backend Developer,"Migration tooling, rollback strategy, zero-downtime deployment approach, and seed data scripts.",1,File,High,ZIP
+Rate Limiting Policy,Backend Developer,"API rate limit thresholds per endpoint, throttling strategy, and response headers.",0,Text,Medium,
+API Response Envelope Standard,Backend Developer,"Consistent JSON wrapper structure for all responses including data, error, meta, and pagination.",1,Text,High,
+Health Check Endpoint Spec,Backend Developer,"Required health check routes, response schema, dependency check inclusions, and monitoring integration.",1,Text,Medium,
+Project Scope Statement,Full Stack Developer,"Formal document defining project boundaries, deliverables, and exclusions agreed by all stakeholders.",1,File,High,PDF
+Database ERD,Full Stack Developer,"Entity Relationship Diagram showing all tables, column types, and foreign key relationships.",1,File,High,Image
+API Documentation,Full Stack Developer,"Complete REST endpoint specs including auth methods, request/response schemas, and error codes.",1,File,High,PDF
+Authentication and Security,Full Stack Developer,"OAuth2 or JWT strategy, role definitions, password policy, and data encryption standards.",1,Text,High,
+Deployment Checklist,Full Stack Developer,"Step-by-step pre and post deployment checks covering DB migrations, cache flush, and rollback.",1,File,High,PDF
+User Roles and Permissions Matrix,Full Stack Developer,"All user roles, feature access matrix, permission inheritance rules, and role assignment workflow.",1,File,High,PDF
+Payment Gateway Integration Doc,Full Stack Developer,"Chosen provider, supported currencies, refund flow, webhook events, and PCI compliance.",1,File,High,PDF
+Logging and Audit Trail Spec,Full Stack Developer,"Log levels, structured log format, retention period, and audit trail for sensitive actions.",1,Text,High,
+Admin Panel Requirements,Full Stack Developer,"Role-based admin access levels, required CRUD operations, audit logging, and KPI definitions.",1,File,High,PDF
+Performance Benchmarks,Full Stack Developer,"Minimum acceptable load times, uptime SLA, and server response time requirements.",1,File,High,PDF
+Wireframes and Mockups,UI/UX Designer,"Low-to-high fidelity screens showing layout, components, and user flow for all key screens.",1,File,High,Image
+Figma or XD Source Files,UI/UX Designer,"Editable design source files containing all components, variants, grids, and exported assets.",1,File,High,ZIP
+Brand Style Guide,UI/UX Designer,"Official brand colors, typography scale, spacing rules, iconography, and tone of voice guidelines.",0,File,Medium,PDF
+User Persona Profiles,UI/UX Designer,"Research-based profiles of target users including goals, frustrations, and usage scenarios.",0,File,Medium,PDF
+Accessibility Requirements,UI/UX Designer,"WCAG 2.1 AA compliance checklist, contrast ratio standards, and screen reader requirements.",0,File,High,PDF
+Prototype Link and Credentials,UI/UX Designer,"Clickable prototype URL with access credentials, interactivity scope, and testing scenario notes.",1,Text,High,URL
+Component Library Documentation,UI/UX Designer,"Full component library with props, variants, usage rules, and do/don't examples.",1,File,High,URL
+Design Tokens Export,UI/UX Designer,"JSON or CSS variables export of all design tokens: colors, spacing, radii, shadows, and typography.",1,File,High,ZIP
+Usability Testing Report,UI/UX Designer,"User testing findings with task success rates, pain points, and prioritized recommendations.",0,File,Medium,PDF
+Onboarding UX Flow,UI/UX Designer,"Step-by-step onboarding screens, progress indicators, skip logic, and success state designs.",1,File,High,Image
+Device and OS Target List,Mobile App Developer,Minimum iOS and Android OS versions and priority devices required for testing.,1,Text,High,
+App Store Assets Package,Mobile App Developer,"App icons, screenshots per device, feature graphics, and promotional banners for store submission.",1,File,High,ZIP
+App Permissions Justification,Mobile App Developer,"List of requested OS permissions, business justification, and graceful degradation if denied.",1,File,High,PDF
+Mobile Security Checklist,Mobile App Developer,"Certificate pinning, jailbreak detection, sensitive data masking, and secure keychain storage.",1,File,High,PDF
+Analytics Event Tracking Spec,Mobile App Developer,"All tracked events, parameter names, trigger conditions, and analytics platform configuration.",1,File,High,PDF
+Deep Linking Configuration,Mobile App Developer,"Universal links setup, URL scheme definitions, and fallback behavior for uninstalled apps.",1,Text,High,
+Network Error Handling Spec,Mobile App Developer,"Offline detection, retry logic, user-facing error messages, and partial load fallback behavior.",1,Text,High,
+App Onboarding Flow Spec,Mobile App Developer,"Splash screen timing, permission sequencing, tutorial carousel design, and skip behavior.",1,File,High,PDF
+Push Notification Plan,Mobile App Developer,"Notification types, trigger conditions, opt-in/opt-out flow, and deep linking requirements.",0,Text,Medium,
+App Accessibility Guidelines,Mobile App Developer,"VoiceOver and TalkBack support, tap target sizes, dynamic text scaling, and contrast standards.",1,File,High,PDF
+CI/CD Pipeline Configuration,DevOps Engineer,"GitHub Actions or GitLab CI scripts for automated build, test, and deployment pipeline.",1,File,High,ZIP
+Infrastructure Architecture,DevOps Engineer,"Cloud architecture diagram showing services, load balancers, databases, CDN, and data flow.",1,File,High,Image
+Docker and Container Config,DevOps Engineer,"Dockerfile, docker-compose files, image tagging strategy, and container resource limit specs.",1,File,High,ZIP
+Disaster Recovery Plan,DevOps Engineer,"RTO and RPO targets, backup strategy, replication setup, and failover procedures.",0,File,High,PDF
+Secrets Management Policy,DevOps Engineer,"Vault or AWS Secrets Manager setup, secret rotation schedule, access control, and audit logging.",1,File,High,PDF
+Load Testing Report,DevOps Engineer,"k6 or JMeter results showing throughput, p95/p99 latency, error rates, and bottlenecks.",1,File,High,PDF
+Observability Stack Architecture,DevOps Engineer,"Metrics, logs, and traces toolchain, data flow diagram, retention config, and dashboard ownership.",1,File,High,PDF
+Rollback Decision Playbook,DevOps Engineer,"Rollback trigger criteria, decision authority, automated vs manual steps, and comms template.",1,File,High,PDF
+Environment Parity Checklist,DevOps Engineer,"Checklist ensuring dev, staging, and prod use identical configs, versions, and seed data.",1,File,High,PDF
+Network Topology Diagram,DevOps Engineer,"VPC layout, subnet segmentation, firewall rules, NAT gateway config, and peering connections.",1,File,High,Image
+PWA Manifest and Config,Frontend Developer,"Web app manifest, service worker caching strategy, offline fallback, and install prompt logic.",0,File,Medium,ZIP
+Build and Bundle Config,Frontend Developer,"Webpack/Vite config, code splitting strategy, tree shaking rules, and CI build scripts.",1,File,Medium,ZIP
+Error Boundary Strategy,Frontend Developer,"React error boundary placement, fallback UI design, and error reporting integration.",0,Text,Medium,
+API Versioning Strategy,Backend Developer,"URI vs header versioning approach, deprecation timeline, and backward compatibility rules.",1,Text,High,
+Caching Strategy Document,Backend Developer,"Redis or Memcached setup, cache invalidation rules, TTL values per endpoint, and cache warm-up.",1,File,High,PDF
+Queue Architecture Doc,Backend Developer,"Message broker choice, queue naming, consumer groups, dead-letter queue handling, and monitoring.",0,File,High,PDF
+Third-Party API Contracts,Backend Developer,"External API SLAs, rate limits, fallback behavior, and vendor contact escalation paths.",0,Text,Medium,
+Data Anonymization Plan,Backend Developer,"PII field mapping, anonymization method per field type, and audit trail for anonymization runs.",0,File,High,PDF
+Pagination Standard,Backend Developer,"Cursor vs offset pagination choice, page size limits, link header format, and client guidance.",0,Text,Medium,
+Infrastructure as Code Setup,Full Stack Developer,"Terraform or Pulumi module structure, state backend config, and environment variable management.",1,File,High,ZIP
+Session Management Policy,Full Stack Developer,"Session store choice, expiry rules, concurrent session limits, and secure cookie config.",1,Text,High,
+Search Feature Requirements,Full Stack Developer,"Full-text search scope, filters, ranking algorithm, and typeahead behavior specifications.",0,Text,Medium,
+File Upload Specification,Full Stack Developer,"Accepted file types, size limits, virus scan integration, storage backend, and CDN delivery.",0,Text,Medium,
+Real-Time Feature Spec,Full Stack Developer,"WebSocket vs SSE decision, event types, reconnection logic, and scaling strategy.",0,File,High,PDF
+Onboarding Flow Documentation,Full Stack Developer,"User onboarding steps, welcome email triggers, activation events, and drop-off tracking.",0,File,Medium,PDF
+User Journey Maps,UI/UX Designer,"End-to-end user journey diagrams covering touchpoints, emotions, and pain points per persona.",1,File,High,PDF
+Heuristic Evaluation Report,UI/UX Designer,Expert review against Nielsen's 10 heuristics with severity ratings and fix recommendations.,0,File,Medium,PDF
+Content Audit Document,UI/UX Designer,"Inventory of all content assets with quality ratings, ownership, and reuse recommendations.",0,File,Medium,PDF
+Icon Set Source Files,UI/UX Designer,"SVG icon library with naming conventions, grid system, and usage guidelines.",1,File,Medium,ZIP
+Design QA Checklist,UI/UX Designer,"Pre-handoff QA checklist covering spacing, color tokens, font styles, and interactive states.",1,Text,High,
+Competitor UX Analysis,UI/UX Designer,Side-by-side UX comparison of 3–5 competitors with feature gap analysis and opportunity map.,0,File,Medium,PDF
+Push Notification Strategy,Mobile App Developer,"Notification categories, permission request timing, opt-out flow, and FCM/APNs config.",1,Text,High,
+Offline Mode Specification,Mobile App Developer,"Data sync strategy, conflict resolution, offline UI states, and local storage limits.",0,File,Medium,PDF
+Mobile CI/CD Pipeline Config,Mobile App Developer,"Fastlane or Bitrise pipeline setup, signing certificate management, and release lane config.",1,File,High,ZIP
+Biometric Auth Specification,Mobile App Developer,"FaceID/TouchID integration, fallback PIN flow, and secure enclave usage documentation.",0,Text,High,
+Alerting and On-Call Runbook,DevOps Engineer,"PagerDuty/OpsGenie config, alert routing rules, severity levels, and escalation policy.",1,File,High,PDF
+Cloud Resource Tagging Policy,DevOps Engineer,"Mandatory tag keys, allowed values, enforcement via AWS Config/Azure Policy, and audit schedule.",0,Text,Medium,
+Multi-Region Deployment Plan,DevOps Engineer,"Active-active vs active-passive decision, latency routing, data residency, and failover runbook.",0,File,High,PDF
+Container Security Baseline,DevOps Engineer,"Base image standards, image scanning setup, non-root user policy, and runtime security rules.",1,File,High,PDF
+Incident Post-Mortem Template,DevOps Engineer,"Standardized blameless post-mortem format with timeline, root cause, and action item tracking.",1,File,Medium,PDF
+SLA and SLO Definitions,DevOps Engineer,"Service level objectives per endpoint, error budget policy, and burn rate alerting thresholds.",1,Text,High,

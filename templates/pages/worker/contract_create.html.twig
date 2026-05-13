@@ -1,0 +1,168 @@
+{% extends 'layout_app.html.twig' %}
+{% block title %}Create Contract - Orion{% endblock %}
+
+{% block main %}
+<div class="max-w-3xl mx-auto space-y-6">
+
+    {# Back link #}
+    <div class="flex items-center gap-3">
+        <a href="{{ path('worker_contracts_list') }}"
+           class="inline-flex items-center gap-1 text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 transition text-sm">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+            </svg>
+            Back to Contracts
+        </a>
+    </div>
+
+    {# Heading #}
+    <div>
+        <h1 class="text-2xl font-bold text-slate-900 dark:text-white">Create Contract</h1>
+        <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Fill in the details to create a new contract draft. The contract will start in Draft status.</p>
+    </div>
+
+    {# Form #}
+    <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+        <form method="POST" action="{{ path('worker_contract_store') }}" class="space-y-6" novalidate data-validate="worker-contract" data-turbo="false">
+
+            {# Title #}
+            <div>
+                <label for="title" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
+                    Title <span class="text-red-500">*</span>
+                </label>
+                <input type="text" id="title" name="title"
+                       value="{{ app.request.request.get('title') }}"
+                       class="w-full rounded-lg border {{ errors.title is defined ? 'border-red-500' : 'border-gray-300 dark:border-slate-600' }} bg-white dark:bg-slate-800 px-4 py-2.5 text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:border-[#0FAF7A] focus:ring-2 focus:ring-[#0FAF7A]/20 transition"
+                       placeholder="e.g. Website Redesign Project">
+                {% if errors.title is defined %}
+                    <p class="mt-1 text-xs text-red-600 dark:text-red-400">{{ errors.title }}</p>
+                {% endif %}
+            </div>
+
+            {# Client #}
+            <div>
+                <label for="client_id" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
+                    Client <span class="text-red-500">*</span>
+                </label>
+                <select id="client_id" name="client_id"
+                        class="w-full rounded-lg border {{ errors.client_id is defined ? 'border-red-500' : 'border-gray-300 dark:border-slate-600' }} bg-white dark:bg-slate-800 px-4 py-2.5 text-sm text-slate-900 dark:text-white focus:border-[#0FAF7A] focus:ring-2 focus:ring-[#0FAF7A]/20 transition">
+                    <option value="">Select a client...</option>
+                    {% for client in clients %}
+                        <option value="{{ client.id }}" {% if app.request.request.get('client_id') == client.id %}selected{% endif %}>
+                            {{ client.firstName }} {{ client.lastName }} ({{ client.email }})
+                        </option>
+                    {% endfor %}
+                </select>
+                {% if errors.client_id is defined %}
+                    <p class="mt-1 text-xs text-red-600 dark:text-red-400">{{ errors.client_id }}</p>
+                {% endif %}
+            </div>
+
+            {# Price & Currency #}
+            <div class="grid gap-5 md:grid-cols-2">
+                {# Agreed Price #}
+                <div>
+                    <label for="agreed_price" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
+                        Agreed Price <span class="text-red-500">*</span>
+                    </label>
+                    <input type="number" step="0.01" min="1" id="agreed_price" name="agreed_price"
+                           value="{{ app.request.request.get('agreed_price') }}"
+                           class="w-full rounded-lg border {{ errors.agreed_price is defined ? 'border-red-500' : 'border-gray-300 dark:border-slate-600' }} bg-white dark:bg-slate-800 px-4 py-2.5 text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:border-[#0FAF7A] focus:ring-2 focus:ring-[#0FAF7A]/20 transition"
+                           placeholder="0.00">
+                    {% if errors.agreed_price is defined %}
+                        <p class="mt-1 text-xs text-red-600 dark:text-red-400">{{ errors.agreed_price }}</p>
+                    {% endif %}
+                </div>
+
+                {# Currency #}
+                <div>
+                    <label for="currency" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
+                        Currency <span class="text-red-500">*</span>
+                    </label>
+                    {% set currentCurrency = app.request.request.get('currency', 'USD') %}
+                    <select id="currency" name="currency"
+                            class="w-full rounded-lg border {{ errors.currency is defined ? 'border-red-500' : 'border-gray-300 dark:border-slate-600' }} bg-white dark:bg-slate-800 px-4 py-2.5 text-sm text-slate-900 dark:text-white focus:border-[#0FAF7A] focus:ring-2 focus:ring-[#0FAF7A]/20 transition">
+                        <option value="USD" {% if currentCurrency == 'USD' %}selected{% endif %}>USD â€“ US Dollar</option>
+                        <option value="EUR" {% if currentCurrency == 'EUR' %}selected{% endif %}>EUR â€“ Euro</option>
+                        <option value="TND" {% if currentCurrency == 'TND' %}selected{% endif %}>TND â€“ Tunisian Dinar</option>
+                        <option value="MAD" {% if currentCurrency == 'MAD' %}selected{% endif %}>MAD â€“ Moroccan Dirham</option>
+
+                    </select>
+                    {% if errors.currency is defined %}
+                        <p class="mt-1 text-xs text-red-600 dark:text-red-400">{{ errors.currency }}</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            {# Dates #}
+            <div class="grid gap-5 md:grid-cols-2">
+                {# Start Date #}
+                <div>
+                    <label for="start_date" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
+                        Start Date <span class="text-red-500">*</span>
+                    </label>
+                    <input type="date" id="start_date" name="start_date"
+                           value="{{ app.request.request.get('start_date') }}"
+                           class="w-full rounded-lg border {{ errors.start_date is defined ? 'border-red-500' : 'border-gray-300 dark:border-slate-600' }} bg-white dark:bg-slate-800 px-4 py-2.5 text-sm text-slate-900 dark:text-white focus:border-[#0FAF7A] focus:ring-2 focus:ring-[#0FAF7A]/20 transition">
+                    {% if errors.start_date is defined %}
+                        <p class="mt-1 text-xs text-red-600 dark:text-red-400">{{ errors.start_date }}</p>
+                    {% endif %}
+                </div>
+
+                {# End Date #}
+                <div>
+                    <label for="end_date" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
+                        End Date <span class="text-red-500">*</span>
+                    </label>
+                    <input type="date" id="end_date" name="end_date"
+                           value="{{ app.request.request.get('end_date') }}"
+                           class="w-full rounded-lg border {{ errors.end_date is defined ? 'border-red-500' : 'border-gray-300 dark:border-slate-600' }} bg-white dark:bg-slate-800 px-4 py-2.5 text-sm text-slate-900 dark:text-white focus:border-[#0FAF7A] focus:ring-2 focus:ring-[#0FAF7A]/20 transition">
+                    {% if errors.end_date is defined %}
+                        <p class="mt-1 text-xs text-red-600 dark:text-red-400">{{ errors.end_date }}</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            {# Scope #}
+            <div>
+                <label for="scope" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
+                    Scope of Work <span class="text-red-500">*</span>
+                </label>
+                <textarea id="scope" name="scope" rows="6"
+                          class="w-full rounded-lg border {{ errors.scope is defined ? 'border-red-500' : 'border-gray-300 dark:border-slate-600' }} bg-white dark:bg-slate-800 px-4 py-2.5 text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:border-[#0FAF7A] focus:ring-2 focus:ring-[#0FAF7A]/20 transition"
+                          placeholder="Describe the scope of work, deliverables, and expectations...">{{ app.request.request.get('scope') }}</textarea>
+                {% if errors.scope is defined %}
+                    <p class="mt-1 text-xs text-red-600 dark:text-red-400">{{ errors.scope }}</p>
+                {% else %}
+                    <p class="mt-1 text-xs text-slate-400">Minimum 10 characters, maximum 5000 characters.</p>
+                {% endif %}
+            </div>
+
+            {# Info note #}
+            <div class="rounded-lg bg-blue-50 border border-blue-200 px-4 py-3 text-sm text-blue-800 dark:bg-blue-900/20 dark:text-blue-400 dark:border-blue-800">
+                <div class="flex items-center gap-2">
+                    <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    The contract will be created as <strong>Draft</strong>. You and the client can edit it before signing.
+                </div>
+            </div>
+
+            {# Submit #}
+            <div class="flex items-center gap-3">
+                <button type="submit"
+                        class="inline-flex items-center gap-2 rounded-lg bg-[#0FAF7A] px-6 py-2.5 text-sm font-semibold text-white transition hover:bg-emerald-600 shadow-sm">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                    </svg>
+                    Create Contract
+                </button>
+                <a href="{{ path('worker_contracts_list') }}"
+                   class="inline-flex items-center gap-2 rounded-lg border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-6 py-2.5 text-sm font-semibold text-slate-700 dark:text-slate-300 transition hover:bg-gray-50 dark:hover:bg-slate-700">
+                    Cancel
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

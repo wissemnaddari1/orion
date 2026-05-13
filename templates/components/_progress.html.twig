@@ -1,0 +1,16 @@
+{# _progress.html.twig
+   Parameters: value (int 0-100), label (string, optional), show_label (bool), size (sm|md|lg), variant (default|emerald) #}
+{% set height = (size|default('md')) == 'sm' ? 'h-2' : ((size|default('md')) == 'lg' ? 'h-4' : 'h-3') %}
+{% set pct = value|default(0) %}
+<div class="w-full">
+    {% if label is defined and label and show_label|default(true) %}
+        <div class="mb-1 flex justify-between text-sm">
+            <span class="font-medium text-[#3F3F3F]">{{ label }}</span>
+            <span class="text-[#000000]">{{ pct }}%</span>
+        </div>
+    {% endif %}
+    <div class="overflow-hidden rounded-full bg-gray-200 {{ height }}" role="progressbar" aria-valuenow="{{ pct }}" aria-valuemin="0" aria-valuemax="100">
+        <div class="h-full rounded-full bg-gradient-to-r from-[#0FAF7A] to-[#008F6A] transition-all duration-500"
+             style="width: {{ pct }}%;"></div>
+    </div>
+</div>

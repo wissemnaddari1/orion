@@ -1,0 +1,14 @@
+{% block subject %}Offer Notification{% endblock %}
+
+{% block body %}
+Hello,
+
+An offer has been created/updated/deleted.
+
+Details:
+- Offer ID: {{ offer.id }}
+- Title: {{ offer.serviceRequest.title }}
+- Status: {{ offer.status }}
+
+Thank you.
+{% endblock %}

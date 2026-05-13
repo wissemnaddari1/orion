@@ -1,0 +1,100 @@
+# This file is the entry point to configure your own services.
+# Files in the packages/ subdirectory configure your dependencies.
+
+# See https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
+parameters:
+    payment_provider_default: 'mock'
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        bind:
+            $projectDir: '%kernel.project_dir%'
+            $environment: '%kernel.environment%'
+            $secret: '%env(APP_SECRET)%'
+            $mailerFrom: '%env(MAILER_FROM)%'
+            # Payments provider switch (mock/stripe/etc).
+            # Use a parameter as the default fallback value.
+            $paymentProvider: '%env(default:payment_provider_default:PAYMENT_PROVIDER)%'
+
+    App\:
+        resource: '../src/'
+        exclude:
+            - '../src/DependencyInjection/'
+            - '../src/Entity/'
+            - '../src/Kernel.php'
+
+    App\Service\MatchmakingRecommendationProviderInterface: '@App\Service\AiMatchmakingService'
+
+    App\Doctrine\BlameableSubscriber:
+        tags: ['doctrine.event_subscriber']
+
+    # Services with custom env/config
+    App\Service\ZegoTokenService:
+        bind:
+            $appId: '%env(int:ZEGO_APP_ID)%'
+            $serverSecret: '%env(ZEGO_SERVER_SECRET)%'
+
+    App\Service\StripeCheckoutService:
+        bind:
+            $secretKey: '%env(STRIPE_SECRET_KEY)%'
+            $webhookSecret: '%env(STRIPE_WEBHOOK_SECRET)%'
+
+    App\Service\FaceRecognitionClient:
+        bind:
+            $baseUrl: '%env(FACE_SERVICE_URL)%'
+
+    App\Service\FacePlusPlusClient:
+        bind:
+            $apiKey: '%env(FACEPP_API_KEY)%'
+            $apiSecret: '%env(FACEPP_API_SECRET)%'
+
+    App\Service\ContractGeneratorClient:
+        bind:
+            $baseUrl: '%env(CONTRACT_GENERATOR_API_URL)%'
+
+    App\Service\MatchmakingClient:
+        bind:
+            $baseUrl: '%env(MATCHMAKING_API_URL)%'
+
+    App\Service\CertificateVerificationService:
+        bind:
+            $pythonApiUrl: '%env(PYTHON_AI_SERVICE_URL)%'
+
+    App\Service\CvParserService:
+        bind:
+            $aiServiceUrl: '%env(PYTHON_AI_SERVICE_URL)%'
+
+    App\Service\TicketSupportAIService:
+        bind:
+            $aiApiUrl: '%env(TICKET_SUPPORT_AI_URL)%'
+            $timeout: '%env(int:TICKET_AI_HTTP_TIMEOUT)%'
+
+    App\Service\OfferPredictionService:
+        bind:
+            $mlServiceUrl: '%env(OFFER_PREDICTION_SERVICE_URL)%'
+
+    App\Service\OfferAnalyticsService:
+        bind:
+            $mlServiceUrl: '%env(OFFER_PREDICTION_SERVICE_URL)%'
+
+    App\Controller\AiRequestServiceController:
+        bind:
+            $serviceRequestAiBaseUrl: '%env(SERVICE_REQUEST_AI_URL)%'
+
+    App\Service\TicketAiInsightService:
+        bind:
+            $apiKey: '%env(GROQ_API_KEY)%'
+
+    App\Service\MessageModerationService:
+        bind:
+            $apiKey: '%env(GROQ_API_KEY)%'
+
+    App\Service\ServiceRequestScoringAi:
+        bind:
+            $apiKey: '%env(GROQ_API_KEY_SCORING)%'
+
+    App\Service\GithubProjectAnalyzer:
+        bind:
+            $groqApiKey: '%env(GROQ_API_KEY)%'

@@ -1,0 +1,67 @@
+{% extends 'layout_admin.html.twig' %}
+
+{% block title %}Offers Management - Orion{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .offer-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .offer-card:hover {
+            transform: translateY(-2px);
+        }
+        .stat-pulse {
+            animation: pulse-glow 2s ease-in-out infinite;
+        }
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+            50% { box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1); }
+        }
+        .search-input:focus {
+            border-color: #10b981 !important;
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1) !important;
+        }
+        .dark .search-input:focus {
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15) !important;
+        }
+    </style>
+{% endblock %}
+
+{% block main %}
+<div class="space-y-8">
+    {# Page Header #}
+    <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
+        <div>
+            <div class="flex items-center gap-3 mb-2">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center shadow-lg shadow-emerald-500/30">
+                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
+                    </svg>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-extrabold text-slate-900 dark:text-white tracking-tight">Offers Management</h2>
+                    <p class="text-sm text-slate-500 dark:text-slate-400">Manage and track all submitted offers</p>
+                </div>
+            </div>
+        </div>
+        <div class="flex gap-3">
+            <a href="{{ path('admin_offers_select_request') }}"
+               class="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white rounded-xl font-semibold text-sm transition-all shadow-lg shadow-emerald-500/30 hover:shadow-xl hover:shadow-emerald-500/40 hover:scale-105">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                </svg>
+                Create Offer
+            </a>
+            <a href="{{ path('admin_offers_export_pdf') }}"
+               class="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white rounded-xl font-semibold text-sm transition-all shadow-lg shadow-blue-500/30 hover:shadow-xl hover:shadow-blue-500/40 hover:scale-105">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                </svg>
+                Export PDF
+            </a>
+        </div>
+    </div>
+    {# ...rest of template from old project... #}
+</div>
+{% endblock %}

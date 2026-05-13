@@ -1,0 +1,70 @@
+
+###> symfony/framework-bundle ###
+/.env.local
+/.env.local.php
+/.env.*.local
+/config/secrets/prod/prod.decrypt.private.php
+/public/bundles/
+/var/
+/vendor/
+###< symfony/framework-bundle ###
+
+###> phpunit/phpunit ###
+/phpunit.xml
+/.phpunit.cache/
+###< phpunit/phpunit ###
+
+###> symfony/asset-mapper ###
+/public/assets/
+/assets/vendor/
+###< symfony/asset-mapper ###
+
+# Node
+/node_modules/
+
+# Python bytecode
+__pycache__/
+*.pyc
+.venv/
+venv/
+*/venv/
+
+# User uploads (keep directories via .gitkeep)
+/public/uploads/certificates/*
+!/public/uploads/certificates/.gitkeep
+/public/uploads/faces/*
+!/public/uploads/faces/.gitkeep
+/public/uploads/face/*
+!/public/uploads/face/.gitkeep
+/public/uploads/profile/*
+!/public/uploads/profile/.gitkeep
+/public/uploads/tickets/*
+!/public/uploads/tickets/.gitkeep
+
+# IDE
+/.idea/
+/.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Composer lock backups
+composer.lock.bak
+composer.lock.resolved
+
+###> lexik/jwt-authentication-bundle ###
+/config/jwt/*.pem
+###< lexik/jwt-authentication-bundle ###
+
+###> repo-specific secrets (never commit) ###
+/.env
+/.env.ORION_LOCAL
+/ai_service/.env
+###< repo-specific secrets ###
+
+###> phpstan/phpstan ###
+phpstan.neon
+###< phpstan/phpstan ###

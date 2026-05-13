@@ -1,0 +1,542 @@
+{# Ensure negotiation is always defined to avoid undefined array key warnings #}
+{% set negotiation = negotiation|default(null) %}
+{% set suggested_price = suggested_price|default(null) %}
+{% extends 'layout_app.html.twig' %}
+
+{% block title %}Offer from {{ offer.worker.fullName }} - Orion{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        :root {
+            --slate-100: #f1f5f9;
+            --slate-200: #e2e8f0;
+            --slate-900: #0f172a;
+            --emerald-500: #10b981;
+            --indigo-600: #4f46e5;
+            
+            --shadow-subtle: 0 2px 10px rgba(15, 23, 42, 0.02), 0 1px 3px rgba(15, 23, 42, 0.03);
+            --shadow-premium: 0 25px 60px -15px rgba(15, 23, 42, 0.08), 0 12px 25px -8px rgba(15, 23, 42, 0.04);
+            --shadow-glow: 0 0 25px rgba(16, 185, 129, 0.12), 0 0 10px rgba(16, 185, 129, 0.06);
+            --bg-page: #F8FAFC;
+            --radius-premium: 32px;
+        }
+
+        .dark {
+            --shadow-subtle: 0 4px 12px rgba(0, 0, 0, 0.15), 0 2px 4px rgba(0, 0, 0, 0.2);
+            --shadow-premium: 0 30px 70px -12px rgba(0, 0, 0, 0.4), 0 15px 30px -8px rgba(0, 0, 0, 0.3);
+            --shadow-glow: 0 0 35px rgba(16, 185, 129, 0.08);
+            --bg-page: #020617;
+        }
+
+        body { 
+            background-color: var(--bg-page) !important; 
+            transition: background-color 0.4s ease;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(16px) saturate(180%);
+            -webkit-backdrop-filter: blur(16px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: var(--shadow-subtle);
+            border-radius: var(--radius-premium);
+        }
+        .dark .glass-card {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        .detail-card {
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            border-radius: var(--radius-premium);
+        }
+        .detail-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-premium);
+        }
+
+        .status-glow {
+            animation: status-pulse 3s ease-in-out infinite;
+        }
+        @keyframes status-pulse {
+            0%, 100% { opacity: 1; filter: drop-shadow(0 0 8px currentColor); }
+            50% { opacity: 0.7; filter: drop-shadow(0 0 2px currentColor); }
+        }
+
+        .info-section {
+            position: relative;
+            padding-left: 1.5rem;
+        }
+        .info-section::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 4px;
+            bottom: 4px;
+            width: 4px;
+            border-radius: 9999px;
+            opacity: 0.6;
+        }
+        .info-section-emerald::before { background: var(--emerald-500); }
+        .info-section-blue::before { background: #3b82f6; }
+        .info-section-purple::before { background: #8b5cf6; }
+        .info-section-amber::before { background: #f59e0b; }
+
+        .negotiate-card {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.03), rgba(139, 92, 246, 0.03));
+            border-radius: var(--radius-premium);
+        }
+
+        @keyframes slideUpFade {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-premium-entry { 
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        .animate-premium-entry.is-ready { 
+            animation: slideUpFade 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
+        }
+
+        .ai-reason-tooltip {
+            visibility: hidden;
+            opacity: 0;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: translateY(8px) scale(0.95);
+            pointer-events: none;
+        }
+        .ai-reason-trigger:hover .ai-reason-tooltip {
+            visibility: visible;
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    </style>
+{% endblock %}
+
+{% block main %}
+<div class="space-y-10 animate-premium-entry">
+    {# Header & Navigation #}
+    <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+        <div class="flex items-center gap-5">
+            <a href="{{ path('client_offers_index') }}" class="w-12 h-12 flex items-center justify-center rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-500 hover:text-emerald-600 hover:border-emerald-200 transition-all shadow-sm group">
+                <svg class="w-6 h-6 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+            </a>
+            <div>
+                <h2 class="text-3xl font-black text-slate-900 dark:text-white tracking-tight">Offer Details</h2>
+                <p class="text-sm font-medium text-slate-500 dark:text-slate-400 mt-1">{{ offer.serviceRequest.title }}</p>
+            </div>
+        </div>
+        
+        <div class="flex items-center gap-3">
+             <div class="text-right hidden sm:block">
+                <p class="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em] mb-1">Received On</p>
+                <p class="text-sm font-bold text-slate-900 dark:text-white">{{ offer.createdAt|date('M d, Y') }} at {{ offer.createdAt|date('h:i A') }}</p>
+            </div>
+        </div>
+    </div>
+
+    {# Flash messages #}
+    {% for message in app.flashes('success') %}
+        <div class="flex items-center gap-3 rounded-[24px] bg-emerald-500 text-white p-4 font-bold text-sm shadow-lg shadow-emerald-500/20">
+            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            {{ message }}
+        </div>
+    {% endfor %}
+
+    {# Status Banner Card #}
+    <div class="relative overflow-hidden glass-card p-1">
+        <div class="absolute top-0 right-0 w-64 h-64 bg-slate-500/5 rounded-full -mr-32 -mt-32 blur-3xl"></div>
+        <div class="relative flex flex-col md:flex-row items-center justify-between p-6 gap-6">
+            <div class="flex items-center gap-6">
+                <div class="w-16 h-16 rounded-[24px] flex items-center justify-center shadow-inner
+                    {% if offer.status == 'ACCEPTED' %}bg-emerald-500 text-white
+                    {% elseif offer.status == 'REJECTED' %}bg-red-500 text-white
+                    {% elseif offer.status == 'EXPIRED' %}bg-slate-400 text-white
+                    {% elseif offer.status == 'NEGOTIATING' %}bg-indigo-600 text-white
+                    {% else %}bg-amber-500 text-white{% endif %}">
+                    {% if offer.status == 'ACCEPTED' %}
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    {% elseif offer.status == 'REJECTED' %}
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    {% elseif offer.status == 'EXPIRED' %}
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    {% elseif offer.status == 'NEGOTIATING' %}
+                        <svg class="w-8 h-8 status-glow" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+                    {% else %}
+                        <svg class="w-8 h-8 status-glow" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    {% endif %}
+                </div>
+                <div>
+                    <p class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 dark:text-slate-500 mb-1">Current Status</p>
+                    <div class="flex items-center gap-3">
+                        <h3 class="text-2xl font-black text-slate-900 dark:text-white">
+                            {% if offer.status == 'ACCEPTED' %}Offer Accepted
+                            {% elseif offer.status == 'REJECTED' %}Offer Rejected
+                            {% elseif offer.status == 'EXPIRED' %}Offer Expired
+                            {% elseif offer.status == 'NEGOTIATING' %}In Negotiation
+                            {% else %}Awaiting Decision{% endif %}
+                        </h3>
+                        <span class="w-2 h-2 rounded-full animate-pulse
+                            {% if offer.status == 'ACCEPTED' %}bg-emerald-500
+                            {% elseif offer.status == 'REJECTED' %}bg-red-500
+                            {% elseif offer.status == 'EXPIRED' %}bg-slate-400
+                            {% elseif offer.status == 'NEGOTIATING' %}bg-indigo-500
+                            {% else %}bg-amber-500{% endif %}"></span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flex items-center gap-4">
+                 {% if offer.status == 'PENDING' %}
+                <div class="px-5 py-2 rounded-full bg-amber-500/10 text-amber-600 dark:text-amber-400 text-sm font-black uppercase tracking-wider">
+                    Pending
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    {# Key Metrics Row #}
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="detail-card glass-card p-6">
+            <p class="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em] mb-3">Worker's Price</p>
+            <p class="text-4xl font-black text-emerald-600 dark:text-emerald-400 tracking-tight">${{ offer.price|number_format(0) }}</p>
+            <div class="mt-4 flex items-center gap-2 text-xs font-bold text-slate-500">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                Fixed Price
+            </div>
+        </div>
+
+        <div class="detail-card glass-card p-6">
+            <p class="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em] mb-3">Delivery Time</p>
+            <p class="text-4xl font-black text-blue-600 dark:text-blue-400 tracking-tight">{{ offer.estimatedTimeDays }} <span class="text-xl">Days</span></p>
+            <div class="mt-4 flex items-center gap-2 text-xs font-bold text-slate-500">
+                <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
+                Estimated
+            </div>
+        </div>
+
+        <div class="detail-card glass-card p-6">
+            <p class="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em] mb-3">Suggested Price</p>
+            <p class="text-4xl font-black text-indigo-600 dark:text-indigo-400 tracking-tight">
+                {% if suggested_price is not null %}
+                    ${{ suggested_price|number_format(0) }}
+                {% else %}
+                    <span class="text-slate-300">--</span>
+                {% endif %}
+            </p>
+            <div class="mt-4 space-y-2">
+                <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest leading-relaxed">Calculated midpoint between client budget and proposal price</p>
+            </div>
+        </div>
+
+        <div class="detail-card glass-card p-6">
+            <p class="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em] mb-3">Revisions</p>
+            <p class="text-4xl font-black text-purple-600 dark:text-purple-400 tracking-tight">{{ offer.includedRevisions }}</p>
+            <div class="mt-4 flex items-center gap-2 text-xs font-bold text-slate-500">
+                <span class="w-1.5 h-1.5 rounded-full bg-purple-500"></span>
+                Included
+            </div>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+        {# Main Content — Left Column (2/3) #}
+        <div class="lg:col-span-2 space-y-10">
+
+            {# Action Buttons #}
+            {% if offer.status == 'PENDING' %}
+            <div class="glass-card overflow-hidden">
+                <div class="px-8 py-5 border-b border-slate-100 dark:border-slate-800 flex items-center gap-3">
+                    <div class="w-2 h-2 rounded-full bg-emerald-500"></div>
+                    <h3 class="text-lg font-black text-slate-900 dark:text-white uppercase tracking-tight">Decision Actions</h3>
+                </div>
+                <div class="p-8">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        {# Accept Button #}
+                        <form method="post" action="{{ path('client_offers_accept', {id: offer.id}) }}">
+                            <input type="hidden" name="_token" value="{{ csrf_token('accept' ~ offer.id) }}">
+                                <button type="submit"
+                                    class="w-full inline-flex items-center justify-center gap-3 px-8 py-4 bg-emerald-600 hover:bg-emerald-700 text-white font-black rounded-full transition-all shadow-lg hover:shadow-emerald-500/25 hover:scale-[1.03] active:scale-95">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                                Accept & Start Project
+                            </button>
+                        </form>
+
+                        {# Negotiate Button #}
+                        {% if offer.price > ((offer.serviceRequest.budgetMax + offer.serviceRequest.budgetMin) / 2) %}
+                        <form method="post" action="{{ path('client_offers_negotiate', {id: offer.id}) }}">
+                            <input type="hidden" name="_token" value="{{ csrf_token('negotiate' ~ offer.id) }}">
+                            <button type="submit"
+                                    class="w-full inline-flex items-center justify-center gap-3 px-8 py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-black rounded-full transition-all shadow-lg hover:shadow-indigo-500/25 hover:scale-[1.03] active:scale-95">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+                                Propose Counter · ${{ suggested_price|number_format(0) }}
+                            </button>
+                        </form>
+                        {% else %}
+                         <button disabled class="w-full inline-flex items-center justify-center gap-3 px-8 py-4 bg-slate-100 dark:bg-slate-800 text-slate-400 font-black rounded-full cursor-not-allowed">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+                                Negotiation Locked
+                            </button>
+                        {% endif %}
+                    </div>
+
+                    <div class="mt-10 flex justify-center">
+                        <form method="post" action="{{ path('client_offers_reject', {id: offer.id}) }}">
+                            <input type="hidden" name="_token" value="{{ csrf_token('reject' ~ offer.id) }}">
+                            <button type="submit" class="inline-flex items-center gap-2 px-8 py-3.5 rounded-full border border-slate-300 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:text-red-600 hover:border-red-500/30 hover:bg-red-50 dark:hover:bg-red-900/10 transition-all font-black text-xs uppercase tracking-widest shadow-sm hover:shadow-md active:scale-95">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/></svg>
+                                Decline this offer
+                            </button>
+                        </form>
+                    </div>
+
+                    {# Negotiation Tip #}
+                    {% if suggested_price and offer.price > offer.serviceRequest.budgetMax %}
+                    <div class="mt-8 p-6 rounded-[24px] bg-indigo-500/5 border border-indigo-500/10 relative overflow-hidden group">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-indigo-500/5 rounded-full -mr-16 -mt-16 blur-2xl group-hover:bg-indigo-500/10 transition-colors"></div>
+                        <div class="relative flex items-start gap-4">
+                            <div class="w-10 h-10 rounded-full bg-indigo-500/10 flex items-center justify-center flex-shrink-0">
+                                <svg class="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                            </div>
+                            <div>
+                                <p class="text-sm font-black text-indigo-900 dark:text-indigo-100 uppercase tracking-wider">Negotiation Strategy</p>
+                                <p class="text-sm text-indigo-700/80 dark:text-indigo-300/80 mt-1 leading-relaxed">
+                                    This offer is <strong>${{ (offer.price - offer.serviceRequest.budgetMax)|number_format(0) }}</strong> above your max budget. 
+                                    Our AI suggests <strong>${{ suggested_price|number_format(0) }}</strong> as a fair counter-offer based on market data.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+
+            {# Offer Content Sections #}
+            <div class="glass-card p-10 space-y-10">
+                <div class="flex items-center gap-3 mb-2">
+                    <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center">
+                        <svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                    </div>
+                    <h3 class="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tight">Project Proposal</h3>
+                </div>
+
+                {% if offer.scopeSummary %}
+                <div class="info-section info-section-emerald">
+                    <p class="text-[10px] font-black text-emerald-600 dark:text-emerald-400 uppercase tracking-[0.2em] mb-3">Scope Overview</p>
+                    <p class="text-base text-slate-700 dark:text-slate-300 leading-relaxed font-medium">{{ offer.scopeSummary|nl2br }}</p>
+                </div>
+                {% endif %}
+
+                {% if offer.message %}
+                <div class="info-section info-section-blue">
+                    <p class="text-[10px] font-black text-blue-600 dark:text-blue-400 uppercase tracking-[0.2em] mb-3">Freelancer's Note</p>
+                    <p class="text-base text-slate-700 dark:text-slate-300 leading-relaxed font-normal italic">"{{ offer.message }}"</p>
+                </div>
+                {% endif %}
+
+                {% if offer.deliverables %}
+                <div class="info-section info-section-purple">
+                    <p class="text-[10px] font-black text-purple-600 dark:text-purple-400 uppercase tracking-[0.2em] mb-3">Key Deliverables</p>
+                    <div class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed bg-slate-50 dark:bg-slate-800/50 p-6 rounded-2xl border border-slate-100 dark:border-slate-800">
+                        {{ offer.deliverables|nl2br }}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+
+            {# Service Request Context #}
+            <div class="glass-card p-8">
+                 <div class="flex items-center gap-3 mb-6">
+                    <div class="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center">
+                        <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                    </div>
+                    <div>
+                        <p class="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em]">Referenced Task</p>
+                        <h4 class="text-lg font-black text-slate-900 dark:text-white">{{ offer.serviceRequest.title }}</h4>
+                    </div>
+                </div>
+                <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed mb-6">{{ offer.serviceRequest.description|slice(0, 250) }}...</p>
+                <div class="flex flex-wrap gap-3">
+                    <span class="px-4 py-2 rounded-full bg-slate-100 dark:bg-slate-800 text-xs font-bold text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
+                        Budget: ${{ offer.serviceRequest.budgetMin }} - ${{ offer.serviceRequest.budgetMax }}
+                    </span>
+                    <span class="px-4 py-2 rounded-full bg-slate-100 dark:bg-slate-800 text-xs font-bold text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
+                        {{ offer.serviceRequest.duration }} Days Max
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        {# Sidebar — Right Column (1/3) #}
+        <div class="space-y-8">
+            
+            {# AI Smart Match Card #}
+            {% if prediction is defined and prediction is not null %}
+            {% set percent = (prediction.probability * 100)|round %}
+            <div class="glass-card overflow-visible relative">
+                <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[94%] h-2.5 overflow-hidden rounded-b-[20px]">
+                    <div class="w-full h-full bg-gradient-to-r from-violet-500 via-indigo-500 to-fuchsia-500"></div>
+                </div>
+                <div class="p-8">
+                    <div class="flex items-center justify-between mb-8">
+                        <div>
+                            <h3 class="text-lg font-black text-slate-900 dark:text-white tracking-tight">Smart Match</h3>
+                            <p class="text-[10px] font-bold text-violet-500 uppercase tracking-widest mt-0.5">AI ENGINE {{ prediction.model_version|default('v2.1') }}</p>
+                        </div>
+                        <div class="ai-reason-trigger relative group">
+                            <div class="cursor-help p-1">
+                                <svg class="w-5 h-5 text-slate-300 group-hover:text-violet-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                            </div>
+                            {# Minimal Tooltip - Right Aligned for Sidebar Safety #}
+                            <div class="ai-reason-tooltip absolute bottom-full right-0 mb-3 w-64 glass-card p-5 z-50 shadow-premium border-slate-200/50 dark:border-slate-800/50 origin-bottom-right">
+                                <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3 border-b border-slate-100 dark:border-slate-800 pb-2">Analysis Logic</p>
+                                <div class="space-y-3">
+                                    {% for r in prediction.reasons|default([]) %}
+                                        <div class="flex items-start gap-2">
+                                            <div class="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0
+                                                {% if r.type == 'success' %}bg-emerald-500
+                                                {% elseif r.type == 'warning' %}bg-red-500
+                                                {% else %}bg-indigo-500{% endif %}"></div>
+                                            <span class="text-xs font-bold text-slate-600 dark:text-slate-300 leading-tight">{{ r.text }}</span>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                                {# Tooltip Arrow - Right Aligned #}
+                                <div class="absolute -bottom-1.5 right-6 w-3 h-3 bg-white dark:bg-slate-900 border-r border-b border-slate-200 dark:border-slate-800 rotate-45"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col items-center py-4">
+                        <div class="relative w-32 h-32 flex items-center justify-center">
+                            <svg class="w-full h-full transform -rotate-90">
+                                <circle cx="64" cy="64" r="58" stroke="currentColor" stroke-width="10" fill="transparent" class="text-slate-100 dark:text-slate-800/50" />
+                                <circle cx="64" cy="64" r="58" stroke="currentColor" stroke-width="10" fill="transparent" 
+                                    stroke-dasharray="364.4" 
+                                    stroke-dashoffset="{{ 364.4 - (364.4 * percent / 100) }}" 
+                                    stroke-linecap="round"
+                                    class="{% if percent >= 80 %}text-emerald-500{% elseif percent >= 60 %}text-indigo-500{% else %}text-amber-500{% endif %} transition-all duration-1000 ease-out shadow-glow" />
+                            </svg>
+                            <div class="absolute inset-0 flex flex-col items-center justify-center">
+                                <span class="text-3xl font-black text-slate-900 dark:text-white tracking-tighter">{{ percent }}%</span>
+                                <span class="text-[9px] font-black text-slate-400 uppercase tracking-widest">Match</span>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-8 text-center space-y-2">
+                            <p class="text-sm font-black text-slate-800 dark:text-slate-200">
+                                {% if percent >= 80 %}Highly Recommended{% elseif percent >= 60 %}Strong Contender{% else %}Market Standard{% endif %}
+                            </p>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 px-4 leading-relaxed">AI analysis based on price alignment, deadline feasibility, and historic performance.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            {% if matchmaking_hint is defined and matchmaking_hint %}
+            <div class="glass-card p-6">
+                <h3 class="text-sm font-black text-slate-900 dark:text-white tracking-tight mb-3">Matchmaking Insight</h3>
+                <p class="text-xs text-emerald-600 dark:text-emerald-400 font-bold mb-2">
+                    {{ (matchmaking_hint.score * 100)|round }}% fit before negotiation
+                </p>
+                {% if matchmaking_hint.explanations is defined and matchmaking_hint.explanations|length > 0 %}
+                    <ul class="space-y-2 text-xs text-slate-600 dark:text-slate-300">
+                        {% for explanation in matchmaking_hint.explanations|slice(0, 3) %}
+                            <li>- {{ explanation }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+            {% endif %}
+
+            {# Timeline Card #}
+            <div class="glass-card p-8">
+                <h3 class="text-lg font-black text-slate-900 dark:text-white tracking-tight mb-6">Key Milestones</h3>
+                <div class="space-y-6 relative before:absolute before:left-[15px] before:top-2 before:bottom-2 before:w-px before:bg-slate-100 dark:before:bg-slate-800">
+                    <div class="flex items-start gap-4 relative">
+                        <div class="w-8 h-8 rounded-full bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-800 flex items-center justify-center z-10">
+                            <div class="w-2 h-2 rounded-full bg-slate-400"></div>
+                        </div>
+                        <div>
+                            <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Offer Submitted</p>
+                            <p class="text-sm font-bold text-slate-900 dark:text-white">{{ offer.createdAt|date('M d, Y') }}</p>
+                        </div>
+                    </div>
+
+                    {% if offer.startDateAvailable %}
+                    <div class="flex items-start gap-4 relative">
+                        <div class="w-8 h-8 rounded-full bg-white dark:bg-slate-900 border-2 border-blue-200 dark:border-blue-900 flex items-center justify-center z-10">
+                            <div class="w-2 h-2 rounded-full bg-blue-500"></div>
+                        </div>
+                        <div>
+                            <p class="text-[10px] font-black text-blue-500 uppercase tracking-widest">Start Availability</p>
+                            <p class="text-sm font-bold text-slate-900 dark:text-white">{{ offer.startDateAvailable|date('M d, Y') }}</p>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    {% if offer.deliveryDateEstimated %}
+                    <div class="flex items-start gap-4 relative">
+                        <div class="w-8 h-8 rounded-full bg-white dark:bg-slate-900 border-2 border-emerald-200 dark:border-emerald-900 flex items-center justify-center z-10">
+                            <div class="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-glow"></div>
+                        </div>
+                        <div>
+                            <p class="text-[10px] font-black text-emerald-500 uppercase tracking-widest">Completion Goal</p>
+                            <p class="text-sm font-bold text-slate-900 dark:text-white">{{ offer.deliveryDateEstimated|date('M d, Y') }}</p>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            {# Detail List Card #}
+            <div class="glass-card p-8">
+                <h3 class="text-lg font-black text-slate-900 dark:text-white tracking-tight mb-6">Additional Specs</h3>
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between py-3 border-b border-slate-50 dark:border-slate-800/50">
+                        <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Priority</span>
+                        <span class="px-3 py-1 text-[10px] font-black rounded-full uppercase tracking-widest
+                            {% if offer.priorityLevel == 'HIGH' %}bg-red-500 text-white shadow-lg shadow-red-500/20
+                            {% elseif offer.priorityLevel == 'MEDIUM' %}bg-amber-500 text-white shadow-lg shadow-amber-500/20
+                            {% else %}bg-slate-200 text-slate-700 dark:bg-slate-800 dark:text-slate-400{% endif %}">
+                            {{ offer.priorityLevel }}
+                        </span>
+                    </div>
+                    <div class="flex items-center justify-between py-3 border-b border-slate-50 dark:border-slate-800/50">
+                        <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Rush Service</span>
+                        <span class="text-sm font-black {% if offer.isUrgent %}text-red-500{% else %}text-slate-400{% endif %}">
+                            {{ offer.isUrgent ? 'Active (Urgent)' : 'Standard' }}
+                        </span>
+                    </div>
+                    {% if offer.responseSlaHours %}
+                    <div class="flex items-center justify-between py-3">
+                        <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Reply Guarantee</span>
+                        <span class="text-sm font-black text-slate-900 dark:text-white">{{ offer.responseSlaHours }} Hours</span>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        (function() {
+            const el = document.querySelector('.animate-premium-entry');
+            if (el && !el.classList.contains('is-ready')) {
+                // Smallest possible delay to ensure initial styles are painted
+                requestAnimationFrame(() => {
+                    el.classList.add('is-ready');
+                });
+            }
+        })();
+    </script>
+{% endblock %}

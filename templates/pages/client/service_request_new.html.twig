@@ -1,0 +1,35 @@
+{% extends 'layout_app.html.twig' %}
+{% set topbar_title = 'New service request' %}
+{% block main %}
+    <div class="mx-auto max-w-3xl space-y-8">
+        <div>
+            <h1 class="text-2xl font-bold text-[#000000]">New service request</h1>
+            <p class="mt-1 text-[#3F3F3F]">Describe your project so we can match you with the best freelancers.</p>
+        </div>
+        <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+            <form class="space-y-6" action="#" method="post" novalidate>
+                <div>
+                    <label for="title" class="block text-sm font-medium text-[#3F3F3F]">Title</label>
+                    <input id="title" name="title" type="text" required class="mt-1 block w-full rounded-lg border border-gray-300 px-4 py-2.5 text-[#000000] focus:border-[#0FAF7A] focus:ring-2 focus:ring-[#0FAF7A]/20" placeholder="e.g. Website redesign" />
+                </div>
+                <div>
+                    <label for="description" class="block text-sm font-medium text-[#3F3F3F]">Description</label>
+                    <textarea id="description" name="description" rows="5" required class="mt-1 block w-full rounded-lg border border-gray-300 px-4 py-2.5 text-[#000000] focus:border-[#0FAF7A] focus:ring-2 focus:ring-[#0FAF7A]/20" placeholder="Describe your project and expectations"></textarea>
+                </div>
+                <div>
+                    <label for="category" class="block text-sm font-medium text-[#3F3F3F]">Category</label>
+                    <select id="category" name="category" class="mt-1 block w-full rounded-lg border border-gray-300 px-4 py-2.5 text-[#000000] focus:border-[#0FAF7A] focus:ring-2 focus:ring-[#0FAF7A]/20">
+                        <option>Design</option>
+                        <option>Development</option>
+                        <option>Marketing</option>
+                        <option>Writing</option>
+                    </select>
+                </div>
+                <div class="flex gap-3">
+                    {% include 'components/_button.html.twig' with { label: 'Submit request', type: 'submit', variant: 'primary' } %}
+                    {% include 'components/_button.html.twig' with { label: 'Cancel', href: '#', variant: 'ghost' } %}
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

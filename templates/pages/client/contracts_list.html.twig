@@ -1,0 +1,154 @@
+{% extends 'layout_client.html.twig' %}
+{% block main %}
+    <div class="space-y-6">
+        {# Flash messages #}
+        {% for type, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="rounded-lg px-4 py-3 text-sm font-medium
+                    {% if type == 'success' %} bg-emerald-50 text-emerald-800 border border-emerald-200 dark:bg-emerald-900/20 dark:text-emerald-400 dark:border-emerald-800
+                    {% elseif type == 'error' or type == 'danger' %} bg-red-50 text-red-800 border border-red-200 dark:bg-red-900/20 dark:text-red-400 dark:border-red-800
+                    {% else %} bg-blue-50 text-blue-800 border border-blue-200 dark:bg-blue-900/20 dark:text-blue-400 dark:border-blue-800
+                    {% endif %}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div>
+                <h1 class="text-2xl font-bold text-slate-900 dark:text-white">Contracts</h1>
+                <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Manage and track all your contracts</p>
+            </div>
+        </div>
+
+        <div class="rounded-xl border border-gray-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
+            {% if contracts is empty %}
+                <div class="p-12 text-center">
+                    <svg class="mx-auto h-12 w-12 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                    </svg>
+                    <h3 class="mt-4 text-lg font-medium text-slate-900 dark:text-white">No contracts yet</h3>
+                    <p class="mt-2 text-sm text-slate-500 dark:text-slate-400">Contracts are auto-generated after an offer is accepted.</p>
+                </div>
+            {% else %}
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-sm">
+                        <thead class="border-b border-gray-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50">
+                            <tr>
+                                <th class="px-6 py-3.5 font-semibold text-slate-700 dark:text-slate-300">Title</th>
+                                <th class="px-6 py-3.5 font-semibold text-slate-700 dark:text-slate-300">Worker</th>
+                                <th class="px-6 py-3.5 font-semibold text-slate-700 dark:text-slate-300">Price</th>
+                                <th class="px-6 py-3.5 font-semibold text-slate-700 dark:text-slate-300">Status</th>
+                                <th class="px-6 py-3.5 font-semibold text-slate-700 dark:text-slate-300">Signatures</th>
+                                <th class="px-6 py-3.5 font-semibold text-slate-700 dark:text-slate-300">Period</th>
+                                <th class="px-6 py-3.5 font-semibold text-slate-700 dark:text-slate-300"></th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-100 dark:divide-slate-800">
+                            {% for contract in contracts %}
+                                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition">
+                                    {# Title #}
+                                    <td class="px-6 py-4">
+                                        <a href="{{ path('client_contract_show', {id: contract.id}) }}" class="font-medium text-slate-900 dark:text-white hover:text-[#0FAF7A] transition">
+                                            {{ contract.title }}
+                                        </a>
+                                    </td>
+
+                                    {# Worker #}
+                                    <td class="px-6 py-4 text-slate-700 dark:text-slate-300">
+                                        {% if contract.worker %}
+                                            {{ contract.worker.firstName }} {{ contract.worker.lastName }}
+                                        {% else %}
+                                            <span class="text-slate-400 italic">Unassigned</span>
+                                        {% endif %}
+                                    </td>
+
+                                    {# Price #}
+                                    <td class="px-6 py-4 text-slate-700 dark:text-slate-300 font-medium">
+                                        {{ contract.agreedPrice|number_format(2) }} {{ contract.currency }}
+                                    </td>
+
+                                    {# Status Badge #}
+                                    <td class="px-6 py-4">
+                                        {% if contract.status == 'DRAFT' %}
+                                            <span class="inline-flex items-center rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-medium text-slate-700 dark:bg-slate-700 dark:text-slate-300">Draft</span>
+                                        {% elseif contract.status == 'PENDING_SIGN' %}
+                                            <span class="inline-flex items-center rounded-full bg-amber-100 px-2.5 py-0.5 text-xs font-medium text-amber-800 dark:bg-amber-900/30 dark:text-amber-400">Pending Sign</span>
+                                        {% elseif contract.status == 'ACTIVE' %}
+                                            <span class="inline-flex items-center rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-medium text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-400">Active</span>
+                                        {% elseif contract.status == 'IN_PROGRESS' %}
+                                            <span class="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800 dark:bg-blue-900/30 dark:text-blue-400">In Progress</span>
+                                        {% elseif contract.status == 'COMPLETED' %}
+                                            <span class="inline-flex items-center rounded-full bg-indigo-100 px-2.5 py-0.5 text-xs font-medium text-indigo-800 dark:bg-indigo-900/30 dark:text-indigo-400">Completed</span>
+                                        {% elseif contract.status == 'CANCELLED' %}
+                                            <span class="inline-flex items-center rounded-full bg-red-100 px-2.5 py-0.5 text-xs font-medium text-red-800 dark:bg-red-900/30 dark:text-red-400">Cancelled</span>
+                                        {% elseif contract.status == 'DISPUTED' %}
+                                            <span class="inline-flex items-center rounded-full bg-orange-100 px-2.5 py-0.5 text-xs font-medium text-orange-800 dark:bg-orange-900/30 dark:text-orange-400">Disputed</span>
+                                        {% else %}
+                                            <span class="inline-flex items-center rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-800 dark:bg-gray-700 dark:text-gray-300">{{ contract.status }}</span>
+                                        {% endif %}
+                                    </td>
+
+                                    {# Signature dots #}
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center gap-2">
+                                            <div class="flex items-center gap-1" title="Client {{ contract.clientSigned ? 'signed' : 'not signed' }}">
+                                                <span class="inline-block w-2.5 h-2.5 rounded-full {{ contract.clientSigned ? 'bg-[#0FAF7A]' : 'bg-slate-300 dark:bg-slate-600' }}"></span>
+                                                <span class="text-xs text-slate-500 dark:text-slate-400">C</span>
+                                            </div>
+                                            <div class="flex items-center gap-1" title="Worker {{ contract.workerSigned ? 'signed' : 'not signed' }}">
+                                                <span class="inline-block w-2.5 h-2.5 rounded-full {{ contract.workerSigned ? 'bg-[#0FAF7A]' : 'bg-slate-300 dark:bg-slate-600' }}"></span>
+                                                <span class="text-xs text-slate-500 dark:text-slate-400">W</span>
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                    {# Period #}
+                                    <td class="px-6 py-4 text-slate-500 dark:text-slate-400 text-xs whitespace-nowrap">
+                                        {{ contract.startDate|date('M d, Y') }}<br>
+                                        → {{ contract.endDate|date('M d, Y') }}
+                                    </td>
+
+                                    {# View #}
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center gap-3">
+                                            <a href="{{ path('client_contract_show', {id: contract.id}) }}"
+                                               class="inline-flex items-center gap-1 text-[#0FAF7A] hover:text-emerald-700 dark:hover:text-emerald-300 font-medium text-sm transition">
+                                                View
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                                </svg>
+                                            </a>
+                                            <a href="{{ path('client_contract_pdf', {id: contract.id}) }}" target="_blank"
+                                               class="inline-flex items-center gap-1 text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 text-sm transition" title="Download PDF">
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                                                </svg>
+                                                PDF
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% if total_pages > 1 %}
+                    <div class="flex items-center justify-between border-t border-gray-200 dark:border-slate-700 px-6 py-3">
+                        <p class="text-sm text-slate-600 dark:text-slate-400">
+                            Showing {{ (page - 1) * limit + 1 }}–{{ min(page * limit, total) }} of {{ total }} contracts
+                        </p>
+                        <nav class="flex gap-2">
+                            {% if page > 1 %}
+                                <a href="{{ path('client_contracts_list', { page: page - 1 }) }}" class="inline-flex items-center px-3 py-1.5 text-sm font-medium text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-800 border border-gray-300 dark:border-slate-600 rounded-md hover:bg-slate-50 dark:hover:bg-slate-700">Previous</a>
+                            {% endif %}
+                            {% if page < total_pages %}
+                                <a href="{{ path('client_contracts_list', { page: page + 1 }) }}" class="inline-flex items-center px-3 py-1.5 text-sm font-medium text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-800 border border-gray-300 dark:border-slate-600 rounded-md hover:bg-slate-50 dark:hover:bg-slate-700">Next</a>
+                            {% endif %}
+                        </nav>
+                    </div>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

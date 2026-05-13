@@ -1,0 +1,2359 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Call to an undefined method object\:\:findOneBy\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Command/EnsureSystemUserCommand.php
+
+		-
+			message: '#^Parameter \#1 \$ticketId of method App\\Repository\\SubTicketRepository\:\:findByTicket\(\) expects int, int\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Command/SyncTicketAiKnowledgeBaseCommand.php
+
+		-
+			message: '#^Parameter \#2 \$message of method App\\Service\\TicketSupportAIService\:\:updateKnowledgeBase\(\) expects string, string\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Command/SyncTicketAiKnowledgeBaseCommand.php
+
+		-
+			message: '#^Binary operation "\." between array\|bool\|float\|int\|string\|UnitEnum\|null and ''/public/images/icons'' results in an error\.$#'
+			identifier: binaryOp.invalid
+			count: 1
+			path: src/Controller/Admin/AdminCategoryController.php
+
+		-
+			message: '#^Binary operation "\." between array\|bool\|float\|int\|string\|UnitEnum\|null and ''/public/images…'' results in an error\.$#'
+			identifier: binaryOp.invalid
+			count: 2
+			path: src/Controller/Admin/AdminCategoryController.php
+
+		-
+			message: '#^Call to an undefined method Symfony\\Component\\Form\\FormError\|Symfony\\Component\\Form\\FormErrorIterator\:\:getMessage\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Controller/Admin/AdminCategoryController.php
+
+		-
+			message: '#^Call to an undefined method Symfony\\Component\\Form\\FormError\|Symfony\\Component\\Form\\FormErrorIterator\:\:getOrigin\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Controller/Admin/AdminCategoryController.php
+
+		-
+			message: '#^Cannot call method getName\(\) on Symfony\\Component\\Form\\FormInterface\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/Controller/Admin/AdminCategoryController.php
+
+		-
+			message: '#^Parameter \#1 \$agreedPrice of method App\\Entity\\Contract\:\:setAgreedPrice\(\) expects string, bool\|float\|int\|string\|null given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/Controller/Admin/ContractController.php
+
+		-
+			message: '#^Parameter \#1 \$currency of method App\\Entity\\Contract\:\:setCurrency\(\) expects string, bool\|float\|int\|string\|null given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/Controller/Admin/ContractController.php
+
+		-
+			message: '#^Parameter \#1 \$datetime of class DateTime constructor expects string, bool\|float\|int\|string\|null given\.$#'
+			identifier: argument.type
+			count: 4
+			path: src/Controller/Admin/ContractController.php
+
+		-
+			message: '#^Parameter \#1 \$datetime of function strtotime expects string, bool\|float\|int\|string\|null given\.$#'
+			identifier: argument.type
+			count: 8
+			path: src/Controller/Admin/ContractController.php
+
+		-
+			message: '#^Parameter \#1 \$status of method App\\Entity\\Contract\:\:setStatus\(\) expects string, bool\|float\|int\|string\|null given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/Controller/Admin/ContractController.php
+
+		-
+			message: '#^Parameter \#1 \$string of function trim expects string, bool\|float\|int\|string\|null given\.$#'
+			identifier: argument.type
+			count: 4
+			path: src/Controller/Admin/ContractController.php
+
+		-
+			message: '#^Parameter \#1 \$string of function strtoupper expects string, bool\|float\|int\|string\|null given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/Controller/Admin/OfferController.php
+
+		-
+			message: '#^Parameter \#1 \$worker of method App\\Entity\\Offer\:\:setWorker\(\) expects App\\Entity\\User, Symfony\\Component\\Security\\Core\\User\\UserInterface\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Controller/Admin/OfferController.php
+
+		-
+			message: '#^Binary operation "\." between array\|bool\|float\|int\|string\|UnitEnum\|null and ''/public/'' results in an error\.$#'
+			identifier: binaryOp.invalid
+			count: 1
+			path: src/Controller/Admin/UserController.php
+
+		-
+			message: '#^Method App\\Controller\\Admin\\UserController\:\:uploadProfilePicture\(\) has parameter \$file with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: src/Controller/Admin/UserController.php
+
+		-
+			message: '#^Parameter \#1 \$directory of function mkdir expects string, array\|bool\|float\|int\|string\|UnitEnum\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Controller/Admin/UserController.php
+
+		-
+			message: '#^Parameter \#1 \$filename of function is_dir expects string, array\|bool\|float\|int\|string\|UnitEnum\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Controller/Admin/UserController.php
+
+		-
+			message: '#^Parameter \#2 \$token of method Symfony\\Bundle\\FrameworkBundle\\Controller\\AbstractController\:\:isCsrfTokenValid\(\) expects string\|null, bool\|float\|int\|string\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Controller/AdminCategoryTicketController.php
+
+		-
+			message: '#^Binary operation "\." between array\|bool\|float\|int\|string\|UnitEnum\|null and ''/public/uploads…'' results in an error\.$#'
+			identifier: binaryOp.invalid
+			count: 2
+			path: src/Controller/AdminTicketController.php
+
+		-
+			message: '#^Parameter \#1 \$resolution of method App\\Entity\\Ticket\:\:setResolution\(\) expects string\|null, float\|int\<min, \-1\>\|int\<1, max\>\|string\|true given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Controller/AdminTicketController.php
+
+		-
+			message: '#^Parameter \#1 \$sender of method App\\Entity\\SubTicket\:\:setSender\(\) expects App\\Entity\\User\|null, Symfony\\Component\\Security\\Core\\User\\UserInterface\|null given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/Controller/AdminTicketController.php
+
+		-
+			message: '#^Parameter \#1 \$string of function strlen expects string, bool\|float\|int\|string\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Controller/AdminTicketController.php
+
+		-
+			message: '#^Parameter \#1 \$ticketId of method App\\Repository\\SubTicketRepository\:\:findByTicket\(\) expects int, int\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Controller/AdminTicketController.php
+
+		-
+			message: '#^Parameter \#2 \$message of method App\\Service\\TicketSupportAIService\:\:updateKnowledgeBase\(\) expects string, string\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Controller/AdminTicketController.php
+
+		-
+			message: '#^Parameter \#2 \$token of method Symfony\\Bundle\\FrameworkBundle\\Controller\\AbstractController\:\:isCsrfTokenValid\(\) expects string\|null, bool\|float\|int\|string\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Controller/AdminTicketController.php
+
+		-
+			message: '#^Binary operation "\." between array\|bool\|float\|int\|string\|UnitEnum\|null and ''/ai_request_service…'' results in an error\.$#'
+			identifier: binaryOp.invalid
+			count: 1
+			path: src/Controller/AiRequestServiceController.php
+
+		-
+			message: '#^Parameter \#1 \$array of function array_flip expects array\<int\|string\>, list\<string\|null\>\|false given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Controller/AiRequestServiceController.php
+
+		-
+			message: '#^Parameter \#1 \$string of function trim expects string, string\|null given\.$#'
+			identifier: argument.type
+			count: 3
+			path: src/Controller/AiRequestServiceController.php
+
+		-
+			message: '#^Binary operation "\." between array\|bool\|float\|int\|string\|UnitEnum\|null and ''/config/jwt/private…'' results in an error\.$#'
+			identifier: binaryOp.invalid
+			count: 1
+			path: src/Controller/Api/AuthApiController.php
+
+		-
+			message: '#^Expression on left side of \?\? is not nullable\.$#'
+			identifier: nullCoalesce.expr
+			count: 3
+			path: src/Controller/Api/AuthApiController.php
+
+		-
+			message: '#^Match arm comparison between App\\Enum\\UserStatus\:\:BANNED and App\\Enum\\UserStatus\:\:BANNED is always true\.$#'
+			identifier: match.alwaysTrue
+			count: 1
+			path: src/Controller/Api/AuthApiController.php
+
+		-
+			message: '#^Offset ''card_number'' might not exist on array\{valid\: true, errors\: array\<string, string\>, card_number\?\: string\}\.$#'
+			identifier: offsetAccess.notFound
+			count: 1
+			path: src/Controller/Api/ClientPaymentApiController.php
+
+		-
+			message: '#^Offset ''error'' might not exist on array\{success\: false, error\?\: string\}\.$#'
+			identifier: offsetAccess.notFound
+			count: 1
+			path: src/Controller/Api/ClientPaymentApiController.php
+
+		-
+			message: '#^PHPDoc tag @var for constant App\\Controller\\Api\\ClientPaymentApiController\:\:MOCK_DECLINED_TEST_CARDS with type array\<string, string\> is incompatible with value array\{4000000000000002\: ''card_declined'', 4000000000009995\: ''insufficient_funds'', 4000000000000069\: ''expired_card''\}\.$#'
+			identifier: classConstant.phpDocType
+			count: 1
+			path: src/Controller/Api/ClientPaymentApiController.php
+
+		-
+			message: '#^Call to an undefined method Symfony\\Contracts\\Cache\\CacheInterface\:\:getItem\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Controller/Api/FaceApiController.php
+
+		-
+			message: '#^Call to an undefined method Symfony\\Contracts\\Cache\\CacheInterface\:\:save\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Controller/Api/FaceApiController.php
+
+		-
+			message: '#^Expression on left side of \?\? is not nullable\.$#'
+			identifier: nullCoalesce.expr
+			count: 1
+			path: src/Controller/Api/FaceApiController.php
+
+		-
+			message: '#^Offset ''embedding'' on array\{faces\: int, embedding\: list\<float\>\} on left side of \?\? always exists and is not nullable\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: src/Controller/Api/FaceApiController.php
+
+		-
+			message: '#^Parameter \#1 \$userId of method App\\Repository\\FaceProfileRepository\:\:findOneByUser\(\) expects int, int\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Controller/Api/FaceApiController.php
+
+		-
+			message: '#^Parameter \#2 \$candidates of method App\\Service\\FaceRecognitionClient\:\:match\(\) expects list\<array\{user_id\: int, embedding\: list\<float\>\}\>, non\-empty\-list\<array\{user_id\: int, embedding\: array\<float\>\}\> given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Controller/Api/FaceApiController.php
+
+		-
+			message: '#^Call to an undefined method Symfony\\Component\\Security\\Core\\User\\UserInterface\:\:getId\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Controller/Api/NotificationController.php
+
+		-
+			message: '#^Parameter \#1 \$notifications of method App\\Controller\\Api\\NotificationController\:\:buildNotificationRows\(\) expects list\<App\\Entity\\Notification\>, array\<App\\Entity\\Notification\> given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Controller/Api/NotificationController.php
+
+		-
+			message: '#^Parameter \#1 \$user of method App\\Repository\\NotificationRepository\:\:countUnreadByUser\(\) expects App\\Entity\\User, Symfony\\Component\\Security\\Core\\User\\UserInterface given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Controller/Api/NotificationController.php
+
+		-
+			message: '#^Parameter \#1 \$user of method App\\Repository\\NotificationRepository\:\:countUnreadOfferOnlyByUser\(\) expects App\\Entity\\User, Symfony\\Component\\Security\\Core\\User\\UserInterface given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Controller/Api/NotificationController.php
+
+		-
+			message: '#^Parameter \#1 \$user of method App\\Repository\\NotificationRepository\:\:findLatestOfferOnlyForUser\(\) expects App\\Entity\\User, Symfony\\Component\\Security\\Core\\User\\UserInterface given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Controller/Api/NotificationController.php
+
+		-
+			message: '#^Parameter \#2 \$user of method App\\Repository\\NotificationRepository\:\:findOneByIdAndUser\(\) expects App\\Entity\\User, Symfony\\Component\\Security\\Core\\User\\UserInterface given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Controller/Api/NotificationController.php
+
+		-
+			message: '#^Using nullsafe method call on non\-nullable type DateTimeImmutable\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: src/Controller/Api/NotificationController.php
+
+		-
+			message: '#^Method App\\Controller\\Api\\OfferActionController\:\:isClientOwner\(\) has parameter \$user with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: src/Controller/Api/OfferActionController.php
+
+		-
+			message: '#^Method App\\Controller\\Api\\OfferActionController\:\:isWorkerOwner\(\) has parameter \$user with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: src/Controller/Api/OfferActionController.php
+
+		-
+			message: '#^Parameter \#2 \$offerId of method App\\Repository\\NotificationRepository\:\:deleteByUserAndOfferId\(\) expects int, int\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Controller/Api/OfferActionController.php
+
+		-
+			message: '#^Parameter \#3 \$offerId of method App\\Service\\NotificationService\:\:notifyClientOfferMatch\(\) expects int, int\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Controller/Api/OfferActionController.php
+
+		-
+			message: '#^Parameter \#3 \$offerId of method App\\Service\\NotificationService\:\:notifyOfferStatusUpdated\(\) expects int, int\|null given\.$#'
+			identifier: argument.type
+			count: 4
+			path: src/Controller/Api/OfferActionController.php
+
+		-
+			message: '#^Strict comparison using \!\=\= between mixed and null will always evaluate to true\.$#'
+			identifier: notIdentical.alwaysTrue
+			count: 3
+			path: src/Controller/Api/OfferActionController.php
+
+		-
+			message: '#^Call to function method_exists\(\) with App\\Entity\\User and ''getFirstName'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: src/Controller/AppController.php
+
+		-
+			message: '#^If condition is always true\.$#'
+			identifier: if.alwaysTrue
+			count: 2
+			path: src/Controller/AppController.php
+
+		-
+			message: '#^Left side of && is always true\.$#'
+			identifier: booleanAnd.leftAlwaysTrue
+			count: 1
+			path: src/Controller/AppController.php
+
+		-
+			message: '#^Method App\\Controller\\AppController\:\:getClientSidebarItems\(\) is unused\.$#'
+			identifier: method.unused
+			count: 1
+			path: src/Controller/AppController.php
+
+		-
+			message: '#^Method App\\Controller\\AppController\:\:getClientSidebarItems\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Controller/AppController.php
+
+		-
+			message: '#^Method App\\Controller\\AppController\:\:getWorkerSidebarItems\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Controller/AppController.php
+
+		-
+			message: '#^Offset ''day'' on array\{day\: string, total\: int\} on left side of \?\? always exists and is not nullable\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: src/Controller/AppController.php
+
+		-
+			message: '#^Offset ''total'' on array\{day\: string, total\: int\} on left side of \?\? always exists and is not nullable\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: src/Controller/AppController.php
+
+		-
+			message: '#^Parameter \#1 \$certificateReviewNote of method App\\Entity\\User\:\:setCertificateReviewNote\(\) expects string\|null, bool\|float\|int\|string\|null given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/Controller/AppController.php
+
+		-
+			message: '#^Parameter \#1 \$haystack of function str_contains expects string, string\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Controller/AppController.php
+
+		-
+			message: '#^Parameter \#1 \$url of method Symfony\\Bundle\\FrameworkBundle\\Controller\\AbstractController\:\:redirect\(\) expects string, string\|null given\.$#'
+			identifier: argument.type
+			count: 3
+			path: src/Controller/AppController.php
+
+		-
+			message: '#^Parameter \#2 \$code of method App\\Service\\EmailVerificationService\:\:verifyCode\(\) expects string, bool\|float\|int\|string\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Controller/AppController.php
+
+		-
+			message: '#^Method App\\Controller\\AuthFaceController\:\:jsonWithClearedAuthCookie\(\) has parameter \$data with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Controller/AuthFaceController.php
+
+		-
+			message: '#^Method App\\Controller\\AuthFaceController\:\:registerFailedAttempt\(\) is unused\.$#'
+			identifier: method.unused
+			count: 1
+			path: src/Controller/AuthFaceController.php
+
+		-
+			message: '#^Offset ''embedding'' on array\{faces\: int, embedding\: list\<float\>\} on left side of \?\? always exists and is not nullable\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: src/Controller/AuthFaceController.php
+
+		-
+			message: '#^Offset ''threshold'' on array\{matched\: bool, user_id\: int\|null, distance\: float\|null, threshold\: float\} on left side of \?\? always exists and is not nullable\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: src/Controller/AuthFaceController.php
+
+		-
+			message: '#^Parameter \#1 \$userId of method App\\Repository\\FaceProfileRepository\:\:findOneByUser\(\) expects int, int\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Controller/AuthFaceController.php
+
+		-
+			message: '#^Parameter \#2 \$candidates of method App\\Service\\FaceRecognitionClient\:\:match\(\) expects list\<array\{user_id\: int, embedding\: list\<float\>\}\>, non\-empty\-list\<array\{user_id\: int, embedding\: array\<float\>\}\> given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Controller/AuthFaceController.php
+
+		-
+			message: '#^Binary operation "\." between array\|bool\|float\|int\|string\|UnitEnum\|null and ''/public/images/icons'' results in an error\.$#'
+			identifier: binaryOp.invalid
+			count: 1
+			path: src/Controller/CategoryController.php
+
+		-
+			message: '#^Binary operation "\." between array\|bool\|float\|int\|string\|UnitEnum\|null and ''/public/images…'' results in an error\.$#'
+			identifier: binaryOp.invalid
+			count: 1
+			path: src/Controller/CategoryController.php
+
+		-
+			message: '#^Method App\\Controller\\CategoryController\:\:handleIconUpload\(\) is unused\.$#'
+			identifier: method.unused
+			count: 1
+			path: src/Controller/CategoryController.php
+
+		-
+			message: '#^Parameter \#1 \$query of method App\\Repository\\WorkerCategoryRepository\:\:searchByNameOrDescription\(\) expects string\|null, float\|int\<min, \-1\>\|int\<1, max\>\|string\|true\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Controller/CategoryController.php
+
+		-
+			message: '#^Property App\\Controller\\CategoryController\:\:\$entityManager is never read, only written\.$#'
+			identifier: property.onlyWritten
+			count: 1
+			path: src/Controller/CategoryController.php
+
+		-
+			message: '#^Call to an undefined method App\\Repository\\NegotiationRepository\:\:findByOffer\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Controller/Client/OfferController.php
+
+		-
+			message: '#^Call to an undefined method Symfony\\Component\\Security\\Core\\User\\UserInterface\:\:getId\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Controller/Client/OfferController.php
+
+		-
+			message: '#^Cannot call method getBudgetMax\(\) on App\\Entity\\ServiceRequest\|null\.$#'
+			identifier: method.nonObject
+			count: 8
+			path: src/Controller/Client/OfferController.php
+
+		-
+			message: '#^Cannot call method getBudgetMin\(\) on App\\Entity\\ServiceRequest\|null\.$#'
+			identifier: method.nonObject
+			count: 8
+			path: src/Controller/Client/OfferController.php
+
+		-
+			message: '#^Cannot call method getClient\(\) on App\\Entity\\ServiceRequest\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/Controller/Client/OfferController.php
+
+		-
+			message: '#^Cannot call method getId\(\) on App\\Entity\\User\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/Controller/Client/OfferController.php
+
+		-
+			message: '#^Cannot call method getTitle\(\) on App\\Entity\\ServiceRequest\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/Controller/Client/OfferController.php
+
+		-
+			message: '#^Cannot call method setStatus\(\) on App\\Entity\\ServiceRequest\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/Controller/Client/OfferController.php
+
+		-
+			message: '#^Method App\\Controller\\Client\\OfferController\:\:getClientSidebarItems\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Controller/Client/OfferController.php
+
+		-
+			message: '#^Parameter \#1 \$client of method App\\Repository\\OfferRepository\:\:findForClientIndex\(\) expects App\\Entity\\User, Symfony\\Component\\Security\\Core\\User\\UserInterface\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Controller/Client/OfferController.php
+
+		-
+			message: '#^Parameter \#1 \$client of method App\\Repository\\OfferRepository\:\:getOffersStatsForClient\(\) expects App\\Entity\\User, Symfony\\Component\\Security\\Core\\User\\UserInterface\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Controller/Client/OfferController.php
+
+		-
+			message: '#^Parameter \#1 \$scopeDetails of method App\\Entity\\Negotiation\:\:setScopeDetails\(\) expects string\|null, float\|int\<min, \-1\>\|int\<1, max\>\|string\|true\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Controller/Client/OfferController.php
+
+		-
+			message: '#^Parameter \#1 \$serviceRequest of method App\\Service\\AiMatchmakingService\:\:getRecommendationsForServiceRequest\(\) expects App\\Entity\\ServiceRequest, App\\Entity\\ServiceRequest\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Controller/Client/OfferController.php
+
+		-
+			message: '#^Parameter \#1 \$targetUser of method App\\Entity\\Negotiation\:\:setTargetUser\(\) expects App\\Entity\\User, App\\Entity\\User\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Controller/Client/OfferController.php
+
+		-
+			message: '#^Parameter \#2 \$q of method App\\Repository\\OfferRepository\:\:findForClientIndex\(\) expects string\|null, bool\|float\|int\|string\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Controller/Client/OfferController.php
+
+		-
+			message: '#^Parameter \#2 \$token of method Symfony\\Bundle\\FrameworkBundle\\Controller\\AbstractController\:\:isCsrfTokenValid\(\) expects string\|null, bool\|float\|int\|string\|null given\.$#'
+			identifier: argument.type
+			count: 3
+			path: src/Controller/Client/OfferController.php
+
+		-
+			message: '#^Parameter \#3 \$offerId of method App\\Service\\NotificationService\:\:notifyOfferStatusUpdated\(\) expects int, int\|null given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/Controller/Client/OfferController.php
+
+		-
+			message: '#^Parameter \#3 \$status of method App\\Repository\\OfferRepository\:\:findForClientIndex\(\) expects string\|null, bool\|float\|int\|string\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Controller/Client/OfferController.php
+
+		-
+			message: '#^Parameter \#4 \$sort of method App\\Repository\\OfferRepository\:\:findForClientIndex\(\) expects string, bool\|float\|int\|string\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Controller/Client/OfferController.php
+
+		-
+			message: '#^Property App\\Controller\\Client\\OfferController\:\:\$clientSidebar is never read, only written\.$#'
+			identifier: property.onlyWritten
+			count: 1
+			path: src/Controller/Client/OfferController.php
+
+		-
+			message: '#^Cannot call method getId\(\) on App\\Entity\\Contract\|null\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: src/Controller/ClientController.php
+
+		-
+			message: '#^Cannot call method getId\(\) on App\\Entity\\User\|null\.$#'
+			identifier: method.nonObject
+			count: 16
+			path: src/Controller/ClientController.php
+
+		-
+			message: '#^Parameter \#1 \$reason of method App\\Entity\\Contract\:\:cancel\(\) expects string, bool\|float\|int\|string\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Controller/ClientController.php
+
+		-
+			message: '#^Parameter \#1 \$signatureData of method App\\Entity\\Contract\:\:signByClient\(\) expects string, float\|int\<min, \-1\>\|int\<1, max\>\|string\|true given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Controller/ClientController.php
+
+		-
+			message: '#^Cannot call method getAccountBalance\(\) on Symfony\\Component\\Security\\Core\\User\\UserInterface\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/Controller/ClientDashboardController.php
+
+		-
+			message: '#^Cannot call method getWalletCurrency\(\) on Symfony\\Component\\Security\\Core\\User\\UserInterface\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/Controller/ClientDashboardController.php
+
+		-
+			message: '#^Parameter \#1 \$client of method App\\Repository\\ServiceRequestRepository\:\:countByClient\(\) expects App\\Entity\\User, Symfony\\Component\\Security\\Core\\User\\UserInterface\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Controller/ClientDashboardController.php
+
+		-
+			message: '#^Parameter \#1 \$client of method App\\Repository\\ServiceRequestRepository\:\:getActivityAndBudgetTotalsByClient\(\) expects App\\Entity\\User, Symfony\\Component\\Security\\Core\\User\\UserInterface\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Controller/ClientDashboardController.php
+
+		-
+			message: '#^Parameter \#1 \$user of method App\\Repository\\ServiceRequestRepository\:\:getSpendingByCategory\(\) expects App\\Entity\\User, Symfony\\Component\\Security\\Core\\User\\UserInterface\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Controller/ClientDashboardController.php
+
+		-
+			message: '#^Cannot call method getFirstName\(\) on App\\Entity\\User\|null\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: src/Controller/MessagerieController.php
+
+		-
+			message: '#^Cannot call method getId\(\) on App\\Entity\\Contract\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/Controller/MessagerieController.php
+
+		-
+			message: '#^Cannot call method getId\(\) on App\\Entity\\User\|null\.$#'
+			identifier: method.nonObject
+			count: 3
+			path: src/Controller/MessagerieController.php
+
+		-
+			message: '#^Cannot call method getLastName\(\) on App\\Entity\\User\|null\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: src/Controller/MessagerieController.php
+
+		-
+			message: '#^Cannot call method getTitle\(\) on App\\Entity\\Contract\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/Controller/MessagerieController.php
+
+		-
+			message: '#^Cannot call method isClosed\(\) on App\\Entity\\Contract\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/Controller/MessagerieController.php
+
+		-
+			message: '#^Cannot call method isFullySigned\(\) on App\\Entity\\Contract\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/Controller/MessagerieController.php
+
+		-
+			message: '#^Parameter \#2 \$token of method Symfony\\Bundle\\FrameworkBundle\\Controller\\AbstractController\:\:isCsrfTokenValid\(\) expects string\|null, bool\|float\|int\|string\|null given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/Controller/MessagerieController.php
+
+		-
+			message: '#^Parameter \#3 \$afterTimestamp of method App\\Repository\\ConversationMessageRepository\:\:findByConversation\(\) expects string\|null, float\|int\<min, \-1\>\|int\<1, max\>\|string\|true\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Controller/MessagerieController.php
+
+		-
+			message: '#^Method App\\Controller\\OfferActionApiController\:\:isClientOwner\(\) has parameter \$user with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: src/Controller/OfferActionApiController.php
+
+		-
+			message: '#^Method App\\Controller\\OfferActionApiController\:\:isWorkerOwner\(\) has parameter \$user with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: src/Controller/OfferActionApiController.php
+
+		-
+			message: '#^Parameter \#1 \$targetUser of method App\\Entity\\Negotiation\:\:setTargetUser\(\) expects App\\Entity\\User, App\\Entity\\User\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Controller/OfferActionApiController.php
+
+		-
+			message: '#^Parameter \#3 \$offerId of method App\\Service\\NotificationService\:\:notifyOfferStatusUpdated\(\) expects int, int\|null given\.$#'
+			identifier: argument.type
+			count: 3
+			path: src/Controller/OfferActionApiController.php
+
+		-
+			message: '#^Binary operation "\." between array\|bool\|float\|int\|string\|UnitEnum\|null and ''/public/'' results in an error\.$#'
+			identifier: binaryOp.invalid
+			count: 1
+			path: src/Controller/ProfileController.php
+
+		-
+			message: '#^Binary operation "\." between array\|bool\|float\|int\|string\|UnitEnum\|null and ''/public/uploads…'' results in an error\.$#'
+			identifier: binaryOp.invalid
+			count: 5
+			path: src/Controller/ProfileController.php
+
+		-
+			message: '#^Method App\\Controller\\ProfileController\:\:getSidebarItemsForRole\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Controller/ProfileController.php
+
+		-
+			message: '#^Offset ''embedding'' on array\{faces\: int, embedding\: list\<float\>\} on left side of \?\? always exists and is not nullable\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: src/Controller/ProfileController.php
+
+		-
+			message: '#^Parameter \#1 \$userId of method App\\Repository\\FaceProfileRepository\:\:findOneByUser\(\) expects int, int\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Controller/ProfileController.php
+
+		-
+			message: '#^Variable \$fileExtension might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: src/Controller/ProfileController.php
+
+		-
+			message: '#^Cannot call method getEmail\(\) on App\\Entity\\User\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/Controller/ServiceAdminController.php
+
+		-
+			message: '#^Cannot call method getId\(\) on App\\Entity\\ServiceRequest\|null\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: src/Controller/ServiceAdminController.php
+
+		-
+			message: '#^Cannot call method getName\(\) on App\\Entity\\WorkerCategory\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/Controller/ServiceAdminController.php
+
+		-
+			message: '#^Cannot call method getUsername\(\) on App\\Entity\\User\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/Controller/ServiceAdminController.php
+
+		-
+			message: '#^Parameter \#1 \$answer_format of method App\\Entity\\ServiceRequirement\:\:setAnswerFormat\(\) expects string, bool\|float\|int\|string\|null given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/Controller/ServiceAdminController.php
+
+		-
+			message: '#^Parameter \#1 \$budget_max of method App\\Entity\\ServiceRequest\:\:setBudgetMax\(\) expects string, float given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Controller/ServiceAdminController.php
+
+		-
+			message: '#^Parameter \#1 \$budget_max of method App\\Entity\\ServiceRequest\:\:setBudgetMax\(\) expects string, int given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Controller/ServiceAdminController.php
+
+		-
+			message: '#^Parameter \#1 \$budget_min of method App\\Entity\\ServiceRequest\:\:setBudgetMin\(\) expects string, float given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Controller/ServiceAdminController.php
+
+		-
+			message: '#^Parameter \#1 \$budget_min of method App\\Entity\\ServiceRequest\:\:setBudgetMin\(\) expects string, int given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Controller/ServiceAdminController.php
+
+		-
+			message: '#^Parameter \#1 \$level of method App\\Entity\\ServiceRequest\:\:setLevel\(\) expects string, bool\|float\|int\|string\|null given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/Controller/ServiceAdminController.php
+
+		-
+			message: '#^Parameter \#1 \$search of method App\\Repository\\ServiceRequestRepository\:\:findForAdminIndex\(\) expects string\|null, bool\|float\|int\|string\|null given\.$#'
+			identifier: argument.type
+			count: 4
+			path: src/Controller/ServiceAdminController.php
+
+		-
+			message: '#^Parameter \#1 \$string of function trim expects string, bool\|float\|int\|string\|null given\.$#'
+			identifier: argument.type
+			count: 8
+			path: src/Controller/ServiceAdminController.php
+
+		-
+			message: '#^Parameter \#2 \$sort of method App\\Repository\\ServiceRequestRepository\:\:findForAdminIndex\(\) expects string\|null, bool\|float\|int\|string\|null given\.$#'
+			identifier: argument.type
+			count: 4
+			path: src/Controller/ServiceAdminController.php
+
+		-
+			message: '#^Parameter \#2 \$token of method Symfony\\Bundle\\FrameworkBundle\\Controller\\AbstractController\:\:isCsrfTokenValid\(\) expects string\|null, bool\|float\|int\|string\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Controller/ServiceAdminController.php
+
+		-
+			message: '#^Call to an undefined method Symfony\\Component\\Security\\Core\\User\\UserInterface\:\:getId\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Controller/ServiceRequestController.php
+
+		-
+			message: '#^Method App\\Controller\\ServiceRequestController\:\:getSidebar\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Controller/ServiceRequestController.php
+
+		-
+			message: '#^Parameter \#1 \$budget_max of method App\\Entity\\ServiceRequest\:\:setBudgetMax\(\) expects string, bool\|float\|int\|string\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Controller/ServiceRequestController.php
+
+		-
+			message: '#^Parameter \#1 \$budget_max of method App\\Entity\\ServiceRequest\:\:setBudgetMax\(\) expects string, float given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Controller/ServiceRequestController.php
+
+		-
+			message: '#^Parameter \#1 \$budget_min of method App\\Entity\\ServiceRequest\:\:setBudgetMin\(\) expects string, bool\|float\|int\|string\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Controller/ServiceRequestController.php
+
+		-
+			message: '#^Parameter \#1 \$budget_min of method App\\Entity\\ServiceRequest\:\:setBudgetMin\(\) expects string, float given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Controller/ServiceRequestController.php
+
+		-
+			message: '#^Parameter \#1 \$client of method App\\Entity\\ServiceRequest\:\:setClient\(\) expects App\\Entity\\User\|null, Symfony\\Component\\Security\\Core\\User\\UserInterface\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Controller/ServiceRequestController.php
+
+		-
+			message: '#^Parameter \#1 \$client of method App\\Repository\\ServiceRequestRepository\:\:findForClientList\(\) expects App\\Entity\\User, Symfony\\Component\\Security\\Core\\User\\UserInterface\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Controller/ServiceRequestController.php
+
+		-
+			message: '#^Parameter \#1 \$description of method App\\Entity\\ServiceRequest\:\:setDescription\(\) expects string\|null, bool\|float\|int\|string\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Controller/ServiceRequestController.php
+
+		-
+			message: '#^Parameter \#1 \$level of method App\\Entity\\ServiceRequest\:\:setLevel\(\) expects string, bool\|float\|int\|string\|null given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/Controller/ServiceRequestController.php
+
+		-
+			message: '#^Parameter \#1 \$searchTerm of method App\\Repository\\ServiceRequestRepository\:\:findByTitleOnly\(\) expects string, bool\|float\|int\|string\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Controller/ServiceRequestController.php
+
+		-
+			message: '#^Parameter \#1 \$string of function strlen expects string, bool\|float\|int\|string\|null given\.$#'
+			identifier: argument.type
+			count: 3
+			path: src/Controller/ServiceRequestController.php
+
+		-
+			message: '#^Parameter \#1 \$string of function trim expects string, bool\|float\|int\|string\|null given\.$#'
+			identifier: argument.type
+			count: 3
+			path: src/Controller/ServiceRequestController.php
+
+		-
+			message: '#^Parameter \#1 \$title of method App\\Entity\\ServiceRequest\:\:setTitle\(\) expects string, bool\|float\|int\|string\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Controller/ServiceRequestController.php
+
+		-
+			message: '#^Parameter \#1 \$url of method App\\Service\\GithubProjectAnalyzer\:\:analyze\(\) expects string, bool\|float\|int\|string\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Controller/ServiceRequestController.php
+
+		-
+			message: '#^Cannot call method getClient\(\) on App\\Entity\\ServiceRequest\|null\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: src/Controller/ServiceRequirementController.php
+
+		-
+			message: '#^Cannot call method getId\(\) on App\\Entity\\ServiceRequest\|null\.$#'
+			identifier: method.nonObject
+			count: 3
+			path: src/Controller/ServiceRequirementController.php
+
+		-
+			message: '#^Method App\\Controller\\ServiceRequirementController\:\:getSidebar\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Controller/ServiceRequirementController.php
+
+		-
+			message: '#^Method App\\Controller\\ServiceRequirementController\:\:validateRequirementData\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Controller/ServiceRequirementController.php
+
+		-
+			message: '#^Parameter \#1 \$answer_format of method App\\Entity\\ServiceRequirement\:\:setAnswerFormat\(\) expects string, bool\|float\|int\|string\|null given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/Controller/ServiceRequirementController.php
+
+		-
+			message: '#^Parameter \#1 \$details of method App\\Entity\\ServiceRequirement\:\:setDetails\(\) expects string, bool\|float\|int\|string\|null given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/Controller/ServiceRequirementController.php
+
+		-
+			message: '#^Parameter \#1 \$priority_level of method App\\Entity\\ServiceRequirement\:\:setPriorityLevel\(\) expects int, bool\|float\|int\|string\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Controller/ServiceRequirementController.php
+
+		-
+			message: '#^Parameter \#1 \$requirement_type of method App\\Entity\\ServiceRequirement\:\:setRequirementType\(\) expects string, bool\|float\|int\|string\|null given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/Controller/ServiceRequirementController.php
+
+		-
+			message: '#^Parameter \#1 \$string of function trim expects string, bool\|float\|int\|string\|null given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/Controller/ServiceRequirementController.php
+
+		-
+			message: '#^Parameter \#1 \$title of method App\\Entity\\ServiceRequirement\:\:setTitle\(\) expects string, bool\|float\|int\|string\|null given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/Controller/ServiceRequirementController.php
+
+		-
+			message: '#^Parameter \#2 \$label of method App\\Service\\TwoFactorTotpService\:\:getProvisioningUri\(\) expects string, string\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Controller/Settings/PrivacySecurityController.php
+
+		-
+			message: '#^Parameter \#2 \$plainPassword of method Symfony\\Component\\PasswordHasher\\Hasher\\UserPasswordHasherInterface\:\:isPasswordValid\(\) expects string, bool\|float\|int\|string\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Controller/Settings/PrivacySecurityController.php
+
+		-
+			message: '#^Access to an undefined property Stripe\\StripeObject\:\:\$object\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Controller/StripeWebhookController.php
+
+		-
+			message: '#^Binary operation "\." between array\|bool\|float\|int\|string\|UnitEnum\|null and ''/public/uploads…'' results in an error\.$#'
+			identifier: binaryOp.invalid
+			count: 4
+			path: src/Controller/TicketController.php
+
+		-
+			message: '#^Call to an undefined method App\\Entity\\SubTicket\:\:setCreatedAt\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Controller/TicketController.php
+
+		-
+			message: '#^Call to an undefined method Symfony\\Component\\Form\\FormError\|Symfony\\Component\\Form\\FormErrorIterator\:\:getMessage\(\)\.$#'
+			identifier: method.notFound
+			count: 4
+			path: src/Controller/TicketController.php
+
+		-
+			message: '#^Call to an undefined method Symfony\\Component\\Security\\Core\\User\\UserInterface\:\:getRole\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Controller/TicketController.php
+
+		-
+			message: '#^Cannot call method getFirstName\(\) on App\\Entity\\User\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/Controller/TicketController.php
+
+		-
+			message: '#^Cannot call method getFirstName\(\) on Symfony\\Component\\Security\\Core\\User\\UserInterface\|null\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: src/Controller/TicketController.php
+
+		-
+			message: '#^Cannot call method getId\(\) on Symfony\\Component\\Security\\Core\\User\\UserInterface\|null\.$#'
+			identifier: method.nonObject
+			count: 9
+			path: src/Controller/TicketController.php
+
+		-
+			message: '#^Cannot call method getLastName\(\) on App\\Entity\\User\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/Controller/TicketController.php
+
+		-
+			message: '#^Cannot call method getLastName\(\) on Symfony\\Component\\Security\\Core\\User\\UserInterface\|null\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: src/Controller/TicketController.php
+
+		-
+			message: '#^Cannot call method getName\(\) on App\\Entity\\CategoryTicket\|null\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: src/Controller/TicketController.php
+
+		-
+			message: '#^Cannot call method getRole\(\) on Symfony\\Component\\Security\\Core\\User\\UserInterface\|null\.$#'
+			identifier: method.nonObject
+			count: 4
+			path: src/Controller/TicketController.php
+
+		-
+			message: '#^If condition is always false\.$#'
+			identifier: if.alwaysFalse
+			count: 1
+			path: src/Controller/TicketController.php
+
+		-
+			message: '#^Method App\\Controller\\TicketController\:\:getClientSidebarItems\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Controller/TicketController.php
+
+		-
+			message: '#^Method App\\Controller\\TicketController\:\:getSidebarItems\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Controller/TicketController.php
+
+		-
+			message: '#^Method App\\Controller\\TicketController\:\:getWorkerSidebarItems\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Controller/TicketController.php
+
+		-
+			message: '#^Parameter \#1 \$sender of method App\\Entity\\SubTicket\:\:setSender\(\) expects App\\Entity\\User\|null, Symfony\\Component\\Security\\Core\\User\\UserInterface given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Controller/TicketController.php
+
+		-
+			message: '#^Parameter \#1 \$sender of method App\\Entity\\SubTicket\:\:setSender\(\) expects App\\Entity\\User\|null, Symfony\\Component\\Security\\Core\\User\\UserInterface\|null given\.$#'
+			identifier: argument.type
+			count: 3
+			path: src/Controller/TicketController.php
+
+		-
+			message: '#^Parameter \#1 \$ticketId of method App\\Repository\\SubTicketRepository\:\:countUnreadForUser\(\) expects int, int\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Controller/TicketController.php
+
+		-
+			message: '#^Property App\\Controller\\TicketController\:\:\$categoryRepository is never read, only written\.$#'
+			identifier: property.onlyWritten
+			count: 1
+			path: src/Controller/TicketController.php
+
+		-
+			message: '#^Call to an undefined method Symfony\\Component\\Security\\Core\\User\\UserInterface\:\:getRatingAvg\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Controller/Worker/OfferAiController.php
+
+		-
+			message: '#^Call to an undefined method Symfony\\Component\\Security\\Core\\User\\UserInterface\:\:getTotalReviews\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/Controller/Worker/OfferAiController.php
+
+		-
+			message: '#^Access to an undefined property App\\Controller\\WorkerController\:\:\$entityManager\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Controller/WorkerController.php
+
+		-
+			message: '#^Cannot call method getId\(\) on App\\Entity\\Contract\|null\.$#'
+			identifier: method.nonObject
+			count: 4
+			path: src/Controller/WorkerController.php
+
+		-
+			message: '#^Cannot call method getId\(\) on App\\Entity\\User\|null\.$#'
+			identifier: method.nonObject
+			count: 4
+			path: src/Controller/WorkerController.php
+
+		-
+			message: '#^Method App\\Controller\\WorkerController\:\:getWorkerSidebarItems\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Controller/WorkerController.php
+
+		-
+			message: '#^Parameter \#1 \$amount of method App\\Entity\\Milestone\:\:setAmount\(\) expects string\|null, bool\|float\|int\|string given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/Controller/WorkerController.php
+
+		-
+			message: '#^Parameter \#1 \$datetime of class DateTime constructor expects string, bool\|float\|int\|string\|null given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/Controller/WorkerController.php
+
+		-
+			message: '#^Parameter \#1 \$datetime of function strtotime expects string, bool\|float\|int\|string\|null given\.$#'
+			identifier: argument.type
+			count: 7
+			path: src/Controller/WorkerController.php
+
+		-
+			message: '#^Parameter \#1 \$price of method App\\Entity\\Offer\:\:setPrice\(\) expects string, string\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Controller/WorkerController.php
+
+		-
+			message: '#^Parameter \#1 \$signatureData of method App\\Entity\\Contract\:\:signByWorker\(\) expects string, float\|int\<min, \-1\>\|int\<1, max\>\|string\|true given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Controller/WorkerController.php
+
+		-
+			message: '#^Parameter \#1 \$status of method App\\Entity\\Milestone\:\:setStatus\(\) expects string, bool\|float\|int\|string\|null given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/Controller/WorkerController.php
+
+		-
+			message: '#^Parameter \#1 \$string of function trim expects string, bool\|float\|int\|string\|null given\.$#'
+			identifier: argument.type
+			count: 4
+			path: src/Controller/WorkerController.php
+
+		-
+			message: '#^Parameter \#2 \$subject of function preg_match expects string, bool\|float\|int\|string\|null given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/Controller/WorkerController.php
+
+		-
+			message: '#^Parameter \#2 \$token of method Symfony\\Bundle\\FrameworkBundle\\Controller\\AbstractController\:\:isCsrfTokenValid\(\) expects string\|null, bool\|float\|int\|string\|null given\.$#'
+			identifier: argument.type
+			count: 6
+			path: src/Controller/WorkerController.php
+
+		-
+			message: '#^Parameter \#3 \$status of method App\\Repository\\OfferRepository\:\:findForWorker\(\) expects string\|null, bool\|float\|int\|string\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Controller/WorkerController.php
+
+		-
+			message: '#^Method App\\Controller\\WorkerProfileController\:\:getFormErrors\(\) has parameter \$form with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: src/Controller/WorkerProfileController.php
+
+		-
+			message: '#^Method App\\Controller\\WorkerProfileController\:\:getFormErrors\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Controller/WorkerProfileController.php
+
+		-
+			message: '#^Cannot call method getId\(\) on App\\Entity\\Contract\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/Controller/ZegoController.php
+
+		-
+			message: '#^Cannot call method getTitle\(\) on App\\Entity\\Contract\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/Controller/ZegoController.php
+
+		-
+			message: '#^Cannot call method isClosed\(\) on App\\Entity\\Contract\|null\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: src/Controller/ZegoController.php
+
+		-
+			message: '#^Cannot call method isFullySigned\(\) on App\\Entity\\Contract\|null\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: src/Controller/ZegoController.php
+
+		-
+			message: '#^Parameter \#1 \$contractId of static method App\\Service\\ZegoTokenService\:\:roomIdForContract\(\) expects int, int\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Controller/ZegoController.php
+
+		-
+			message: '#^Method App\\Doctrine\\BlameableSubscriber\:\:prePersist\(\) has parameter \$event with generic class Doctrine\\Persistence\\Event\\LifecycleEventArgs but does not specify its types\: TObjectManager$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Doctrine/BlameableSubscriber.php
+
+		-
+			message: '#^Parameter \#1 \$array \(list\<string\>\) of array_values is already a list, call has no effect\.$#'
+			identifier: arrayValues.list
+			count: 1
+			path: src/Entity/AiRecommendation.php
+
+		-
+			message: '#^Property App\\Entity\\AiRecommendation\:\:\$id \(int\|null\) is never assigned int so it can be removed from the property type\.$#'
+			identifier: property.unusedType
+			count: 1
+			path: src/Entity/AiRecommendation.php
+
+		-
+			message: '#^Property App\\Entity\\CategoryTicket\:\:\$id \(int\|null\) is never assigned int so it can be removed from the property type\.$#'
+			identifier: property.unusedType
+			count: 1
+			path: src/Entity/CategoryTicket.php
+
+		-
+			message: '#^Property App\\Entity\\Contract\:\:\$id \(int\|null\) is never assigned int so it can be removed from the property type\.$#'
+			identifier: property.unusedType
+			count: 1
+			path: src/Entity/Contract.php
+
+		-
+			message: '#^Property App\\Entity\\Contract\:\:\$milestones with generic interface Doctrine\\Common\\Collections\\Collection does not specify its types\: TKey, T$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Entity/Contract.php
+
+		-
+			message: '#^Unreachable statement \- code above always terminates\.$#'
+			identifier: deadCode.unreachable
+			count: 1
+			path: src/Entity/Contract.php
+
+		-
+			message: '#^Property App\\Entity\\Conversation\:\:\$id \(int\|null\) is never assigned int so it can be removed from the property type\.$#'
+			identifier: property.unusedType
+			count: 1
+			path: src/Entity/Conversation.php
+
+		-
+			message: '#^Property App\\Entity\\ConversationMessage\:\:\$id \(int\|null\) is never assigned int so it can be removed from the property type\.$#'
+			identifier: property.unusedType
+			count: 1
+			path: src/Entity/ConversationMessage.php
+
+		-
+			message: '#^Property App\\Entity\\FaceProfile\:\:\$id \(int\|null\) is never assigned int so it can be removed from the property type\.$#'
+			identifier: property.unusedType
+			count: 1
+			path: src/Entity/FaceProfile.php
+
+		-
+			message: '#^Property App\\Entity\\Milestone\:\:\$id \(int\|null\) is never assigned int so it can be removed from the property type\.$#'
+			identifier: property.unusedType
+			count: 1
+			path: src/Entity/Milestone.php
+
+		-
+			message: '#^Strict comparison using \=\=\= between DateTimeInterface and null will always evaluate to false\.$#'
+			identifier: identical.alwaysFalse
+			count: 1
+			path: src/Entity/Milestone.php
+
+		-
+			message: '#^Property App\\Entity\\Negotiation\:\:\$id \(int\|null\) is never assigned int so it can be removed from the property type\.$#'
+			identifier: property.unusedType
+			count: 1
+			path: src/Entity/Negotiation.php
+
+		-
+			message: '#^Property App\\Entity\\Notification\:\:\$id \(int\|null\) is never assigned int so it can be removed from the property type\.$#'
+			identifier: property.unusedType
+			count: 1
+			path: src/Entity/Notification.php
+
+		-
+			message: '#^Property App\\Entity\\Offer\:\:\$id \(int\|null\) is never assigned int so it can be removed from the property type\.$#'
+			identifier: property.unusedType
+			count: 1
+			path: src/Entity/Offer.php
+
+		-
+			message: '#^Property App\\Entity\\PasswordResetToken\:\:\$id \(int\|null\) is never assigned int so it can be removed from the property type\.$#'
+			identifier: property.unusedType
+			count: 1
+			path: src/Entity/PasswordResetToken.php
+
+		-
+			message: '#^Method App\\Entity\\ServiceRequest\:\:getRequirements\(\) return type with generic interface Doctrine\\Common\\Collections\\Collection does not specify its types\: TKey, T$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Entity/ServiceRequest.php
+
+		-
+			message: '#^Property App\\Entity\\ServiceRequest\:\:\$id \(int\|null\) is never assigned int so it can be removed from the property type\.$#'
+			identifier: property.unusedType
+			count: 1
+			path: src/Entity/ServiceRequest.php
+
+		-
+			message: '#^Property App\\Entity\\ServiceRequest\:\:\$offers with generic interface Doctrine\\Common\\Collections\\Collection does not specify its types\: TKey, T$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Entity/ServiceRequest.php
+
+		-
+			message: '#^Property App\\Entity\\ServiceRequest\:\:\$requirements with generic interface Doctrine\\Common\\Collections\\Collection does not specify its types\: TKey, T$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Entity/ServiceRequest.php
+
+		-
+			message: '#^Method App\\Entity\\ServiceRequirement\:\:getOptionsJson\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Entity/ServiceRequirement.php
+
+		-
+			message: '#^Method App\\Entity\\ServiceRequirement\:\:setOptionsJson\(\) has parameter \$options_json with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Entity/ServiceRequirement.php
+
+		-
+			message: '#^Property App\\Entity\\ServiceRequirement\:\:\$id \(int\|null\) is never assigned int so it can be removed from the property type\.$#'
+			identifier: property.unusedType
+			count: 1
+			path: src/Entity/ServiceRequirement.php
+
+		-
+			message: '#^Property App\\Entity\\ServiceRequirement\:\:\$options_json type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Entity/ServiceRequirement.php
+
+		-
+			message: '#^Property App\\Entity\\SubTicket\:\:\$id \(int\|null\) is never assigned int so it can be removed from the property type\.$#'
+			identifier: property.unusedType
+			count: 1
+			path: src/Entity/SubTicket.php
+
+		-
+			message: '#^Property App\\Entity\\Ticket\:\:\$id \(int\|null\) is never assigned int so it can be removed from the property type\.$#'
+			identifier: property.unusedType
+			count: 1
+			path: src/Entity/Ticket.php
+
+		-
+			message: '#^Property App\\Entity\\User\:\:\$faceEmbedding has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: src/Entity/User.php
+
+		-
+			message: '#^Property App\\Entity\\User\:\:\$id \(int\|null\) is never assigned int so it can be removed from the property type\.$#'
+			identifier: property.unusedType
+			count: 1
+			path: src/Entity/User.php
+
+		-
+			message: '#^Property App\\Entity\\User\:\:\$twoFactorBackupCodes type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Entity/User.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>value" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 3
+			path: src/Entity/User.php
+
+		-
+			message: '#^Property App\\Entity\\UserBan\:\:\$id \(int\|null\) is never assigned int so it can be removed from the property type\.$#'
+			identifier: property.unusedType
+			count: 1
+			path: src/Entity/UserBan.php
+
+		-
+			message: '#^Property App\\Entity\\WorkerCategory\:\:\$id \(int\|null\) is never assigned int so it can be removed from the property type\.$#'
+			identifier: property.unusedType
+			count: 1
+			path: src/Entity/WorkerCategory.php
+
+		-
+			message: '#^Property App\\Entity\\WorkerProfile\:\:\$id \(int\|null\) is never assigned int so it can be removed from the property type\.$#'
+			identifier: property.unusedType
+			count: 1
+			path: src/Entity/WorkerProfile.php
+
+		-
+			message: '#^Call to an undefined method Symfony\\Component\\Security\\Core\\Authentication\\Token\\TokenInterface\:\:isAuthenticated\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/EventSubscriber/BanSubscriber.php
+
+		-
+			message: '#^Parameter \#1 \$haystack of function str_contains expects string, string\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/EventSubscriber/BanSubscriber.php
+
+		-
+			message: '#^Parameter \#1 \$haystack of function str_contains expects string, string\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/EventSubscriber/ExceptionSubscriber.php
+
+		-
+			message: '#^Array has 2 duplicate keys with value ''mapped'' \(''mapped'', ''mapped''\)\.$#'
+			identifier: array.duplicateKey
+			count: 1
+			path: src/Form/UserType.php
+
+		-
+			message: '#^Parameter \#1 \$role of method App\\Entity\\User\:\:setRole\(\) expects App\\Enum\\UserRole\|string, string\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Form/UserType.php
+
+		-
+			message: '#^Parameter \#1 \$status of method App\\Entity\\User\:\:setStatus\(\) expects App\\Enum\\UserStatus\|string, string\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Form/UserType.php
+
+		-
+			message: '#^Method App\\Kernel\:\:configureContainer\(\) is unused\.$#'
+			identifier: method.unused
+			count: 1
+			path: src/Kernel.php
+
+		-
+			message: '#^Method App\\Kernel\:\:configureRoutes\(\) is unused\.$#'
+			identifier: method.unused
+			count: 1
+			path: src/Kernel.php
+
+		-
+			message: '#^Access to an undefined property App\\Repository\\ConversationRepository\:\:\$_em\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Repository/ConversationRepository.php
+
+		-
+			message: '#^Method App\\Repository\\NegotiationRepository\:\:findActiveByUser\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/NegotiationRepository.php
+
+		-
+			message: '#^Method App\\Repository\\OfferRepository\:\:countByServiceRequestIds\(\) has parameter \$srIds with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/OfferRepository.php
+
+		-
+			message: '#^Method App\\Repository\\OfferRepository\:\:countByServiceRequestIds\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/OfferRepository.php
+
+		-
+			message: '#^Method App\\Repository\\OfferRepository\:\:findByServiceRequest\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/OfferRepository.php
+
+		-
+			message: '#^Method App\\Repository\\OfferRepository\:\:findByStatus\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/OfferRepository.php
+
+		-
+			message: '#^Method App\\Repository\\OfferRepository\:\:findByWorker\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/OfferRepository.php
+
+		-
+			message: '#^Method App\\Repository\\OfferRepository\:\:findForClientIndex\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/OfferRepository.php
+
+		-
+			message: '#^Method App\\Repository\\OfferRepository\:\:findForWorker\(\) should return array\{offers\: list\<App\\Entity\\Offer\>, total\: int\} but returns array\{offers\: array\<mixed\>, total\: int\}\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Repository/OfferRepository.php
+
+		-
+			message: '#^Method App\\Repository\\OfferRepository\:\:getOffersStatsForClient\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/OfferRepository.php
+
+		-
+			message: '#^Parameter \#1 \$string of function strtoupper expects string, string\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Repository/OfferRepository.php
+
+		-
+			message: '#^Method App\\Repository\\ServiceRequestRepository\:\:countByCategory\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/ServiceRequestRepository.php
+
+		-
+			message: '#^Method App\\Repository\\ServiceRequestRepository\:\:countByStatus\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/ServiceRequestRepository.php
+
+		-
+			message: '#^Method App\\Repository\\ServiceRequestRepository\:\:findByClient\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/ServiceRequestRepository.php
+
+		-
+			message: '#^Method App\\Repository\\ServiceRequestRepository\:\:findByStatus\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/ServiceRequestRepository.php
+
+		-
+			message: '#^Method App\\Repository\\ServiceRequestRepository\:\:findByTitleOnly\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/ServiceRequestRepository.php
+
+		-
+			message: '#^Method App\\Repository\\ServiceRequestRepository\:\:findByTitleOrUsername\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/ServiceRequestRepository.php
+
+		-
+			message: '#^Method App\\Repository\\ServiceRequestRepository\:\:findSince\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/ServiceRequestRepository.php
+
+		-
+			message: '#^Method App\\Repository\\ServiceRequestRepository\:\:getAdminStats\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/ServiceRequestRepository.php
+
+		-
+			message: '#^Method App\\Repository\\ServiceRequestRepository\:\:getAllBudgetMax\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/ServiceRequestRepository.php
+
+		-
+			message: '#^Method App\\Repository\\ServiceRequestRepository\:\:getSpendingByCategory\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/ServiceRequestRepository.php
+
+		-
+			message: '#^Parameter \#1 \$num of function round expects float\|int, bool\|float\|int\|string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Repository/ServiceRequestRepository.php
+
+		-
+			message: '#^Method App\\Repository\\ServiceRequirementRepository\:\:countByPriority\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/ServiceRequirementRepository.php
+
+		-
+			message: '#^Method App\\Repository\\SubTicketRepository\:\:countUnreadByTicket\(\) should return int but returns bool\|float\|int\|string\|null\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Repository/SubTicketRepository.php
+
+		-
+			message: '#^Method App\\Repository\\SubTicketRepository\:\:countUnreadForUser\(\) should return int but returns bool\|float\|int\|string\|null\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Repository/SubTicketRepository.php
+
+		-
+			message: '#^Generic type Doctrine\\ORM\\Tools\\Pagination\\Paginator\<int, App\\Entity\\Ticket\> in PHPDoc tag @return specifies 2 template types, but class Doctrine\\ORM\\Tools\\Pagination\\Paginator supports only 1\: T$#'
+			identifier: generics.moreTypes
+			count: 1
+			path: src/Repository/TicketRepository.php
+
+		-
+			message: '#^Method App\\Repository\\TicketRepository\:\:applyAdminFilters\(\) has parameter \$filters with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/TicketRepository.php
+
+		-
+			message: '#^Method App\\Repository\\TicketRepository\:\:countUnacknowledged\(\) should return int but returns bool\|float\|int\|string\|null\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Repository/TicketRepository.php
+
+		-
+			message: '#^Method App\\Repository\\TicketRepository\:\:findForAdmin\(\) has parameter \$filters with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/TicketRepository.php
+
+		-
+			message: '#^Method App\\Repository\\TicketRepository\:\:getStatistics\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/TicketRepository.php
+
+		-
+			message: '#^Method App\\Repository\\TicketRepository\:\:getStatistics\(\) should return array but returns array\<string, mixed\>\|false\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Repository/TicketRepository.php
+
+		-
+			message: '#^Method App\\Repository\\TicketRepository\:\:paginate\(\) has parameter \$filters with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/TicketRepository.php
+
+		-
+			message: '#^Method App\\Repository\\TicketRepository\:\:paginate\(\) should return array\{items\: Doctrine\\ORM\\Tools\\Pagination\\Paginator\<int, App\\Entity\\Ticket\>, total\: int, pages\: int, page\: int, limit\: int\} but returns array\{items\: Doctrine\\ORM\\Tools\\Pagination\\Paginator\<mixed\>, total\: int\<0, max\>, pages\: int\<1, max\>, page\: int\<1, max\>, limit\: int\<1, 100\>\}\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Repository/TicketRepository.php
+
+		-
+			message: '#^Method App\\Repository\\UserRepository\:\:findBannedUsers\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/UserRepository.php
+
+		-
+			message: '#^Method App\\Repository\\UserRepository\:\:findForAdminList\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/UserRepository.php
+
+		-
+			message: '#^Method App\\Repository\\UserRepository\:\:findUsersWithFaceEmbedding\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/UserRepository.php
+
+		-
+			message: '#^Method App\\Repository\\UserRepository\:\:searchUsers\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Repository/UserRepository.php
+
+		-
+			message: '#^Class App\\Security\\AppUserProvider implements generic interface Symfony\\Component\\Security\\Core\\User\\UserProviderInterface but does not specify its types\: TUser$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Security/AppUserProvider.php
+
+		-
+			message: '#^Expression on left side of \?\? is not nullable\.$#'
+			identifier: nullCoalesce.expr
+			count: 1
+			path: src/Security/JwtAuthenticator.php
+
+		-
+			message: '#^Method App\\Security\\JwtAuthenticator\:\:__construct\(\) has parameter \$userProvider with generic interface Symfony\\Component\\Security\\Core\\User\\UserProviderInterface but does not specify its types\: TUser$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Security/JwtAuthenticator.php
+
+		-
+			message: '#^Method App\\Security\\JwtAuthenticator\:\:onAuthenticationFailure\(\) never returns null so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: src/Security/JwtAuthenticator.php
+
+		-
+			message: '#^Method App\\Security\\JwtAuthenticator\:\:supports\(\) never returns null so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: src/Security/JwtAuthenticator.php
+
+		-
+			message: '#^Parameter \#1 \$haystack of function str_contains expects string, string\|null given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/Security/JwtAuthenticator.php
+
+		-
+			message: '#^Call to an undefined method Symfony\\Component\\HttpFoundation\\Session\\SessionInterface\:\:getFlashBag\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: src/Security/JwtCookieAuthenticator.php
+
+		-
+			message: '#^Expression on left side of \?\? is not nullable\.$#'
+			identifier: nullCoalesce.expr
+			count: 1
+			path: src/Security/JwtCookieAuthenticator.php
+
+		-
+			message: '#^Method App\\Security\\JwtCookieAuthenticator\:\:__construct\(\) has parameter \$userProvider with generic interface Symfony\\Component\\Security\\Core\\User\\UserProviderInterface but does not specify its types\: TUser$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Security/JwtCookieAuthenticator.php
+
+		-
+			message: '#^Method App\\Security\\JwtCookieAuthenticator\:\:extractToken\(\) should return string\|null but returns bool\|float\|int\|string\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Security/JwtCookieAuthenticator.php
+
+		-
+			message: '#^Cannot call method getRoles\(\) on Symfony\\Component\\Security\\Core\\User\\UserInterface\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/Security/UserAuthenticator.php
+
+		-
+			message: '#^Parameter \#1 \$password of class Symfony\\Component\\Security\\Http\\Authenticator\\Passport\\Credentials\\PasswordCredentials constructor expects string, bool\|float\|int\|string\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Security/UserAuthenticator.php
+
+		-
+			message: '#^Parameter \#1 \$userIdentifier of class Symfony\\Component\\Security\\Http\\Authenticator\\Passport\\Badge\\UserBadge constructor expects string, bool\|float\|int\|string\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Security/UserAuthenticator.php
+
+		-
+			message: '#^Parameter \#2 \$csrfToken of class Symfony\\Component\\Security\\Http\\Authenticator\\Passport\\Badge\\CsrfTokenBadge constructor expects string\|null, bool\|float\|int\|string\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Security/UserAuthenticator.php
+
+		-
+			message: '#^Strict comparison using \=\=\= between App\\Enum\\UserStatus and null will always evaluate to false\.$#'
+			identifier: identical.alwaysFalse
+			count: 1
+			path: src/Security/UserChecker.php
+
+		-
+			message: '#^Parameter \#1 \$category of method App\\Repository\\WorkerProfileRepository\:\:findByCategory\(\) expects App\\Entity\\WorkerCategory, App\\Entity\\WorkerCategory\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Service/AiMatchmakingService.php
+
+		-
+			message: '#^Method App\\Service\\CertificateUploadService\:\:getAllowedMimeTypes\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Service/CertificateUploadService.php
+
+		-
+			message: '#^Parameter \#1 \$relativePath of method App\\Service\\CertificateUploadService\:\:getFullPath\(\) expects string, string\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Service/CertificateVerificationService.php
+
+		-
+			message: '#^Method App\\Service\\CvParserService\:\:getEmptyResult\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Service/CvParserService.php
+
+		-
+			message: '#^Method App\\Service\\CvParserService\:\:parseCV\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Service/CvParserService.php
+
+		-
+			message: '#^Method App\\Service\\CvUploadService\:\:getAllowedMimeTypes\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Service/CvUploadService.php
+
+		-
+			message: '#^Method App\\Service\\DashboardStatsService\:\:getAdminStats\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Service/DashboardStatsService.php
+
+		-
+			message: '#^Method App\\Service\\DashboardStatsService\:\:getClientStats\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Service/DashboardStatsService.php
+
+		-
+			message: '#^Method App\\Service\\DashboardStatsService\:\:getPendingCertificates\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Service/DashboardStatsService.php
+
+		-
+			message: '#^Method App\\Service\\DashboardStatsService\:\:getRecentUsers\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Service/DashboardStatsService.php
+
+		-
+			message: '#^Method App\\Service\\DashboardStatsService\:\:getUserDistribution\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Service/DashboardStatsService.php
+
+		-
+			message: '#^Method App\\Service\\DashboardStatsService\:\:getWorkerStats\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Service/DashboardStatsService.php
+
+		-
+			message: '#^Parameter \#1 \$address of class Symfony\\Component\\Mime\\Address constructor expects string, string\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Service/EmailVerificationService.php
+
+		-
+			message: '#^Method App\\Service\\FacePlusPlusClient\:\:compare\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Service/FacePlusPlusClient.php
+
+		-
+			message: '#^Method App\\Service\\FacePlusPlusClient\:\:detect\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Service/FacePlusPlusClient.php
+
+		-
+			message: '#^Method App\\Service\\FacePlusPlusClient\:\:request\(\) has parameter \$payload with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Service/FacePlusPlusClient.php
+
+		-
+			message: '#^Method App\\Service\\FacePlusPlusClient\:\:request\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Service/FacePlusPlusClient.php
+
+		-
+			message: '#^Call to function is_array\(\) with array will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: src/Service/FaceRecognitionClient.php
+
+		-
+			message: '#^Cannot cast array\<mixed, mixed\> to string\.$#'
+			identifier: cast.string
+			count: 1
+			path: src/Service/FaceRecognitionClient.php
+
+		-
+			message: '#^Method App\\Service\\FaceRecognitionClient\:\:embed\(\) should return array\{faces\: int, embedding\: list\<float\>\} but returns array\{faces\: int, embedding\: array\<float\>\}\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Service/FaceRecognitionClient.php
+
+		-
+			message: '#^Method App\\Service\\GithubProjectAnalyzer\:\:analyze\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Service/GithubProjectAnalyzer.php
+
+		-
+			message: '#^Method App\\Service\\GithubProjectAnalyzer\:\:analyzeWithAi\(\) has parameter \$languages with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Service/GithubProjectAnalyzer.php
+
+		-
+			message: '#^Method App\\Service\\GithubProjectAnalyzer\:\:analyzeWithAi\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Service/GithubProjectAnalyzer.php
+
+		-
+			message: '#^Method App\\Service\\GithubProjectAnalyzer\:\:detectCategory\(\) has parameter \$languages with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Service/GithubProjectAnalyzer.php
+
+		-
+			message: '#^Parameter \#1 \$string of function trim expects string, string\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Service/GithubProjectAnalyzer.php
+
+		-
+			message: '#^Parameter \#3 \$subject of function preg_replace expects array\<float\|int\|string\>\|string, string\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Service/GithubProjectAnalyzer.php
+
+		-
+			message: '#^Expression on left side of \?\? is not nullable\.$#'
+			identifier: nullCoalesce.expr
+			count: 2
+			path: src/Service/MatchmakingClient.php
+
+		-
+			message: '#^Method App\\Service\\MatchmakingClient\:\:buildRequestPayload\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Service/MatchmakingClient.php
+
+		-
+			message: '#^Method App\\Service\\MessageModerationService\:\:moderateMessage\(\) should return array\{is_toxic\: bool, severity\: string, reason\: string\} but returns array\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Service/MessageModerationService.php
+
+		-
+			message: '#^Method App\\Service\\MessageModerationService\:\:parseModerationJson\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Service/MessageModerationService.php
+
+		-
+			message: '#^Property App\\Service\\NotificationService\:\:\$notificationRepository is never read, only written\.$#'
+			identifier: property.onlyWritten
+			count: 1
+			path: src/Service/NotificationService.php
+
+		-
+			message: '#^Method App\\Service\\OfferAnalyticsService\:\:getAcceptanceTrend\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Service/OfferAnalyticsService.php
+
+		-
+			message: '#^Method App\\Service\\OfferAnalyticsService\:\:getAiImpactStats\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Service/OfferAnalyticsService.php
+
+		-
+			message: '#^Method App\\Service\\OfferAnalyticsService\:\:getConversionStats\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Service/OfferAnalyticsService.php
+
+		-
+			message: '#^Method App\\Service\\OfferAnalyticsService\:\:getFunnelData\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Service/OfferAnalyticsService.php
+
+		-
+			message: '#^Cannot call method getClient\(\) on App\\Entity\\ServiceRequest\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/Service/OfferMailerService.php
+
+		-
+			message: '#^Cannot call method getEmail\(\) on App\\Entity\\User\|null\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: src/Service/OfferMailerService.php
+
+		-
+			message: '#^Cannot call method getFullName\(\) on App\\Entity\\User\|null\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: src/Service/OfferMailerService.php
+
+		-
+			message: '#^Cannot call method getTitle\(\) on App\\Entity\\ServiceRequest\|null\.$#'
+			identifier: method.nonObject
+			count: 5
+			path: src/Service/OfferMailerService.php
+
+		-
+			message: '#^Parameter \#1 \$address of class Symfony\\Component\\Mime\\Address constructor expects string, string\|null given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/Service/OfferMailerService.php
+
+		-
+			message: '#^Method App\\Service\\OfferPredictionService\:\:analyzeEnhancement\(\) has parameter \$offerData with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Service/OfferPredictionService.php
+
+		-
+			message: '#^Method App\\Service\\OfferPredictionService\:\:analyzeEnhancement\(\) has parameter \$requestData with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Service/OfferPredictionService.php
+
+		-
+			message: '#^Method App\\Service\\OfferPredictionService\:\:analyzeEnhancement\(\) has parameter \$workerData with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Service/OfferPredictionService.php
+
+		-
+			message: '#^Method App\\Service\\OfferPredictionService\:\:analyzeEnhancement\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Service/OfferPredictionService.php
+
+		-
+			message: '#^Method App\\Service\\OfferPredictionService\:\:formatPayload\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Service/OfferPredictionService.php
+
+		-
+			message: '#^Method App\\Service\\OfferPredictionService\:\:predict\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Service/OfferPredictionService.php
+
+		-
+			message: '#^Method App\\Service\\OfferPredictionService\:\:predictBatch\(\) has parameter \$offers with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Service/OfferPredictionService.php
+
+		-
+			message: '#^Method App\\Service\\OfferPredictionService\:\:predictBatch\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Service/OfferPredictionService.php
+
+		-
+			message: '#^Strict comparison using \=\=\= between array and null will always evaluate to false\.$#'
+			identifier: identical.alwaysFalse
+			count: 1
+			path: src/Service/OfferPredictionService.php
+
+		-
+			message: '#^Parameter \#1 \$address of class Symfony\\Component\\Mime\\Address constructor expects string, string\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Service/PasswordResetService.php
+
+		-
+			message: '#^Parameter \#2 \$requestId of method App\\Service\\NotificationService\:\:notifyMatchFoundForFreelancer\(\) expects int, int\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Service/ServiceRequestMatchmakingService.php
+
+		-
+			message: '#^Parameter \#3 \$offerId of method App\\Service\\NotificationService\:\:notifyMatchFoundForFreelancer\(\) expects int, int\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Service/ServiceRequestMatchmakingService.php
+
+		-
+			message: '#^Method App\\Service\\ServiceRequestScoringAi\:\:scoreServiceRequest\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Service/ServiceRequestScoringAi.php
+
+		-
+			message: '#^Method App\\Service\\TicketAiInsightService\:\:analyzeTicket\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Service/TicketAiInsightService.php
+
+		-
+			message: '#^Method App\\Service\\TicketAiInsightService\:\:parseInsightJson\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Service/TicketAiInsightService.php
+
+		-
+			message: '#^Method App\\Service\\TicketAiInsightService\:\:parseTicketFromParagraph\(\) has parameter \$categories with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Service/TicketAiInsightService.php
+
+		-
+			message: '#^Method App\\Service\\TicketAiInsightService\:\:parseTicketFromParagraph\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Service/TicketAiInsightService.php
+
+		-
+			message: '#^Method App\\Service\\TicketSupportAIService\:\:getKnowledgeBaseStats\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Service/TicketSupportAIService.php
+
+		-
+			message: '#^Method App\\Service\\TicketSupportAIService\:\:retrainModel\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Service/TicketSupportAIService.php
+
+		-
+			message: '#^Method App\\Service\\TicketSupportAIService\:\:solveTicket\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Service/TicketSupportAIService.php
+
+		-
+			message: '#^Method App\\Service\\TicketSupportAIService\:\:updateKnowledgeBase\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Service/TicketSupportAIService.php
+
+		-
+			message: '#^Method App\\Service\\TwoFactorTempTokenService\:\:consume\(\) never returns App\\Entity\\User so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: src/Service/TwoFactorTempTokenService.php
+
+		-
+			message: '#^Property App\\Service\\TwoFactorTempTokenService\:\:\$userRepository is never read, only written\.$#'
+			identifier: property.onlyWritten
+			count: 1
+			path: src/Service/TwoFactorTempTokenService.php
+
+		-
+			message: '#^Result of \|\| is always true\.$#'
+			identifier: booleanOr.alwaysTrue
+			count: 1
+			path: src/Service/TwoFactorTempTokenService.php
+
+		-
+			message: '#^Strict comparison using \=\=\= between \*NEVER\* and '''' will always evaluate to false\.$#'
+			identifier: identical.alwaysFalse
+			count: 1
+			path: src/Service/TwoFactorTempTokenService.php
+
+		-
+			message: '#^Strict comparison using \=\=\= between null and null will always evaluate to true\.$#'
+			identifier: identical.alwaysTrue
+			count: 1
+			path: src/Service/TwoFactorTempTokenService.php
+
+		-
+			message: '#^Unreachable statement \- code above always terminates\.$#'
+			identifier: deadCode.unreachable
+			count: 1
+			path: src/Service/TwoFactorTempTokenService.php
+
+		-
+			message: '#^Parameter \#1 \$issuer of method OTPHP\\OTP\:\:setIssuer\(\) expects non\-empty\-string, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Service/TwoFactorTotpService.php
+
+		-
+			message: '#^Parameter \#1 \$label of method OTPHP\\OTP\:\:setLabel\(\) expects non\-empty\-string, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Service/TwoFactorTotpService.php
+
+		-
+			message: '#^Parameter \#1 \$secret of static method OTPHP\\TOTP\:\:createFromSecret\(\) expects non\-empty\-string, string given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/Service/TwoFactorTotpService.php
+
+		-
+			message: '#^Parameter \#1 \$string of function strlen expects string, string\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Service/TwoFactorTotpService.php
+
+		-
+			message: '#^Parameter \#1 \$string of function strtoupper expects string, string\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Service/TwoFactorTotpService.php
+
+		-
+			message: '#^Call to function is_array\(\) with array\<int, float\> will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: src/Service/Validation/FaceProfileManager.php
+
+		-
+			message: '#^Expression on left side of \?\? is not nullable\.$#'
+			identifier: nullCoalesce.expr
+			count: 2
+			path: src/Service/Validation/NotificationManager.php
+
+		-
+			message: '#^Expression on left side of \?\? is not nullable\.$#'
+			identifier: nullCoalesce.expr
+			count: 1
+			path: src/Service/Validation/PasswordResetTokenManager.php
+
+		-
+			message: '#^Result of && is always true\.$#'
+			identifier: booleanAnd.alwaysTrue
+			count: 1
+			path: src/Service/Validation/PasswordResetTokenManager.php
+
+		-
+			message: '#^Strict comparison using \!\=\= between DateTimeInterface and null will always evaluate to true\.$#'
+			identifier: notIdentical.alwaysTrue
+			count: 2
+			path: src/Service/Validation/PasswordResetTokenManager.php
+
+		-
+			message: '#^Expression on left side of \?\? is not nullable\.$#'
+			identifier: nullCoalesce.expr
+			count: 1
+			path: src/Service/Validation/ServiceRequirementManager.php
+
+		-
+			message: '#^Instanceof between App\\Enum\\UserRole and App\\Enum\\UserRole will always evaluate to true\.$#'
+			identifier: instanceof.alwaysTrue
+			count: 1
+			path: src/Service/Validation/UserManager.php
+
+		-
+			message: '#^Instanceof between App\\Enum\\UserStatus and App\\Enum\\UserStatus will always evaluate to true\.$#'
+			identifier: instanceof.alwaysTrue
+			count: 1
+			path: src/Service/Validation/UserManager.php
+
+		-
+			message: '#^Expression on left side of \?\? is not nullable\.$#'
+			identifier: nullCoalesce.expr
+			count: 1
+			path: src/Service/Validation/WorkerCategoryManager.php
+
+		-
+			message: '#^Expression on left side of \?\? is not nullable\.$#'
+			identifier: nullCoalesce.expr
+			count: 4
+			path: src/Service/Validation/WorkerProfileManager.php
+
+		-
+			message: '#^Instanceof between ZEGO\\ZegoAssistantToken and ZEGO\\ZegoAssistantToken will always evaluate to true\.$#'
+			identifier: instanceof.alwaysTrue
+			count: 2
+			path: src/Service/ZegoTokenService.php
+
+		-
+			message: '#^Parameter \#5 \$payload of static method ZEGO\\ZegoServerAssistant\:\:generateToken04\(\) expects string, string\|false given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Service/ZegoTokenService.php
+
+		-
+			message: '#^Property ZEGO\\ZegoAssistantToken\:\:\$code has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: src/ThirdParty/ZEGO/ZegoAssistantToken.php
+
+		-
+			message: '#^Property ZEGO\\ZegoAssistantToken\:\:\$message has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: src/ThirdParty/ZEGO/ZegoAssistantToken.php
+
+		-
+			message: '#^Property ZEGO\\ZegoAssistantToken\:\:\$token has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: src/ThirdParty/ZEGO/ZegoAssistantToken.php
+
+		-
+			message: '#^Parameter \#1 \$data of function openssl_encrypt expects string, string\|false given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/ThirdParty/ZEGO/ZegoServerAssistant.php
+
+		-
+			message: '#^Parameter \#1 \$user of method App\\Repository\\NotificationRepository\:\:countUnreadOfferOnlyByUser\(\) expects App\\Entity\\User, Symfony\\Component\\Security\\Core\\User\\UserInterface given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Twig/NotificationExtension.php

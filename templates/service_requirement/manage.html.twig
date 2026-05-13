@@ -1,0 +1,309 @@
+{% extends 'layout_app.html.twig' %}
+
+{% block main %}
+<div class="max-w-6xl mx-auto p-6">
+    
+    <div class="flex items-center justify-between mb-8">
+        <div>
+            <h1 class="text-2xl font-bold dark:text-white">Requirements Manager</h1>
+            <p class="text-slate-500 text-sm">Service: {{ serviceRequest.title }}</p>
+        </div>
+        <a href="{{ path('request_list') }}" 
+           class="px-4 py-2 bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-200 rounded-lg font-bold text-sm hover:bg-slate-300 transition-all">
+            ← Go Back to List
+        </a>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div class="lg:col-span-1 bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm h-fit">
+            <h3 id="form-header" class="font-bold mb-4 dark:text-white text-lg">New Requirement</h3>
+            <button type="button" 
+                    data-id="{{ serviceRequest.id }}"
+                    class="ai-generate-btn flex items-center gap-1 px-2 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 text-[10px] font-bold uppercase rounded hover:bg-purple-200 transition-all">
+                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                Auto-Generate
+            </button>
+            
+            <form id="req-form" method="POST" action="{{ path('requirement_add', {id: serviceRequest.id}) }}" class="space-y-4">
+                <input type="hidden" id="f-id" name="requirement_id">
+                <input type="text" id="f-title" name="title" placeholder="Title (e.g., ID Card Scan)" required 
+                       class="w-full px-4 py-2 border rounded-lg dark:bg-slate-950 dark:text-white border-slate-200 dark:border-slate-800 outline-none">
+                
+                <textarea id="f-details" name="details" placeholder="Instructions..." rows="3" 
+                          class="w-full px-4 py-2 border rounded-lg dark:bg-slate-950 dark:text-white border-slate-200 dark:border-slate-800 outline-none"></textarea>
+                
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Type</label>
+                        <select id="f-type" name="requirement_type" class="w-full px-3 py-2 border rounded-lg dark:bg-slate-950 dark:text-white text-sm">
+                            <option value="file_upload">File Upload</option>
+                            <option value="text_input">Text/URL</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Format</label>
+                        <select id="f-format" name="answer_format" class="w-full px-3 py-2 border rounded-lg dark:bg-slate-950 dark:text-white text-sm">
+                            <option value="pdf">PDF</option>
+                            <option value="image">Image</option>
+                            <option value="url">URL</option>
+                            <option value="zip">ZIP</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Priority</label>
+                    <select id="f-priority" name="priority_level" class="w-full px-4 py-2 border rounded-lg dark:bg-slate-950 dark:text-white text-sm">
+                        <option value="1">Low Priority</option>
+                        <option value="2" selected>Medium Priority</option>
+                        <option value="3">High Priority</option>
+                    </select>
+                </div>
+
+                <label class="flex items-center space-x-2 text-sm dark:text-slate-300">
+                    <input type="checkbox" id="f-mandatory" name="is_mandatory" checked class="rounded border-slate-300 text-emerald-600">
+                    <span>Mandatory</span>
+                </label>
+
+                <div class="pt-2 space-y-2">
+                    <button type="submit" id="f-submit" class="w-full py-3 bg-emerald-600 text-white rounded-lg font-bold hover:bg-emerald-700 shadow-md">
+                        Add Requirement
+                    </button>
+                    <button type="button" id="f-cancel" onclick="resetForm()" class="hidden w-full py-2 bg-slate-100 dark:bg-slate-800 text-slate-500 rounded-lg text-xs font-bold">
+                        Cancel Edit
+                    </button>
+                </div>
+                
+            </form>
+        </div>
+
+        <div class="lg:col-span-2 space-y-3">
+            <h3 class="font-bold mb-4 dark:text-white">Current Checklist</h3>
+            {% for req in serviceRequest.requirements %}
+                <div class="flex items-center justify-between p-4 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 group transition-all hover:border-slate-300">
+                    <div>
+                        <span class="font-bold dark:text-white block">{{ req.title }}</span>
+                        <div class="flex gap-2 mt-1">
+                            {% if req.answerFormat %}
+                                    <span class="text-[10px] px-2 py-0.5 bg-slate-100 dark:bg-slate-800 text-slate-500 rounded uppercase font-bold">{{ req.answerFormat }}</span>
+                                {% else %}
+                                    <span class="text-[10px] px-2 py-0.5 bg-slate-100 dark:bg-slate-800 text-slate-400 rounded uppercase font-bold">Text</span>
+                                {% endif %}
+                            <span class="text-[10px] px-2 py-0.5 rounded uppercase font-bold 
+                                {% if req.priorityLevel == 3 %} bg-red-100 text-red-600
+                                {% elseif req.priorityLevel == 2 %} bg-amber-100 text-amber-600
+                                {% else %} bg-blue-100 text-blue-600 {% endif %}">
+                                
+                                {{ req.priorityLevel == 3 ? 'High' : (req.priorityLevel == 2 ? 'Medium' : 'Low') }}
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center space-x-4">
+                        <button type="button" 
+                                onclick="prepareEdit('{{ req.id }}', '{{ req.title|e('js') }}', '{{ req.details|e('js') }}', '{{ req.requirementType }}', '{{ req.answerFormat }}', {{ req.priorityLevel|default(2) }}, {{ req.isMandatory ? 'true' : 'false' }})" 
+                                class="text-blue-500 hover:underline text-xs font-bold uppercase">
+                            Edit
+                        </button>
+
+                        <form method="POST" action="{{ path('requirement_delete', {id: req.id}) }}" onsubmit="return confirm('Remove this requirement?')">
+                            <button type="submit" class="text-red-400 hover:text-red-600 text-xs font-bold uppercase">Del</button>
+                        </form>
+
+                        <button onclick="openFullModal('{{ req.title|escape('js') }}', '{{ req.details|escape('js') }}', '{{ req.requirementType }}', '{{ req.answerFormat }}', '{{ req.priorityLevel }}', {{ req.isMandatory ? 'true' : 'false' }})"
+                                class="px-3 py-1 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded text-xs font-bold hover:bg-slate-200">
+                            View
+                        </button>
+                    </div>
+                </div>
+            {% else %}
+                <div class="text-center py-12 border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-xl">
+                    <p class="text-slate-400">No requirements found.</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div id="fullModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closeFullModal()"></div>
+        <div class="relative bg-white dark:bg-slate-900 w-full max-w-md rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden">
+            <div class="p-6">
+                <h2 id="m-title" class="text-xl font-bold dark:text-white mb-4"></h2>
+                <div class="space-y-4">
+                    <div>
+                        <span class="block text-[10px] font-bold text-slate-400 uppercase">Instructions</span>
+                        <p id="m-details" class="text-slate-600 dark:text-slate-300 text-sm whitespace-pre-wrap"></p>
+                    </div>
+                    <div class="grid grid-cols-3 gap-4">
+                    <div>
+                        <span class="block text-[10px] font-bold text-slate-400 uppercase">File Type</span>
+                        <span id="m-format" class="text-sm font-bold text-emerald-600 uppercase"></span>
+                    </div>
+                    <div>
+                        <span class="block text-[10px] font-bold text-slate-400 uppercase">Priority</span>
+                        <span id="m-priority" class="text-sm font-bold dark:text-white uppercase"></span>
+                    </div>
+                    {# Added this third column #}
+                    <div>
+                        <span class="block text-[10px] font-bold text-slate-400 uppercase">Mandatory</span>
+                        <span id="m-mandatory" class="text-xs font-bold uppercase block mt-1"></span>
+                    </div>
+                </div>
+                </div>
+            </div>
+            <div class="bg-slate-50 dark:bg-slate-800 p-4 flex justify-end">
+                <button onclick="closeFullModal()" class="px-6 py-2 bg-slate-800 text-white rounded-lg font-bold text-sm">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const reqForm = document.getElementById('req-form');
+    const formHeader = document.getElementById('form-header');
+    const submitBtn = document.getElementById('f-submit');
+    const cancelBtn = document.getElementById('f-cancel');
+    const originalAction = reqForm.action;
+
+    function openFullModal(title, details, type, format, priority, mandatory) {
+        document.getElementById('m-title').innerText = title;
+        document.getElementById('m-details').innerText = details;
+        document.getElementById('m-format').innerText = format || 'Text';
+
+
+        // Translation Map: Number -> Text
+        const labels = { 1: 'Low', 2: 'Medium', 3: 'High' };
+        const pSpan = document.getElementById('m-priority');
+        
+        pSpan.innerText = labels[priority] || 'Medium';
+        
+        // Change color based on priority number
+        if (priority == 3) {
+            pSpan.className = "text-sm font-bold text-red-500 uppercase";
+        } else if (priority == 2) {
+            pSpan.className = "text-sm font-bold text-amber-500 uppercase";
+        } else {
+            pSpan.className = "text-sm font-bold text-blue-500 uppercase";
+        }
+
+        const mSpan = document.getElementById('m-mandatory');
+        mSpan.innerText = mandatory ? "Required" : "Optional";
+        mSpan.className = mandatory ? "text-xs font-bold uppercase text-red-500 block mt-1" : "text-xs font-bold uppercase text-slate-400 block mt-1";
+
+        document.getElementById('fullModal').classList.remove('hidden');
+    }
+
+    function closeFullModal() {
+        document.getElementById('fullModal').classList.add('hidden');
+    }
+
+    function prepareEdit(id, title, details, type, format, priority, mandatory) {
+        const form = document.getElementById('req-form');
+        const header = document.getElementById('form-header');
+        const submitBtn = document.getElementById('f-submit');
+        const cancelBtn = document.getElementById('f-cancel');
+
+        // 1. Hide the ID from the user but keep it for the form
+        header.innerText = "Edit Mode for Requirement"; 
+        document.getElementById('f-id').value = id; 
+
+        // 2. Button stays Green (Emerald)
+        submitBtn.innerText = "Save Changes";
+        // Ensure it doesn't switch to blue if you had that logic before
+        submitBtn.classList.remove('bg-blue-600');
+        submitBtn.classList.add('bg-emerald-600');
+
+        cancelBtn.classList.remove('hidden');
+
+        // 3. Update the Action URL
+        form.action = "/requirements/edit/" + id;
+
+        // 4. Populate Fields
+        document.getElementById('f-title').value = title;
+        document.getElementById('f-details').value = details;
+        const typeMap = {
+            'File':        'file_upload',
+            'file_upload': 'file_upload',
+            'Text':        'text_input',
+            'text_input':  'text_input',
+        };
+        const formatMap = {
+            'PDF':   'pdf',
+            'pdf':   'pdf',
+            'Image': 'image',
+            'image': 'image',
+            'URL':   'url',
+            'url':   'url',
+            'ZIP':   'zip',
+            'zip':   'zip',
+        };
+
+        document.getElementById('f-type').value   = typeMap[type]     || 'text_input';
+        document.getElementById('f-format').value = formatMap[format] || 'pdf';
+        document.getElementById('f-priority').value = priority;
+        document.getElementById('f-mandatory').checked = mandatory;
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function resetForm() {
+        const form = document.getElementById('req-form');
+        form.reset();
+        
+        // Reset hidden ID and URL
+        document.getElementById('f-id').value = "";
+        form.action = "{{ path('requirement_add', {id: serviceRequest.id}) }}";
+        
+        document.getElementById('form-header').innerText = "New Requirement";
+        document.getElementById('f-submit').innerText = "Add Requirement";
+        document.getElementById('f-cancel').classList.add('hidden');
+    }
+    // --- ADD THIS AT THE BOTTOM OF YOUR SCRIPT TAG ---
+
+document.addEventListener('DOMContentLoaded', () => {
+    const aiBtn = document.querySelector('.ai-generate-btn');
+
+    if (aiBtn) {
+        aiBtn.addEventListener('click', async (e) => {
+            const btn = e.currentTarget;
+            const requestId = btn.dataset.id;
+            
+            // Prevent double clicks
+            if (btn.classList.contains('is-loading')) return;
+            
+            if (!confirm("Generate requirements using AI? This will add new items to your checklist.")) return;
+
+            // UI Feedback: Loading state
+            const originalHTML = btn.innerHTML;
+            btn.innerHTML = '<svg class="animate-spin h-3 w-3 mr-1" viewBox="0 0 24 24">...</svg> Processing...';
+            btn.disabled = true;
+            btn.classList.add('is-loading', 'opacity-50');
+
+            try {
+                // Route for your AI controller
+                const url = "{{ path('ai_generate', {id: 'PLACEHOLDER'}) }}".replace('PLACEHOLDER', requestId);
+                
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) throw new Error(data.error || 'Server error');
+
+                // Success
+                alert(`Generated ${data.count} requirements!`);
+                window.location.reload(); 
+
+            } catch (error) {
+                alert('AI Error: ' + error.message);
+                btn.innerHTML = originalHTML;
+                btn.disabled = false;
+                btn.classList.remove('is-loading', 'opacity-50');
+            }
+        });
+    }
+});
+</script>
+{% endblock %}

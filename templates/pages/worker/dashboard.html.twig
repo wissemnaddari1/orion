@@ -1,0 +1,149 @@
+{% extends 'layout_app.html.twig' %}
+
+{% block main %}
+<div class="space-y-6">
+    {# Page Header #}
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+            <h1 class="text-2xl font-bold text-slate-900 dark:text-white">Welcome back, {{ app.user.firstName }}!</h1>
+            <p class="text-slate-600 dark:text-slate-400 mt-1">Your freelancer dashboard overview</p>
+        </div>
+        <div class="flex gap-3">
+            <a href="#" 
+               class="inline-flex items-center gap-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-medium transition">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                </svg>
+                Find Jobs
+            </a>
+        </div>
+    </div>
+
+    {# Stats Cards #}
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {% include 'components/_stats_card.html.twig' with {
+            title: 'New Matches',
+            value: stats.new_matches,
+            icon: '<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>',
+            color: 'emerald',
+            subtitle: 'Jobs matching your skills'
+        } %}
+
+        {% include 'components/_stats_card.html.twig' with {
+            title: 'Active Offers',
+            value: stats.active_offers,
+            icon: '<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/></svg>',
+            color: 'blue',
+            subtitle: 'Pending client response'
+        } %}
+
+        {% include 'components/_stats_card.html.twig' with {
+            title: 'Active Contracts',
+            value: stats.active_contracts,
+            icon: '<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>',
+            color: 'purple',
+            subtitle: 'In progress'
+        } %}
+
+        {% include 'components/_stats_card.html.twig' with {
+            title: 'Total Earnings',
+            value: stats.total_earnings ~ ' ' ~ stats.wallet_currency,
+            icon: '<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>',
+            color: 'amber',
+            subtitle: 'Lifetime earnings'
+        } %}
+    </div>
+
+    {# Rating & Reviews #}
+    <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm p-6">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div class="flex items-center gap-4">
+                <div class="w-16 h-16 rounded-full bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center">
+                    <svg class="w-8 h-8 text-amber-600 dark:text-amber-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                    </svg>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-3xl font-bold text-slate-900 dark:text-white">{{ stats.rating }}</span>
+                        <div class="flex text-amber-400">
+                            {% for i in 1..5 %}
+                                {% if i <= stats.rating|round %}
+                                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                    </svg>
+                                {% else %}
+                                    <svg class="w-5 h-5 text-slate-300 dark:text-slate-600" fill="currentColor" viewBox="0 0 20 20">
+                                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                    </svg>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <p class="text-slate-600 dark:text-slate-400">Based on {{ stats.total_reviews }} reviews</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-6">
+                <div class="text-center">
+                    <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ stats.completed_contracts }}</p>
+                    <p class="text-sm text-slate-500 dark:text-slate-400">Completed</p>
+                </div>
+                <div class="h-12 w-px bg-slate-200 dark:bg-slate-700"></div>
+                <div class="text-center">
+                    <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ stats.wallet_balance }} {{ stats.wallet_currency }}</p>
+                    <p class="text-sm text-slate-500 dark:text-slate-400">Available Balance</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# Quick Actions #}
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <a href="#" class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm p-6 hover:border-emerald-500 dark:hover:border-emerald-500 transition group">
+            <div class="w-12 h-12 rounded-lg bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center mb-4 group-hover:bg-emerald-200 dark:group-hover:bg-emerald-900/50 transition">
+                <svg class="w-6 h-6 text-emerald-600 dark:text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                </svg>
+            </div>
+            <h3 class="font-semibold text-slate-900 dark:text-white mb-2">Browse Jobs</h3>
+            <p class="text-sm text-slate-600 dark:text-slate-400">Find new opportunities matching your skills</p>
+        </a>
+
+        <a href="#" class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm p-6 hover:border-blue-500 dark:hover:border-blue-500 transition group">
+            <div class="w-12 h-12 rounded-lg bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center mb-4 group-hover:bg-blue-200 dark:group-hover:bg-blue-900/50 transition">
+                <svg class="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+                </svg>
+            </div>
+            <h3 class="font-semibold text-slate-900 dark:text-white mb-2">Messages</h3>
+            <p class="text-sm text-slate-600 dark:text-slate-400">Communicate with your clients</p>
+        </a>
+
+        <a href="#" class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm p-6 hover:border-purple-500 dark:hover:border-purple-500 transition group">
+            <div class="w-12 h-12 rounded-lg bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center mb-4 group-hover:bg-purple-200 dark:group-hover:bg-purple-900/50 transition">
+                <svg class="w-6 h-6 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                </svg>
+            </div>
+            <h3 class="font-semibold text-slate-900 dark:text-white mb-2">Edit Profile</h3>
+            <p class="text-sm text-slate-600 dark:text-slate-400">Update your skills and portfolio</p>
+        </a>
+    </div>
+
+    {# Recent Activity Placeholder #}
+    <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+        <div class="p-6 border-b border-slate-200 dark:border-slate-800">
+            <h2 class="text-lg font-semibold text-slate-900 dark:text-white">Recent Activity</h2>
+        </div>
+        <div class="p-6">
+            <div class="text-center py-12">
+                <svg class="w-16 h-16 mx-auto text-slate-300 dark:text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+                </svg>
+                <p class="mt-4 text-slate-600 dark:text-slate-400">No recent activity</p>
+                <p class="text-sm text-slate-500 dark:text-slate-500">Start by browsing available jobs</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

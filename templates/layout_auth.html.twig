@@ -1,0 +1,30 @@
+{# Orion Auth Layout — shared layout for all authentication pages #}
+{# Extends base, adds Aurora animated background. #}
+{% extends 'base.html.twig' %}
+
+{% block html_class %}auth-page{% endblock %}
+{% block body_class %}auth-page{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+<link rel="stylesheet" href="{{ asset('styles/auth_background.css') }}">
+{% endblock %}
+
+{% block body %}
+<div class="auth-bg" aria-hidden="true">
+  <span class="blob b1"></span>
+  <span class="blob b2"></span>
+  <span class="blob b3"></span>
+  <span class="blob b4"></span>
+  <span class="blob b5"></span>
+  <span class="noise"></span>
+</div>
+<div class="auth-overlay" aria-hidden="true"></div>
+<div class="auth-shell">
+  <div class="auth-container auth-bg__content">
+    <div class="auth-bg__card auth-card {{ card_wide|default(false) ? 'auth-bg__card--wide' : '' }} {{ card_compact|default(false) ? 'auth-bg__card--compact' : '' }}">
+      {% block auth_content %}{% endblock %}
+    </div>
+  </div>
+</div>
+{% endblock %}

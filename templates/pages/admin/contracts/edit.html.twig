@@ -1,0 +1,163 @@
+{% extends 'layout_admin.html.twig' %}
+{% block title %}Edit Contract #{{ contract.id }} - Orion Admin{% endblock %}
+
+{% block main %}
+<div class="space-y-6">
+    {# Header #}
+    <div class="flex items-center gap-4">
+        <a href="{{ path('admin_contracts_show', {id: contract.id}) }}"
+           class="inline-flex items-center gap-1 text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 transition text-sm">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+            </svg>
+            Back
+        </a>
+        <div>
+            <h1 class="text-2xl font-bold text-slate-900 dark:text-white">Edit Contract</h1>
+            <p class="text-sm text-slate-500 dark:text-slate-400 mt-0.5">Contract #{{ contract.id }} — {{ contract.title }}</p>
+        </div>
+    </div>
+
+    {# Form #}
+    <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+        <form method="POST" action="{{ path('admin_contracts_update', {id: contract.id}) }}" class="space-y-6" novalidate data-validate="admin-contract" data-turbo="false">
+
+            {# Title #}
+            <div>
+                <label for="title" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Title</label>
+                <input type="text" id="title" name="title"
+                       value="{{ errors is not empty and errors.title is defined ? app.request.request.get('title') : contract.title }}"
+                       class="w-full rounded-lg border {{ errors.title is defined ? 'border-red-500' : 'border-gray-300 dark:border-slate-600' }} bg-white px-4 py-2.5 text-sm text-slate-900 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 dark:bg-slate-800 dark:text-white"
+                       placeholder="Contract title">
+                {% if errors.title is defined %}
+                    <p class="mt-1 text-xs text-red-600 dark:text-red-400">{{ errors.title }}</p>
+                {% endif %}
+            </div>
+
+            <div class="grid gap-5 md:grid-cols-2">
+                {# Agreed Price #}
+                <div>
+                    <label for="agreed_price" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Agreed Price</label>
+                    <input type="number" id="agreed_price" name="agreed_price" step="0.01" min="1"
+                           value="{{ errors is not empty and errors.agreed_price is defined ? app.request.request.get('agreed_price') : contract.agreedPrice }}"
+                           class="w-full rounded-lg border {{ errors.agreed_price is defined ? 'border-red-500' : 'border-gray-300 dark:border-slate-600' }} bg-white px-4 py-2.5 text-sm text-slate-900 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 dark:bg-slate-800 dark:text-white">
+                    {% if errors.agreed_price is defined %}
+                        <p class="mt-1 text-xs text-red-600 dark:text-red-400">{{ errors.agreed_price }}</p>
+                    {% endif %}
+                </div>
+
+                {# Currency #}
+                <div>
+                    <label for="currency" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Currency</label>
+                    {% set currentCurrency = errors is not empty ? app.request.request.get('currency') : contract.currency %}
+                    <select id="currency" name="currency"
+                            class="w-full rounded-lg border {{ errors.currency is defined ? 'border-red-500' : 'border-gray-300 dark:border-slate-600' }} bg-white px-4 py-2.5 text-sm text-slate-900 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 dark:bg-slate-800 dark:text-white">
+                        <option value="USD" {% if currentCurrency == 'USD' %}selected{% endif %}>USD</option>
+                        <option value="EUR" {% if currentCurrency == 'EUR' %}selected{% endif %}>EUR</option>
+                        <option value="TND" {% if currentCurrency == 'TND' %}selected{% endif %}>TND</option>
+                        <option value="MAD" {% if currentCurrency == 'MAD' %}selected{% endif %}>MAD</option>
+                    </select>
+                    {% if errors.currency is defined %}
+                        <p class="mt-1 text-xs text-red-600 dark:text-red-400">{{ errors.currency }}</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="grid gap-5 md:grid-cols-2">
+                {# Start Date #}
+                <div>
+                    <label for="start_date" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Start Date</label>
+                    <input type="date" id="start_date" name="start_date"
+                           value="{{ errors is not empty and errors.start_date is defined ? app.request.request.get('start_date') : contract.startDate|date('Y-m-d') }}"
+                           class="w-full rounded-lg border {{ errors.start_date is defined ? 'border-red-500' : 'border-gray-300 dark:border-slate-600' }} bg-white px-4 py-2.5 text-sm text-slate-900 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 dark:bg-slate-800 dark:text-white">
+                    {% if errors.start_date is defined %}
+                        <p class="mt-1 text-xs text-red-600 dark:text-red-400">{{ errors.start_date }}</p>
+                    {% endif %}
+                </div>
+
+                {# End Date #}
+                <div>
+                    <label for="end_date" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">End Date</label>
+                    <input type="date" id="end_date" name="end_date"
+                           value="{{ errors is not empty and errors.end_date is defined ? app.request.request.get('end_date') : contract.endDate|date('Y-m-d') }}"
+                           class="w-full rounded-lg border {{ errors.end_date is defined ? 'border-red-500' : 'border-gray-300 dark:border-slate-600' }} bg-white px-4 py-2.5 text-sm text-slate-900 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 dark:bg-slate-800 dark:text-white">
+                    {% if errors.end_date is defined %}
+                        <p class="mt-1 text-xs text-red-600 dark:text-red-400">{{ errors.end_date }}</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            {# Status (admin can force any status) #}
+            <div>
+                <label for="status" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Status</label>
+                {% set currentStatus = errors is not empty ? app.request.request.get('status') : contract.status %}
+                <select id="status" name="status"
+                        class="w-full rounded-lg border {{ errors.status is defined ? 'border-red-500' : 'border-gray-300 dark:border-slate-600' }} bg-white px-4 py-2.5 text-sm text-slate-900 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 dark:bg-slate-800 dark:text-white">
+                    {% for s in statuses %}
+                        <option value="{{ s }}" {% if currentStatus == s %}selected{% endif %}>{{ s|replace({'_': ' '}) }}</option>
+                    {% endfor %}
+                </select>
+                {% if errors.status is defined %}
+                    <p class="mt-1 text-xs text-red-600 dark:text-red-400">{{ errors.status }}</p>
+                {% endif %}
+                <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">As admin, you can change the status to any value.</p>
+            </div>
+
+            {# Scope #}
+            <div>
+                <label for="scope" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Scope of Work</label>
+                <textarea id="scope" name="scope" rows="6"
+                          class="w-full rounded-lg border {{ errors.scope is defined ? 'border-red-500' : 'border-gray-300 dark:border-slate-600' }} bg-white px-4 py-2.5 text-sm text-slate-900 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 dark:bg-slate-800 dark:text-white"
+                          placeholder="Describe the scope of work...">{{ errors is not empty and errors.scope is defined ? app.request.request.get('scope') : contract.scope }}</textarea>
+                {% if errors.scope is defined %}
+                    <p class="mt-1 text-xs text-red-600 dark:text-red-400">{{ errors.scope }}</p>
+                {% endif %}
+            </div>
+
+            {# Parties (read-only info) #}
+            <div class="rounded-lg border border-slate-200 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-800/50">
+                <h3 class="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Contract Parties (read-only)</h3>
+                <div class="grid gap-4 sm:grid-cols-2 text-sm">
+                    <div>
+                        <span class="text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400">Client</span>
+                        <p class="font-medium text-slate-900 dark:text-white">
+                            {% if contract.client %}
+                                {{ contract.client.firstName }} {{ contract.client.lastName }}
+                                <span class="block text-xs text-slate-400">{{ contract.client.email }}</span>
+                            {% else %}
+                                —
+                            {% endif %}
+                        </p>
+                    </div>
+                    <div>
+                        <span class="text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400">Worker</span>
+                        <p class="font-medium text-slate-900 dark:text-white">
+                            {% if contract.worker %}
+                                {{ contract.worker.firstName }} {{ contract.worker.lastName }}
+                                <span class="block text-xs text-slate-400">{{ contract.worker.email }}</span>
+                            {% else %}
+                                —
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            {# Submit #}
+            <div class="flex items-center gap-3 pt-2">
+                <button type="submit"
+                        class="inline-flex items-center gap-2 rounded-lg bg-emerald-600 px-6 py-2.5 text-sm font-semibold text-white transition hover:bg-emerald-700">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    Save Changes
+                </button>
+                <a href="{{ path('admin_contracts_show', {id: contract.id}) }}"
+                   class="inline-flex items-center gap-2 rounded-lg border border-slate-300 px-6 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 dark:border-slate-600 dark:text-slate-300 dark:hover:bg-slate-800">
+                    Cancel
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

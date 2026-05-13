@@ -1,0 +1,91 @@
+{% extends 'layout_auth.html.twig' %}
+{% block title %}Verify your email - Orion{% endblock %}
+
+{% block auth_content %}
+<div class="auth-form-inner p-6 sm:p-8">
+    {# Logo #}
+    <div class="text-center mb-8">
+        <a href="{{ path('app_home') }}" class="inline-block">
+            <img src="{{ asset('images/orion_light_mode.png') }}" alt="Orion" class="h-12 mx-auto dark:invert">
+        </a>
+        <h1 class="mt-6 text-3xl font-bold text-slate-900 dark:text-white">Verify Your Email</h1>
+        <p class="mt-2 text-slate-600 dark:text-slate-400">Enter the 6-digit code sent to your email</p>
+    </div>
+
+    {# Show user's email #}
+    <div class="mb-6 p-4 bg-slate-50 dark:bg-slate-800/50 rounded-lg">
+        <p class="text-xs text-slate-500 dark:text-slate-400 mb-1">Code sent to:</p>
+        <p class="font-medium text-slate-900 dark:text-white">{{ user.email }}</p>
+    </div>
+
+    <form method="post" action="{{ path('app_verify_email', { user: user.id }) }}" class="space-y-5">
+        <input type="hidden" name="user" value="{{ user.id }}">
+        <div>
+            <label for="code" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-3 text-center">
+                Enter Verification Code
+            </label>
+            <input type="text"
+                   id="code"
+                   name="code"
+                   required
+                   maxlength="6"
+                   pattern="[0-9]{6}"
+                   class="w-full px-4 py-4 border-2 border-slate-300 rounded-lg text-center text-3xl tracking-[0.5em] font-bold focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 dark:bg-slate-900 dark:border-slate-700 dark:text-white"
+                   placeholder="000000"
+                   autofocus>
+            <p class="mt-3 text-xs text-center text-slate-500 dark:text-slate-400">
+                Enter the 6-digit code from your email
+            </p>
+        </div>
+
+        <button type="submit"
+                class="w-full py-3 px-4 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-lg transition focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2">
+            Verify Email
+        </button>
+    </form>
+
+    {# Resend Code #}
+    <div class="mt-6 text-center">
+        <p class="text-sm text-slate-600 dark:text-slate-400 mb-3">
+            Didn't receive the code?
+        </p>
+        <form method="post" action="{{ path('app_resend_verification') }}" class="inline">
+            <input type="hidden" name="user" value="{{ user.id }}">
+            <button type="submit"
+                    class="text-sm font-medium text-emerald-600 hover:text-emerald-500 dark:text-emerald-400 underline">
+                Resend Verification Code
+            </button>
+        </form>
+    </div>
+
+    {# Info Box #}
+    <div class="mt-6 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800 p-4">
+        <div class="flex items-start gap-3">
+            <svg class="w-5 h-5 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            <div class="text-sm text-blue-800 dark:text-blue-200">
+                <p class="font-medium mb-1">Important Notes:</p>
+                <ul class="list-disc list-inside space-y-1 text-blue-700 dark:text-blue-300">
+                    <li>The code expires in 15 minutes</li>
+                    <li>Check your spam folder if you don't see the email</li>
+                    <li>You can request a new code if it expired</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    {# Back to Login #}
+    <p class="mt-6 text-center text-slate-600 dark:text-slate-400">
+        <a href="{{ path('app_login') }}" class="font-medium text-emerald-600 hover:text-emerald-500 dark:text-emerald-400">
+            Back to Login
+        </a>
+    </p>
+</div>
+
+<script>
+document.getElementById('code').addEventListener('input', function(e) {
+    this.value = this.value.replace(/[^0-9]/g, '').substring(0, 6);
+});
+</script>
+{% endblock %}

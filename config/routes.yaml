@@ -1,0 +1,48 @@
+admin_offers_bulk_action:
+    path: /admin/offers/bulk-action
+    controller: App\Controller\Admin\OfferBulkActionController::bulkAction
+    methods: [POST]
+
+admin_offers_export_pdf:
+    path: /admin/offers/export/pdf
+    controller: App\Controller\Admin\OfferExportController::exportOffersPdf
+    methods: [GET]
+admin_offers_index:
+    path: /admin/offers
+    controller: App\Controller\Admin\OfferController::index
+    methods: [GET]
+
+admin_offers_show:
+    path: /admin/offers/{id}
+    controller: App\Controller\Admin\OfferController::show
+    methods: [GET]
+
+
+admin_offers_select_request:
+    path: /admin/offers/select-request
+    controller: App\Controller\Admin\OfferController::selectRequest
+    methods: [GET]
+
+admin_offers_new:
+    path: /admin/offers/new/{serviceRequest}
+    controller: App\Controller\Admin\OfferController::new
+    methods: [GET, POST]
+
+admin_offers_edit:
+    path: /admin/offers/{id}/edit
+    controller: App\Controller\Admin\OfferController::edit
+    methods: [GET, POST]
+
+admin_offers_delete:
+    path: /admin/offers/{id}/delete
+    controller: App\Controller\Admin\OfferController::delete
+    methods: [POST]
+
+controllers:
+    resource:
+        path: ../src/Controller/
+        namespace: App\Controller
+    type: attribute
+
+# The home route is now handled by AppController::home()
+# which redirects authenticated users to their dashboard

@@ -1,0 +1,152 @@
+{% extends 'layout_app.html.twig' %}
+
+{% block main %}
+<div class="max-w-4xl mx-auto">
+    <div class="rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
+        {# Header #}
+        <div class="border-b border-slate-200 px-6 py-4 dark:border-slate-800">
+            <h1 class="text-xl font-bold text-slate-900 dark:text-white">Edit Profile</h1>
+            <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Update your personal information and settings</p>
+        </div>
+
+        {# Form #}
+        <div class="p-6">
+            {{ form_start(form, {'attr': {'class': 'space-y-6'}}) }}
+
+            {# Basic Information #}
+            <div class="space-y-4">
+                <h2 class="text-lg font-semibold text-slate-900 dark:text-white">Basic Information</h2>
+                
+                <div class="grid gap-4 sm:grid-cols-2">
+                    <div>
+                        {{ form_label(form.username, 'Username', {'label_attr': {'class': 'block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2'}}) }}
+                        {{ form_widget(form.username) }}
+                        {{ form_errors(form.username) }}
+                    </div>
+
+                    <div>
+                        {{ form_label(form.email, 'Email', {'label_attr': {'class': 'block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2'}}) }}
+                        {{ form_widget(form.email) }}
+                        {{ form_errors(form.email) }}
+                    </div>
+                </div>
+
+                <div class="grid gap-4 sm:grid-cols-2">
+                    <div>
+                        {{ form_label(form.firstName, 'First Name', {'label_attr': {'class': 'block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2'}}) }}
+                        {{ form_widget(form.firstName) }}
+                        {{ form_errors(form.firstName) }}
+                    </div>
+
+                    <div>
+                        {{ form_label(form.lastName, 'Last Name', {'label_attr': {'class': 'block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2'}}) }}
+                        {{ form_widget(form.lastName) }}
+                        {{ form_errors(form.lastName) }}
+                    </div>
+                </div>
+
+                <div>
+                    {{ form_label(form.phone, 'Phone', {'label_attr': {'class': 'block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2'}}) }}
+                    {{ form_widget(form.phone) }}
+                    {{ form_errors(form.phone) }}
+                </div>
+            </div>
+
+            {# Location #}
+            <div class="space-y-4">
+                <h2 class="text-lg font-semibold text-slate-900 dark:text-white">Location</h2>
+                
+                <div class="grid gap-4 sm:grid-cols-3">
+                    <div>
+                        {{ form_label(form.country, 'Country', {'label_attr': {'class': 'block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2'}}) }}
+                        {{ form_widget(form.country) }}
+                        {{ form_errors(form.country) }}
+                    </div>
+
+                    <div>
+                        {{ form_label(form.city, 'City', {'label_attr': {'class': 'block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2'}}) }}
+                        {{ form_widget(form.city) }}
+                        {{ form_errors(form.city) }}
+                    </div>
+
+                    <div>
+                        {{ form_label(form.timezone, 'Timezone', {'label_attr': {'class': 'block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2'}}) }}
+                        {{ form_widget(form.timezone) }}
+                        {{ form_errors(form.timezone) }}
+                    </div>
+                </div>
+            </div>
+
+            {# Profile Picture #}
+            <div class="space-y-4">
+                <h2 class="text-lg font-semibold text-slate-900 dark:text-white">Profile Picture</h2>
+                
+                {% if user.profilePicture %}
+                    <div class="flex items-center gap-4">
+                        <div class="relative h-20 w-20">
+                            {% set profilePicPath = user.profilePicture starts with '/' 
+                                                     ? user.profilePicture 
+                                                     : 'uploads/profile/' ~ user.profilePicture %}
+                            <img src="{{ asset(profilePicPath) }}" 
+                                 alt="Current profile"
+                                 class="h-20 w-20 rounded-full object-cover border-2 border-emerald-500"
+                                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-emerald-500 to-emerald-600 text-xl font-bold text-white border-2 border-emerald-500 hidden" style="display: none;">
+                                {{ user.firstName[0]|default('U') }}{{ user.lastName[0]|default('') }}
+                            </div>
+                        </div>
+                        <div class="text-sm text-slate-600 dark:text-slate-400">
+                            Current profile picture
+                        </div>
+                    </div>
+                {% endif %}
+
+                <div>
+                    {{ form_label(form.profilePictureFile, 'Upload New Picture', {'label_attr': {'class': 'block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2'}}) }}
+                    {{ form_widget(form.profilePictureFile) }}
+                    {{ form_errors(form.profilePictureFile) }}
+                    <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">PNG, JPG, GIF, WebP up to 5MB</p>
+                </div>
+            </div>
+
+            {# Password Change #}
+            <div class="space-y-4">
+                <h2 class="text-lg font-semibold text-slate-900 dark:text-white">Change Password</h2>
+                
+                <div>
+                    {{ form_label(form.plainPassword, 'New Password', {'label_attr': {'class': 'block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2'}}) }}
+                    {{ form_widget(form.plainPassword) }}
+                    {{ form_errors(form.plainPassword) }}
+                    <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">Leave blank to keep current password</p>
+                </div>
+            </div>
+
+            {# Hidden fields for role and status - only admins should be able to change these #}
+            <div style="display: none;">
+                {{ form_widget(form.role) }}
+                {{ form_widget(form.status) }}
+                {{ form_widget(form.emailVerified) }}
+                {{ form_widget(form.phoneVerified) }}
+                {{ form_widget(form.twoFactorEnabled) }}
+                {% if form.faceImageFile is defined %}
+                    {{ form_widget(form.faceImageFile) }}
+                {% endif %}
+            </div>
+
+            {# Actions #}
+            <div class="flex gap-3 border-t border-slate-200 pt-6 dark:border-slate-800">
+                <a href="{{ path('profile_show') }}"
+                   class="inline-flex items-center justify-center rounded-xl border border-slate-300 bg-white px-6 py-2.5 text-sm font-semibold text-slate-900 transition hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-white dark:hover:bg-slate-700">
+                    Cancel
+                </a>
+                <button type="submit"
+                        class="inline-flex items-center justify-center rounded-xl bg-emerald-600 px-6 py-2.5 text-sm font-semibold text-white transition hover:bg-emerald-700 focus:outline-none focus:ring-4 focus:ring-emerald-500/30">
+                    Save Changes
+                </button>
+            </div>
+
+            {{ form_end(form) }}
+        </div>
+    </div>
+</div>
+{% endblock %}

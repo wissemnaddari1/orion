@@ -1,0 +1,197 @@
+{% extends 'layout_auth.html.twig' %}
+{% set card_wide = true %}
+{% set card_compact = true %}
+
+{% block auth_content %}
+{# Header #}
+<div class="text-center mb-6">
+  <a href="{{ path('app_home') }}" class="inline-block">
+    <img src="{{ asset('images/orion_light_mode.png') }}" alt="Orion" class="h-11 mx-auto">
+  </a>
+  <h1 class="mt-5 text-2xl font-bold text-slate-900 dark:text-white">Create Client Account</h1>
+  <p class="mt-1.5 text-sm text-slate-600 dark:text-slate-400">Start hiring talented freelancers</p>
+</div>
+
+{# 2-step registration form #}
+<div class="auth-form-inner rounded-xl register-form-compact">
+  {% set step1_has_errors = (form.firstName.vars.errors|length + form.lastName.vars.errors|length + form.username.vars.errors|length + form.email.vars.errors|length) > 0 %}
+  {% set step2_has_errors = (form.plainPassword.vars.errors|length + form.plainPassword.first.vars.errors|length + form.plainPassword.second.vars.errors|length + form.agreeTerms.vars.errors|length) > 0 %}
+  {% set show_step = form.vars.submitted ? (step2_has_errors ? '2' : (step1_has_errors ? '1' : '2')) : '1' %}
+  {{ form_start(form, {'attr': {'class': 'js-register-form register-form-steps', 'novalidate': 'novalidate', 'data-validate': 'register', 'data-turbo': 'false', 'data-show-step': show_step}}) }}
+
+  {# Step indicator #}
+  <div class="register-steps-indicator flex gap-2 mb-6">
+    <button type="button" class="register-step-btn active" data-step="1" aria-pressed="true">1. Basic Info</button>
+    <span class="text-slate-400 dark:text-slate-500 self-center">→</span>
+    <button type="button" class="register-step-btn" data-step="2" aria-pressed="false">2. Security</button>
+  </div>
+
+  {# Step 1: Basic Info #}
+  <div class="register-step" data-step="1">
+    <div class="register-field-grid gap-y-4">
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          {{ form_label(form.firstName, null, {'label_attr': {'class': 'register-label'}}) }}
+          {{ form_widget(form.firstName) }}
+          {{ form_errors(form.firstName) }}
+          <div class="js-live-error register-error" data-field="firstName"></div>
+        </div>
+        <div>
+          {{ form_label(form.lastName, null, {'label_attr': {'class': 'register-label'}}) }}
+          {{ form_widget(form.lastName) }}
+          {{ form_errors(form.lastName) }}
+          <div class="js-live-error register-error" data-field="lastName"></div>
+        </div>
+      </div>
+      <div>
+        {{ form_label(form.username, null, {'label_attr': {'class': 'register-label'}}) }}
+        {{ form_widget(form.username) }}
+        {{ form_errors(form.username) }}
+        {% for error in form.username.vars.errors %}
+          {% if 'in use' in error.message|lower or 'taken' in error.message|lower %}
+            <p class="mt-1.5 text-sm text-slate-600 dark:text-slate-400">
+              This username is already in use. Choose another or <a href="{{ path('app_login') }}" class="font-medium text-emerald-600 hover:text-emerald-500 dark:text-emerald-400">sign in</a>.
+            </p>
+          {% endif %}
+        {% endfor %}
+        <div class="js-live-error register-error" data-field="username"></div>
+      </div>
+      <div>
+        {{ form_label(form.email, null, {'label_attr': {'class': 'register-label'}}) }}
+        {{ form_widget(form.email) }}
+        {{ form_errors(form.email) }}
+        {% for error in form.email.vars.errors %}
+          {% if 'in use' in error.message|lower or 'registered' in error.message|lower %}
+            <p class="mt-1.5 text-sm text-slate-600 dark:text-slate-400">
+              This email is already in use. Use a different one or <a href="{{ path('app_login') }}" class="font-medium text-emerald-600 hover:text-emerald-500 dark:text-emerald-400">sign in</a>.
+            </p>
+          {% endif %}
+        {% endfor %}
+        <div class="js-live-error register-error" data-field="email"></div>
+      </div>
+    </div>
+    <button type="button" class="register-btn-continue w-full mt-5">
+      Continue →
+    </button>
+  </div>
+
+  {# Step 2: Security #}
+  <div class="register-step hidden" data-step="2">
+    <div class="register-field-grid gap-y-4">
+      <div class="register-password-group">
+        {{ form_label(form.plainPassword.first, null, {'label_attr': {'class': 'register-label'}}) }}
+        {{ form_widget(form.plainPassword.first) }}
+        {{ form_errors(form.plainPassword.first) }}
+        <div class="password-checklist-wrapper">
+          <ul class="password-checklist password-checklist-compact" id="password-checklist" data-password-field="plainPassword-first" aria-live="polite">
+            <li class="flex items-center gap-2" data-rule="min8"><span class="rule-icon is-invalid">❌</span><span class="rule-text is-invalid">8+ chars</span></li>
+            <li class="flex items-center gap-2" data-rule="startsUppercase"><span class="rule-icon is-invalid">❌</span><span class="rule-text is-invalid">Starts uppercase</span></li>
+            <li class="flex items-center gap-2" data-rule="hasUppercase"><span class="rule-icon is-invalid">❌</span><span class="rule-text is-invalid">1 uppercase</span></li>
+            <li class="flex items-center gap-2" data-rule="hasLowercase"><span class="rule-icon is-invalid">❌</span><span class="rule-text is-invalid">1 lowercase</span></li>
+            <li class="flex items-center gap-2" data-rule="hasDigit"><span class="rule-icon is-invalid">❌</span><span class="rule-text is-invalid">1 digit</span></li>
+            <li class="flex items-center gap-2" data-rule="hasSpecial"><span class="rule-icon is-invalid">❌</span><span class="rule-text is-invalid">1 special</span></li>
+          </ul>
+        </div>
+        <div class="js-live-error register-error" data-field="plainPassword"></div>
+      </div>
+      <div>
+        {{ form_label(form.plainPassword.second, null, {'label_attr': {'class': 'register-label'}}) }}
+        {{ form_widget(form.plainPassword.second) }}
+        {{ form_errors(form.plainPassword.second) }}
+        <div class="js-live-error register-error" data-field="plainPasswordSecond"></div>
+      </div>
+      <div class="flex items-start gap-3">
+        {{ form_widget(form.agreeTerms) }}
+        <label for="{{ form.agreeTerms.vars.id }}" class="register-terms-label">
+          I agree to the <a href="#" class="text-emerald-600 hover:underline dark:text-emerald-400">Terms</a> and <a href="#" class="text-emerald-600 hover:underline dark:text-emerald-400">Privacy Policy</a>
+        </label>
+      </div>
+      {{ form_errors(form.agreeTerms) }}
+      <div class="js-live-error register-error ml-7" data-field="agreeTerms"></div>
+    </div>
+    <div class="flex gap-3 mt-5">
+      <button type="button" class="register-btn-back flex-1 py-2.5 text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 transition">
+        ← Back
+      </button>
+      <button type="submit" class="register-btn-submit flex-[2]">
+        Create Account
+      </button>
+    </div>
+  </div>
+
+  {{ form_end(form, {'render_rest': false}) }}
+</div>
+
+{# Links #}
+<div class="mt-5 text-center space-y-1.5 text-sm">
+  <p class="text-slate-600 dark:text-slate-400">
+    Want to be a freelancer? <a href="{{ path('app_register_freelancer') }}" class="font-medium text-emerald-600 hover:text-emerald-500 dark:text-emerald-400">Register as Freelancer</a>
+  </p>
+  <p class="text-slate-500 dark:text-slate-500">
+    Already have an account? <a href="{{ path('app_login') }}" class="font-medium text-emerald-600 hover:text-emerald-500 dark:text-emerald-400">Sign in</a>
+  </p>
+</div>
+
+<script>
+(function() {
+  function initRegisterSteps() {
+    var form = document.querySelector('.register-form-steps, form[data-validate="register"]');
+    if (!form || form.dataset.stepsBound === '1') return;
+    form.dataset.stepsBound = '1';
+
+    /* Use .register-step to target content panels, NOT the step buttons which also have data-step */
+    var step1 = form.querySelector('.register-step[data-step="1"]');
+    var step2 = form.querySelector('.register-step[data-step="2"]');
+    var btn1 = form.querySelector('.register-step-btn[data-step="1"]');
+    var btn2 = form.querySelector('.register-step-btn[data-step="2"]');
+
+    function goToStep(n) {
+      if (step1) step1.classList.toggle('hidden', n !== 1);
+      if (step2) step2.classList.toggle('hidden', n !== 2);
+      if (btn1) {
+        btn1.classList.toggle('active', n === 1);
+        btn1.setAttribute('aria-pressed', n === 1 ? 'true' : 'false');
+      }
+      if (btn2) {
+        btn2.classList.toggle('active', n === 2);
+        btn2.setAttribute('aria-pressed', n === 2 ? 'true' : 'false');
+      }
+    }
+
+    /* When form was submitted with errors, show the step that has errors */
+    var showStep = form.getAttribute('data-show-step');
+    if (showStep === '2') goToStep(2);
+
+    function isStep1Valid() {
+      var names = ['firstName', 'lastName', 'username', 'email'];
+      for (var i = 0; i < names.length; i++) {
+        var inp = form.querySelector('[name*="[' + names[i] + ']"]');
+        if (inp && !inp.value.trim()) return false;
+      }
+      return true;
+    }
+
+    form.addEventListener('click', function(e) {
+      var target = e.target.closest('.register-btn-continue, .register-btn-back, .register-step-btn');
+      if (!target) return;
+      e.preventDefault();
+      if (target.classList.contains('register-btn-continue')) {
+        if (isStep1Valid()) goToStep(2);
+      } else if (target.classList.contains('register-btn-back')) {
+        goToStep(1);
+      } else if (target.classList.contains('register-step-btn')) {
+        var s = target.getAttribute('data-step');
+        if (s) goToStep(parseInt(s, 10));
+      }
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initRegisterSteps);
+  } else {
+    initRegisterSteps();
+  }
+  document.addEventListener('turbo:load', initRegisterSteps);
+})();
+</script>
+{% endblock %}

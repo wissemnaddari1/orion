@@ -1,0 +1,10 @@
+{
+  "title": "",
+  "bio": "",
+  "experience_years": 0,
+  "hourly_rate": "",
+  "location": "",
+  "skills": [],
+  "confidence": 0,
+  "error": "Could not extract text from CV (OCR may need Tesseract installed)"
+}

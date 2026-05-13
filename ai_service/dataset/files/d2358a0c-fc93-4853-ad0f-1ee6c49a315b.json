@@ -1,0 +1,14 @@
+{
+  "title": "Professeur D'Anglais",
+  "bio": "Professeur d'anglais expérimenté avec plus de 8 ans d'expérience dans l'€ducation. Expertise dans |'élaboration de plans de cours, l'évaluation des progrés des éléves et I'animation de classes attrayantes.",
+  "experience_years": 8,
+  "hourly_rate": "",
+  "location": "Paris",
+  "skills": [
+    "Anglais"
+  ],
+  "phoneNumber": "502) 108 0240",
+  "email": "didieolivi@gmail.com",
+  "confidence": 76,
+  "strategy": "enhanced_regex"
+}

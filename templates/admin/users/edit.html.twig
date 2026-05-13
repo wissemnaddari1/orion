@@ -1,0 +1,26 @@
+{% extends 'layout_admin.html.twig' %}
+
+{% block title %}Edit User - Orion{% endblock %}
+
+{% block main %}
+<div class="max-w-4xl mx-auto space-y-6">
+    <div class="flex items-center justify-between">
+        <h2 class="text-2xl font-bold text-slate-900 dark:text-white">Edit User</h2>
+        <a href="{{ path('admin_users_show', {id: user.id}) }}"
+           class="text-sm text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white">
+            View Details
+        </a>
+    </div>
+
+    <div class="bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 p-6 space-y-4">
+        {% if user.profilePicture %}
+            <div class="flex items-center gap-3">
+                <img src="{{ asset(user.profilePicture) }}" alt="{{ user.fullName }}" class="w-12 h-12 rounded-full object-cover">
+                <div class="text-sm text-slate-500 dark:text-slate-400">Current profile picture</div>
+            </div>
+        {% endif %}
+
+        {% include 'admin/users/_form.html.twig' with {form: form, button_label: 'Update User'} %}
+    </div>
+</div>
+{% endblock %}

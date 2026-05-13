@@ -1,0 +1,281 @@
+{% extends 'layout_client.html.twig' %}
+
+{% block main %}
+    <div class="mx-auto max-w-6xl space-y-6">
+        <div class="rounded-2xl border border-cyan-200 bg-gradient-to-r from-cyan-50 to-sky-50 p-5 dark:border-cyan-800 dark:from-cyan-900/20 dark:to-sky-900/20">
+            <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                    <h1 class="text-2xl font-bold text-slate-900 dark:text-white">Secure Card Checkout</h1>
+                    <p class="mt-1 text-sm text-slate-600 dark:text-slate-300">
+                        Mock test mode. No real charge will be made.
+                    </p>
+                </div>
+                <span class="inline-flex w-fit items-center rounded-full border border-cyan-300 bg-white px-3 py-1 text-xs font-semibold uppercase tracking-wide text-cyan-700 dark:border-cyan-700 dark:bg-slate-900 dark:text-cyan-300">
+                    Test Mode
+                </span>
+            </div>
+        </div>
+
+        <div class="grid gap-6 lg:grid-cols-3">
+            <div class="lg:col-span-2 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+                <div class="mb-5 flex items-center justify-between">
+                    <h2 class="text-lg font-semibold text-slate-900 dark:text-white">Payment Method</h2>
+                    <span id="cardBrand" class="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">Card</span>
+                </div>
+
+                <div id="apiError" class="mb-4 hidden rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700 dark:border-red-800 dark:bg-red-900/20 dark:text-red-300"></div>
+                <div id="apiSuccess" class="mb-4 hidden rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700 dark:border-emerald-800 dark:bg-emerald-900/20 dark:text-emerald-300"></div>
+
+                <form id="mockCardForm" class="space-y-4" novalidate>
+                    <div>
+                        <label for="card_name" class="mb-1 block text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">Name on card</label>
+                        <input id="card_name" name="card_name" type="text" autocomplete="cc-name"
+                               class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-900 outline-none ring-cyan-400 transition focus:border-cyan-500 focus:ring-2 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
+                               placeholder="John Doe" required>
+                        <p class="mt-1 hidden text-xs text-red-600" data-error-for="card_name"></p>
+                    </div>
+
+                    <div>
+                        <label for="card_number" class="mb-1 block text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">Card number</label>
+                        <input id="card_number" name="card_number" type="text" inputmode="numeric" autocomplete="cc-number" maxlength="23"
+                               class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 font-mono text-sm text-slate-900 outline-none ring-cyan-400 transition focus:border-cyan-500 focus:ring-2 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
+                               placeholder="4242 4242 4242 4242" required>
+                        <p class="mt-1 hidden text-xs text-red-600" data-error-for="card_number"></p>
+                    </div>
+
+                    <div class="grid gap-4 sm:grid-cols-3">
+                        <div>
+                            <label for="exp_month" class="mb-1 block text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">Exp month</label>
+                            <select id="exp_month" name="exp_month"
+                                    class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-900 outline-none ring-cyan-400 transition focus:border-cyan-500 focus:ring-2 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100">
+                                <option value="">MM</option>
+                                {% for m in 1..12 %}
+                                    <option value="{{ m }}">{{ '%02d'|format(m) }}</option>
+                                {% endfor %}
+                            </select>
+                            <p class="mt-1 hidden text-xs text-red-600" data-error-for="exp_month"></p>
+                        </div>
+
+                        <div>
+                            <label for="exp_year" class="mb-1 block text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">Exp year</label>
+                            <select id="exp_year" name="exp_year"
+                                    class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-900 outline-none ring-cyan-400 transition focus:border-cyan-500 focus:ring-2 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100">
+                                <option value="">YYYY</option>
+                                {% set thisYear = ("now"|date("Y")) + 0 %}
+                                {% for y in thisYear..(thisYear + 10) %}
+                                    <option value="{{ y }}">{{ y }}</option>
+                                {% endfor %}
+                            </select>
+                            <p class="mt-1 hidden text-xs text-red-600" data-error-for="exp_year"></p>
+                        </div>
+
+                        <div>
+                            <label for="cvc" class="mb-1 block text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">CVC</label>
+                            <input id="cvc" name="cvc" type="text" inputmode="numeric" autocomplete="cc-csc" maxlength="4"
+                                   class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 font-mono text-sm text-slate-900 outline-none ring-cyan-400 transition focus:border-cyan-500 focus:ring-2 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
+                                   placeholder="123" required>
+                            <p class="mt-1 hidden text-xs text-red-600" data-error-for="cvc"></p>
+                        </div>
+                    </div>
+
+                    <div class="grid gap-4 sm:grid-cols-2">
+                        <div>
+                            <label for="billing_country" class="mb-1 block text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">Country</label>
+                            <select id="billing_country" name="billing_country"
+                                    class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-900 outline-none ring-cyan-400 transition focus:border-cyan-500 focus:ring-2 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100">
+                                <option value="">Select country</option>
+                                <option value="US">United States</option>
+                                <option value="FR">France</option>
+                                <option value="TN">Tunisia</option>
+                                <option value="MA">Morocco</option>
+                                <option value="DE">Germany</option>
+                                <option value="GB">United Kingdom</option>
+                            </select>
+                            <p class="mt-1 hidden text-xs text-red-600" data-error-for="billing_country"></p>
+                        </div>
+                        <div>
+                            <label for="postal_code" class="mb-1 block text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">Postal code</label>
+                            <input id="postal_code" name="postal_code" type="text" autocomplete="postal-code" maxlength="12"
+                                   class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-900 outline-none ring-cyan-400 transition focus:border-cyan-500 focus:ring-2 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
+                                   placeholder="10001">
+                            <p class="mt-1 hidden text-xs text-red-600" data-error-for="postal_code"></p>
+                        </div>
+                    </div>
+
+                    <div class="rounded-lg border border-slate-200 bg-slate-50 p-3 text-xs text-slate-600 dark:border-slate-700 dark:bg-slate-800/60 dark:text-slate-300">
+                        <p class="font-semibold text-slate-700 dark:text-slate-200">Test cards</p>
+                        <p class="mt-1">Success: <code>4242 4242 4242 4242</code> | Declined: <code>4000 0000 0000 0002</code></p>
+                    </div>
+
+                    <div class="flex flex-col gap-3 sm:flex-row">
+                        <button id="payBtn" type="submit"
+                                class="inline-flex w-full items-center justify-center rounded-lg bg-cyan-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-cyan-700 sm:w-auto">
+                            Pay {{ contract.upfrontAmount|number_format(2, '.', ',') }} {{ contract.currency }}
+                        </button>
+                        <a href="{{ path('client_contract_show', {id: contract.id}) }}"
+                           class="inline-flex w-full items-center justify-center rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700 sm:w-auto">
+                            Back to contract
+                        </a>
+                    </div>
+                </form>
+            </div>
+
+            <aside class="space-y-4">
+                <div class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+                    <h3 class="text-sm font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">Order summary</h3>
+                    <dl class="mt-3 space-y-2.5 text-sm">
+                        <div class="flex justify-between gap-3">
+                            <dt class="text-slate-500 dark:text-slate-400">Contract</dt>
+                            <dd class="text-right font-medium text-slate-800 dark:text-slate-200">#{{ contract.id }}</dd>
+                        </div>
+                        <div class="flex justify-between gap-3">
+                            <dt class="text-slate-500 dark:text-slate-400">Title</dt>
+                            <dd class="text-right font-medium text-slate-800 dark:text-slate-200">{{ contract.title }}</dd>
+                        </div>
+                        <div class="flex justify-between gap-3">
+                            <dt class="text-slate-500 dark:text-slate-400">Total</dt>
+                            <dd class="text-right font-medium text-slate-800 dark:text-slate-200">{{ contract.agreedPrice|number_format(2, '.', ',') }} {{ contract.currency }}</dd>
+                        </div>
+                        <div class="flex justify-between gap-3 border-t border-slate-200 pt-2 dark:border-slate-700">
+                            <dt class="font-semibold text-slate-700 dark:text-slate-200">Upfront ({{ contract.upfrontPercent|number_format(2) }}%)</dt>
+                            <dd class="text-right text-base font-bold text-cyan-700 dark:text-cyan-300">{{ contract.upfrontAmount|number_format(2, '.', ',') }} {{ contract.currency }}</dd>
+                        </div>
+                    </dl>
+                </div>
+
+                <div class="rounded-2xl border border-emerald-200 bg-emerald-50 p-4 text-xs text-emerald-700 dark:border-emerald-800 dark:bg-emerald-900/20 dark:text-emerald-300">
+                    API endpoint used:
+                    <code class="block mt-1 text-[11px]">POST /api/client/payments/contracts/{{ contract.id }}/upfront/mock-card</code>
+                </div>
+            </aside>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        (function () {
+            const form = document.getElementById('mockCardForm');
+            if (!form) return;
+
+            const apiUrl = '{{ path('api_client_payments_upfront_mock_card', {id: contract.id}) }}';
+            const successRedirect = '{{ path('client_contract_show', {id: contract.id}) }}?payment=mock_success';
+
+            const cardNumberInput = document.getElementById('card_number');
+            const cvcInput = document.getElementById('cvc');
+            const payBtn = document.getElementById('payBtn');
+            const cardBrand = document.getElementById('cardBrand');
+            const apiError = document.getElementById('apiError');
+            const apiSuccess = document.getElementById('apiSuccess');
+
+            function showFieldError(field, message) {
+                const target = form.querySelector('[data-error-for="' + field + '"]');
+                if (!target) return;
+                target.textContent = message;
+                target.classList.remove('hidden');
+            }
+
+            function clearErrors() {
+                form.querySelectorAll('[data-error-for]').forEach((el) => {
+                    el.textContent = '';
+                    el.classList.add('hidden');
+                });
+                apiError.textContent = '';
+                apiError.classList.add('hidden');
+            }
+
+            function digitsOnly(value) {
+                return (value || '').replace(/\D+/g, '');
+            }
+
+            function formatCardNumber(value) {
+                const raw = digitsOnly(value).slice(0, 19);
+                return raw.replace(/(.{4})/g, '$1 ').trim();
+            }
+
+            function detectBrand(number) {
+                if (number.startsWith('4')) return 'Visa';
+                if (number.startsWith('5')) return 'Mastercard';
+                if (number.startsWith('34') || number.startsWith('37')) return 'Amex';
+                return 'Card';
+            }
+
+            cardNumberInput.addEventListener('input', () => {
+                cardNumberInput.value = formatCardNumber(cardNumberInput.value);
+                const num = digitsOnly(cardNumberInput.value);
+                cardBrand.textContent = detectBrand(num);
+            });
+
+            cvcInput.addEventListener('input', () => {
+                cvcInput.value = digitsOnly(cvcInput.value).slice(0, 4);
+            });
+
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                clearErrors();
+                apiSuccess.classList.add('hidden');
+
+                const payload = {
+                    card_name: (document.getElementById('card_name').value || '').trim(),
+                    card_number: digitsOnly(cardNumberInput.value),
+                    exp_month: Number(document.getElementById('exp_month').value || 0),
+                    exp_year: Number(document.getElementById('exp_year').value || 0),
+                    cvc: (document.getElementById('cvc').value || '').trim(),
+                    billing_country: (document.getElementById('billing_country').value || '').trim(),
+                    postal_code: (document.getElementById('postal_code').value || '').trim()
+                };
+
+                if (!payload.card_name) showFieldError('card_name', 'Name is required.');
+                if (!payload.card_number) showFieldError('card_number', 'Card number is required.');
+                if (!payload.exp_month) showFieldError('exp_month', 'Month is required.');
+                if (!payload.exp_year) showFieldError('exp_year', 'Year is required.');
+                if (!payload.cvc) showFieldError('cvc', 'CVC is required.');
+                if (!payload.billing_country) showFieldError('billing_country', 'Country is required.');
+                if (!payload.postal_code) showFieldError('postal_code', 'Postal code is required.');
+
+                const hasErrors = Array.from(form.querySelectorAll('[data-error-for]')).some((el) => !el.classList.contains('hidden'));
+                if (hasErrors) return;
+
+                payBtn.disabled = true;
+                const previousLabel = payBtn.textContent;
+                payBtn.textContent = 'Processing...';
+
+                try {
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        credentials: 'same-origin',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-Requested-With': 'XMLHttpRequest'
+                        },
+                        body: JSON.stringify(payload)
+                    });
+
+                    const data = await response.json().catch(() => ({}));
+                    if (!response.ok || !data.success) {
+                        if (data.details && typeof data.details === 'object') {
+                            Object.keys(data.details).forEach((key) => {
+                                showFieldError(key, String(data.details[key]));
+                            });
+                        }
+
+                        apiError.textContent = data.message || 'Payment failed. Please verify your card data.';
+                        apiError.classList.remove('hidden');
+                        return;
+                    }
+
+                    apiSuccess.textContent = 'Payment accepted. Redirecting...';
+                    apiSuccess.classList.remove('hidden');
+                    window.location.href = successRedirect;
+                } catch (err) {
+                    apiError.textContent = 'Network error while processing payment.';
+                    apiError.classList.remove('hidden');
+                } finally {
+                    payBtn.disabled = false;
+                    payBtn.textContent = previousLabel;
+                }
+            });
+        })();
+    </script>
+{% endblock %}

@@ -1,0 +1,16 @@
+{
+  "title": "Hr Manager",
+  "bio": "‘+ Recruited and onboarded talent for departments such as Sales, Marketing, Communications, Trade Marketing, Finance, Compatibility, and Operations (including apprentices, interns, graduates, and full-time hires).",
+  "experience_years": 6,
+  "hourly_rate": "",
+  "location": "London",
+  "skills": [
+    "French",
+    "English",
+    "Spanish"
+  ],
+  "phoneNumber": "439.999 999 999",
+  "email": "emma.smith@mail.com",
+  "confidence": 82,
+  "strategy": "enhanced_regex"
+}

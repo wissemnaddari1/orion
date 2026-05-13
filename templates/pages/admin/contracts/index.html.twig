@@ -1,0 +1,194 @@
+{% extends 'layout_admin.html.twig' %}
+{% block title %}Contract Management - Orion{% endblock %}
+
+{% block main %}
+<div class="space-y-6">
+    {# Flash messages #}
+    {% for type, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="rounded-lg px-4 py-3 text-sm font-medium
+                {% if type == 'success' %} bg-emerald-50 text-emerald-800 border border-emerald-200 dark:bg-emerald-900/20 dark:text-emerald-400 dark:border-emerald-800
+                {% elseif type == 'error' or type == 'danger' %} bg-red-50 text-red-800 border border-red-200 dark:bg-red-900/20 dark:text-red-400 dark:border-red-800
+                {% else %} bg-blue-50 text-blue-800 border border-blue-200 dark:bg-blue-900/20 dark:text-blue-400 dark:border-blue-800
+                {% endif %}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+    {# Header #}
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+            <h2 class="text-2xl font-bold text-slate-900 dark:text-white">Contracts</h2>
+            <p class="text-sm text-slate-500 dark:text-slate-400">{{ total }} total contracts</p>
+        </div>
+        <a href="{{ path('admin_contracts_create') }}"
+           class="inline-flex items-center gap-2 rounded-lg bg-emerald-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-700">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+            </svg>
+            New Contract
+        </a>
+    </div>
+
+    {# Search + Filter #}
+    <div class="flex flex-col sm:flex-row gap-3">
+        <form method="get" action="{{ path('admin_contracts_index') }}" class="flex flex-wrap gap-2 items-end">
+            <input type="text"
+                   name="search"
+                   value="{{ search_keyword }}"
+                   placeholder="Search title, client, worker..."
+                   class="px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:bg-slate-900 dark:border-slate-700 dark:text-white text-sm">
+            <select name="status"
+                    class="px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:bg-slate-900 dark:border-slate-700 dark:text-white text-sm">
+                <option value="">All Statuses</option>
+                {% for s in statuses %}
+                    <option value="{{ s }}" {% if status_filter == s %}selected{% endif %}>{{ s|replace({'_': ' '}) }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit"
+                    class="px-4 py-2 bg-slate-600 text-white rounded-lg hover:bg-slate-700 transition text-sm">
+                Filter
+            </button>
+            {% if search_keyword or status_filter %}
+                <a href="{{ path('admin_contracts_index') }}"
+                   class="px-4 py-2 border border-slate-300 rounded-lg hover:bg-slate-50 dark:border-slate-700 dark:hover:bg-slate-800 text-sm text-slate-600 dark:text-slate-300 transition">
+                    Clear
+                </a>
+            {% endif %}
+        </form>
+    </div>
+
+    {# Table #}
+    <div class="bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm">
+        <div class="overflow-x-auto">
+            <table class="w-full">
+                <thead class="bg-slate-50 dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">ID</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Title</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Client</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Worker</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Price</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Status</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Signatures</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Created</th>
+                        <th class="px-6 py-3 text-right text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-200 dark:divide-slate-800">
+                    {% for contract in contracts %}
+                        <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500 dark:text-slate-400">
+                                #{{ contract.id }}
+                            </td>
+                            <td class="px-6 py-4">
+                                <a href="{{ path('admin_contracts_show', {id: contract.id}) }}" class="font-medium text-slate-900 dark:text-white hover:text-emerald-600 dark:hover:text-emerald-400 transition">
+                                    {{ contract.title|length > 35 ? contract.title[:35] ~ 'â€¦' : contract.title }}
+
+                                </a>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-600 dark:text-slate-400">
+                                {% if contract.client %}
+                                    {{ contract.client.firstName }} {{ contract.client.lastName }}
+                                {% else %}
+                                    <span class="italic text-slate-400">â€”</span>
+
+                                {% endif %}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-600 dark:text-slate-400">
+                                {% if contract.worker %}
+                                    {{ contract.worker.firstName }} {{ contract.worker.lastName }}
+                                {% else %}
+                                    <span class="italic text-slate-400">â€”</span>
+
+                                {% endif %}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-900 dark:text-white">
+                                {{ contract.agreedPrice|number_format(2) }} {{ contract.currency }}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                {% if contract.status == 'DRAFT' %}
+                                    <span class="inline-flex items-center rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-medium text-slate-700 dark:bg-slate-700 dark:text-slate-300">Draft</span>
+                                {% elseif contract.status == 'PENDING_SIGN' %}
+                                    <span class="inline-flex items-center rounded-full bg-amber-100 px-2.5 py-0.5 text-xs font-medium text-amber-800 dark:bg-amber-900/30 dark:text-amber-400">Pending Sign</span>
+                                {% elseif contract.status == 'ACTIVE' %}
+                                    <span class="inline-flex items-center rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-medium text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-400">Active</span>
+                                {% elseif contract.status == 'IN_PROGRESS' %}
+                                    <span class="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800 dark:bg-blue-900/30 dark:text-blue-400">In Progress</span>
+                                {% elseif contract.status == 'COMPLETED' %}
+                                    <span class="inline-flex items-center rounded-full bg-indigo-100 px-2.5 py-0.5 text-xs font-medium text-indigo-800 dark:bg-indigo-900/30 dark:text-indigo-400">Completed</span>
+                                {% elseif contract.status == 'CANCELLED' %}
+                                    <span class="inline-flex items-center rounded-full bg-red-100 px-2.5 py-0.5 text-xs font-medium text-red-800 dark:bg-red-900/30 dark:text-red-400">Cancelled</span>
+                                {% elseif contract.status == 'DISPUTED' %}
+                                    <span class="inline-flex items-center rounded-full bg-orange-100 px-2.5 py-0.5 text-xs font-medium text-orange-800 dark:bg-orange-900/30 dark:text-orange-400">Disputed</span>
+                                {% else %}
+                                    <span class="inline-flex items-center rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-800 dark:bg-gray-700 dark:text-gray-300">{{ contract.status }}</span>
+                                {% endif %}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="flex items-center gap-2">
+                                    <div class="flex items-center gap-1" title="Client {{ contract.clientSigned ? 'signed' : 'not signed' }}">
+                                        <span class="inline-block w-2.5 h-2.5 rounded-full {{ contract.clientSigned ? 'bg-emerald-500' : 'bg-slate-300 dark:bg-slate-600' }}"></span>
+                                        <span class="text-xs text-slate-500 dark:text-slate-400">C</span>
+                                    </div>
+                                    <div class="flex items-center gap-1" title="Worker {{ contract.workerSigned ? 'signed' : 'not signed' }}">
+                                        <span class="inline-block w-2.5 h-2.5 rounded-full {{ contract.workerSigned ? 'bg-emerald-500' : 'bg-slate-300 dark:bg-slate-600' }}"></span>
+                                        <span class="text-xs text-slate-500 dark:text-slate-400">W</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500 dark:text-slate-400">
+                                {{ contract.createdAt|date('Y-m-d') }}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
+                                <a href="{{ path('admin_contracts_show', {id: contract.id}) }}"
+                                   class="text-emerald-600 hover:text-emerald-900 dark:text-emerald-400 dark:hover:text-emerald-300">
+                                    View
+                                </a>
+                                <a href="{{ path('admin_contracts_edit', {id: contract.id}) }}"
+                                   class="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300">
+                                    Edit
+                                </a>
+                                <a href="{{ path('admin_contracts_pdf', {id: contract.id}) }}" target="_blank"
+                                   class="text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200" title="Download PDF">
+                                    PDF
+                                </a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="9" class="px-6 py-8 text-center text-slate-500 dark:text-slate-400">
+                                No contracts found.
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    {# Pagination #}
+    {% if total_pages > 1 %}
+        <div class="flex items-center justify-between">
+            <div class="text-sm text-slate-500 dark:text-slate-400">
+                Page {{ page }} of {{ total_pages }}
+            </div>
+            <div class="flex items-center gap-2">
+                {% if page > 1 %}
+                    <a href="{{ path('admin_contracts_index', {page: page - 1, search: search_keyword, status: status_filter}) }}"
+                       class="px-3 py-2 text-sm border border-slate-300 rounded-lg hover:bg-slate-50 dark:border-slate-700 dark:hover:bg-slate-800 dark:text-slate-300">
+                        Previous
+                    </a>
+                {% endif %}
+                {% if page < total_pages %}
+                    <a href="{{ path('admin_contracts_index', {page: page + 1, search: search_keyword, status: status_filter}) }}"
+                       class="px-3 py-2 text-sm border border-slate-300 rounded-lg hover:bg-slate-50 dark:border-slate-700 dark:hover:bg-slate-800 dark:text-slate-300">
+                        Next
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

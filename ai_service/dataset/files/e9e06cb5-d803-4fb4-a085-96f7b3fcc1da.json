@@ -1,0 +1,15 @@
+{
+  "title": "Université de Paris, je suis",
+  "bio": "",
+  "experience_years": 5,
+  "hourly_rate": "",
+  "location": "Mention Bien, UN",
+  "skills": [
+    "Anglais",
+    "Espagnol"
+  ],
+  "phoneNumber": "+33 6 66 66 66 66",
+  "email": "prenom.nom@gmail.com",
+  "confidence": 66,
+  "strategy": "enhanced_regex"
+}

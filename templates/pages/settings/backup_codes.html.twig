@@ -1,0 +1,33 @@
+{% extends 'layout_app.html.twig' %}
+
+{% block main %}
+<div class="max-w-3xl mx-auto space-y-6">
+    <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+        <h1 class="text-xl font-bold text-slate-900 dark:text-white mb-2">Backup Codes</h1>
+        <p class="text-slate-600 dark:text-slate-400 mb-4">
+            You have <strong>{{ backup_codes_count }}</strong> backup code(s) remaining. Each code can be used once if you lose access to your authenticator app.
+        </p>
+
+        {% if plain_backup_codes is defined and plain_backup_codes %}
+            <div class="rounded-xl border border-amber-200 bg-amber-50 p-4 dark:border-amber-800 dark:bg-amber-900/20">
+                <h2 class="font-semibold text-amber-800 dark:text-amber-200 mb-2">Save these codes now</h2>
+                <p class="text-sm text-amber-700 dark:text-amber-300 mb-4">This is the only time the plain codes will be shown.</p>
+                <div class="grid grid-cols-2 sm:grid-cols-5 gap-2 font-mono text-sm">
+                    {% for code in plain_backup_codes %}
+                        <span class="rounded-lg bg-white dark:bg-slate-800 px-3 py-2 border border-amber-200 dark:border-amber-800 text-amber-900 dark:text-amber-100">{{ code }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+
+        <p class="text-sm text-slate-500 dark:text-slate-500">
+            Backup codes were shown once when you enabled 2FA. If you did not save them, you can disable 2FA and re-enable it to generate new codes (you will need to scan the QR code again).
+        </p>
+        <div class="mt-6">
+            <a href="{{ path('settings_privacy_security') }}" class="text-emerald-600 hover:text-emerald-700 dark:text-emerald-400 dark:hover:text-emerald-300 font-medium">
+                ← Back to Privacy & Security
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,152 @@
+{% extends 'layout_admin.html.twig' %}
+
+{% block title %}Face Authentication Logs - Orion{% endblock %}
+
+{% block main %}
+<div class="space-y-6">
+    {# Page Header #}
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+            <h2 class="text-2xl font-bold text-slate-900 dark:text-white">Face Authentication Logs</h2>
+            <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">
+                Monitor all facial recognition login attempts and security events
+            </p>
+        </div>
+    </div>
+
+    {# Stats Summary #}
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div class="bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 p-4">
+            <p class="text-sm font-medium text-slate-600 dark:text-slate-400">Total Users with Face Auth</p>
+            <p class="text-2xl font-bold text-slate-900 dark:text-white mt-1">{{ face_logs|length }}</p>
+        </div>
+        <div class="bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 p-4">
+            <p class="text-sm font-medium text-slate-600 dark:text-slate-400">Active Today</p>
+            <p class="text-2xl font-bold text-emerald-600 dark:text-emerald-400 mt-1">
+                {{ face_logs|filter(log => log.face_last_verified and log.face_last_verified|date('Y-m-d') == 'now'|date('Y-m-d'))|length }}
+            </p>
+        </div>
+        <div class="bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 p-4">
+            <p class="text-sm font-medium text-slate-600 dark:text-slate-400">Failed Attempts</p>
+            <p class="text-2xl font-bold text-red-600 dark:text-red-400 mt-1">
+                {{ face_logs|filter(log => log.face_failed_attempts > 0)|length }}
+            </p>
+        </div>
+        <div class="bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 p-4">
+            <p class="text-sm font-medium text-slate-600 dark:text-slate-400">Locked Accounts</p>
+            <p class="text-2xl font-bold text-orange-600 dark:text-orange-400 mt-1">
+                {{ face_logs|filter(log => log.face_locked_until and log.face_locked_until > 'now'|date('Y-m-d H:i:s'))|length }}
+            </p>
+        </div>
+    </div>
+
+    {# Face Login Logs Table #}
+    <div class="bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800">
+        <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-800">
+            <h3 class="text-lg font-semibold text-slate-900 dark:text-white">All Face Authentication Logs</h3>
+        </div>
+        <div class="overflow-x-auto">
+            <table class="w-full">
+                <thead class="bg-slate-50 dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">User</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Role</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">IP Address</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Model Version</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Failed Attempts</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Last Verified</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Status</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-200 dark:divide-slate-800">
+                    {% for log in face_logs %}
+                    <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition">
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="flex flex-col">
+                                <div class="font-medium text-slate-900 dark:text-white">{{ log.username }}</div>
+                                <div class="text-sm text-slate-500 dark:text-slate-400">{{ log.email }}</div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="px-2 py-1 text-xs font-semibold rounded-full 
+                                {% if log.role == 'ADMIN' %}bg-teal-100 text-teal-800 dark:bg-teal-900/30 dark:text-teal-400
+                                {% elseif log.role == 'WORKER' %}bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-400
+                                {% else %}bg-slate-100 text-slate-800 dark:bg-slate-800 dark:text-slate-400{% endif %}">
+                                {{ log.role }}
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-600 dark:text-slate-400">
+                            <div class="flex items-center gap-2">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/>
+                                </svg>
+                                {{ log.last_ip ?? 'N/A' }}
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <code class="text-xs bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded text-slate-700 dark:text-slate-300">
+                                {{ log.face_model_version ?? 'N/A' }}
+                            </code>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            {% if log.face_failed_attempts > 0 %}
+                                <span class="px-2 py-1 text-xs font-semibold rounded-full 
+                                    {% if log.face_failed_attempts >= 5 %}bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400
+                                    {% elseif log.face_failed_attempts >= 3 %}bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-400
+                                    {% else %}bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400{% endif %}">
+                                    {{ log.face_failed_attempts }}
+                                </span>
+                            {% else %}
+                                <span class="px-2 py-1 text-xs font-semibold rounded-full bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-400">
+                                    0
+                                </span>
+                            {% endif %}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-600 dark:text-slate-400">
+                            {% if log.face_last_verified %}
+                                <div class="flex flex-col">
+                                    <span>{{ log.face_last_verified|date('M d, Y') }}</span>
+                                    <span class="text-xs text-slate-500 dark:text-slate-400">{{ log.face_last_verified|date('H:i:s') }}</span>
+                                </div>
+                            {% else %}
+                                <span class="text-slate-400 dark:text-slate-500">Never</span>
+                            {% endif %}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            {% if log.face_locked_until and log.face_locked_until > 'now'|date('Y-m-d H:i:s') %}
+                                <span class="px-2 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400">
+                                    🔒 Locked
+                                </span>
+                            {% else %}
+                                <span class="px-2 py-1 text-xs font-semibold rounded-full bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-400">
+                                    ✓ Active
+                                </span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="7" class="px-6 py-8 text-center text-slate-500 dark:text-slate-400">
+                            No face authentication logs found.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% if pages is defined and pages > 1 %}
+            <div class="px-6 py-4 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between">
+                <span class="text-sm text-slate-600 dark:text-slate-400">Page {{ page }} / {{ pages }} ({{ total }} total)</span>
+                <div class="flex items-center gap-2">
+                    {% if page > 1 %}
+                        <a href="{{ path('admin_face_logs', {'page': page - 1}) }}" class="px-3 py-1.5 rounded border border-slate-300 dark:border-slate-700 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">Prev</a>
+                    {% endif %}
+                    {% if page < pages %}
+                        <a href="{{ path('admin_face_logs', {'page': page + 1}) }}" class="px-3 py-1.5 rounded border border-slate-300 dark:border-slate-700 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">Next</a>
+                    {% endif %}
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

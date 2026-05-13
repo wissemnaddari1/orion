@@ -1,0 +1,325 @@
+{% extends 'layout_app.html.twig' %}
+
+{% block main %}
+<div class="max-w-4xl mx-auto">
+    <div class="mb-8">
+        <h1 class="text-2xl font-bold text-slate-900 dark:text-white">Post a New Service</h1>
+    </div>
+
+    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-sm">
+        <form id="service-form" method="POST" onsubmit="handleCreate(event)" class="p-6 lg:p-8 space-y-6">
+            
+            {# Title #}
+            <div>
+                <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Service Title</label>
+                <input type="text" name="title" class="w-full px-4 py-2 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg dark:text-white outline-none focus:ring-2 focus:ring-emerald-500">
+            </div>
+                {# Category #}
+            <div>
+                <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Service Category</label>
+                <select name="category_id" required class="w-full px-4 py-2 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg dark:text-white outline-none focus:ring-2 focus:ring-emerald-500">
+                    <option value="" disabled selected>-- Select a Category --</option>
+                    {% for category in categories %}
+                        <option value="{{ category.id }}">{{ category.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            {# Budget Integer Range + Status Row #}
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
+                
+                {# Dual Slider Column #}
+                <div class="md:col-span-2 space-y-4">
+                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">Budget Range (€)</label>
+                    
+                    <div class="relative h-10 flex items-center">
+                        <div class="absolute h-2 w-full bg-slate-200 dark:bg-slate-800 rounded-lg"></div>
+                        
+                        <input type="range" id="range-min" min="100" max="10000" value="200" step="10"
+                            class="absolute w-full h-2 appearance-none bg-transparent pointer-events-none cursor-pointer accent-emerald-500 z-30">
+                        
+                        <input type="range" id="range-max" min="100" max="10000" value="500" step="10"
+                            class="absolute w-full h-2 appearance-none bg-transparent pointer-events-none cursor-pointer accent-emerald-500 z-30">
+                    </div>
+
+                    {# Functional Input Grid #}
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-slate-50 dark:bg-slate-950 p-3 rounded-lg border border-slate-200 dark:border-slate-800">
+                            <label class="text-[10px] uppercase tracking-wider text-slate-500 block mb-1">Min Budget</label>
+                            <div class="flex items-center text-emerald-600 dark:text-emerald-400">
+                                <input type="number" name="budget_min" id="input-min" value="200" 
+                                    class="w-full bg-transparent font-bold text-lg outline-none border-none p-0 focus:ring-0">
+                                <span class="font-bold text-lg">€</span>
+                            </div>
+                        </div>
+                        <div class="bg-slate-50 dark:bg-slate-950 p-3 rounded-lg border border-slate-200 dark:border-slate-800">
+                            <label class="text-[10px] uppercase tracking-wider text-slate-500 block mb-1">Max Budget</label>
+                            <div class="flex items-center text-emerald-600 dark:text-emerald-400">
+                                <input type="number" name="budget_max" id="input-max" value="500" 
+                                    class="w-full bg-transparent font-bold text-lg outline-none border-none p-0 focus:ring-0">
+                                <span class="font-bold text-lg">€</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {# Status Column #}
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Freelancer Level</label>
+                    <select name="level" class="w-full px-4 py-2 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg dark:text-white outline-none focus:ring-2 focus:ring-emerald-500">
+                        <option value="Entry">Entry</option>
+                        <option value="Intermediate">Intermediate</option>
+                        <option value="Expert">Expert</option>
+                        <option value="Specialist">Specialist</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Project Duration</label>
+                        <div class="relative flex items-center">
+                            <input type="number" name="duration" value="{{ typed_duration|default('') }}" placeholder="e.g. 5"
+                                class="w-full px-4 py-2 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg dark:text-white outline-none focus:ring-2 focus:ring-emerald-500">
+                            <span class="absolute right-4 text-slate-400 text-sm">Days</span>
+                        </div>
+                </div>
+            </div>
+            {# GitHub Prefill Button #}
+            <div class="flex items-center gap-4 py-4 border-t border-slate-100 dark:border-slate-800">
+                <button type="button" id="github-btn"
+                    class="flex items-center gap-2 px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white text-sm font-medium rounded-lg transition-colors">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+                    </svg>
+                    Fill from GitHub
+                </button>
+                <span id="github-status" class="text-sm text-slate-400"></span>
+            </div>
+
+            {# GitHub Modal #}
+            <div id="github-modal" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center">
+                <div class="bg-white dark:bg-slate-900 rounded-xl shadow-xl p-6 w-full max-w-md mx-4">
+                    <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2">Fill from GitHub</h3>
+                    <p class="text-sm text-slate-500 mb-4">Paste a public GitHub repository URL. We'll pre-fill the form — you can edit everything before saving.</p>
+                    
+                    <input type="text" id="github-url-input"
+                        placeholder="https://github.com/username/repository"
+                        class="w-full px-4 py-2 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg dark:text-white outline-none focus:ring-2 focus:ring-emerald-500 mb-4">
+                    
+                    <div id="github-modal-error" class="hidden mb-4 p-3 bg-red-50 border border-red-200 text-red-600 text-sm rounded-lg"></div>
+
+                    <div class="flex gap-3">
+                        <button type="button" id="github-confirm-btn"
+                            class="flex-1 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-medium rounded-lg transition-colors">
+                            Fetch & Fill
+                        </button>
+                        <button type="button" id="github-cancel-btn"
+                            class="flex-1 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-white font-medium rounded-lg transition-colors">
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+                document.addEventListener('turbo:load', () => {
+
+                    // ── Slider logic ──────────────────────────────────────────────────────────
+                    const rangeMin = document.getElementById('range-min');
+                    const rangeMax = document.getElementById('range-max');
+                    const inputMin = document.getElementById('input-min');
+                    const inputMax = document.getElementById('input-max');
+
+                    if (rangeMin) {
+                        function updateFromRange() {
+                            let minVal = parseInt(rangeMin.value);
+                            let maxVal = parseInt(rangeMax.value);
+                            if (minVal >= maxVal) { rangeMin.value = maxVal - 10; minVal = maxVal - 10; }
+                            inputMin.value = minVal;
+                            inputMax.value = maxVal;
+                        }
+                        function updateFromInput() {
+                            let minVal = parseInt(inputMin.value);
+                            let maxVal = parseInt(inputMax.value);
+                            if (minVal >= maxVal) { minVal = maxVal - 1; inputMin.value = minVal; }
+                            if (minVal < 0)     { inputMin.value = 0; }
+                            if (maxVal > 10000) { inputMax.value = 10000; }
+                            rangeMin.value = minVal;
+                            rangeMax.value = maxVal;
+                        }
+                        rangeMin.addEventListener('input', updateFromRange);
+                        rangeMax.addEventListener('input', updateFromRange);
+                        inputMin.addEventListener('change', updateFromInput);
+                        inputMax.addEventListener('change', updateFromInput);
+                    }
+
+                    // ── GitHub Prefill ────────────────────────────────────────────────────────
+                    const githubBtn        = document.getElementById('github-btn');
+                    const githubModal      = document.getElementById('github-modal');
+                    const githubUrlInput   = document.getElementById('github-url-input');
+                    const githubConfirmBtn = document.getElementById('github-confirm-btn');
+                    const githubCancelBtn  = document.getElementById('github-cancel-btn');
+                    const githubStatus     = document.getElementById('github-status');
+                    const githubModalError = document.getElementById('github-modal-error');
+
+                    if (!githubBtn) return;
+
+                    // Open
+                    githubBtn.addEventListener('click', () => {
+                        githubUrlInput.value = '';
+                        githubModalError.classList.add('hidden');
+                        githubModal.classList.remove('hidden');
+                        githubUrlInput.focus();
+                    });
+
+                    // Close
+                    githubCancelBtn.addEventListener('click', () => githubModal.classList.add('hidden'));
+                    githubModal.addEventListener('click', (e) => {
+                        if (e.target === githubModal) githubModal.classList.add('hidden');
+                    });
+
+                    // Enter key triggers fetch
+                    githubUrlInput.addEventListener('keydown', (e) => {
+                        if (e.key === 'Enter') githubConfirmBtn.click();
+                    });
+
+                    // Fetch & Fill
+                    githubConfirmBtn.addEventListener('click', async () => {
+                        const url = githubUrlInput.value.trim();
+
+                        if (!url.includes('github.com')) {
+                            githubModalError.textContent = 'Please enter a valid GitHub URL.';
+                            githubModalError.classList.remove('hidden');
+                            return;
+                        }
+
+                        // Loading state
+                        githubConfirmBtn.disabled = true;
+                        githubConfirmBtn.innerHTML = `
+                            <svg class="animate-spin w-4 h-4 inline mr-1" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+                            </svg>
+                            Analyzing with AI…`;
+                        githubModalError.classList.add('hidden');
+
+                        try {
+                            const res = await fetch('/service-request/github-prefill?url=' + encodeURIComponent(url));
+                            const contentType = res.headers.get('content-type') || '';
+                            if (!contentType.includes('application/json')) {
+                                throw new Error('Server returned a non-JSON response. Please try again.');
+                            }
+                            const data = await res.json();
+
+                            if (!res.ok || !data.success) throw new Error(data.error || 'GitHub prefill failed.');
+
+                            // ── Fill text fields ──────────────────────────────────────────────
+                            document.querySelector('[name="title"]').value       = data.title;
+                            document.querySelector('[name="description"]').value = data.description;
+
+                            if (data.category_id) {
+                                document.querySelector('[name="category_id"]').value = data.category_id;
+                            }
+
+                            // ── Fill budget sliders + inputs ──────────────────────────────────
+                            if (data.budget_min && inputMin) {
+                                const clampedMin = Math.min(data.budget_min, 10000);
+                                inputMin.value = data.budget_min;
+                                rangeMin.value = clampedMin;
+                            }
+                            if (data.budget_max && inputMax) {
+                                const clampedMax = Math.min(data.budget_max, 10000);
+                                inputMax.value = data.budget_max;
+                                rangeMax.value = clampedMax;
+                            }
+
+                            // ── Fill duration ─────────────────────────────────────────────────
+                            if (data.duration) {
+                                document.querySelector('[name="duration"]').value = data.duration;
+                            }
+
+                            // ── Close modal + show success status ─────────────────────────────
+                            githubModal.classList.add('hidden');
+                            githubStatus.innerHTML = `
+                                ✅ Filled from <strong>${data.repo}</strong>
+                                · ${data.language}
+                                · AI estimated <strong>${data.duration} days</strong>
+                                · Budget <strong>${data.budget_min}€ – ${data.budget_max}€</strong>
+                                · Review and edit before saving.`;
+                            githubStatus.className = 'text-sm text-emerald-600';
+
+                        } catch (err) {
+                            githubModalError.textContent = err.message ?? 'Repo not found or is private.';
+                            githubModalError.classList.remove('hidden');
+                        } finally {
+                            githubConfirmBtn.disabled = false;
+                            githubConfirmBtn.textContent = 'Fetch & Fill';
+                        }
+                    });
+
+                    // ── Submit confirm ────────────────────────────────────────────────────────
+                    const form = document.getElementById('service-form');
+                    if (form) {
+                        form.removeAttribute('onsubmit');
+                        form.addEventListener('submit', (e) => {
+                            e.preventDefault();
+                            if (confirm('Are you sure you want to save this service request?')) {
+                                form.submit();
+                            }
+                        });
+                    }
+                });
+            </script>
+
+            <style>
+                /* Styling for the Gray Arrows */
+                input[type=range]::-webkit-slider-thumb {
+                    -webkit-appearance: none;
+                    appearance: none;
+                    width: 18px;
+                    height: 22px;
+                    background-color: #64748b;
+                    clip-path: polygon(0% 0%, 100% 0%, 100% 60%, 50% 100%, 0% 60%);
+                    cursor: pointer;
+                    pointer-events: auto;
+                    margin-top: -2px; 
+                }
+                input[type=range]::-moz-range-thumb {
+                    width: 18px;
+                    height: 22px;
+                    background-color: #64748b;
+                    clip-path: polygon(0% 0%, 100% 0%, 100% 60%, 50% 100%, 0% 60%);
+                    cursor: pointer;
+                    pointer-events: auto;
+                    border: none;
+                }
+                input[type=range] { pointer-events: none; }
+                
+                /* Remove default arrows from number inputs */
+                input::-webkit-outer-spin-button,
+                input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+            </style>
+            {# Required CSS to make overlapping sliders clickable #}
+            <style>
+                input[type=range]::-webkit-slider-thumb { pointer-events: auto; }
+                input[type=range]::-moz-range-thumb { pointer-events: auto; }
+                input[type=range] { pointer-events: none; }
+            </style>
+
+            {# Description #}
+            <div>
+                <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Detailed Description</label>
+                <textarea name="description" rows="5" class="w-full px-4 py-2 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg dark:text-white outline-none focus:ring-2 focus:ring-emerald-500"></textarea>
+            </div>
+
+            <div class="flex items-center justify-end gap-4 pt-4 border-t border-slate-100 dark:border-slate-800">
+                <a href="{{ path('request_list') }}" class="text-slate-500 hover:text-slate-700 dark:hover:text-white">Cancel</a>
+                <button type="submit" class="px-6 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-lg shadow-md transition-all">Save Request</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% for message in app.flashes('error') %}
+    <div class="max-w-4xl mx-auto mb-4 p-4 bg-red-50 border-l-4 border-red-500 text-red-700 rounded-lg">
+        {{ message }}
+    </div>
+{% endfor %}
+{% endblock %}

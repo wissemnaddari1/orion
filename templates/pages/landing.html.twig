@@ -1,0 +1,306 @@
+{% extends 'base.html.twig' %}
+{% block title %}Orion — AI-Powered Freelance Matchmaking
+{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+<link rel="stylesheet" href="{{ asset('styles/landing.css') }}">
+{% endblock %}
+
+{% block body %}
+	<div
+		class="min-h-screen flex flex-col">
+
+		{# ===================== NAVBAR ===================== #}
+		<header class="sticky top-0 z-50 border-b border-slate-200 bg-white/80 backdrop-blur shadow-sm dark:border-slate-800 dark:bg-slate-950/70">
+			<div class="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+
+				<a href="#" class="flex items-center gap-4 font-extrabold tracking-tight text-slate-900 dark:text-white">
+					<img src="{{ asset('images/orion_light_mode.png') }}" alt="Orion Logo" class="h-16 sm:h-20 lg:h-24 w-auto object-contain transition-transform duration-300 hover:scale-105">
+				</a>
+
+
+				<nav class="hidden items-center gap-8 md:flex" aria-label="Main">
+					<a href="#how-it-works" class="nav-link text-sm font-semibold text-slate-700 hover:text-emerald-600 dark:text-slate-200 dark:hover:text-emerald-400">How it works</a>
+					<a href="#benefits" class="nav-link text-sm font-semibold text-slate-700 hover:text-emerald-600 dark:text-slate-200 dark:hover:text-emerald-400">Benefits</a>
+					<a href="#testimonials" class="nav-link text-sm font-semibold text-slate-700 hover:text-emerald-600 dark:text-slate-200 dark:hover:text-emerald-400">Testimonials</a>
+				</nav>
+
+				<div
+					class="flex items-center gap-3">
+					{# Theme toggle #}
+					<button type="button" onclick="toggleTheme()" class="rounded-lg p-2 text-slate-700 hover:bg-slate-100 transition dark:text-slate-200 dark:hover:bg-slate-800" aria-label="Toggle dark mode">
+						<svg class="h-5 w-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+						</svg>
+					</button>
+
+					<a href="{{ path('app_login') }}" class="nav-link hidden sm:inline text-sm font-semibold text-slate-700 hover:text-emerald-600 dark:text-slate-200 dark:hover:text-emerald-400">
+						Log in
+					</a>
+
+					<a href="#" class="nav-btn-primary hidden sm:inline-flex items-center justify-center rounded-lg bg-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-emerald-700">
+						Get started
+					</a>
+
+					{# Mobile menu button #}
+					<button type="button" class="inline-flex items-center justify-center rounded-lg p-2 text-slate-700 hover:bg-slate-100 transition md:hidden dark:text-slate-200 dark:hover:bg-slate-800" aria-label="Open menu" onclick="document.getElementById('mobileMenu').classList.toggle('hidden')">
+						<svg class="h-6 w-6" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+						</svg>
+					</button>
+				</div>
+			</div>
+
+			{# Mobile menu panel #}
+			<div id="mobileMenu" class="hidden border-t border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-950 md:hidden">
+				<div class="mx-auto max-w-7xl px-4 py-4 space-y-2">
+					<a href="#how-it-works" class="block rounded-lg px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-900">How it works</a>
+					<a href="#benefits" class="block rounded-lg px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-900">Benefits</a>
+					<a href="#testimonials" class="block rounded-lg px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-900">Testimonials</a>
+					<div class="pt-2 flex gap-3">
+						<a href="#" class="flex-1 inline-flex justify-center rounded-lg border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-800 hover:bg-slate-50 transition dark:border-slate-700 dark:text-slate-100 dark:hover:bg-slate-900">Log in</a>
+						<a href="#" class="flex-1 inline-flex justify-center rounded-lg bg-emerald-600 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-700 transition">Get started</a>
+					</div>
+				</div>
+			</div>
+		</header>
+
+
+		{# ===================== HERO ===================== #}
+		<section class="hero relative overflow-hidden py-20 sm:py-28 min-h-[32rem]">
+			<div class="hero-bg" aria-hidden="true">
+				<span class="blob b1"></span>
+				<span class="blob b2"></span>
+				<span class="blob b3"></span>
+				<span class="blob b4"></span>
+				<span class="blob b5"></span>
+				<span class="blob b6"></span>
+			</div>
+			<div class="hero-content mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
+				<p class="hero-badge mx-auto inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-white/70 px-4 py-2 text-xs font-semibold text-emerald-700 shadow-sm dark:border-emerald-900/40 dark:bg-slate-950/60 dark:text-emerald-300">
+					<span class="h-2 w-2 rounded-full bg-emerald-500"></span>
+					AI-powered matching • Top 10 shortlist in minutes
+				</p>
+
+				<h1 class="mt-6 text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl lg:text-6xl dark:text-white">
+					AI matchmaking for
+					<span class="bg-gradient-to-r from-emerald-500 to-emerald-700 bg-clip-text text-transparent">freelancers</span>
+				</h1>
+
+				<p class="mx-auto mt-6 max-w-2xl text-lg text-slate-600 dark:text-slate-300">
+					Post your project. Get a shortlist of top 10 freelancers in minutes.
+					Compare offers, negotiate, and sign — all in one place.
+				</p>
+
+				<div class="mt-10 flex flex-wrap items-center justify-center gap-4">
+					<a href="#" class="hero-btn-primary inline-flex items-center justify-center rounded-lg bg-emerald-600 px-6 py-3 text-sm font-semibold text-white shadow-sm hover:bg-emerald-700">
+						Start as client
+					</a>
+					<a href="#" class="hero-btn-secondary inline-flex items-center justify-center rounded-lg border border-slate-300 px-6 py-3 text-sm font-semibold text-slate-800 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-100 dark:hover:bg-slate-900">
+						Join as freelancer
+					</a>
+				</div>
+
+				{# Hero feature carousel — glassmorphism cards, no images #}
+				<div class="hero-carousel mt-14 mx-auto w-full max-w-4xl" id="heroCarousel" data-carousel>
+					<div class="hero-carousel__viewport" tabindex="0" role="region" aria-label="Feature highlights">
+						<div class="hero-carousel__track">
+							<article class="hero-carousel__card">
+								<span class="hero-carousel__icon" aria-hidden="true">
+									<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.912 5.813a2 2 0 0 0 1.275 1.275L21 12l-5.813 1.912a2 2 0 0 0-1.275 1.275L12 21l-1.912-5.813a2 2 0 0 0-1.275-1.275L3 12l5.813-1.912a2 2 0 0 0 1.275-1.275L12 3z"/></svg>
+								</span>
+								<h3 class="hero-carousel__title">AI Matching</h3>
+								<p class="hero-carousel__desc">Top 10 shortlist ranked by skill fit.</p>
+							</article>
+							<article class="hero-carousel__card">
+								<span class="hero-carousel__icon" aria-hidden="true">
+									<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+								</span>
+								<h3 class="hero-carousel__title">Top Talent</h3>
+								<p class="hero-carousel__desc">Verified freelancers across 50+ categories.</p>
+							</article>
+							<article class="hero-carousel__card">
+								<span class="hero-carousel__icon" aria-hidden="true">
+									<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/></svg>
+								</span>
+								<h3 class="hero-carousel__title">Clear Offers</h3>
+								<p class="hero-carousel__desc">Price, ETA, and SLA in one view.</p>
+							</article>
+							<article class="hero-carousel__card">
+								<span class="hero-carousel__icon" aria-hidden="true">
+									<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+								</span>
+								<h3 class="hero-carousel__title">Secure Contracts</h3>
+								<p class="hero-carousel__desc">Milestone payments and dispute resolution.</p>
+							</article>
+							<article class="hero-carousel__card">
+								<span class="hero-carousel__icon" aria-hidden="true">
+									<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+								</span>
+								<h3 class="hero-carousel__title">Fast Shortlist</h3>
+								<p class="hero-carousel__desc">Minutes, not days, to find the right match.</p>
+							</article>
+							<article class="hero-carousel__card">
+								<span class="hero-carousel__icon" aria-hidden="true">
+									<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+								</span>
+								<h3 class="hero-carousel__title">One Dashboard</h3>
+								<p class="hero-carousel__desc">Offers, contracts, and support in one place.</p>
+							</article>
+						</div>
+					</div>
+					<div class="hero-carousel__nav">
+						<button type="button" class="hero-carousel__btn hero-carousel__btn--prev" aria-label="Previous slide">
+							<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+						</button>
+						<div class="hero-carousel__dots" role="tablist" aria-label="Slide navigation"></div>
+						<button type="button" class="hero-carousel__btn hero-carousel__btn--next" aria-label="Next slide">
+							<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+						</button>
+					</div>
+				</div>
+
+				<a href="#how-it-works" class="scroll-hint" aria-label="Scroll to learn more">
+					<svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+					</svg>
+					<span class="text-xs">Scroll</span>
+				</a>
+			</div>
+		</section>
+
+
+		{# ===================== HOW IT WORKS ===================== #}
+		<section id="how-it-works" class="py-16 sm:py-24 bg-white dark:bg-slate-950" aria-labelledby="how-it-works-heading">
+			<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+				<h2 id="how-it-works-heading" class="reveal text-center text-3xl font-extrabold text-slate-900 dark:text-white">
+					How it works
+				</h2>
+				<p class="reveal mx-auto mt-4 max-w-2xl text-center text-slate-600 dark:text-slate-300">
+					From posting to contract in four steps.
+				</p>
+
+				{% set steps = [
+                { num: '1', title: 'Post', desc: 'Describe your project and requirements.' },
+                { num: '2', title: 'AI shortlist', desc: 'We surface the top 10 matching freelancers.' },
+                { num: '3', title: 'Offers', desc: 'Receive and compare offers with ETA, price, SLA.' },
+                { num: '4', title: 'Negotiation → Contract', desc: 'Finalize terms and sign securely.' }
+            ] %}
+
+				<div class="reveal-stagger mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+					{% for step in steps %}
+						<div class="reveal relative rounded-2xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md transition dark:border-slate-800 dark:bg-slate-900/30">
+							<div class="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-r from-emerald-500 to-emerald-700 text-sm font-extrabold text-white">
+								{{ step.num }}
+							</div>
+							<h3 class="mt-4 text-lg font-bold text-slate-900 dark:text-white">{{ step.title }}</h3>
+							<p class="mt-2 text-sm text-slate-600 dark:text-slate-300">{{ step.desc }}</p>
+
+							{% if not loop.last %}
+								<div class="absolute -right-4 top-1/2 hidden -translate-y-1/2 text-slate-300 lg:block dark:text-slate-700" aria-hidden="true">→</div>
+							{% endif %}
+						</div>
+					{% endfor %}
+				</div>
+			</div>
+		</section>
+
+
+		{# ===================== BENEFITS ===================== #}
+		<section id="benefits" class="py-16 sm:py-24 bg-slate-50 dark:bg-slate-950" aria-labelledby="benefits-heading">
+			<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+				<h2 id="benefits-heading" class="reveal text-center text-3xl font-extrabold text-slate-900 dark:text-white">
+					Why Orion
+				</h2>
+
+				{% set benefits = [
+                { title: 'AI Top 10', text: 'No more scrolling. Get the best-fit freelancers ranked by our AI.' },
+                { title: 'Transparent offers', text: 'Price, ETA, revisions, and SLA in one comparable view.' },
+                { title: 'Built-in negotiation', text: 'Adjust terms and lock in contracts without leaving the platform.' },
+                { title: 'Trust & safety', text: 'Verified profiles and milestone-based payments.' },
+                { title: 'One dashboard', text: 'Services, offers, contracts, and tickets in a single place.' },
+                { title: 'Support when you need it', text: 'Dedicated tickets and help center.' }
+            ] %}
+
+				<div class="reveal-stagger mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+					{% for b in benefits %}
+						<div class="reveal rounded-2xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md transition dark:border-slate-800 dark:bg-slate-900/30">
+							<h3 class="text-lg font-bold text-slate-900 dark:text-white">{{ b.title }}</h3>
+							<p class="mt-2 text-sm text-slate-600 dark:text-slate-300">{{ b.text }}</p>
+						</div>
+					{% endfor %}
+				</div>
+			</div>
+		</section>
+
+
+		{# ===================== TESTIMONIALS ===================== #}
+		<section id="testimonials" class="py-16 sm:py-24 bg-white dark:bg-slate-950" aria-labelledby="testimonials-heading">
+			<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+				<h2 id="testimonials-heading" class="reveal text-center text-3xl font-extrabold text-slate-900 dark:text-white">
+					Trusted by teams
+				</h2>
+
+				{% set testimonials = [
+                { quote: 'Orion cut our hiring time by 70%. The AI shortlist was spot-on.', author: 'Jane C.', role: 'Product Lead' },
+                { quote: 'Finally, one place for briefs, offers, and contracts. Game changer.', author: 'Marcus T.', role: 'Founder' },
+                { quote: 'As a freelancer, I get matched to projects that actually fit my skills.', author: 'Sam K.', role: 'Developer' }
+            ] %}
+
+				<div class="reveal-stagger mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+					{% for t in testimonials %}
+						<blockquote class="reveal rounded-2xl border border-amber-200 bg-amber-100/40 p-6 dark:border-amber-900/40 dark:bg-amber-900/10">
+							<p class="text-slate-700 dark:text-slate-200">“{{ t.quote }}”</p>
+							<footer class="mt-4 font-bold text-slate-900 dark:text-white">{{ t.author }}</footer>
+							<p class="text-sm text-slate-600 dark:text-slate-300">{{ t.role }}</p>
+						</blockquote>
+					{% endfor %}
+				</div>
+			</div>
+		</section>
+
+
+		{# ===================== CTA ===================== #}
+		<section class="py-16 sm:py-24 bg-gradient-to-r from-emerald-600 to-emerald-700">
+			<div class="mx-auto max-w-3xl px-4 text-center">
+				<h2 class="text-3xl font-extrabold text-white">Ready to get started?</h2>
+				<p class="mt-4 text-white/90">Join Orion and connect with the right talent today.</p>
+
+				<div class="mt-8 flex flex-wrap justify-center gap-4">
+					<a href="#" class="inline-flex items-center rounded-lg bg-white px-6 py-3 font-semibold text-emerald-700 shadow-sm hover:bg-slate-50 transition">
+						Create account
+					</a>
+					<a href="#" class="inline-flex items-center rounded-lg border-2 border-white px-6 py-3 font-semibold text-white hover:bg-white/10 transition">
+						Contact sales
+					</a>
+				</div>
+			</div>
+		</section>
+
+
+		{# ===================== FOOTER ===================== #}
+		<footer class="border-t border-slate-200 bg-white py-10 dark:border-slate-800 dark:bg-slate-950">
+			<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+				<p class="text-sm text-slate-600 dark:text-slate-300">
+					©
+					{{ "now"|date("Y") }}
+					Orion. All rights reserved.
+				</p>
+
+				<div class="flex items-center gap-6 text-sm font-semibold">
+					<a href="#" class="text-slate-700 hover:text-emerald-600 transition dark:text-slate-200 dark:hover:text-emerald-400">Privacy</a>
+					<a href="#" class="text-slate-700 hover:text-emerald-600 transition dark:text-slate-200 dark:hover:text-emerald-400">Terms</a>
+					<a href="#" class="text-slate-700 hover:text-emerald-600 transition dark:text-slate-200 dark:hover:text-emerald-400">Contact</a>
+				</div>
+			</div>
+		</footer>
+
+	</div>
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script src="{{ asset('js/landing-reveal.js') }}" defer></script>
+<script src="{{ asset('js/landing-carousel.js') }}" defer></script>
+{% endblock %}

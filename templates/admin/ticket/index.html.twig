@@ -1,0 +1,824 @@
+{% extends 'layout_admin.html.twig' %}
+
+{% set ganttNow = 'now'|date('c') %}
+{% set ganttTickets = [] %}
+{% for ticket in tickets %}
+    {% set ganttTickets = ganttTickets|merge([{
+        id: ticket.id,
+        subject: ticket.subject,
+        status: ticket.status,
+        priority: ticket.priority,
+        start: ticket.createdAt ? ticket.createdAt|date('c') : ganttNow,
+        end: ticket.closedAt ? ticket.closedAt|date('c') : ganttNow
+    }]) %}
+{% endfor %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('vendor/frappe-gantt/frappe-gantt.css') }}">
+    <style>
+        .gantt .bar-wrapper.bar-status-open .bar { fill: #3b82f6; }
+        .gantt .bar-wrapper.bar-status-open .bar-progress { fill: #2563eb; }
+        .gantt .bar-wrapper.bar-status-in_progress .bar { fill: #f59e0b; }
+        .gantt .bar-wrapper.bar-status-in_progress .bar-progress { fill: #d97706; }
+        .gantt .bar-wrapper.bar-status-waiting_user .bar { fill: #a855f7; }
+        .gantt .bar-wrapper.bar-status-waiting_user .bar-progress { fill: #9333ea; }
+        .gantt .bar-wrapper.bar-status-closed .bar { fill: #64748b; }
+        .gantt .bar-wrapper.bar-status-closed .bar-progress { fill: #475569; }
+        .gantt-container { border-radius: 12px; }
+        .gantt .bar-label { font-size: 12px; font-weight: 500; }
+
+        @media print {
+            @page {
+                size: A4 landscape;
+                margin: 10mm;
+            }
+
+            .no-print {
+                display: none !important;
+            }
+
+            body.printing-admin-ticket-gantt [data-tab-panel] {
+                display: none !important;
+            }
+
+            body.printing-admin-ticket-gantt [data-tab-panel="gantt"] {
+                display: block !important;
+            }
+
+            body.printing-admin-ticket-gantt #admin-ticket-gantt {
+                overflow: visible !important;
+            }
+
+            body.printing-admin-ticket-gantt #admin-ticket-gantt .gantt-container {
+                overflow: visible !important;
+            }
+
+            body.printing-admin-ticket-gantt #admin-ticket-gantt svg.gantt {
+                width: 100% !important;
+                height: auto !important;
+            }
+        }
+    </style>
+{% endblock %}
+
+{% block title %}Admin - Ticket Management{% endblock %}
+
+{% block main %}
+<div class="space-y-6">
+        <!-- Header -->
+        <div class="bg-gradient-to-br from-white to-slate-50 dark:from-slate-900 dark:to-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-lg p-6">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                    <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-emerald-600 to-teal-600 flex items-center justify-center shadow-lg">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-bold text-slate-900 dark:text-white">Ticket Management</h1>
+                        <a href="{{ path('admin_dashboard') }}" class="text-sm text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 flex items-center gap-1 mt-1">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                            </svg>
+                            Back to Dashboard
+                        </a>
+                    </div>
+                </div>
+                <a href="{{ path('admin_ticket_create') }}" class="inline-flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white rounded-lg font-semibold transition-all shadow-lg shadow-emerald-500/30 hover:shadow-emerald-500/50">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                    </svg>
+                    Create Ticket
+                </a>
+            </div>
+        </div>
+
+        {# Statistics Cards #}
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm p-6">
+                <div class="text-sm text-slate-500 dark:text-slate-400 uppercase">Total Tickets</div>
+                <div class="text-3xl font-bold text-slate-900 dark:text-white">{{ stats.total }}</div>
+            </div>
+            <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm p-6">
+                <div class="text-sm text-amber-600 dark:text-amber-400 uppercase">Open Tickets</div>
+                <div class="text-3xl font-bold text-amber-700 dark:text-amber-300">{{ stats.open_count }}</div>
+            </div>
+            <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm p-6">
+                <div class="text-sm text-emerald-600 dark:text-emerald-400 uppercase">In Progress</div>
+                <div class="text-3xl font-bold text-emerald-700 dark:text-emerald-300">{{ stats.in_progress_count }}</div>
+            </div>
+            <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm p-6">
+                <div class="text-sm text-rose-600 dark:text-rose-400 uppercase">Unacknowledged</div>
+                <div class="text-3xl font-bold text-rose-700 dark:text-rose-300">{{ stats.unacknowledged_count }}</div>
+            </div>
+        </div>
+
+        {# Tabs Navigation #}
+        <div id="admin-ticket-tabs" class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm p-2">
+            <div class="flex flex-wrap gap-2" role="tablist" aria-label="Ticket page sections">
+                <button type="button" role="tab" data-tab-target="board" class="px-4 py-2 rounded-lg text-sm font-semibold transition-all bg-emerald-600 text-white shadow">Board</button>
+                <button type="button" role="tab" data-tab-target="filters" class="px-4 py-2 rounded-lg text-sm font-semibold transition-all text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">Filters</button>
+                <button type="button" role="tab" data-tab-target="gantt" class="px-4 py-2 rounded-lg text-sm font-semibold transition-all text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">Gantt</button>
+                <button type="button" role="tab" data-tab-target="table" class="px-4 py-2 rounded-lg text-sm font-semibold transition-all text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">Table</button>
+            </div>
+        </div>
+
+        {# Frappe Gantt - Ticket Timeline #}
+        <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden" data-tab-panel="gantt">
+            <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50 flex items-center justify-between">
+                <div>
+                    <h2 class="text-lg font-bold text-slate-900 dark:text-white">Gantt Diagram - Ticket Timeline</h2>
+                    <p class="text-sm text-slate-600 dark:text-slate-400">Visual follow-up of ticket lifecycle from creation to closure.</p>
+                </div>
+                <div class="flex items-center gap-3">
+                    <div id="gantt-view-buttons" class="flex gap-1 bg-slate-100 dark:bg-slate-800 rounded-lg p-1">
+                        <button type="button" data-gantt-view="Day" class="px-3 py-1 text-xs font-semibold rounded-md bg-emerald-600 text-white transition-all">Day</button>
+                        <button type="button" data-gantt-view="Week" class="px-3 py-1 text-xs font-semibold rounded-md text-slate-600 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-700 transition-all">Week</button>
+                        <button type="button" data-gantt-view="Month" class="px-3 py-1 text-xs font-semibold rounded-md text-slate-600 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-700 transition-all">Month</button>
+                    </div>
+                    <button type="button"
+                            class="no-print px-3 py-1 text-xs font-semibold rounded-md border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition"
+                            onclick="printAdminTicketGantt();">
+                        Print
+                    </button>
+                    <span class="text-xs px-3 py-1 rounded-full bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300">{{ tickets|length }} tickets</span>
+                </div>
+            </div>
+            <div class="p-6">
+                {% if tickets|length > 0 %}
+                    <div id="admin-ticket-gantt"></div>
+                    <div class="mt-4 flex flex-wrap gap-3 text-xs text-slate-600 dark:text-slate-300">
+                        <span class="inline-flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-emerald-500"></span>Open</span>
+                        <span class="inline-flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-amber-500"></span>In progress</span>
+                        <span class="inline-flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-emerald-500"></span>Waiting user</span>
+                        <span class="inline-flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-slate-500"></span>Closed</span>
+                    </div>
+                {% else %}
+                    <div class="text-sm text-slate-500 dark:text-slate-400">No tickets available to display in Gantt diagram.</div>
+                {% endif %}
+            </div>
+        </div>
+
+        {# Filters #}
+        <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-lg overflow-hidden" data-tab-panel="filters">
+            <div class="bg-gradient-to-r from-emerald-600 to-teal-600 px-6 py-4">
+                <h2 class="text-lg font-bold text-white flex items-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/>
+                    </svg>
+                    Filters
+                </h2>
+            </div>
+            <div class="p-6">
+                <form method="GET" class="grid grid-cols-1 md:grid-cols-5 gap-5">
+                    <div class="bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg p-4">
+                        <label class="flex items-center gap-2 text-sm font-semibold text-slate-700 dark:text-slate-300 mb-3">
+                            <svg class="w-4 h-4 text-emerald-600 dark:text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M10 18a8 8 0 100-16 8 8 0 000 16z"/>
+                            </svg>
+                            Search
+                        </label>
+                        <input type="text" name="search" value="{{ filters.search|default('') }}" placeholder="Ticket ID or creator" class="block w-full rounded-lg border-slate-300 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 shadow-sm focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500 transition-all text-sm" />
+                    </div>
+                    <div class="bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg p-4">
+                        <label class="flex items-center gap-2 text-sm font-semibold text-slate-700 dark:text-slate-300 mb-3">
+                            <svg class="w-4 h-4 text-teal-600 dark:text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            Status
+                        </label>
+                        <select name="status" class="block w-full rounded-lg border-slate-300 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 shadow-sm focus:border-teal-500 focus:ring-2 focus:ring-teal-500 transition-all text-sm">
+                            <option value="">All Statuses</option>
+                            <option value="OPEN" {% if filters.status|default('') == 'OPEN' %}selected{% endif %}>Open</option>
+                            <option value="IN_PROGRESS" {% if filters.status|default('') == 'IN_PROGRESS' %}selected{% endif %}>In Progress</option>
+                            <option value="WAITING_USER" {% if filters.status|default('') == 'WAITING_USER' %}selected{% endif %}>Waiting User</option>
+                            <option value="CLOSED" {% if filters.status|default('') == 'CLOSED' %}selected{% endif %}>Closed</option>
+                        </select>
+                    </div>
+
+                    <div class="bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg p-4">
+                        <label class="flex items-center gap-2 text-sm font-semibold text-slate-700 dark:text-slate-300 mb-3">
+                            <svg class="w-4 h-4 text-amber-600 dark:text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                            </svg>
+                            Priority
+                        </label>
+                        <select name="priority" class="block w-full rounded-lg border-slate-300 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 shadow-sm focus:border-amber-500 focus:ring-2 focus:ring-amber-500 transition-all text-sm">
+                            <option value="">All Priorities</option>
+                            <option value="LOW" {% if filters.priority|default('') == 'LOW' %}selected{% endif %}>Low</option>
+                            <option value="MEDIUM" {% if filters.priority|default('') == 'MEDIUM' %}selected{% endif %}>Medium</option>
+                            <option value="HIGH" {% if filters.priority|default('') == 'HIGH' %}selected{% endif %}>High</option>
+                        </select>
+                    </div>
+
+                    <div class="bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg p-4">
+                        <label class="flex items-center gap-2 text-sm font-semibold text-slate-700 dark:text-slate-300 mb-3">
+                            <svg class="w-4 h-4 text-emerald-600 dark:text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
+                            </svg>
+                            Category
+                        </label>
+                        <select name="category" class="block w-full rounded-lg border-slate-300 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 shadow-sm focus:border-emerald-500 focus:ring-2 focus:ring-teal-500 transition-all text-sm">
+                            <option value="">All Categories</option>
+                            {% for category in categories %}
+                                <option value="{{ category.id }}" {% if filters.category|default('') == (category.id ~ '') %}selected{% endif %}>
+                                    {{ category.name }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg p-4">
+                        <label class="flex items-center gap-2 text-sm font-semibold text-slate-700 dark:text-slate-300 mb-3">
+                            <svg class="w-4 h-4 text-emerald-600 dark:text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                            </svg>
+                            Acknowledged
+                        </label>
+                        <select name="acknowledged" class="block w-full rounded-lg border-slate-300 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 shadow-sm focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500 transition-all text-sm">
+                            <option value="">All</option>
+                            <option value="1" {% if filters.acknowledged|default('') == '1' %}selected{% endif %}>Yes</option>
+                            <option value="0" {% if filters.acknowledged|default('') == '0' %}selected{% endif %}>No</option>
+                        </select>
+                    </div>
+
+                    <div class="md:col-span-5 flex justify-end gap-3 pt-4 border-t border-slate-200 dark:border-slate-700">
+                        <a href="{{ path('admin_ticket_list') }}" class="inline-flex items-center gap-2 px-6 py-2.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 rounded-lg font-medium transition-all">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                            </svg>
+                            Clear Filters
+                        </a>
+                        <button type="submit" class="inline-flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white rounded-lg font-semibold transition-all shadow-lg shadow-emerald-500/30 hover:shadow-emerald-500/50">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/>
+                            </svg>
+                            Apply Filters
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        {# Tickets Table #}
+        <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden" data-tab-panel="board">
+            <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50 flex items-center justify-between">
+                <div>
+                    <h2 class="text-lg font-bold text-slate-900 dark:text-white">Ticket Board</h2>
+                    <p class="text-sm text-slate-600 dark:text-slate-400">Drag and drop tickets between columns to update status quickly.</p>
+                </div>
+            </div>
+            <div class="p-6">
+                <div id="admin-ticket-board"
+                     class="grid grid-cols-1 lg:grid-cols-3 gap-4"
+                     data-status-url-template="{{ path('admin_ticket_status', {'id': '__ID__'}) }}"
+                     data-open-count="{{ stats.open_count|default(0) }}"
+                     data-in-progress-count="{{ stats.in_progress_count|default(0) }}"
+                     data-closed-count="{{ stats.closed_count|default(0) }}">
+
+                    <div class="rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/40 min-h-[260px]"
+                         data-column="OPEN"
+                         data-display-status="To Do">
+                        <div class="px-4 py-3 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
+                            <h3 class="text-sm font-bold text-slate-800 dark:text-slate-100">To Do</h3>
+                            <span class="text-xs px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300" data-count="OPEN">0</span>
+                        </div>
+                        <div class="p-3 space-y-3 min-h-[120px]" data-dropzone="OPEN">
+                            {% for ticket in tickets %}
+                                {% if ticket.status in ['OPEN', 'WAITING_USER'] %}
+                                <div class="group rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-3 shadow-sm cursor-move select-none"
+                                     draggable="true"
+                                     data-ticket-card="1"
+                                     data-ticket-id="{{ ticket.id }}"
+                                     data-current-status="{{ ticket.status }}">
+                                    <div class="flex items-start justify-between gap-2">
+                                        <p class="text-sm font-semibold text-slate-900 dark:text-slate-100">#{{ ticket.id }} ┬À {{ ticket.subject|length > 48 ? ticket.subject|slice(0, 48) ~ '...' : ticket.subject }}</p>
+                                        <span class="text-[10px] px-2 py-0.5 rounded-full {% if ticket.priority == 'HIGH' %}bg-red-100 text-red-700{% elseif ticket.priority == 'MEDIUM' %}bg-amber-100 text-amber-700{% else %}bg-green-100 text-green-700{% endif %}">{{ ticket.priority }}</span>
+                                    </div>
+                                    <div class="mt-2 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
+                                        <span>{{ ticket.createdBy.firstName ~ ' ' ~ ticket.createdBy.lastName }}</span>
+                                        {% if ticket.status == 'WAITING_USER' %}
+                                            <span class="px-2 py-0.5 rounded-full bg-teal-100 text-teal-700 dark:bg-teal-900/30 dark:text-teal-300">WAITING USER</span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <div class="rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/40 min-h-[260px]"
+                         data-column="IN_PROGRESS"
+                         data-display-status="In Progress">
+                        <div class="px-4 py-3 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
+                            <h3 class="text-sm font-bold text-slate-800 dark:text-slate-100">In Progress</h3>
+                            <span class="text-xs px-2 py-0.5 rounded-full bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300" data-count="IN_PROGRESS">0</span>
+                        </div>
+                        <div class="p-3 space-y-3 min-h-[120px]" data-dropzone="IN_PROGRESS">
+                            {% for ticket in tickets %}
+                                {% if ticket.status == 'IN_PROGRESS' %}
+                                <div class="group rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-3 shadow-sm cursor-move select-none"
+                                     draggable="true"
+                                     data-ticket-card="1"
+                                     data-ticket-id="{{ ticket.id }}"
+                                     data-current-status="{{ ticket.status }}">
+                                    <div class="flex items-start justify-between gap-2">
+                                        <p class="text-sm font-semibold text-slate-900 dark:text-slate-100">#{{ ticket.id }} ┬À {{ ticket.subject|length > 48 ? ticket.subject|slice(0, 48) ~ '...' : ticket.subject }}</p>
+                                        <span class="text-[10px] px-2 py-0.5 rounded-full {% if ticket.priority == 'HIGH' %}bg-red-100 text-red-700{% elseif ticket.priority == 'MEDIUM' %}bg-amber-100 text-amber-700{% else %}bg-green-100 text-green-700{% endif %}">{{ ticket.priority }}</span>
+                                    </div>
+                                    <div class="mt-2 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
+                                        <span>{{ ticket.createdBy.firstName ~ ' ' ~ ticket.createdBy.lastName }}</span>
+                                        <span>{{ ticket.createdAt|date('Y-m-d') }}</span>
+                                    </div>
+                                </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <div class="rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/40 min-h-[260px]"
+                         data-column="CLOSED"
+                         data-display-status="Done">
+                        <div class="px-4 py-3 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
+                            <h3 class="text-sm font-bold text-slate-800 dark:text-slate-100">Done</h3>
+                            <span class="text-xs px-2 py-0.5 rounded-full bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-200" data-count="CLOSED">0</span>
+                        </div>
+                        <div class="p-3 space-y-3 min-h-[120px]" data-dropzone="CLOSED">
+                            {% for ticket in tickets %}
+                                {% if ticket.status == 'CLOSED' %}
+                                <div class="group rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-3 shadow-sm cursor-default select-none opacity-95"
+                                     draggable="false"
+                                     data-ticket-card="1"
+                                     data-ticket-id="{{ ticket.id }}"
+                                     data-current-status="{{ ticket.status }}"
+                                     data-locked="1">
+                                    <div class="flex items-start justify-between gap-2">
+                                        <p class="text-sm font-semibold text-slate-900 dark:text-slate-100">#{{ ticket.id }} ┬À {{ ticket.subject|length > 48 ? ticket.subject|slice(0, 48) ~ '...' : ticket.subject }}</p>
+                                        <span class="text-[10px] px-2 py-0.5 rounded-full {% if ticket.priority == 'HIGH' %}bg-red-100 text-red-700{% elseif ticket.priority == 'MEDIUM' %}bg-amber-100 text-amber-700{% else %}bg-green-100 text-green-700{% endif %}">{{ ticket.priority }}</span>
+                                    </div>
+                                    <div class="mt-2 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
+                                        <span>{{ ticket.createdBy.firstName ~ ' ' ~ ticket.createdBy.lastName }}</span>
+                                        <span>{{ ticket.closedAt ? ticket.closedAt|date('Y-m-d') : 'Closed' }}</span>
+                                    </div>
+                                </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden" data-tab-panel="table">
+            <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50">
+                <h2 class="text-lg font-bold text-slate-900 dark:text-white">Tickets List</h2>
+                <p class="text-sm text-slate-600 dark:text-slate-400">Use actions to inspect, update, or remove tickets.</p>
+            </div>
+            <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-slate-200 dark:divide-slate-800">
+                <thead class="bg-slate-50 dark:bg-slate-800">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-700 dark:text-slate-300 uppercase tracking-wider">ID</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-700 dark:text-slate-300 uppercase tracking-wider">Subject</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-700 dark:text-slate-300 uppercase tracking-wider">Created By</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-700 dark:text-slate-300 uppercase tracking-wider">Category</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-700 dark:text-slate-300 uppercase tracking-wider">Priority</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-700 dark:text-slate-300 uppercase tracking-wider">Status</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-700 dark:text-slate-300 uppercase tracking-wider">Created</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-700 dark:text-slate-300 uppercase tracking-wider">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white dark:bg-slate-900 divide-y divide-slate-200 dark:divide-slate-800">
+                    {% for ticket in tickets %}
+                        <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/60 transition-colors {% if not ticket.acknowledgedByAd %}bg-amber-50 dark:bg-amber-950/20{% endif %}">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-900 dark:text-slate-100">
+                                #{{ ticket.id }}
+                                {% if not ticket.acknowledgedByAd %}
+                                    <span class="ml-1 text-red-500" title="Not acknowledged">ÔÜá´©Å</span>
+                                {% endif %}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-900 dark:text-slate-100">
+                                {{ ticket.subject|length > 40 ? ticket.subject|slice(0, 40) ~ '...' : ticket.subject }}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-600 dark:text-slate-300">
+                                {{ ticket.createdBy.firstName ~ ' ' ~ ticket.createdBy.lastName }}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-600 dark:text-slate-300">
+                                {{ ticket.category.name }}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                {% if ticket.priority == 'LOW' %}
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">LOW</span>
+                                {% elseif ticket.priority == 'MEDIUM' %}
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">MEDIUM</span>
+                                {% elseif ticket.priority == 'HIGH' %}
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">HIGH</span>
+                                {% endif %}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                {% if ticket.status == 'OPEN' %}
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-emerald-100 text-emerald-800">OPEN</span>
+                                {% elseif ticket.status == 'IN_PROGRESS' %}
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">IN PROGRESS</span>
+                                {% elseif ticket.status == 'WAITING_USER' %}
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-teal-100 text-teal-800">WAITING USER</span>
+                                {% elseif ticket.status == 'CLOSED' %}
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">CLOSED</span>
+                                {% endif %}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-600 dark:text-slate-300">
+                                {{ ticket.createdAt|date('Y-m-d H:i') }}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-3">
+                                <a href="{{ path('admin_ticket_view', {'id': ticket.id}) }}" class="text-emerald-600 dark:text-emerald-400 hover:text-emerald-900 dark:hover:text-emerald-300">View</a>
+                                <a href="{{ path('admin_ticket_edit', {'id': ticket.id}) }}" class="text-emerald-600 dark:text-emerald-400 hover:text-emerald-800 dark:hover:text-emerald-300">Edit</a>
+                                <form method="POST" action="{{ path('admin_ticket_delete', {'id': ticket.id}) }}" class="inline" onsubmit="return confirm('Delete this ticket permanently?');">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('delete_ticket_' ~ ticket.id) }}">
+                                    <button type="submit" class="text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="8" class="px-6 py-4 text-center text-sm text-slate-500 dark:text-slate-400">
+                                No tickets found.
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            </div>
+            {% if pages is defined and pages > 1 %}
+                <div class="px-6 py-4 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between">
+                    <span class="text-sm text-slate-600 dark:text-slate-400">Page {{ page }} / {{ pages }} ({{ total }} tickets)</span>
+                    <div class="flex items-center gap-2">
+                        {% if page > 1 %}
+                            <a href="{{ path('admin_ticket_list', filters|merge({'page': page - 1})) }}" class="px-3 py-1.5 rounded border border-slate-300 dark:border-slate-700 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">Prev</a>
+                        {% endif %}
+                        {% if page < pages %}
+                            <a href="{{ path('admin_ticket_list', filters|merge({'page': page + 1})) }}" class="px-3 py-1.5 rounded border border-slate-300 dark:border-slate-700 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">Next</a>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        function initAdminTicketTabs() {
+            const tabsRoot = document.getElementById('admin-ticket-tabs');
+            if (!tabsRoot) return;
+
+            const tabs = Array.from(tabsRoot.querySelectorAll('[data-tab-target]'));
+            const panels = Array.from(document.querySelectorAll('[data-tab-panel]'));
+            const activeClasses = ['bg-emerald-600', 'text-white', 'shadow'];
+            const inactiveClasses = ['text-slate-700', 'dark:text-slate-200', 'hover:bg-slate-100', 'dark:hover:bg-slate-800'];
+
+            const setActiveTab = (target) => {
+                panels.forEach((panel) => {
+                    if (panel.dataset.tabPanel === target) {
+                        panel.classList.remove('hidden');
+                    } else {
+                        panel.classList.add('hidden');
+                    }
+                });
+
+                tabs.forEach((tab) => {
+                    if (tab.dataset.tabTarget === target) {
+                        tab.classList.add(...activeClasses);
+                        tab.classList.remove(...inactiveClasses);
+                        tab.setAttribute('aria-selected', 'true');
+                    } else {
+                        tab.classList.remove(...activeClasses);
+                        tab.classList.add(...inactiveClasses);
+                        tab.setAttribute('aria-selected', 'false');
+                    }
+                });
+
+                if (target === 'gantt' && typeof window.__renderAdminTicketGantt === 'function') {
+                    setTimeout(() => window.__renderAdminTicketGantt(true), 0);
+                }
+            };
+
+            window.__setAdminTicketTab = setActiveTab;
+
+            if (tabsRoot.dataset.tabsBound !== '1') {
+                tabs.forEach((tab) => {
+                    tab.addEventListener('click', () => setActiveTab(tab.dataset.tabTarget));
+                });
+                tabsRoot.dataset.tabsBound = '1';
+            }
+
+            setActiveTab('board');
+        }
+
+        function initAdminTicketBoard() {
+            const board = document.getElementById('admin-ticket-board');
+            if (!board || board.dataset.dragBound === '1') {
+                return;
+            }
+            board.dataset.dragBound = '1';
+
+            const urlTemplate = board.dataset.statusUrlTemplate || '';
+            const draggableSelector = '[data-ticket-card][draggable="true"]';
+            let draggedCard = null;
+
+            const refreshCounts = () => {
+                ['OPEN', 'IN_PROGRESS', 'CLOSED'].forEach((status) => {
+                    const zone = board.querySelector('[data-dropzone="' + status + '"]');
+                    const counter = board.querySelector('[data-count="' + status + '"]');
+                    if (zone && counter) {
+                        counter.textContent = String(zone.querySelectorAll(draggableSelector).length);
+                    }
+                });
+            };
+
+            const lockCard = (card) => {
+                card.setAttribute('draggable', 'false');
+                card.dataset.locked = '1';
+                card.classList.remove('cursor-move');
+                card.classList.add('cursor-default', 'opacity-95');
+            };
+
+            const persistStatus = async (ticketId, status) => {
+                if (!urlTemplate || !ticketId || !status) {
+                    return false;
+                }
+                const targetUrl = urlTemplate.replace('__ID__', encodeURIComponent(String(ticketId)));
+                const body = new URLSearchParams();
+                body.set('status', status);
+                try {
+                    const response = await fetch(targetUrl, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+                            'X-Requested-With': 'XMLHttpRequest',
+                            Accept: 'application/json'
+                        },
+                        body: body.toString()
+                    });
+                    if (!response.ok) {
+                        return false;
+                    }
+                    const payload = await response.json().catch(() => null);
+                    return Boolean(payload && payload.success);
+                } catch (e) {
+                    return false;
+                }
+            };
+
+            board.addEventListener('dragstart', (event) => {
+                const card = event.target.closest('[data-ticket-card]');
+                if (!card || !board.contains(card)) {
+                    return;
+                }
+                if (card.getAttribute('draggable') !== 'true') {
+                    return;
+                }
+                if (card.dataset.locked === '1' || card.dataset.currentStatus === 'CLOSED') {
+                    event.preventDefault();
+                    return;
+                }
+                draggedCard = card;
+                if (event.dataTransfer) {
+                    event.dataTransfer.effectAllowed = 'move';
+                    try {
+                        event.dataTransfer.setData('text/plain', String(card.dataset.ticketId || ''));
+                    } catch (e2) {
+                        /* ignore */
+                    }
+                }
+                card.classList.add('opacity-60', 'ring-2', 'ring-emerald-400');
+            });
+
+            board.addEventListener('dragend', (event) => {
+                const card = event.target.closest('[data-ticket-card]');
+                if (card && board.contains(card)) {
+                    card.classList.remove('opacity-60', 'ring-2', 'ring-emerald-400');
+                }
+            });
+
+            board.querySelectorAll('[data-dropzone]').forEach((zone) => {
+                zone.addEventListener('dragover', (event) => {
+                    event.preventDefault();
+                    if (event.dataTransfer) {
+                        event.dataTransfer.dropEffect = 'move';
+                    }
+                    zone.classList.add('ring-2', 'ring-emerald-400', 'rounded-lg');
+                });
+
+                zone.addEventListener('dragleave', (event) => {
+                    const related = event.relatedTarget;
+                    if (related && zone.contains(related)) {
+                        return;
+                    }
+                    zone.classList.remove('ring-2', 'ring-emerald-400', 'rounded-lg');
+                });
+
+                zone.addEventListener('drop', async (event) => {
+                    event.preventDefault();
+                    zone.classList.remove('ring-2', 'ring-emerald-400', 'rounded-lg');
+                    const card = draggedCard;
+                    if (!card || !board.contains(card)) {
+                        return;
+                    }
+                    if (card.dataset.currentStatus === 'CLOSED' || card.dataset.locked === '1') {
+                        return;
+                    }
+
+                    const ticketId = card.dataset.ticketId;
+                    const previousStatus = card.dataset.currentStatus || '';
+                    const targetStatus = zone.dataset.dropzone;
+
+                    const normalizedPrevious = previousStatus === 'WAITING_USER' ? 'OPEN' : previousStatus;
+                    if (normalizedPrevious === targetStatus) {
+                        return;
+                    }
+
+                    const previousZone = card.parentElement;
+                    zone.appendChild(card);
+                    card.dataset.currentStatus = targetStatus;
+                    refreshCounts();
+
+                    const saved = await persistStatus(ticketId, targetStatus);
+                    if (!saved) {
+                        if (previousZone) {
+                            previousZone.appendChild(card);
+                        }
+                        card.dataset.currentStatus = previousStatus;
+                        refreshCounts();
+                        alert('Unable to update ticket status. Please try again.');
+                        return;
+                    }
+
+                    if (targetStatus === 'CLOSED') {
+                        lockCard(card);
+                    }
+
+                    draggedCard = null;
+                });
+            });
+
+            refreshCounts();
+        }
+
+        initAdminTicketTabs();
+        initAdminTicketBoard();
+        document.addEventListener('DOMContentLoaded', initAdminTicketTabs);
+        document.addEventListener('DOMContentLoaded', initAdminTicketBoard);
+        document.addEventListener('turbo:load', initAdminTicketTabs);
+        document.addEventListener('turbo:load', initAdminTicketBoard);
+        document.addEventListener('turbo:render', initAdminTicketTabs);
+        document.addEventListener('turbo:render', initAdminTicketBoard);
+        window.addEventListener('pageshow', initAdminTicketTabs);
+        window.addEventListener('pageshow', initAdminTicketBoard);
+    </script>
+
+    {% if tickets|length > 0 %}
+        <script src="{{ asset('vendor/frappe-gantt/frappe-gantt.umd.js') }}"></script>
+        <script>
+            const rawAdminTicketGanttTasks = {{ ganttTickets|json_encode(constant('JSON_HEX_TAG') b-or constant('JSON_HEX_APOS') b-or constant('JSON_HEX_AMP'))|raw }};
+
+            function printAdminTicketGantt() {
+                if (typeof window.__setAdminTicketTab === 'function') {
+                    window.__setAdminTicketTab('gantt');
+                }
+                const weekBtn = document.querySelector('[data-gantt-view="Week"]');
+                if (weekBtn) weekBtn.click();
+
+                document.body.classList.add('printing-admin-ticket-gantt');
+                setTimeout(() => {
+                    window.print();
+                    setTimeout(() => {
+                        document.body.classList.remove('printing-admin-ticket-gantt');
+                    }, 300);
+                }, 140);
+            }
+
+            function initAdminTicketGantt() {
+                const container = document.getElementById('admin-ticket-gantt');
+                const rawTasks = rawAdminTicketGanttTasks;
+                if (!container || !Array.isArray(rawTasks) || rawTasks.length === 0) return;
+                if (typeof Gantt === 'undefined') {
+                    setTimeout(initAdminTicketGantt, 120);
+                    return;
+                }
+
+                const statusProgress = {
+                    OPEN: 10,
+                    IN_PROGRESS: 50,
+                    WAITING_USER: 30,
+                    CLOSED: 100
+                };
+
+                const frappeTaskList = rawTasks
+                    .map((t) => {
+                        const s = new Date(t.start);
+                        let e = new Date(t.end);
+                        if (isNaN(s.getTime()) || isNaN(e.getTime())) return null;
+                        if (e <= s) e = new Date(s.getTime() + 86400000);
+                        const statusKey = (t.status || 'OPEN').toLowerCase();
+                        return {
+                            id: 'ticket-' + t.id,
+                            name: '#' + t.id + ' ' + (t.subject || '').slice(0, 40),
+                            start: s.toISOString().split('T')[0],
+                            end: e.toISOString().split('T')[0],
+                            progress: statusProgress[t.status] || 0,
+                            custom_class: 'bar-status-' + statusKey,
+                            _ticketId: t.id
+                        };
+                    })
+                    .filter(Boolean);
+
+                if (frappeTaskList.length === 0) {
+                    container.innerHTML = '<p class="text-sm text-slate-500 dark:text-slate-400">No valid ticket dates for Gantt rendering.</p>';
+                    return;
+                }
+
+                const renderGantt = (mode) => {
+                    container.innerHTML = '';
+                    container.dataset.ganttMode = mode;
+                    window.__adminTicketGanttChart = new Gantt(container, frappeTaskList, {
+                        view_mode: mode,
+                        bar_height: 28,
+                        bar_corner_radius: 6,
+                        column_width: 30,
+                        padding: 22,
+                        infinite_padding: false,
+                        scroll_to: 'start',
+                        today_button: true,
+                        readonly: true,
+                        readonly_dates: true,
+                        readonly_progress: true,
+                        popup: ({ task, set_title, set_subtitle, set_details }) => {
+                            const t = rawTasks.find(r => 'ticket-' + r.id === task.id);
+                            if (!t) return false;
+                            set_title('#' + t.id + ' - ' + (t.subject || ''));
+                            set_subtitle('Status: ' + (t.status || 'Unknown') + ' | Priority: ' + (t.priority || '-'));
+                            set_details('From ' + task.start + ' to ' + task.end);
+                        },
+                        on_click: (task) => {
+                            const t = rawTasks.find(r => 'ticket-' + r.id === task.id);
+                            if (t) {
+                                const url = '{{ path("admin_ticket_view", {"id": "__ID__"}) }}'.replace('__ID__', t.id);
+                                window.location.href = url;
+                            }
+                        }
+                    });
+                };
+
+                const currentMode = container.dataset.ganttMode || 'Day';
+                const isGanttVisible = container.offsetParent !== null && container.clientWidth > 0;
+                if (isGanttVisible || container.dataset.ganttRendered === '1') {
+                    renderGantt(currentMode);
+                    container.dataset.ganttRendered = '1';
+                }
+
+                const viewButtons = document.querySelectorAll('[data-gantt-view]');
+                viewButtons.forEach((btn) => {
+                    if (btn.dataset.bound === '1') return;
+                    btn.dataset.bound = '1';
+                    btn.addEventListener('click', () => {
+                        const mode = btn.dataset.ganttView;
+                        renderGantt(mode);
+                        container.dataset.ganttRendered = '1';
+                        viewButtons.forEach((b) => {
+                            b.classList.remove('bg-emerald-600', 'text-white');
+                            b.classList.add('text-slate-600', 'dark:text-slate-300');
+                        });
+                        btn.classList.add('bg-emerald-600', 'text-white');
+                        btn.classList.remove('text-slate-600', 'dark:text-slate-300');
+                    });
+                });
+
+                const activeMode = container.dataset.ganttMode || 'Day';
+                viewButtons.forEach((b) => {
+                    const active = b.dataset.ganttView === activeMode;
+                    b.classList.toggle('bg-emerald-600', active);
+                    b.classList.toggle('text-white', active);
+                    if (!active) b.classList.add('text-slate-600', 'dark:text-slate-300');
+                });
+
+                window.__renderAdminTicketGantt = (force = false) => {
+                    const mode = container.dataset.ganttMode || 'Day';
+                    if (force || container.offsetParent !== null) {
+                        renderGantt(mode);
+                        container.dataset.ganttRendered = '1';
+                    }
+                };
+            }
+
+            initAdminTicketGantt();
+            document.addEventListener('DOMContentLoaded', initAdminTicketGantt);
+            document.addEventListener('turbo:load', initAdminTicketGantt);
+            document.addEventListener('turbo:render', initAdminTicketGantt);
+            window.addEventListener('pageshow', initAdminTicketGantt);
+        </script>
+    {% endif %}
+{% endblock %}

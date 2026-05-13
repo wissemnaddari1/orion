@@ -1,0 +1,13 @@
+{
+  "title": "Université de Paris, je suis",
+  "bio": "",
+  "experience_years": 5,
+  "hourly_rate": "",
+  "location": "Mention Bien, UN",
+  "skills": [
+    "Anglais",
+    "Espagnol"
+  ],
+  "confidence": 66,
+  "strategy": "enhanced_regex"
+}

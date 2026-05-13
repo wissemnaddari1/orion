@@ -1,0 +1,325 @@
+    <div class="flex flex-col space-y-8">
+    {# Form fields - all inside form, buttons forced to bottom via order #}
+    {# Section: Professional Information #}
+    <div class="space-y-6 p-6 rounded-2xl bg-slate-50/50 dark:bg-slate-800/30 border border-slate-100 dark:border-slate-700/50 shadow-sm" style="order: 1;">
+        <h3 class="text-xs font-semibold text-[#0FAF7A] dark:text-[#0FAF7A] uppercase tracking-wider mb-4 flex items-center gap-2">
+            <span class="w-1 h-4 rounded-full bg-[#0FAF7A]"></span>
+            Professional Information
+        </h3>
+        
+        <div class="space-y-4">
+            <div class="group">
+                {{ form_label(form.title, 'Professional Title', {'label_attr': {'class': 'block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2 group-focus-within:text-[#0FAF7A] transition-colors'}}) }}
+                {{ form_widget(form.title, {'attr': {'class': 'block w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-slate-900 dark:text-slate-200 placeholder-slate-500 focus:ring-2 focus:ring-[#0FAF7A]/20 focus:border-[#0FAF7A] transition-all duration-200', 'placeholder': 'e.g. Certified Plumber'}}) }}
+                {{ form_errors(form.title, {'attr': {'class': 'mt-1 text-sm text-red-500'}}) }}
+            </div>
+
+            <div class="group">
+                {{ form_label(form.bio, 'Bio', {'label_attr': {'class': 'block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2 group-focus-within:text-[#0FAF7A] transition-colors'}}) }}
+                {{ form_widget(form.bio, {'attr': {'class': 'block w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-slate-900 dark:text-slate-200 placeholder-slate-500 focus:ring-2 focus:ring-[#0FAF7A]/20 focus:border-[#0FAF7A] transition-all duration-200 resize-none', 'rows': 5, 'placeholder': 'Share your experience and skills...'}}) }}
+                {{ form_errors(form.bio, {'attr': {'class': 'mt-1 text-sm text-red-500'}}) }}
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="group">
+                    {{ form_label(form.workerCategory, 'Category', {'label_attr': {'class': 'block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2 group-focus-within:text-[#0FAF7A] transition-colors'}}) }}
+                    {{ form_widget(form.workerCategory, {'attr': {'class': 'block w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-slate-900 dark:text-slate-200 focus:ring-2 focus:ring-[#0FAF7A]/20 focus:border-[#0FAF7A] transition-all duration-200'}}) }}
+                    {{ form_errors(form.workerCategory, {'attr': {'class': 'mt-1 text-sm text-red-500'}}) }}
+                </div>
+
+                <div class="group">
+                    {{ form_label(form.experience_years, 'Experience (years)', {'label_attr': {'class': 'block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2 group-focus-within:text-[#0FAF7A] transition-colors'}}) }}
+                    {{ form_widget(form.experience_years, {'attr': {'class': 'block w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-slate-900 dark:text-slate-200 focus:ring-2 focus:ring-[#0FAF7A]/20 focus:border-[#0FAF7A] transition-all duration-200'}}) }}
+                    {{ form_errors(form.experience_years, {'attr': {'class': 'mt-1 text-sm text-red-500'}}) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# Section: Details #}
+    <div class="pt-8 space-y-6 p-6 rounded-2xl bg-slate-50/50 dark:bg-slate-800/30 border border-slate-100 dark:border-slate-700/50 shadow-sm" style="order: 2;">
+        <h3 class="text-xs font-semibold text-[#0FAF7A] dark:text-[#0FAF7A] uppercase tracking-wider mb-4 flex items-center gap-2">
+            <span class="w-1 h-4 rounded-full bg-[#0FAF7A]"></span>
+            Details
+        </h3>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="group">
+                {{ form_label(form.hourly_rate, 'Hourly rate (€)', {'label_attr': {'class': 'block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2 group-focus-within:text-[#0FAF7A] transition-colors'}}) }}
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                        <span class="text-slate-500 text-sm font-medium">€</span>
+                    </div>
+                    {{ form_widget(form.hourly_rate, {'attr': {'class': 'block w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl pl-9 pr-4 py-3 text-slate-900 dark:text-slate-200 shadow-sm focus:ring-2 focus:ring-[#0FAF7A]/30 focus:border-[#0FAF7A] transition-all duration-200', 'placeholder': '0.00'}}) }}
+                </div>
+                {{ form_errors(form.hourly_rate, {'attr': {'class': 'mt-1 text-sm text-red-500'}}) }}
+            </div>
+
+            <div class="group">
+                {{ form_label(form.availability_status, 'Availability', {'label_attr': {'class': 'block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2 group-focus-within:text-[#0FAF7A] transition-colors'}}) }}
+                {{ form_widget(form.availability_status, {'attr': {'class': 'block w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-slate-900 dark:text-slate-200 shadow-sm focus:ring-2 focus:ring-[#0FAF7A]/30 focus:border-[#0FAF7A] transition-all duration-200'}}) }}
+                {{ form_errors(form.availability_status, {'attr': {'class': 'mt-1 text-sm text-red-500'}}) }}
+            </div>
+        </div>
+    </div>
+
+    {# Section: Contact & Location - phone, email above location and map #}
+    <div class="group space-y-6 pt-8 p-6 rounded-2xl bg-slate-50/50 dark:bg-slate-800/30 border border-slate-100 dark:border-slate-700/50 shadow-sm" style="order: 3;">
+        <h3 class="text-xs font-semibold text-[#0FAF7A] dark:text-[#0FAF7A] uppercase tracking-wider mb-4 flex items-center gap-2">
+            <span class="w-1 h-4 rounded-full bg-[#0FAF7A]"></span>
+            Contact & Location
+        </h3>
+            <div class="relative space-y-6">
+                {# Phone & Email - contact info above location and map #}
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {% if form.phoneNumber is defined %}
+                    <div class="group">
+                        {{ form_label(form.phoneNumber, 'Phone Number', {'label_attr': {'class': 'block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2 group-focus-within:text-[#0FAF7A] transition-colors'}}) }}
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                <svg class="w-5 h-5 text-slate-400 group-focus-within:text-[#0FAF7A] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+                            </div>
+                            {{ form_widget(form.phoneNumber, {'attr': {'class': 'block w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl pl-11 pr-4 py-3 text-slate-900 dark:text-slate-200 shadow-sm focus:ring-2 focus:ring-[#0FAF7A]/30 focus:border-[#0FAF7A] transition-all duration-200', 'placeholder': '+33 6 12 34 56 78'}}) }}
+                        </div>
+                        {{ form_errors(form.phoneNumber, {'attr': {'class': 'mt-1 text-sm text-red-500'}}) }}
+                    </div>
+                    {% endif %}
+
+                    {% if form.email is defined %}
+                    <div class="group">
+                        {{ form_label(form.email, 'Professional Email', {'label_attr': {'class': 'block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2 group-focus-within:text-[#0FAF7A] transition-colors'}}) }}
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                <svg class="w-5 h-5 text-slate-400 group-focus-within:text-[#0FAF7A] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                            </div>
+                            {{ form_widget(form.email, {'attr': {'class': 'block w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl pl-11 pr-4 py-3 text-slate-900 dark:text-slate-200 shadow-sm focus:ring-2 focus:ring-[#0FAF7A]/30 focus:border-[#0FAF7A] transition-all duration-200', 'placeholder': 'name@example.com'}}) }}
+                        </div>
+                        {{ form_errors(form.email, {'attr': {'class': 'mt-1 text-sm text-red-500'}}) }}
+                    </div>
+                    {% endif %}
+                </div>
+
+                {# Location input #}
+                <div class="group">
+                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Location</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                            <svg class="w-5 h-5 text-slate-400 group-focus-within:text-[#0FAF7A] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                        </div>
+                        {{ form_widget(form.location, {'attr': {'class': 'block w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl pl-11 pr-4 py-3 text-slate-900 dark:text-slate-200 placeholder-slate-500 shadow-sm focus:ring-2 focus:ring-[#0FAF7A]/30 focus:border-[#0FAF7A] transition-all duration-200', 'placeholder': 'e.g. Paris, London...'}}) }}
+                    </div>
+                    {{ form_errors(form.location, {'attr': {'class': 'mt-1 text-sm text-red-500'}}) }}
+                </div>
+
+                {# Map Container #}
+                <div class="group">
+                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Map</label>
+                    <div id="map" class="h-72 w-full rounded-2xl border border-slate-200 dark:border-slate-700 overflow-hidden shadow-md ring-1 ring-slate-200/50 dark:ring-slate-700/50 z-0"></div>
+                </div>
+
+                {# Leaflet Assets #}
+                <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+                <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+                <script>
+                    function initMap() {
+                        const locInput = document.getElementById('{{ form.location.vars.id }}');
+                        const mapEl = document.getElementById('map');
+                        if (!locInput || !mapEl || typeof L === 'undefined') {
+                            return;
+                        }
+                        if (mapEl.dataset.initialized === '1') {
+                            return;
+                        }
+                        mapEl.dataset.initialized = '1';
+
+                        const defaultLat = 48.8566;
+                        const defaultLng = 2.3522;
+
+                        const map = L.map('map').setView([defaultLat, defaultLng], 5);
+                        window.leafletMap = map;
+
+                        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                            attribution: '© OpenStreetMap contributors'
+                        }).addTo(map);
+
+                        let marker = null;
+
+                        const placeMarker = (lat, lng, zoom = 13) => {
+                            if (marker) {
+                                marker.setLatLng([lat, lng]);
+                            } else {
+                                marker = L.marker([lat, lng]).addTo(map);
+                            }
+                            window.leafletMarker = marker;
+                            map.setView([lat, lng], zoom);
+                        };
+
+                        const geocode = async (text) => {
+                            if (!text || !text.trim()) return;
+                            try {
+                                const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(text)}`);
+                                const data = await res.json();
+                                if (Array.isArray(data) && data.length > 0) {
+                                    placeMarker(parseFloat(data[0].lat), parseFloat(data[0].lon));
+                                }
+                            } catch (e) {
+                                console.error('Geocoding error:', e);
+                            }
+                        };
+
+                        map.on('click', function(e) {
+                            const lat = e.latlng.lat;
+                            const lng = e.latlng.lng;
+                            placeMarker(lat, lng);
+
+                            fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`)
+                                .then(response => response.json())
+                                .then(data => {
+                                    if (data.display_name) {
+                                        locInput.value = data.display_name;
+                                        locInput.dispatchEvent(new Event('input', { bubbles: true }));
+                                        locInput.dispatchEvent(new Event('change', { bubbles: true }));
+                                    }
+                                })
+                                .catch(err => console.error('Reverse geocoding error:', err));
+                        });
+
+                        locInput.addEventListener('change', () => geocode(locInput.value));
+                        locInput.addEventListener('blur', () => geocode(locInput.value));
+
+                        if (locInput.value && locInput.value.trim() !== '') {
+                            geocode(locInput.value);
+                        }
+                    }
+                    document.addEventListener('DOMContentLoaded', initMap);
+                    document.addEventListener('turbo:load', initMap);
+                </script>
+            </div>
+        </div>
+
+        {% if is_granted('ROLE_ADMIN') %}
+        <div class="pt-8 mt-8 p-6 rounded-2xl bg-slate-50/50 dark:bg-slate-800/30 border border-slate-100 dark:border-slate-700/50">
+            <h3 class="text-xs font-semibold text-[#0FAF7A] dark:text-[#0FAF7A] uppercase tracking-wider mb-4 flex items-center gap-2">
+                <span class="w-1 h-4 rounded-full bg-[#0FAF7A]"></span>
+                Verification
+            </h3>
+            <label class="inline-flex items-center cursor-pointer group p-4 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-[#0FAF7A]/30 transition-colors">
+                {{ form_widget(form.verified, {'attr': {'class': 'w-5 h-5 rounded border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-[#0FAF7A] focus:ring-[#0FAF7A]/30 transition-all cursor-pointer'}}) }}
+                <span class="ml-3 text-sm font-medium text-slate-700 dark:text-slate-300 group-hover:text-[#0FAF7A] transition-colors">Verified Professional</span>
+            </label>
+        </div>
+        {% else %}
+            <div class="hidden">{{ form_widget(form.verified) }}</div>
+        {% endif %}
+    </div>
+
+    {# Form actions - Create button at the very end (order ensures it stays last) #}
+<div class="flex-shrink-0 flex items-center justify-between pt-8 mt-8 border-t border-slate-200 dark:border-slate-800" style="order: 999;">
+    <a href="{{ cancel_path }}" class="text-sm font-semibold text-slate-500 hover:text-[#0FAF7A] dark:hover:text-[#0FAF7A] transition-colors duration-200">
+        Annuler
+    </a>
+    {{ form_widget(form.save, {'label': submit_label, 'attr': {'class': 'px-8 py-3.5 bg-[#0FAF7A] hover:bg-[#0c8f63] text-white rounded-xl font-bold transition-all duration-300 shadow-lg shadow-[#0FAF7A]/25 hover:shadow-[#0FAF7A]/40 transform hover:-translate-y-0.5 cursor-pointer'}}) }}
+</div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('form[data-validate="worker-profile"]') || document.querySelector('form');
+    if (!form) return;
+
+    const fields = {
+        title: { el: form.querySelector('[name*="[title]"]'), min: 3, msg: 'Professional title must be at least 3 characters.' },
+        bio: { el: form.querySelector('[name*="[bio]"]'), min: 10, msg: 'Bio must be at least 10 characters.' },
+        category: { el: form.querySelector('[name*="[workerCategory]"]'), required: true, msg: 'Please select a specialty category.' },
+        rate: { el: form.querySelector('[name*="[hourly_rate]"]'), type: 'number', min: 0, msg: 'Hourly rate must be a positive number.' },
+        experience: { el: form.querySelector('[name*="[experience_years]"]'), type: 'number', min: 0, msg: 'Experience must be a positive number.' },
+        location: { el: form.querySelector('[name*="[location]"]'), required: true, msg: 'Location is required.' },
+        phoneNumber: { el: form.querySelector('[name*="[phoneNumber]"]'), required: false, msg: 'Invalid phone number.' },
+        email: { el: form.querySelector('[name*="[email]"]'), type: 'email', msg: 'Invalid email address.' },
+        lat: { el: form.querySelector('[name*="[latitude]"]'), type: 'coords', min: -90, max: 90, msg: 'Invalid latitude selected.' },
+        lng: { el: form.querySelector('[name*="[longitude]"]'), type: 'coords', min: -180, max: 180, msg: 'Invalid longitude selected.' }
+    };
+
+    function validateField(name, config) {
+        const field = config.el;
+        if (!field) return true;
+
+        let isValid = true;
+        let errorMsg = '';
+        const value = field.value.trim();
+
+        if (config.required && !value) {
+            isValid = false;
+            errorMsg = config.msg;
+        } else if (config.min && value.length < config.min && config.type !== 'number' && config.type !== 'coords') {
+            isValid = false;
+            errorMsg = config.msg;
+        } else if (config.type === 'number' && (isNaN(value) || parseFloat(value) < config.min)) {
+            isValid = false;
+            errorMsg = config.msg;
+        } else if (config.type === 'email' && value !== '' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+            isValid = false;
+            errorMsg = config.msg;
+        } else if (config.type === 'coords' && value !== '' && (isNaN(value) || parseFloat(value) < config.min || parseFloat(value) > config.max)) {
+            isValid = false;
+            errorMsg = config.msg;
+        }
+
+        updateUI(field, isValid, errorMsg);
+        return isValid;
+    }
+
+    function updateUI(field, isValid, msg) {
+        const container = field.closest('.group'); // Changed to .group to target the correct parent for error display
+        if (!container) return;
+        let errorEl = container.querySelector('.js-error');
+        
+        if (!isValid) {
+            field.classList.add('border-red-500', 'ring-red-500/20');
+            field.classList.remove('border-slate-200', 'dark:border-slate-700'); // Removed specific border classes to avoid conflicts
+            if (!errorEl) {
+                errorEl = document.createElement('p');
+                errorEl.className = 'js-error mt-1 text-sm text-red-500'; // Adjusted class for consistency
+                container.appendChild(errorEl);
+            }
+            errorEl.textContent = msg;
+        } else {
+            field.classList.remove('border-red-500', 'ring-red-500/20');
+            field.classList.add('border-slate-200', 'dark:border-slate-700'); // Re-added original border classes
+            if (errorEl) errorEl.remove();
+        }
+    }
+
+    Object.keys(fields).forEach(key => {
+        const config = fields[key];
+        if (config.el) {
+            ['input', 'blur'].forEach(evt => {
+                config.el.addEventListener(evt, () => validateField(key, config));
+            });
+        }
+    });
+
+    form.addEventListener('submit', function(e) {
+        let isFormValid = true;
+        try {
+            Object.keys(fields).forEach(key => {
+                // Validate all fields and ensure isFormValid remains false if any validation fails
+                if (!validateField(key, fields[key])) {
+                    isFormValid = false;
+                }
+            });
+        } catch (validationError) {
+            console.error('Validation error:', validationError);
+            // Do not block submit if front-end validation crashes.
+            return;
+        }
+
+        if (!isFormValid) {
+            e.preventDefault();
+            const firstError = form.querySelector('.js-error');
+            if (firstError) firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    });
+});
+</script>

@@ -1,0 +1,32 @@
+﻿{
+    "candidates":  [
+                       {
+                           "freelancer_completed_jobs":  15,
+                           "timezone_match":  1,
+                           "skill_overlap_count":  2,
+                           "freelancer_level":  "Expert",
+                           "freelancer_primary_category":  "Software Development",
+                           "freelancer_timezone":  "UTC+1",
+                           "category_match":  1,
+                           "freelancer_response_rate":  0.95,
+                           "freelancer_total_reviews":  20,
+                           "freelancer_language":  "English",
+                           "freelancer_rating_avg":  4.8,
+                           "freelancer_skills":  "PHP|Symfony|MySQL",
+                           "language_match":  1,
+                           "freelancer_id":  1,
+                           "freelancer_hourly_rate":  50
+                       }
+                   ],
+    "request":  {
+                    "request_budget_usd":  1000,
+                    "request_category":  "Software Development",
+                    "request_id":  123,
+                    "request_deadline_days":  7,
+                    "request_required_skills":  "Symfony|PHP|JWT",
+                    "request_complexity_1to5":  3,
+                    "request_timezone":  "UTC+1",
+                    "request_language":  "English"
+                },
+    "top_k":  10
+}

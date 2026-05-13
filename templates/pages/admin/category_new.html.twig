@@ -1,0 +1,339 @@
+{% extends 'layout_admin.html.twig' %}
+
+{% block title %}Nouvelle Catégorie{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        /* Dark-theme select dropdown (custom dropdown uses these for the trigger) */
+        [data-dd] [data-dd-btn] {
+            min-height: 2.75rem;
+        }
+        .form-error ul { list-style: none; padding: 0; margin: 0.25rem 0 0 0; }
+        .form-error li { font-size: 0.875rem; color: #dc2626; }
+        .dark .form-error li { color: #f87171; }
+    </style>
+{% endblock %}
+
+{% block main %}
+<div class="max-w-5xl mx-auto px-4 sm:px-6 py-6">
+    {# ---------- Page header (no big gradient card) ---------- #}
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+        <div>
+            <h1 class="text-2xl font-bold text-slate-900 dark:text-white">New Worker Category</h1>
+            <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">Add a new worker category to the system</p>
+        </div>
+        <a href="{{ path('admin_categories_index') }}" class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white border border-slate-300 dark:border-slate-600 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
+            Back
+        </a>
+    </div>
+
+    {# ---------- Main card (subtle header, no green bar) ---------- #}
+    <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+        <div class="border-b border-slate-200 dark:border-slate-800 px-6 py-4">
+            <h2 class="text-lg font-semibold text-slate-900 dark:text-white flex items-center gap-2">
+                <svg class="w-5 h-5 text-slate-500 dark:text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+                Category details
+            </h2>
+        </div>
+
+        <div class="p-6">
+            {{ form_start(form, {'attr': {'novalidate': 'novalidate', 'data-validate': 'worker-category'}}) }}
+
+            {# Shared input/textarea classes for dark theme #}
+            {% set inputClass = 'mt-1 block w-full rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-colors sm:text-sm py-2.5 px-3' %}
+            {% set labelClass = 'block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2' %}
+
+            {# ---------- General information ---------- #}
+            <div class="mb-8" x-data="categoryAI()">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">General information</h3>
+                    
+                    <div class="flex items-center gap-2">
+                        <div x-show="showAiForm" x-transition class="flex items-center gap-2 animate-in fade-in slide-in-from-right-2">
+                             <input type="text" 
+                                   x-model="theme" 
+                                   @keyup.enter="suggestCategory()"
+                                   placeholder="Thème (ex: Web Dev)..." 
+                                   class="px-3 py-1.5 text-xs rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500/20 w-40">
+                        </div>
+                        
+                        <button type="button" 
+                                @click="showAiForm ? suggestCategory() : showAiForm = true"
+                                :disabled="loading"
+                                class="inline-flex items-center gap-2 px-3 py-1.5 text-xs font-bold text-white bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 rounded-lg shadow-sm transition-all transform hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed">
+                            <template x-if="!loading">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                            </template>
+                            <template x-if="loading">
+                                <svg class="animate-spin h-3.5 w-3.5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                            </template>
+                            <span x-text="loading ? 'Génération...' : (showAiForm ? 'Confirmer' : 'Générer avec l\'IA')"></span>
+                        </button>
+                    </div>
+                </div>
+                <div class="space-y-4">
+                    <div>
+                        {{ form_label(form.name, null, {'label_attr': {'class': labelClass}}) }}
+                        {{ form_widget(form.name, {'attr': {'class': inputClass ~ ' ' ~ (form.name.vars.attr.class|default('')), 'x-ref': 'name'}}) }}
+                        <div class="form-error">{{ form_errors(form.name) }}</div>
+                    </div>
+                    <div>
+                        {{ form_label(form.description, null, {'label_attr': {'class': labelClass}}) }}
+                        {{ form_widget(form.description, {'attr': {'class': inputClass, 'rows': 4, 'x-ref': 'description'}}) }}
+                        <div class="form-error">{{ form_errors(form.description) }}</div>
+                    </div>
+                </div>
+
+                <script>
+                    function categoryAI() {
+                        return {
+                            loading: false,
+                            showAiForm: false,
+                            theme: '',
+                            async suggestCategory() {
+                                if (this.showAiForm && (!this.theme || this.theme.trim() === "")) {
+                                    alert("Veuillez saisir un thème.");
+                                    return;
+                                }
+
+                                this.loading = true;
+                                try {
+                                    const response = await fetch(window.location.protocol + "//" + window.location.hostname + ":8001/suggest-category", {
+                                        method: "POST",
+                                        headers: { "Content-Type": "application/json" },
+                                        body: JSON.stringify({ 
+                                            theme: this.theme,
+                                            existing_categories: [] // Could be populated if needed
+                                        })
+                                    });
+
+                                    const data = await response.json();
+                                    if (data.success) {
+                                        this.$refs.name.value = data.name;
+                                        this.$refs.description.value = data.description;
+                                        
+                                        // Update Hourly Rate if field exists in form
+                                        const rateInput = document.querySelector('[name*="[average_hourly_rate]"]');
+                                        if (rateInput) rateInput.value = data.average_hourly_rate;
+
+                                        // Trigger change events for validation
+                                        this.$refs.name.dispatchEvent(new Event('change', { bubbles: true }));
+                                        this.$refs.description.dispatchEvent(new Event('change', { bubbles: true }));
+                                        if (rateInput) rateInput.dispatchEvent(new Event('change', { bubbles: true }));
+                                        
+                                        this.showAiForm = false;
+                                        this.theme = '';
+                                    } else {
+                                        let errorMsg = "Une erreur est survenue lors de la génération.";
+                                        if (data.error && (data.error.includes("429") || data.error.includes("RESOURCE_EXHAUSTED"))) {
+                                            errorMsg = "Limite de quota atteinte pour l'IA. Veuillez réessayer dans quelques instants ou remplir le formulaire manuellement.";
+                                        } else if (data.error) {
+                                            errorMsg = "Erreur IA: " + (data.error.message || data.error);
+                                        }
+                                        alert(errorMsg);
+                                    }
+                                } catch (err) {
+                                    console.error(err);
+                                    alert("Impossible de contacter le service IA. Vérifiez qu'il est bien lancé sur le port 8001.");
+                                } finally {
+                                    this.loading = false;
+                                }
+                            }
+                        }
+                    }
+                </script>
+            </div>
+
+            {# ---------- Details: Status + Display order ---------- #}
+            <div class="mb-8">
+                <h3 class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-4">Details</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        {{ form_label(form.status, null, {'label_attr': {'class': labelClass}}) }}
+                        {# Custom dropdown (replaces native select for dark theme) #}
+                        <div data-dd class="relative">
+                            {{ form_widget(form.status, {'attr': {'class': 'sr-only', 'data-dd-input': ''}}) }}
+                            <button type="button" data-dd-btn class="{{ inputClass }} w-full flex items-center justify-between text-left">
+                                <span data-dd-label>{% for choice in form.status.vars.choices %}{% if choice.value == form.status.vars.value %}{{ choice.label }}{% endif %}{% endfor %}{% if not form.status.vars.value %}Choisir{% endif %}</span>
+                                <svg class="w-4 h-4 text-slate-400 flex-shrink-0 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                            </button>
+                            <ul data-dd-menu class="hidden absolute z-50 mt-1 w-full rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 shadow-lg py-1 max-h-48 overflow-auto">
+                                {% for choice in form.status.vars.choices %}
+                                    <li data-dd-item="{{ choice.label }}" data-dd-value="{{ choice.value }}" class="px-3 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 cursor-pointer">{{ choice.label }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <div class="form-error">{{ form_errors(form.status) }}</div>
+                    </div>
+                    <div>
+                        {{ form_label(form.display_order, null, {'label_attr': {'class': labelClass}}) }}
+                        {{ form_widget(form.display_order, {'attr': {'class': inputClass}}) }}
+                        <div class="form-error">{{ form_errors(form.display_order) }}</div>
+                    </div>
+                </div>
+            </div>
+
+            {# ---------- Rate + optional: Avg hourly rate + Total workers ---------- #}
+            <div class="mb-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        {{ form_label(form.average_hourly_rate, null, {'label_attr': {'class': labelClass}}) }}
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-500 dark:text-slate-400 text-sm mt-1">€</span>
+                            {{ form_widget(form.average_hourly_rate, {'attr': {'class': inputClass ~ ' pl-8'}}) }}
+                        </div>
+                        <div class="form-error">{{ form_errors(form.average_hourly_rate) }}</div>
+                    </div>
+                    <div>
+                        {{ form_label(form.total_workers, null, {'label_attr': {'class': labelClass}}) }}
+                        {{ form_widget(form.total_workers, {'attr': {'class': inputClass}}) }}
+                        <div class="form-error">{{ form_errors(form.total_workers) }}</div>
+                    </div>
+                </div>
+            </div>
+
+            {# ---------- Icon upload (dropzone-style card) ---------- #}
+            <div class="border-t border-slate-200 dark:border-slate-800 pt-6">
+                <h3 class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-3">Icon</h3>
+                {{ form_label(form.iconFile, null, {'label_attr': {'class': 'sr-only'}}) }}
+                <div class="flex justify-center px-6 py-8 border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-xl bg-slate-50/50 dark:bg-slate-800/30 hover:border-emerald-500/50 dark:hover:border-emerald-500/50 transition-colors">
+                    <div class="space-y-2 text-center">
+                        <svg class="mx-auto h-12 w-12 text-slate-400 dark:text-slate-500" stroke="currentColor" fill="none" viewBox="0 0 48 48"><path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        <label for="{{ form.iconFile.vars.id }}" class="cursor-pointer inline-flex items-center gap-2 text-sm font-medium text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300">
+                            <span>Upload a file</span>
+                        </label>
+                        {{ form_widget(form.iconFile, {'attr': {'class': 'sr-only'}}) }}
+                        <p class="text-xs text-slate-500 dark:text-slate-400">PNG, JPG, SVG up to 2MB</p>
+                    </div>
+                </div>
+                <div class="form-error mt-2">{{ form_errors(form.iconFile) }}</div>
+            </div>
+
+            {# ---------- Footer: Back left, Submit right ---------- #}
+            <div class="mt-8 pt-6 border-t border-slate-200 dark:border-slate-800 flex flex-col-reverse sm:flex-row sm:items-center sm:justify-between gap-4">
+                <a href="{{ path('admin_categories_index') }}" class="text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-colors">Back to list</a>
+                <div class="sm:min-w-[200px] sm:text-right">
+                    {{ form_widget(form.submit, {'attr': {'class': 'w-full sm:w-auto inline-flex justify-center py-2.5 px-5 rounded-lg font-semibold text-white bg-emerald-600 hover:bg-emerald-700 focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 dark:focus:ring-offset-slate-900 transition-colors'}}) }}
+                </div>
+            </div>
+
+            {{ form_end(form) }}
+        </div>
+    </div>
+</div>
+
+<script>
+(function () {
+    // Sync custom dropdown label
+    var wrap = document.querySelector('[data-dd]');
+    if (!wrap) return;
+    var sel = wrap.querySelector('select[data-dd-input]');
+    var label = wrap.querySelector('[data-dd-label]');
+    if (!sel || !label) return;
+    var opt = sel.options[sel.selectedIndex];
+    if (opt) label.textContent = opt.textContent;
+
+    // Real-time validation
+    const form = document.querySelector('form[data-validate="worker-category"]');
+    if (!form) return;
+
+    const fields = {
+        name: { el: form.querySelector('[name*="[name]"]'), min: 3, msg: 'Category name must be at least 3 characters.' },
+        description: { el: form.querySelector('[name*="[description]"]'), min: 10, msg: 'Description must be at least 10 characters.' },
+        status: { el: form.querySelector('[name*="[status]"]'), required: true, msg: 'Statut requis.' },
+        order: { el: form.querySelector('[name*="[display_order]"]'), type: 'number', min: 0, msg: 'Order must be positive.' },
+        workers: { el: form.querySelector('[name*="[total_workers]"]'), type: 'number', min: 0, msg: 'Initial count must be positive.' },
+        rate: { el: form.querySelector('[name*="[average_hourly_rate]"]'), type: 'number', min: 0, msg: 'Average rate must be positive.' },
+        icon: { el: form.querySelector('[name*="[iconFile]"]'), required: true, msg: 'Icon is required for new categories.' }
+    };
+
+    function validateField(key, config) {
+        const field = config.el;
+        if (!field) return true;
+
+        let isValid = true;
+        let errorMsg = '';
+        const value = field.value.trim();
+
+        if (config.required && !value) {
+            isValid = false;
+            errorMsg = config.msg;
+        } else if (config.min && value.length < config.min && config.type !== 'number') {
+            isValid = false;
+            errorMsg = config.msg;
+        } else if (config.type === 'number' && (isNaN(value) || parseFloat(value) < config.min)) {
+            isValid = false;
+            errorMsg = config.msg;
+        }
+
+        updateUI(field, isValid, errorMsg);
+        return isValid;
+    }
+
+    function updateUI(field, isValid, msg) {
+        // Find suitable container (handle sr-only status)
+        const container = field.classList.contains('sr-only') ? field.closest('.relative').parentElement : field.closest('div');
+        let errorEl = container.querySelector('.js-error');
+        
+        if (!isValid) {
+            field.classList.add('border-red-500', 'ring-red-500/20');
+            field.classList.remove('border-slate-300', 'dark:border-slate-600');
+            
+            // Custom handle for status dropdown button
+            const btn = container.querySelector('[data-dd-btn]');
+            if (btn) btn.classList.add('border-red-500', 'ring-red-500/20');
+
+            if (!errorEl) {
+                errorEl = document.createElement('p');
+                errorEl.className = 'js-error text-xs text-red-500 mt-1 font-medium';
+                container.appendChild(errorEl);
+            }
+            errorEl.textContent = msg;
+        } else {
+            field.classList.remove('border-red-500', 'ring-red-500/20');
+            field.classList.add('border-slate-300', 'dark:border-slate-600');
+            
+            const btn = container.querySelector('[data-dd-btn]');
+            if (btn) btn.classList.remove('border-red-500', 'ring-red-500/20');
+
+            if (errorEl) errorEl.remove();
+        }
+    }
+
+    Object.keys(fields).forEach(key => {
+        const config = fields[key];
+        if (config.el) {
+            ['input', 'blur', 'change'].forEach(evt => {
+                config.el.addEventListener(evt, () => validateField(key, config));
+            });
+        }
+    });
+
+    // Custom dropdown item selection should trigger change
+    document.querySelectorAll('[data-dd-item]').forEach(item => {
+        item.addEventListener('click', () => {
+            const wrap = item.closest('[data-dd]');
+            const sel = wrap.querySelector('select');
+            if (sel) {
+                sel.dispatchEvent(new Event('change', { bubbles: true }));
+            }
+        });
+    });
+
+    form.addEventListener('submit', function(e) {
+        let isFormValid = true;
+        Object.keys(fields).forEach(key => {
+            if (!validateField(key, fields[key])) isFormValid = false;
+        });
+
+        if (!isFormValid) {
+            e.preventDefault();
+            const firstError = form.querySelector('.js-error');
+            if (firstError) firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    });
+})();
+</script>
+{% endblock %}

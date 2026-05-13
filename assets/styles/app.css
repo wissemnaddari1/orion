@@ -1,0 +1,135 @@
+/* Keep this file for any small global overrides if needed. */
+
+/* Messenger Popup Animations */
+@keyframes bounce-slow {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.animate-bounce-slow {
+  animation: bounce-slow 3s ease-in-out infinite;
+}
+
+/* Message Bubble Animations */
+@keyframes slide-in-left {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.message-bubble-left {
+  animation: slide-in-left 0.3s ease-out;
+}
+
+.message-bubble-right {
+  animation: slide-in-right 0.3s ease-out;
+}
+
+.animate-slide-in-left {
+  animation: slide-in-left 0.3s ease-out;
+}
+
+.animate-slide-in-right {
+  animation: slide-in-right 0.3s ease-out;
+}
+
+/* Scrollbar styling for messages */
+#messages-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+#messages-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+#messages-container::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.3);
+  border-radius: 3px;
+}
+
+#messages-container::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.5);
+}
+
+/* Custom scrollbar for conversation views */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(148, 163, 184, 0.1);
+  border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.4);
+  border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.6);
+}
+
+/* Hover glow effect */
+.hover-glow:hover {
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+}
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Password checklist - live validation icons (dark-mode friendly) */
+#password-checklist .rule-icon.is-valid,
+#password-checklist .rule-text.is-valid {
+  color: rgb(16 185 129); /* emerald-500 */
+}
+
+.dark #password-checklist .rule-icon.is-valid,
+.dark #password-checklist .rule-text.is-valid {
+  color: rgb(52 211 153); /* emerald-400 */
+}
+
+#password-checklist .rule-icon.is-invalid,
+#password-checklist .rule-text.is-invalid {
+  color: rgb(148 163 184); /* slate-400 - muted gray */
+}
+
+.dark #password-checklist .rule-icon.is-invalid,
+.dark #password-checklist .rule-text.is-invalid {
+  color: rgb(100 116 139); /* slate-500 */
+}
+
+/* Validation feedback — errors only, no success messages */
+.validation-error-text {
+  color: #ff4d4f;
+  font-size: 0.75rem;
+}
+
+.dark .validation-error-text {
+  color: #ff6b6b;
+}

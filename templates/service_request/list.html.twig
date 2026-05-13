@@ -1,0 +1,135 @@
+{% extends 'layout_app.html.twig' %}
+
+
+{% block main %}
+
+<div class="max-w-6xl mx-auto">
+    {# Header Section #}
+    <div class="flex justify-between items-center mb-8">
+        <div>
+            <h1 class="text-2xl font-bold text-slate-900 dark:text-white">Service Requests</h1>
+            <p class="text-slate-500 dark:text-slate-400">Manage and track all service postings in the marketplace.</p>
+        </div>
+        <a href="{{ path('request_new') }}" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-lg shadow-md transition-all">
+            + Create New Request
+        </a>
+    </div>
+    <div class="mb-6 relative max-w-md">
+        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <svg class="h-5 w-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+        </div>
+        <input type="text" 
+            id="request-search" 
+            placeholder="Search by title..." 
+            class="block w-full pl-10 pr-3 py-2 border border-slate-200 dark:border-slate-800 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+        >
+        <div id="search-spinner" class="hidden absolute inset-y-0 right-0 pr-3 flex items-center">
+            <svg class="animate-spin h-4 w-4 text-emerald-600" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+        </div>
+    </div>
+
+    {# Table Card #}
+    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-sm overflow-hidden">
+        <table class="w-full text-left border-collapse">
+            <thead class="bg-slate-50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-800">
+                <tr>
+                    <th class="px-6 py-4 text-sm font-semibold text-slate-700 dark:text-slate-300">Service Title</th>
+                    <th class="px-6 py-4 text-sm font-semibold text-slate-700 dark:text-slate-300">Budget Range</th>
+                    <th class="px-6 py-4 text-sm font-semibold text-slate-700 dark:text-slate-300">freelancer level</th>
+                    <th class="px-6 py-4 text-sm font-semibold text-slate-700 dark:text-slate-300">Date Created</th>
+                    <th class="px-6 py-4 text-sm font-semibold text-slate-700 dark:text-slate-300 text-right">Actions</th>
+                    <th class="px-6 py-4 text-sm font-semibold text-slate-700 dark:text-slate-300 text-right">duration</th>
+                    <th class="px-6 py-4 text-sm font-semibold text-slate-700 dark:text-slate-300 text-right"></th>
+                    <th class="px-6 py-4 text-sm font-semibold text-slate-700 dark:text-slate-300 text-right">Start Service</th>
+                    <th class="px-6 py-4 text-sm font-semibold text-slate-700 dark:text-slate-300 text-right">generate AI</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+                {% include 'service_request/_list_rows.html.twig' with {'requests': requests} %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% block javascripts %}
+<script>
+    (function() {
+        // --- 1. THE AI LOGIC (Wrapped in a function) ---
+        const initAiButtons = () => {
+            document.querySelectorAll('.ai-generate-btn:not(.is-ready)').forEach(button => {
+                button.addEventListener('click', async (e) => {
+                    e.preventDefault();
+                    const btn = e.currentTarget;
+                    if (btn.classList.contains('is-loading')) return;
+
+                    const requestId = btn.dataset.id;
+                    const originalText = btn.innerText;
+
+                    btn.innerText = "WAIT...";
+                    btn.disabled = true;
+                    btn.classList.add('is-loading');
+
+                    try {
+                        const url = "{{ path('ai_generate', {id: 'PLACEHOLDER'}) }}".replace('PLACEHOLDER', requestId);
+                        const response = await fetch(url, {
+                            method: 'POST',
+                            headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                        });
+
+                        const data = await response.json();
+                        if (!response.ok) throw new Error(data.error || 'Server Error');
+
+                        alert(`Success! Generated ${data.count} requirements.`);
+                        window.location.reload(); 
+
+                    } catch (error) {
+                        alert('Error: ' + error.message);
+                    } finally {
+                        btn.innerText = originalText;
+                        btn.disabled = false;
+                        btn.classList.remove('is-loading');
+                    }
+                });
+                button.classList.add('is-ready');
+            });
+        };
+
+        // --- 2. THE SEARCH LOGIC ---
+        const initSearch = () => {
+            const searchInput = document.getElementById('request-search');
+            const tableBody = document.querySelector('tbody');
+            const spinner = document.getElementById('search-spinner');
+            let debounceTimer;
+
+            searchInput?.addEventListener('input', (e) => {
+                clearTimeout(debounceTimer);
+                spinner?.classList.remove('hidden');
+
+                debounceTimer = setTimeout(async () => {
+                    try {
+                        const query = encodeURIComponent(e.target.value);
+                        const response = await fetch(`{{ path('request_search') }}?q=${query}`, {
+                            headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                        });
+                        
+                        const html = await response.text();
+                        tableBody.innerHTML = html;
+
+                        // CRITICAL: Re-initialize AI buttons for the new search results!
+                        initAiButtons();
+
+                    } catch (error) {
+                        console.error('Search error:', error);
+                    } finally {
+                        spinner?.classList.add('hidden');
+                    }
+                }, 300);
+            });
+        };
+
+        // Initial launch
+        initAiButtons();
+        initSearch();
+    })();
+</script>
+{% endblock %}
+{% endblock %}

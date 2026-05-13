@@ -1,0 +1,108 @@
+{% extends 'layout_app.html.twig' %}
+{% set topbar_title = 'Service: ' ~ (serviceRequest.title|default('Request')) %}
+{% block main %}
+    <div class="space-y-8">
+        <div class="flex flex-wrap items-center justify-between gap-4">
+            <div>
+                <h1 class="text-2xl font-bold text-slate-900 dark:text-white">{{ serviceRequest.title }}</h1>
+                <div class="mt-2 flex flex-wrap items-center gap-2">
+                    {% include 'components/_badge.html.twig' with { text: serviceRequest.status|default('Open'), variant: 'success' } %}
+                    <span class="text-sm text-slate-600 dark:text-slate-400">Category: {{ serviceRequest.category ? serviceRequest.category.name : 'â€”' }}</span>
+                    {% if serviceRequest.duration %}
+                        <span class="text-sm text-slate-600 dark:text-slate-400">Duration: {{ serviceRequest.duration }} days</span>
+                    {% endif %}
+                </div>
+            </div>
+            {% include 'components/_button.html.twig' with { label: 'Edit', href: path('request_edit', { id: serviceRequest.id }), variant: 'outline' } %}
+
+        </div>
+
+        <div class="grid gap-8 lg:grid-cols-3">
+            <div class="lg:col-span-2 space-y-6">
+                <div class="rounded-xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-900">
+                    <h2 class="text-lg font-semibold text-slate-900 dark:text-white">Details</h2>
+                    <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">{{ serviceRequest.createdAt ? serviceRequest.createdAt|date('M d, Y') : '' }}</p>
+                    <p class="mt-4 text-slate-600 dark:text-slate-300">{{ serviceRequest.description|default('') }}</p>
+                    <h3 class="mt-4 font-semibold text-slate-900 dark:text-white">Requirements</h3>
+                    <ul class="mt-2 list-inside list-disc text-sm text-slate-600 dark:text-slate-300">
+                        {% for r in serviceRequest.requirements %}
+                            <li>{{ r.title }}{% if r.details %}: {{ r.details }}{% endif %}</li>
+                        {% else %}
+                            <li class="text-slate-500 dark:text-slate-400">No requirements added yet.</li>
+                        {% endfor %}
+                    </ul>
+                    <p class="mt-2 text-sm text-slate-600 dark:text-slate-300"><strong class="text-slate-900 dark:text-white">Budget:</strong> {{ serviceRequest.budgetMin|number_format(0) }} â€“ {{ serviceRequest.budgetMax|number_format(0) }} (request range)</p>
+                </div>
+
+                <div class="rounded-xl border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-900">
+                    <div class="border-b border-slate-100 px-6 py-4 dark:border-slate-800">
+                        <h2 class="text-lg font-semibold text-slate-900 dark:text-white">AI-matched freelancers</h2>
+                        <p class="text-sm text-slate-600 dark:text-slate-400">{% if matchmakingAvailable %}Best match score for this request{% if rankedFreelancers|length %} ({{ rankedFreelancers|length }} shown){% endif %}{% else %}Suggested freelancers in this category (start the Matchmaking API for AI scores){% endif %}</p>
+                    </div>
+                    <div class="grid gap-4 p-6 sm:grid-cols-2 lg:grid-cols-3">
+                        {% for f in rankedFreelancers %}
+                            <div class="flex items-center gap-4 rounded-lg border border-slate-200 p-4 transition hover:shadow-md dark:border-slate-700 dark:bg-slate-800/50 dark:hover:bg-slate-800">
+                                <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-gradient-to-r from-emerald-500 to-emerald-600 text-lg font-bold text-white">
+                                    {{ f.user.firstName|slice(0, 1)|upper }}{{ f.user.lastName|slice(0, 1)|upper }}
+                                </div>
+                                <div class="min-w-0 flex-1">
+                                    <p class="truncate font-medium text-slate-900 dark:text-white" title="{{ f.user.firstName }} {{ f.user.lastName }}">{{ f.user.firstName }}{% if f.user.lastName %} {{ f.user.lastName|slice(0, 1) }}.{% endif %}</p>
+                                    <p class="text-xs text-slate-600 dark:text-slate-400">{{ f.profile.title|default('Freelancer') }}</p>
+                                    {% if f.score is not null %}
+                                        {% include 'components/_badge.html.twig' with { text: (f.score * 100)|round ~ '% match', variant: 'success', size: 'sm' } %}
+                                    {% else %}
+                                        <span class="text-xs text-slate-500 dark:text-slate-400">â€”</span>
+                                    {% endif %}
+                                </div>
+                                {% if f.profile is defined and f.profile is not null %}
+                                    {% include 'components/_button.html.twig' with { label: 'View profile', href: path('worker_profile_view', { id: f.profile.id }), variant: 'primary', size: 'sm' } %}
+                                {% endif %}
+                            </div>
+                        {% else %}
+                            <p class="col-span-full p-4 text-sm text-slate-500 dark:text-slate-400">No freelancers in this category yet. Try another category or check back later.</p>
+
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="rounded-xl border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-900">
+                    <div class="border-b border-slate-100 px-6 py-4 dark:border-slate-800">
+                        <h2 class="text-lg font-semibold text-slate-900 dark:text-white">Offers</h2>
+                    </div>
+                    <div class="divide-y divide-slate-100 dark:divide-slate-800">
+                        {% for o in offers %}
+                            <div class="flex flex-wrap items-center justify-between gap-4 px-6 py-4">
+                                <div>
+                                    <p class="font-medium text-slate-900 dark:text-white">{{ o.worker ? (o.worker.firstName ~ ' ' ~ o.worker.lastName|slice(0, 1) ~ '.') : 'Unknown' }}</p>
+                                    <div class="mt-1 flex flex-wrap gap-3 text-sm text-slate-600 dark:text-slate-400">
+                                        <span>Price: {{ o.price }}</span>
+                                        <span>ETA: {{ o.estimatedTimeDays }} days</span>
+                                        {% if o.includedRevisions %}<span>Revisions: {{ o.includedRevisions }}</span>{% endif %}
+                                        {% if o.responseSlaHours %}<span>SLA: {{ o.responseSlaHours }}h</span>{% endif %}
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    {% include 'components/_badge.html.twig' with { text: o.status, variant: o.status == 'ACCEPTED' ? 'success' : 'neutral' } %}
+                                    {% include 'components/_button.html.twig' with { label: 'View', href: path('client_offers_show', { id: o.id }), variant: 'primary', size: 'sm' } %}
+                                </div>
+                            </div>
+                        {% else %}
+                            <p class="px-6 py-4 text-sm text-slate-500 dark:text-slate-400">No offers yet.</p>
+
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="rounded-xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-900">
+                    <h2 class="text-lg font-semibold text-slate-900 dark:text-white">Quick actions</h2>
+                    <div class="mt-4 space-y-2">
+                        {% include 'components/_button.html.twig' with { label: 'Manage requirements', href: path('requirement_manage', { id: serviceRequest.id }), variant: 'primary', full_width: true } %}
+                        {% include 'components/_button.html.twig' with { label: 'Open ticket', href: path('ticket_create'), variant: 'ghost', full_width: true } %}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

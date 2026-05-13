@@ -1,0 +1,41 @@
+{# _stats_card.html.twig
+   Parameters: 
+   - title or label (string): Card title
+   - value (string|number): Main value
+   - subtitle or trend (optional): Subtext or trend
+   - trend_up (bool): If trend should be green/red
+   - icon (optional): SVG icon HTML
+   - color (optional): Color theme (emerald, blue, purple, amber, red)
+   - href (optional): Link URL
+#}
+{% set card_title = title|default(label|default('Stat')) %}
+{% set card_color = color|default('emerald') %}
+
+{% set color_classes = {
+    'emerald': 'from-emerald-100 to-emerald-50 dark:from-emerald-900/30 dark:to-emerald-900/10 text-emerald-600 dark:text-emerald-400',
+    'blue': 'from-blue-100 to-blue-50 dark:from-blue-900/30 dark:to-blue-900/10 text-blue-600 dark:text-blue-400',
+    'purple': 'from-purple-100 to-purple-50 dark:from-purple-900/30 dark:to-purple-900/10 text-purple-600 dark:text-purple-400',
+    'amber': 'from-amber-100 to-amber-50 dark:from-amber-900/30 dark:to-amber-900/10 text-amber-600 dark:text-amber-400',
+    'red': 'from-red-100 to-red-50 dark:from-red-900/30 dark:to-red-900/10 text-red-600 dark:text-red-400'
+} %}
+
+<div class="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-sm transition-all duration-200 hover:shadow-md {{ href is defined and href ? 'cursor-pointer' : '' }}">
+    {% if href is defined and href %}<a href="{{ href }}" class="block focus:outline-none focus:ring-2 focus:ring-emerald-500 rounded-xl -m-6 p-6">{% endif %}
+    <div class="flex items-start justify-between">
+        <div>
+            <p class="text-sm font-medium text-slate-600 dark:text-slate-400">{{ card_title }}</p>
+            <p class="mt-2 text-2xl font-bold text-slate-900 dark:text-white">{{ value|default('0') }}</p>
+            {% if subtitle is defined and subtitle %}
+                <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">{{ subtitle }}</p>
+            {% elseif trend is defined and trend %}
+                <p class="mt-1 text-sm {{ trend_up|default(true) ? 'text-emerald-600 dark:text-emerald-400' : 'text-red-600 dark:text-red-400' }}">{{ trend }}</p>
+            {% endif %}
+        </div>
+        {% if icon is defined and icon %}
+            <div class="rounded-lg bg-gradient-to-br {{ color_classes[card_color]|default(color_classes['emerald']) }} p-3">
+                {{ icon|raw }}
+            </div>
+        {% endif %}
+    </div>
+    {% if href is defined and href %}</a>{% endif %}
+</div>

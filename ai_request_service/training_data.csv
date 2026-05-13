@@ -1,0 +1,2024 @@
+category,budget_max,duration,budget_per_day,requirement_title
+Full Stack Developer,6000,40,150.0,Admin Panel Requirements
+Full Stack Developer,6500,55,118.18,Deployment Checklist
+Frontend Developer,7000,40,175.0,UI Component Specifications
+Backend Developer,7000,40,175.0,Database Migration Plan
+UI/UX Designer,8000,38,210.53,Design Tokens Export
+Frontend Developer,4200,55,76.36,State Management Plan
+Frontend Developer,4200,60,70.0,State Management Plan
+Backend Developer,6000,55,109.09,Authentication and Security
+Full Stack Developer,6000,40,150.0,Deployment Checklist
+UI/UX Designer,2800,75,37.33,Brand Style Guide
+DevOps Engineer,6000,55,109.09,Environment Parity Checklist
+UI/UX Designer,6000,40,150.0,Design Tokens Export
+Frontend Developer,4200,60,70.0,Responsive Design Spec
+Frontend Developer,2400,75,32.0,SEO and Keywords Strategy
+UI/UX Designer,8500,38,223.68,Prototype Link and Credentials
+Full Stack Developer,6000,40,150.0,Logging and Audit Trail Spec
+Frontend Developer,6500,55,118.18,Component Testing Standards
+DevOps Engineer,5500,40,137.5,Docker and Container Config
+Full Stack Developer,5000,60,83.33,Database ERD
+Backend Developer,5500,55,100.0,Rate Limiting Policy
+UI/UX Designer,6500,55,118.18,Design Tokens Export
+UI/UX Designer,5000,60,83.33,Wireframes and Mockups
+Frontend Developer,5500,55,100.0,Browser Compatibility Matrix
+DevOps Engineer,6500,55,118.18,Rollback Decision Playbook
+UI/UX Designer,8500,38,223.68,Onboarding UX Flow
+Full Stack Developer,9000,38,236.84,Payment Gateway Integration Doc
+Full Stack Developer,4000,60,66.67,Database ERD
+Backend Developer,4500,55,81.82,Rate Limiting Policy
+Backend Developer,3000,55,54.55,Database ERD
+Backend Developer,6000,55,109.09,API Documentation
+UI/UX Designer,8000,38,210.53,Accessibility Requirements
+UI/UX Designer,4200,60,70.0,Wireframes and Mockups
+Full Stack Developer,6000,58,103.45,Admin Panel Requirements
+UI/UX Designer,5500,40,137.5,Figma or XD Source Files
+Mobile App Developer,7000,38,184.21,App Onboarding Flow Spec
+DevOps Engineer,6000,58,103.45,Disaster Recovery Plan
+DevOps Engineer,7500,38,197.37,Network Topology Diagram
+Mobile App Developer,6500,40,162.5,App Onboarding Flow Spec
+Mobile App Developer,3000,80,37.5,Push Notification Plan
+Mobile App Developer,3500,60,58.33,App Store Assets Package
+Full Stack Developer,6000,58,103.45,User Roles and Permissions Matrix
+Backend Developer,5500,40,137.5,API Documentation
+Frontend Developer,6000,55,109.09,UI Component Specifications
+DevOps Engineer,6000,40,150.0,Network Topology Diagram
+UI/UX Designer,7500,38,197.37,Accessibility Requirements
+Frontend Developer,6000,58,103.45,Frontend Tech Stack Agreement
+Full Stack Developer,7000,40,175.0,Admin Panel Requirements
+Mobile App Developer,8000,38,210.53,App Accessibility Guidelines
+DevOps Engineer,5500,40,137.5,Secrets Management Policy
+Frontend Developer,6500,40,162.5,Frontend Tech Stack Agreement
+Mobile App Developer,7000,40,175.0,Mobile Security Checklist
+DevOps Engineer,6000,58,103.45,Observability Stack Architecture
+UI/UX Designer,6500,40,162.5,Component Library Documentation
+Mobile App Developer,5500,40,137.5,App Accessibility Guidelines
+Backend Developer,6500,58,112.07,Database ERD
+Full Stack Developer,6000,40,150.0,Performance Benchmarks
+Backend Developer,5000,60,83.33,Rate Limiting Policy
+Backend Developer,6500,58,112.07,Rate Limiting Policy
+Frontend Developer,6000,58,103.45,Component Testing Standards
+Full Stack Developer,6500,40,162.5,Logging and Audit Trail Spec
+Mobile App Developer,6000,40,150.0,Analytics Event Tracking Spec
+Frontend Developer,7000,38,184.21,Project Scope Statement
+Frontend Developer,7000,40,175.0,Frontend Tech Stack Agreement
+UI/UX Designer,3500,75,46.67,Brand Style Guide
+Full Stack Developer,7000,38,184.21,Project Scope Statement
+Frontend Developer,1000,70,14.29,SEO and Keywords Strategy
+DevOps Engineer,7000,40,175.0,Secrets Management Policy
+Backend Developer,9000,38,236.84,Authentication and Security
+Mobile App Developer,9000,38,236.84,Mobile Security Checklist
+Mobile App Developer,7500,38,197.37,App Accessibility Guidelines
+DevOps Engineer,7500,38,197.37,Load Testing Report
+UI/UX Designer,6000,58,103.45,Accessibility Requirements
+Frontend Developer,8000,38,210.53,Frontend Tech Stack Agreement
+UI/UX Designer,8500,38,223.68,Figma or XD Source Files
+Backend Developer,6000,40,150.0,Authentication and Security
+Mobile App Developer,7500,38,197.37,Analytics Event Tracking Spec
+Mobile App Developer,2400,75,32.0,Push Notification Plan
+Full Stack Developer,7500,38,197.37,Admin Panel Requirements
+DevOps Engineer,7000,40,175.0,Network Topology Diagram
+Full Stack Developer,5000,38,131.58,Project Scope Statement
+Mobile App Developer,6500,40,162.5,Analytics Event Tracking Spec
+Full Stack Developer,7000,40,175.0,User Roles and Permissions Matrix
+Backend Developer,6000,58,103.45,Database Migration Plan
+Full Stack Developer,9000,38,236.84,Deployment Checklist
+Frontend Developer,5000,60,83.33,Browser Compatibility Matrix
+Mobile App Developer,6500,58,112.07,App Store Assets Package
+Mobile App Developer,8000,38,210.53,Deep Linking Configuration
+Backend Developer,1800,75,24.0,Health Check Endpoint Spec
+UI/UX Designer,3500,60,58.33,Usability Testing Report
+DevOps Engineer,6000,58,103.45,Load Testing Report
+Backend Developer,2800,75,37.33,Health Check Endpoint Spec
+Frontend Developer,7000,38,184.21,UI Component Specifications
+Backend Developer,4200,55,76.36,Rate Limiting Policy
+Full Stack Developer,6500,55,118.18,Admin Panel Requirements
+Backend Developer,7000,40,175.0,GDPR Compliance Checklist
+Full Stack Developer,6500,55,118.18,Performance Benchmarks
+Frontend Developer,6000,40,150.0,Frontend Tech Stack Agreement
+Frontend Developer,2500,70,35.71,Project Scope Statement
+Mobile App Developer,7500,38,197.37,Deep Linking Configuration
+Frontend Developer,1000,70,14.29,Third-Party Integrations List
+Full Stack Developer,5500,40,137.5,Deployment Checklist
+DevOps Engineer,7000,38,184.21,Network Topology Diagram
+Full Stack Developer,9000,38,236.84,User Roles and Permissions Matrix
+Full Stack Developer,5500,40,137.5,Performance Benchmarks
+Backend Developer,4500,60,75.0,Rate Limiting Policy
+Full Stack Developer,8000,38,210.53,Performance Benchmarks
+Backend Developer,6000,55,109.09,Error Handling Standards
+Backend Developer,3000,80,37.5,Health Check Endpoint Spec
+Backend Developer,6500,58,112.07,API Response Envelope Standard
+DevOps Engineer,8000,38,210.53,Secrets Management Policy
+Frontend Developer,3500,60,58.33,Third-Party Integrations List
+UI/UX Designer,7000,40,175.0,Design Tokens Export
+DevOps Engineer,9000,38,236.84,Infrastructure Architecture
+Frontend Developer,7000,40,175.0,Component Testing Standards
+Mobile App Developer,8500,38,223.68,App Permissions Justification
+Full Stack Developer,5500,40,137.5,Logging and Audit Trail Spec
+UI/UX Designer,6500,40,162.5,Figma or XD Source Files
+Frontend Developer,3000,55,54.55,State Management Plan
+Mobile App Developer,1800,75,24.0,Push Notification Plan
+Frontend Developer,4500,55,81.82,Browser Compatibility Matrix
+Frontend Developer,5500,55,100.0,State Management Plan
+UI/UX Designer,1500,70,21.43,User Persona Profiles
+DevOps Engineer,8500,38,223.68,Infrastructure Architecture
+Frontend Developer,5500,58,94.83,Responsive Design Spec
+Full Stack Developer,7000,40,175.0,Deployment Checklist
+Frontend Developer,6000,55,109.09,State Management Plan
+UI/UX Designer,2200,70,31.43,Brand Style Guide
+DevOps Engineer,6000,40,150.0,Secrets Management Policy
+Mobile App Developer,6000,58,103.45,App Accessibility Guidelines
+UI/UX Designer,4500,55,81.82,Usability Testing Report
+DevOps Engineer,6000,55,109.09,Observability Stack Architecture
+UI/UX Designer,6000,58,103.45,Prototype Link and Credentials
+Backend Developer,4500,60,75.0,API Response Envelope Standard
+Mobile App Developer,3000,55,54.55,Network Error Handling Spec
+Full Stack Developer,9000,38,236.84,Logging and Audit Trail Spec
+DevOps Engineer,6500,55,118.18,Network Topology Diagram
+Backend Developer,6000,40,150.0,API Documentation
+Frontend Developer,5000,60,83.33,Project Scope Statement
+Backend Developer,5000,60,83.33,API Response Envelope Standard
+Backend Developer,7500,38,197.37,Data Retention Policy
+Backend Developer,8000,38,210.53,Data Retention Policy
+Backend Developer,7000,38,184.21,Database Migration Plan
+Backend Developer,6000,58,103.45,API Documentation
+Mobile App Developer,5500,55,100.0,App Store Assets Package
+UI/UX Designer,3800,60,63.33,Brand Style Guide
+Frontend Developer,4200,55,76.36,Responsive Design Spec
+Frontend Developer,800,60,13.33,Third-Party Integrations List
+DevOps Engineer,7500,38,197.37,Disaster Recovery Plan
+Frontend Developer,7500,38,197.37,UI Component Specifications
+Backend Developer,6500,55,118.18,Data Retention Policy
+UI/UX Designer,5500,58,94.83,Usability Testing Report
+Full Stack Developer,6000,58,103.45,Logging and Audit Trail Spec
+Mobile App Developer,5500,40,137.5,Analytics Event Tracking Spec
+Frontend Developer,3000,55,54.55,Browser Compatibility Matrix
+Mobile App Developer,6000,55,109.09,Deep Linking Configuration
+Full Stack Developer,5500,58,94.83,Database ERD
+Mobile App Developer,8500,38,223.68,Deep Linking Configuration
+Full Stack Developer,6500,55,118.18,User Roles and Permissions Matrix
+UI/UX Designer,9000,38,236.84,Prototype Link and Credentials
+Frontend Developer,1500,70,21.43,Third-Party Integrations List
+Frontend Developer,8500,38,223.68,Frontend Tech Stack Agreement
+Frontend Developer,5500,40,137.5,UI Component Specifications
+DevOps Engineer,7000,38,184.21,Observability Stack Architecture
+Mobile App Developer,800,60,13.33,Push Notification Plan
+Mobile App Developer,6000,55,109.09,App Accessibility Guidelines
+Full Stack Developer,6500,40,162.5,Authentication and Security
+Full Stack Developer,4200,55,76.36,Database ERD
+DevOps Engineer,5500,40,137.5,Disaster Recovery Plan
+Full Stack Developer,7000,40,175.0,Payment Gateway Integration Doc
+Frontend Developer,7000,40,175.0,Performance Benchmarks
+Full Stack Developer,3800,60,63.33,Project Scope Statement
+UI/UX Designer,3500,60,58.33,Brand Style Guide
+DevOps Engineer,5500,40,137.5,CI/CD Pipeline Configuration
+Mobile App Developer,5000,60,83.33,App Store Assets Package
+Frontend Developer,3500,60,58.33,State Management Plan
+Backend Developer,6500,55,118.18,Error Handling Standards
+Mobile App Developer,6500,55,118.18,App Permissions Justification
+Frontend Developer,4200,55,76.36,Browser Compatibility Matrix
+Backend Developer,3000,55,54.55,Rate Limiting Policy
+DevOps Engineer,4200,55,76.36,Environment Parity Checklist
+Full Stack Developer,6000,55,109.09,API Documentation
+Full Stack Developer,7500,38,197.37,Performance Benchmarks
+UI/UX Designer,6000,55,109.09,Onboarding UX Flow
+DevOps Engineer,7000,38,184.21,Load Testing Report
+UI/UX Designer,6500,40,162.5,Design Tokens Export
+UI/UX Designer,6000,58,103.45,Component Library Documentation
+DevOps Engineer,7000,38,184.21,Infrastructure Architecture
+Full Stack Developer,4500,60,75.0,Database ERD
+Full Stack Developer,6500,40,162.5,Performance Benchmarks
+UI/UX Designer,7000,38,184.21,Component Library Documentation
+Backend Developer,7500,38,197.37,GDPR Compliance Checklist
+Backend Developer,3800,60,63.33,Health Check Endpoint Spec
+UI/UX Designer,7000,40,175.0,Prototype Link and Credentials
+Backend Developer,6500,40,162.5,API Documentation
+Backend Developer,6000,40,150.0,Database Migration Plan
+DevOps Engineer,6500,55,118.18,Observability Stack Architecture
+Backend Developer,7000,38,184.21,Data Retention Policy
+Full Stack Developer,7000,38,184.21,Performance Benchmarks
+DevOps Engineer,7000,38,184.21,Docker and Container Config
+UI/UX Designer,6500,55,118.18,Onboarding UX Flow
+Mobile App Developer,1500,70,21.43,Push Notification Plan
+UI/UX Designer,6000,58,103.45,Onboarding UX Flow
+Full Stack Developer,7000,38,184.21,Payment Gateway Integration Doc
+Mobile App Developer,7000,40,175.0,Analytics Event Tracking Spec
+Frontend Developer,3500,80,43.75,SEO and Keywords Strategy
+Frontend Developer,2800,75,37.33,Third-Party Integrations List
+DevOps Engineer,5500,40,137.5,Observability Stack Architecture
+Backend Developer,5500,58,94.83,Rate Limiting Policy
+DevOps Engineer,8000,38,210.53,Disaster Recovery Plan
+UI/UX Designer,8000,38,210.53,Figma or XD Source Files
+Frontend Developer,7500,38,197.37,Component Testing Standards
+Frontend Developer,6000,58,103.45,Project Scope Statement
+Frontend Developer,6500,40,162.5,Component Testing Standards
+Mobile App Developer,6500,40,162.5,Deep Linking Configuration
+DevOps Engineer,6000,40,150.0,Rollback Decision Playbook
+Mobile App Developer,8500,38,223.68,Analytics Event Tracking Spec
+Mobile App Developer,9000,38,236.84,Deep Linking Configuration
+Mobile App Developer,8500,38,223.68,App Accessibility Guidelines
+DevOps Engineer,3500,60,58.33,Environment Parity Checklist
+Backend Developer,7500,38,197.37,API Documentation
+Frontend Developer,4500,60,75.0,Browser Compatibility Matrix
+Frontend Developer,5000,60,83.33,Responsive Design Spec
+Frontend Developer,4500,55,81.82,Responsive Design Spec
+Frontend Developer,6000,55,109.09,Frontend Tech Stack Agreement
+Backend Developer,9000,38,236.84,Data Retention Policy
+Mobile App Developer,4200,55,76.36,Network Error Handling Spec
+DevOps Engineer,6500,40,162.5,Docker and Container Config
+Frontend Developer,4500,55,81.82,State Management Plan
+Frontend Developer,8000,38,210.53,Project Scope Statement
+Full Stack Developer,6500,55,118.18,Logging and Audit Trail Spec
+Mobile App Developer,3500,60,58.33,Push Notification Plan
+Backend Developer,8500,38,223.68,GDPR Compliance Checklist
+Full Stack Developer,8500,38,223.68,Authentication and Security
+Mobile App Developer,7000,38,184.21,Deep Linking Configuration
+UI/UX Designer,6500,55,118.18,Component Library Documentation
+DevOps Engineer,6000,58,103.45,Rollback Decision Playbook
+UI/UX Designer,7000,38,184.21,Design Tokens Export
+Backend Developer,8000,38,210.53,GDPR Compliance Checklist
+Mobile App Developer,8000,38,210.53,App Permissions Justification
+DevOps Engineer,6000,55,109.09,Secrets Management Policy
+Frontend Developer,9000,38,236.84,Frontend Tech Stack Agreement
+Backend Developer,4000,60,66.67,API Response Envelope Standard
+Mobile App Developer,4500,60,75.0,Device and OS Target List
+Mobile App Developer,5500,40,137.5,App Permissions Justification
+UI/UX Designer,6500,58,112.07,Usability Testing Report
+DevOps Engineer,8000,38,210.53,Infrastructure Architecture
+DevOps Engineer,8000,38,210.53,Docker and Container Config
+UI/UX Designer,6500,55,118.18,Prototype Link and Credentials
+Frontend Developer,7000,38,184.21,Frontend Tech Stack Agreement
+Frontend Developer,9000,38,236.84,Performance Benchmarks
+Frontend Developer,5500,40,137.5,Performance Benchmarks
+UI/UX Designer,5500,40,137.5,Accessibility Requirements
+UI/UX Designer,6000,55,109.09,Design Tokens Export
+Full Stack Developer,9000,38,236.84,API Documentation
+Full Stack Developer,6000,58,103.45,Project Scope Statement
+Full Stack Developer,7500,38,197.37,Deployment Checklist
+Mobile App Developer,6000,55,109.09,Analytics Event Tracking Spec
+Mobile App Developer,6000,58,103.45,Device and OS Target List
+Full Stack Developer,6000,58,103.45,API Documentation
+UI/UX Designer,7500,38,197.37,Figma or XD Source Files
+Full Stack Developer,7000,38,184.21,Logging and Audit Trail Spec
+Full Stack Developer,8500,38,223.68,Logging and Audit Trail Spec
+UI/UX Designer,6500,40,162.5,Prototype Link and Credentials
+Frontend Developer,6000,38,157.89,Project Scope Statement
+Full Stack Developer,6000,38,157.89,Project Scope Statement
+Frontend Developer,8500,38,223.68,Performance Benchmarks
+Backend Developer,4200,55,76.36,API Response Envelope Standard
+DevOps Engineer,6000,40,150.0,Docker and Container Config
+DevOps Engineer,5500,58,94.83,Environment Parity Checklist
+UI/UX Designer,4000,60,66.67,Wireframes and Mockups
+DevOps Engineer,6000,55,109.09,CI/CD Pipeline Configuration
+Backend Developer,9000,38,236.84,Database Migration Plan
+UI/UX Designer,8000,38,210.53,Prototype Link and Credentials
+Frontend Developer,8000,38,210.53,Component Testing Standards
+Mobile App Developer,5000,60,83.33,Network Error Handling Spec
+Full Stack Developer,7500,38,197.37,Authentication and Security
+UI/UX Designer,3500,75,46.67,User Persona Profiles
+Backend Developer,6000,40,150.0,Error Handling Standards
+Mobile App Developer,2200,70,31.43,Push Notification Plan
+Full Stack Developer,6500,55,118.18,Payment Gateway Integration Doc
+Backend Developer,8000,38,210.53,Authentication and Security
+Frontend Developer,5500,40,137.5,Frontend Tech Stack Agreement
+UI/UX Designer,3000,55,54.55,Wireframes and Mockups
+Full Stack Developer,6000,55,109.09,Authentication and Security
+Frontend Developer,5500,58,94.83,State Management Plan
+UI/UX Designer,6000,55,109.09,Accessibility Requirements
+Backend Developer,7500,38,197.37,Error Handling Standards
+Full Stack Developer,7000,38,184.21,API Documentation
+Backend Developer,3500,80,43.75,Health Check Endpoint Spec
+Frontend Developer,6000,40,150.0,Component Testing Standards
+DevOps Engineer,8000,38,210.53,CI/CD Pipeline Configuration
+Frontend Developer,3500,75,46.67,Third-Party Integrations List
+Backend Developer,4200,55,76.36,Database ERD
+Mobile App Developer,6500,55,118.18,App Accessibility Guidelines
+Full Stack Developer,6000,55,109.09,Deployment Checklist
+Backend Developer,3500,60,58.33,Health Check Endpoint Spec
+Frontend Developer,800,60,13.33,Project Scope Statement
+DevOps Engineer,5500,40,137.5,Network Topology Diagram
+Full Stack Developer,7500,38,197.37,Logging and Audit Trail Spec
+Mobile App Developer,6000,58,103.45,Mobile Security Checklist
+UI/UX Designer,5500,55,100.0,Wireframes and Mockups
+Full Stack Developer,6500,55,118.18,Authentication and Security
+Frontend Developer,3500,80,43.75,Third-Party Integrations List
+Backend Developer,800,60,13.33,Health Check Endpoint Spec
+Full Stack Developer,8000,38,210.53,Logging and Audit Trail Spec
+Full Stack Developer,8500,38,223.68,Admin Panel Requirements
+Full Stack Developer,8500,38,223.68,API Documentation
+DevOps Engineer,5500,40,137.5,Rollback Decision Playbook
+Backend Developer,6000,58,103.45,Authentication and Security
+UI/UX Designer,6000,40,150.0,Accessibility Requirements
+UI/UX Designer,3500,80,43.75,User Persona Profiles
+DevOps Engineer,6500,55,118.18,Secrets Management Policy
+Mobile App Developer,7000,38,184.21,Mobile Security Checklist
+Full Stack Developer,6000,40,150.0,API Documentation
+Mobile App Developer,4200,55,76.36,App Store Assets Package
+Full Stack Developer,7000,38,184.21,User Roles and Permissions Matrix
+Full Stack Developer,8500,38,223.68,User Roles and Permissions Matrix
+Frontend Developer,6000,55,109.09,Responsive Design Spec
+Full Stack Developer,5500,55,100.0,Database ERD
+Backend Developer,5500,40,137.5,Database Migration Plan
+DevOps Engineer,9000,38,236.84,Network Topology Diagram
+DevOps Engineer,6500,55,118.18,CI/CD Pipeline Configuration
+Frontend Developer,3800,60,63.33,SEO and Keywords Strategy
+Mobile App Developer,4000,60,66.67,App Store Assets Package
+Mobile App Developer,8000,38,210.53,Analytics Event Tracking Spec
+Full Stack Developer,6000,55,109.09,Performance Benchmarks
+Frontend Developer,2200,70,31.43,SEO and Keywords Strategy
+UI/UX Designer,1800,75,24.0,User Persona Profiles
+DevOps Engineer,7000,38,184.21,Disaster Recovery Plan
+Mobile App Developer,6500,40,162.5,Mobile Security Checklist
+UI/UX Designer,3500,60,58.33,Wireframes and Mockups
+Backend Developer,9000,38,236.84,GDPR Compliance Checklist
+Full Stack Developer,6000,40,150.0,User Roles and Permissions Matrix
+DevOps Engineer,6500,40,162.5,Infrastructure Architecture
+DevOps Engineer,7000,38,184.21,Rollback Decision Playbook
+Backend Developer,6500,40,162.5,Authentication and Security
+Backend Developer,4500,60,75.0,Database ERD
+Mobile App Developer,6000,40,150.0,App Onboarding Flow Spec
+DevOps Engineer,6000,58,103.45,Docker and Container Config
+Backend Developer,6500,40,162.5,Error Handling Standards
+DevOps Engineer,7500,38,197.37,Rollback Decision Playbook
+UI/UX Designer,6000,40,150.0,Prototype Link and Credentials
+UI/UX Designer,6500,58,112.07,Wireframes and Mockups
+DevOps Engineer,6000,55,109.09,Network Topology Diagram
+Mobile App Developer,6500,55,118.18,Mobile Security Checklist
+Full Stack Developer,8000,38,210.53,Payment Gateway Integration Doc
+DevOps Engineer,5000,60,83.33,Environment Parity Checklist
+Backend Developer,8500,38,223.68,API Documentation
+Backend Developer,8000,38,210.53,API Documentation
+UI/UX Designer,5500,40,137.5,Prototype Link and Credentials
+Full Stack Developer,7500,38,197.37,Payment Gateway Integration Doc
+Frontend Developer,7000,38,184.21,Performance Benchmarks
+Backend Developer,6000,40,150.0,GDPR Compliance Checklist
+Mobile App Developer,3500,80,43.75,Push Notification Plan
+Full Stack Developer,6000,58,103.45,Payment Gateway Integration Doc
+DevOps Engineer,8000,38,210.53,Load Testing Report
+Frontend Developer,6000,58,103.45,Performance Benchmarks
+Full Stack Developer,6500,40,162.5,User Roles and Permissions Matrix
+Full Stack Developer,7000,40,175.0,Performance Benchmarks
+Frontend Developer,3500,60,58.33,Browser Compatibility Matrix
+Mobile App Developer,7000,38,184.21,Analytics Event Tracking Spec
+Backend Developer,6000,55,109.09,GDPR Compliance Checklist
+Frontend Developer,4000,60,66.67,Responsive Design Spec
+Mobile App Developer,7500,38,197.37,App Onboarding Flow Spec
+Full Stack Developer,4500,60,75.0,Project Scope Statement
+Full Stack Developer,8500,38,223.68,Deployment Checklist
+UI/UX Designer,5500,55,100.0,Usability Testing Report
+Full Stack Developer,7500,38,197.37,API Documentation
+Backend Developer,8500,38,223.68,Authentication and Security
+Backend Developer,4500,55,81.82,Database ERD
+DevOps Engineer,7000,40,175.0,Observability Stack Architecture
+Full Stack Developer,6500,40,162.5,Admin Panel Requirements
+Full Stack Developer,9000,38,236.84,Authentication and Security
+Frontend Developer,2400,75,32.0,Third-Party Integrations List
+UI/UX Designer,800,60,13.33,User Persona Profiles
+Backend Developer,6500,40,162.5,GDPR Compliance Checklist
+Mobile App Developer,7000,38,184.21,App Permissions Justification
+DevOps Engineer,4000,60,66.67,Environment Parity Checklist
+Frontend Developer,8000,38,210.53,UI Component Specifications
+DevOps Engineer,9000,38,236.84,Secrets Management Policy
+Backend Developer,4500,55,81.82,API Response Envelope Standard
+Full Stack Developer,6000,40,150.0,Authentication and Security
+Frontend Developer,6500,40,162.5,Performance Benchmarks
+DevOps Engineer,8500,38,223.68,Network Topology Diagram
+Full Stack Developer,8500,38,223.68,Payment Gateway Integration Doc
+Full Stack Developer,4200,60,70.0,Database ERD
+UI/UX Designer,5500,40,137.5,Design Tokens Export
+DevOps Engineer,6500,40,162.5,Rollback Decision Playbook
+Backend Developer,8500,38,223.68,Error Handling Standards
+Mobile App Developer,9000,38,236.84,App Onboarding Flow Spec
+DevOps Engineer,9000,38,236.84,Docker and Container Config
+UI/UX Designer,6000,40,150.0,Component Library Documentation
+Frontend Developer,8500,38,223.68,Component Testing Standards
+Backend Developer,6000,58,103.45,Error Handling Standards
+Full Stack Developer,6000,55,109.09,User Roles and Permissions Matrix
+DevOps Engineer,6500,58,112.07,Environment Parity Checklist
+Mobile App Developer,6000,58,103.45,Analytics Event Tracking Spec
+Mobile App Developer,5000,60,83.33,Device and OS Target List
+Mobile App Developer,3500,80,43.75,Device and OS Target List
+DevOps Engineer,8500,38,223.68,Docker and Container Config
+Mobile App Developer,7000,40,175.0,App Accessibility Guidelines
+Frontend Developer,4500,60,75.0,Project Scope Statement
+DevOps Engineer,5500,55,100.0,Environment Parity Checklist
+Frontend Developer,5500,55,100.0,Responsive Design Spec
+UI/UX Designer,7500,38,197.37,Prototype Link and Credentials
+Mobile App Developer,6500,55,118.18,Deep Linking Configuration
+Backend Developer,5500,40,137.5,GDPR Compliance Checklist
+Frontend Developer,6000,40,150.0,Performance Benchmarks
+Frontend Developer,6000,58,103.45,UI Component Specifications
+DevOps Engineer,9000,38,236.84,Rollback Decision Playbook
+DevOps Engineer,8500,38,223.68,Secrets Management Policy
+Frontend Developer,3500,80,43.75,Project Scope Statement
+Mobile App Developer,1800,75,24.0,Device and OS Target List
+UI/UX Designer,8500,38,223.68,Component Library Documentation
+Full Stack Developer,6000,40,150.0,Payment Gateway Integration Doc
+DevOps Engineer,6500,55,118.18,Load Testing Report
+Full Stack Developer,7000,38,184.21,Authentication and Security
+Frontend Developer,800,60,13.33,SEO and Keywords Strategy
+Full Stack Developer,8000,38,210.53,Authentication and Security
+UI/UX Designer,9000,38,236.84,Component Library Documentation
+Backend Developer,5500,55,100.0,API Response Envelope Standard
+Frontend Developer,4000,60,66.67,Browser Compatibility Matrix
+DevOps Engineer,6500,40,162.5,Load Testing Report
+Full Stack Developer,6500,58,112.07,Database ERD
+Frontend Developer,6500,55,118.18,UI Component Specifications
+UI/UX Designer,4500,60,75.0,Wireframes and Mockups
+Backend Developer,1000,70,14.29,Health Check Endpoint Spec
+Frontend Developer,3500,60,58.33,Responsive Design Spec
+Backend Developer,6000,55,109.09,Data Retention Policy
+Backend Developer,3500,75,46.67,Health Check Endpoint Spec
+DevOps Engineer,7000,40,175.0,Rollback Decision Playbook
+UI/UX Designer,6500,55,118.18,Figma or XD Source Files
+UI/UX Designer,6000,55,109.09,Wireframes and Mockups
+Backend Developer,7000,38,184.21,GDPR Compliance Checklist
+DevOps Engineer,8500,38,223.68,CI/CD Pipeline Configuration
+Backend Developer,5000,60,83.33,Database ERD
+Mobile App Developer,6500,55,118.18,Analytics Event Tracking Spec
+Backend Developer,6500,55,118.18,Database Migration Plan
+DevOps Engineer,6000,58,103.45,Infrastructure Architecture
+DevOps Engineer,7500,38,197.37,Infrastructure Architecture
+UI/UX Designer,3000,55,54.55,Usability Testing Report
+DevOps Engineer,8500,38,223.68,Load Testing Report
+Mobile App Developer,800,60,13.33,Device and OS Target List
+DevOps Engineer,8500,38,223.68,Rollback Decision Playbook
+Mobile App Developer,9000,38,236.84,App Accessibility Guidelines
+DevOps Engineer,7000,40,175.0,Infrastructure Architecture
+Frontend Developer,5000,60,83.33,State Management Plan
+UI/UX Designer,6500,40,162.5,Onboarding UX Flow
+Backend Developer,6000,58,103.45,GDPR Compliance Checklist
+UI/UX Designer,6000,58,103.45,Design Tokens Export
+UI/UX Designer,9000,38,236.84,Onboarding UX Flow
+Backend Developer,7000,40,175.0,Data Retention Policy
+Full Stack Developer,8000,38,210.53,User Roles and Permissions Matrix
+Backend Developer,6000,55,109.09,Database Migration Plan
+Mobile App Developer,7500,38,197.37,App Permissions Justification
+UI/UX Designer,4200,55,76.36,Wireframes and Mockups
+UI/UX Designer,9000,38,236.84,Figma or XD Source Files
+DevOps Engineer,6000,58,103.45,Secrets Management Policy
+Mobile App Developer,5500,40,137.5,Mobile Security Checklist
+Backend Developer,7500,38,197.37,Authentication and Security
+Mobile App Developer,2500,70,35.71,Device and OS Target List
+Mobile App Developer,4200,60,70.0,App Store Assets Package
+Backend Developer,6000,55,109.09,API Response Envelope Standard
+DevOps Engineer,6000,40,150.0,Infrastructure Architecture
+Mobile App Developer,6500,40,162.5,App Accessibility Guidelines
+Frontend Developer,3000,80,37.5,SEO and Keywords Strategy
+UI/UX Designer,6000,55,109.09,Prototype Link and Credentials
+UI/UX Designer,9000,38,236.84,Accessibility Requirements
+DevOps Engineer,7000,38,184.21,Secrets Management Policy
+Mobile App Developer,6000,40,150.0,Deep Linking Configuration
+Frontend Developer,6500,55,118.18,Frontend Tech Stack Agreement
+Frontend Developer,3000,80,37.5,Third-Party Integrations List
+UI/UX Designer,3800,60,63.33,User Persona Profiles
+DevOps Engineer,8000,38,210.53,Rollback Decision Playbook
+Frontend Developer,3800,60,63.33,Third-Party Integrations List
+Frontend Developer,6500,40,162.5,UI Component Specifications
+Backend Developer,7000,38,184.21,Authentication and Security
+UI/UX Designer,3000,80,37.5,User Persona Profiles
+DevOps Engineer,6500,40,162.5,Observability Stack Architecture
+Backend Developer,4200,60,70.0,Rate Limiting Policy
+Mobile App Developer,7000,38,184.21,Device and OS Target List
+Mobile App Developer,9000,38,236.84,App Permissions Justification
+Mobile App Developer,5500,58,94.83,App Store Assets Package
+Mobile App Developer,4000,60,66.67,Network Error Handling Spec
+Frontend Developer,5000,38,131.58,Project Scope Statement
+Mobile App Developer,2800,75,37.33,Push Notification Plan
+Frontend Developer,3000,55,54.55,Responsive Design Spec
+UI/UX Designer,7500,38,197.37,Design Tokens Export
+Backend Developer,7000,38,184.21,API Documentation
+Full Stack Developer,3500,60,58.33,Database ERD
+Full Stack Developer,5500,40,137.5,User Roles and Permissions Matrix
+Mobile App Developer,3500,75,46.67,Push Notification Plan
+Mobile App Developer,5500,40,137.5,Deep Linking Configuration
+UI/UX Designer,5500,58,94.83,Wireframes and Mockups
+Frontend Developer,9000,38,236.84,UI Component Specifications
+Frontend Developer,1800,75,24.0,Third-Party Integrations List
+Mobile App Developer,6000,55,109.09,Mobile Security Checklist
+Mobile App Developer,8000,38,210.53,Mobile Security Checklist
+DevOps Engineer,6000,40,150.0,Disaster Recovery Plan
+Full Stack Developer,6000,55,109.09,Database ERD
+DevOps Engineer,6500,40,162.5,CI/CD Pipeline Configuration
+Full Stack Developer,8000,38,210.53,Deployment Checklist
+UI/UX Designer,8000,38,210.53,Onboarding UX Flow
+UI/UX Designer,7000,40,175.0,Accessibility Requirements
+Backend Developer,7000,40,175.0,Authentication and Security
+UI/UX Designer,6000,55,109.09,Component Library Documentation
+Mobile App Developer,7000,40,175.0,App Onboarding Flow Spec
+UI/UX Designer,7500,38,197.37,Component Library Documentation
+DevOps Engineer,9000,38,236.84,Observability Stack Architecture
+Full Stack Developer,6500,55,118.18,API Documentation
+DevOps Engineer,6500,55,118.18,Docker and Container Config
+Full Stack Developer,9000,38,236.84,Performance Benchmarks
+DevOps Engineer,6500,55,118.18,Disaster Recovery Plan
+Mobile App Developer,5000,38,131.58,Device and OS Target List
+Backend Developer,5500,40,137.5,Authentication and Security
+Backend Developer,6500,55,118.18,Authentication and Security
+Mobile App Developer,8500,38,223.68,Mobile Security Checklist
+DevOps Engineer,7000,40,175.0,Load Testing Report
+Mobile App Developer,9000,38,236.84,Analytics Event Tracking Spec
+Full Stack Developer,6000,58,103.45,Performance Benchmarks
+UI/UX Designer,5000,60,83.33,Usability Testing Report
+Full Stack Developer,6000,55,109.09,Logging and Audit Trail Spec
+Backend Developer,7000,40,175.0,Error Handling Standards
+Backend Developer,4200,60,70.0,Database ERD
+DevOps Engineer,9000,38,236.84,CI/CD Pipeline Configuration
+Backend Developer,9000,38,236.84,API Documentation
+DevOps Engineer,6000,55,109.09,Rollback Decision Playbook
+Backend Developer,6500,40,162.5,Database Migration Plan
+Full Stack Developer,5500,40,137.5,Authentication and Security
+Full Stack Developer,6500,40,162.5,Deployment Checklist
+UI/UX Designer,2200,70,31.43,User Persona Profiles
+Backend Developer,4000,60,66.67,Database ERD
+Backend Developer,5500,40,137.5,Error Handling Standards
+Backend Developer,8500,38,223.68,Database Migration Plan
+UI/UX Designer,7000,40,175.0,Component Library Documentation
+Full Stack Developer,5000,60,83.33,Project Scope Statement
+UI/UX Designer,7000,38,184.21,Accessibility Requirements
+DevOps Engineer,6000,55,109.09,Disaster Recovery Plan
+Backend Developer,5500,55,100.0,Database ERD
+UI/UX Designer,2800,75,37.33,User Persona Profiles
+DevOps Engineer,7500,38,197.37,Observability Stack Architecture
+Mobile App Developer,4500,55,81.82,Network Error Handling Spec
+Backend Developer,4200,60,70.0,API Response Envelope Standard
+DevOps Engineer,6500,40,162.5,Secrets Management Policy
+DevOps Engineer,6000,40,150.0,CI/CD Pipeline Configuration
+DevOps Engineer,7500,38,197.37,Secrets Management Policy
+Mobile App Developer,7000,38,184.21,App Accessibility Guidelines
+UI/UX Designer,1500,70,21.43,Brand Style Guide
+DevOps Engineer,3000,55,54.55,Environment Parity Checklist
+Mobile App Developer,6500,40,162.5,App Permissions Justification
+Full Stack Developer,5500,40,137.5,API Documentation
+UI/UX Designer,8000,38,210.53,Component Library Documentation
+Mobile App Developer,4500,60,75.0,App Store Assets Package
+Frontend Developer,2200,70,31.43,Third-Party Integrations List
+Backend Developer,2200,70,31.43,Health Check Endpoint Spec
+DevOps Engineer,6000,55,109.09,Docker and Container Config
+UI/UX Designer,6000,55,109.09,Figma or XD Source Files
+Backend Developer,2400,75,32.0,Health Check Endpoint Spec
+Mobile App Developer,5500,40,137.5,App Onboarding Flow Spec
+Full Stack Developer,6500,40,162.5,Payment Gateway Integration Doc
+UI/UX Designer,6500,55,118.18,Accessibility Requirements
+DevOps Engineer,7000,40,175.0,Disaster Recovery Plan
+Full Stack Developer,8500,38,223.68,Performance Benchmarks
+Full Stack Developer,4500,55,81.82,Database ERD
+Full Stack Developer,7000,40,175.0,Authentication and Security
+UI/UX Designer,6000,40,150.0,Figma or XD Source Files
+UI/UX Designer,800,60,13.33,Brand Style Guide
+Backend Developer,5500,58,94.83,API Response Envelope Standard
+DevOps Engineer,8500,38,223.68,Observability Stack Architecture
+Mobile App Developer,3800,60,63.33,Push Notification Plan
+UI/UX Designer,6000,40,150.0,Onboarding UX Flow
+Full Stack Developer,9000,38,236.84,Admin Panel Requirements
+Mobile App Developer,6000,55,109.09,App Permissions Justification
+DevOps Engineer,6000,58,103.45,Network Topology Diagram
+DevOps Engineer,6000,40,150.0,Load Testing Report
+DevOps Engineer,9000,38,236.84,Disaster Recovery Plan
+DevOps Engineer,6000,55,109.09,Infrastructure Architecture
+DevOps Engineer,7000,40,175.0,CI/CD Pipeline Configuration
+Mobile App Developer,4500,60,75.0,Network Error Handling Spec
+Mobile App Developer,1000,70,14.29,Push Notification Plan
+Frontend Developer,6000,55,109.09,Component Testing Standards
+Full Stack Developer,2500,70,35.71,Project Scope Statement
+Backend Developer,5500,40,137.5,Data Retention Policy
+Mobile App Developer,7500,38,197.37,Mobile Security Checklist
+Frontend Developer,6500,58,112.07,Browser Compatibility Matrix
+Mobile App Developer,6000,58,103.45,Deep Linking Configuration
+Backend Developer,6500,55,118.18,GDPR Compliance Checklist
+DevOps Engineer,5500,40,137.5,Infrastructure Architecture
+DevOps Engineer,7000,38,184.21,CI/CD Pipeline Configuration
+DevOps Engineer,6000,40,150.0,Observability Stack Architecture
+Frontend Developer,9000,38,236.84,Component Testing Standards
+Mobile App Developer,6500,58,112.07,Network Error Handling Spec
+Full Stack Developer,800,60,13.33,Project Scope Statement
+Mobile App Developer,8500,38,223.68,App Onboarding Flow Spec
+UI/UX Designer,4500,60,75.0,Usability Testing Report
+Mobile App Developer,3500,60,58.33,Network Error Handling Spec
+DevOps Engineer,7000,40,175.0,Docker and Container Config
+Backend Developer,4000,60,66.67,Rate Limiting Policy
+UI/UX Designer,3500,80,43.75,Brand Style Guide
+UI/UX Designer,1000,70,14.29,User Persona Profiles
+DevOps Engineer,7500,38,197.37,CI/CD Pipeline Configuration
+Backend Developer,3500,60,58.33,API Response Envelope Standard
+Frontend Developer,3800,60,63.33,Project Scope Statement
+DevOps Engineer,6500,40,162.5,Disaster Recovery Plan
+Mobile App Developer,7000,40,175.0,Deep Linking Configuration
+Frontend Developer,1500,70,21.43,SEO and Keywords Strategy
+Mobile App Developer,8000,38,210.53,App Onboarding Flow Spec
+UI/UX Designer,3500,60,58.33,User Persona Profiles
+Mobile App Developer,6000,55,109.09,App Store Assets Package
+Frontend Developer,6500,58,112.07,Responsive Design Spec
+Frontend Developer,5500,58,94.83,Browser Compatibility Matrix
+Backend Developer,7500,38,197.37,Database Migration Plan
+Backend Developer,6500,55,118.18,API Documentation
+Frontend Developer,4200,60,70.0,Browser Compatibility Matrix
+DevOps Engineer,7500,38,197.37,Docker and Container Config
+Backend Developer,1500,70,21.43,Health Check Endpoint Spec
+Mobile App Developer,6000,38,157.89,Device and OS Target List
+UI/UX Designer,7000,40,175.0,Figma or XD Source Files
+Full Stack Developer,6000,58,103.45,Deployment Checklist
+UI/UX Designer,8500,38,223.68,Accessibility Requirements
+UI/UX Designer,3000,80,37.5,Brand Style Guide
+Mobile App Developer,6000,40,150.0,App Accessibility Guidelines
+Mobile App Developer,4500,55,81.82,App Store Assets Package
+Backend Developer,7000,40,175.0,API Documentation
+Frontend Developer,4000,60,66.67,State Management Plan
+UI/UX Designer,5500,40,137.5,Onboarding UX Flow
+Backend Developer,5500,58,94.83,Database ERD
+DevOps Engineer,4200,60,70.0,Environment Parity Checklist
+Mobile App Developer,6000,40,150.0,Mobile Security Checklist
+Frontend Developer,4500,60,75.0,State Management Plan
+Frontend Developer,6500,55,118.18,Performance Benchmarks
+Backend Developer,6000,58,103.45,Data Retention Policy
+Frontend Developer,4500,60,75.0,Responsive Design Spec
+Mobile App Developer,3000,55,54.55,App Store Assets Package
+UI/UX Designer,7000,38,184.21,Figma or XD Source Files
+Backend Developer,7000,38,184.21,Error Handling Standards
+Backend Developer,3000,55,54.55,API Response Envelope Standard
+Frontend Developer,6000,40,150.0,UI Component Specifications
+Full Stack Developer,6000,55,109.09,Admin Panel Requirements
+Full Stack Developer,7000,38,184.21,Deployment Checklist
+Full Stack Developer,8000,38,210.53,Project Scope Statement
+UI/UX Designer,4200,55,76.36,Usability Testing Report
+UI/UX Designer,9000,38,236.84,Design Tokens Export
+DevOps Engineer,8000,38,210.53,Network Topology Diagram
+Full Stack Developer,6500,40,162.5,API Documentation
+Backend Developer,8000,38,210.53,Database Migration Plan
+Backend Developer,6500,40,162.5,Data Retention Policy
+Mobile App Developer,4200,60,70.0,Network Error Handling Spec
+UI/UX Designer,2400,75,32.0,User Persona Profiles
+UI/UX Designer,7500,38,197.37,Onboarding UX Flow
+Frontend Developer,3500,75,46.67,SEO and Keywords Strategy
+Mobile App Developer,6000,55,109.09,App Onboarding Flow Spec
+UI/UX Designer,2400,75,32.0,Brand Style Guide
+Frontend Developer,1800,75,24.0,Project Scope Statement
+DevOps Engineer,9000,38,236.84,Load Testing Report
+Mobile App Developer,5500,55,100.0,Network Error Handling Spec
+Frontend Developer,7500,38,197.37,Frontend Tech Stack Agreement
+Backend Developer,3500,60,58.33,Rate Limiting Policy
+Frontend Developer,6000,55,109.09,Browser Compatibility Matrix
+Mobile App Developer,6000,40,150.0,App Permissions Justification
+UI/UX Designer,7000,38,184.21,Prototype Link and Credentials
+UI/UX Designer,8500,38,223.68,Design Tokens Export
+UI/UX Designer,4500,55,81.82,Wireframes and Mockups
+Frontend Developer,7000,38,184.21,Component Testing Standards
+Full Stack Developer,5500,40,137.5,Admin Panel Requirements
+Mobile App Developer,6000,58,103.45,App Onboarding Flow Spec
+Full Stack Developer,8000,38,210.53,Admin Panel Requirements
+Full Stack Developer,1800,75,24.0,Project Scope Statement
+Frontend Developer,6000,55,109.09,Performance Benchmarks
+Full Stack Developer,5500,40,137.5,Payment Gateway Integration Doc
+DevOps Engineer,6000,58,103.45,CI/CD Pipeline Configuration
+UI/UX Designer,1800,75,24.0,Brand Style Guide
+Full Stack Developer,8000,38,210.53,API Documentation
+Backend Developer,8500,38,223.68,Data Retention Policy
+DevOps Engineer,6500,40,162.5,Network Topology Diagram
+DevOps Engineer,8500,38,223.68,Disaster Recovery Plan
+Mobile App Developer,3800,60,63.33,Device and OS Target List
+DevOps Engineer,4500,55,81.82,Environment Parity Checklist
+Mobile App Developer,6000,58,103.45,App Permissions Justification
+Full Stack Developer,3500,80,43.75,Project Scope Statement
+Mobile App Developer,6500,55,118.18,App Onboarding Flow Spec
+Mobile App Developer,6000,55,109.09,Network Error Handling Spec
+Backend Developer,8000,38,210.53,Error Handling Standards
+UI/UX Designer,7000,38,184.21,Onboarding UX Flow
+DevOps Engineer,8000,38,210.53,Observability Stack Architecture
+Mobile App Developer,7000,40,175.0,App Permissions Justification
+Frontend Developer,8500,38,223.68,UI Component Specifications
+UI/UX Designer,7000,40,175.0,Onboarding UX Flow
+Mobile App Developer,5500,58,94.83,Network Error Handling Spec
+Full Stack Developer,3000,55,54.55,Database ERD
+Frontend Developer,8000,38,210.53,Performance Benchmarks
+Full Stack Developer,6000,55,109.09,Payment Gateway Integration Doc
+UI/UX Designer,4200,60,70.0,Usability Testing Report
+Backend Developer,6000,40,150.0,Data Retention Policy
+Full Stack Developer,6000,58,103.45,Authentication and Security
+Backend Developer,9000,38,236.84,Error Handling Standards
+UI/UX Designer,1000,70,14.29,Brand Style Guide
+UI/UX Designer,6500,40,162.5,Accessibility Requirements
+Mobile App Developer,8000,38,210.53,Device and OS Target List
+Full Stack Developer,7000,38,184.21,Admin Panel Requirements
+Frontend Developer,800,60,13.33,SEO and Keywords Strategy
+Frontend Developer,1000,70,14.29,SEO and Keywords Strategy
+Frontend Developer,1200,80,15.0,SEO and Keywords Strategy
+Frontend Developer,1500,70,21.43,SEO and Keywords Strategy
+Frontend Developer,2000,80,25.0,SEO and Keywords Strategy
+Frontend Developer,2500,70,35.71,SEO and Keywords Strategy
+Frontend Developer,2800,75,37.33,Third-Party Integrations List
+Frontend Developer,3000,80,37.5,Third-Party Integrations List
+Frontend Developer,3200,75,42.67,Third-Party Integrations List
+Frontend Developer,3500,80,43.75,Third-Party Integrations List
+Frontend Developer,3000,55,54.55,Browser Compatibility Matrix
+Frontend Developer,3500,60,58.33,Browser Compatibility Matrix
+Frontend Developer,4000,60,66.67,Responsive Design Spec
+Frontend Developer,4200,55,76.36,Responsive Design Spec
+Frontend Developer,4500,55,81.82,State Management Plan
+Frontend Developer,5000,60,83.33,State Management Plan
+Frontend Developer,5000,55,90.91,Browser Compatibility Matrix
+Frontend Developer,5500,55,100.0,Responsive Design Spec
+Frontend Developer,6000,55,109.09,State Management Plan
+Frontend Developer,6500,55,118.18,Third-Party Integrations List
+Frontend Developer,5500,38,144.74,Performance Benchmarks
+Frontend Developer,6000,38,157.89,UI Component Specifications
+Frontend Developer,6500,38,171.05,Frontend Tech Stack Agreement
+Frontend Developer,7000,40,175.0,Component Testing Standards
+Frontend Developer,7500,40,187.5,Project Scope Statement
+Frontend Developer,8000,40,200.0,Performance Benchmarks
+Frontend Developer,8500,40,212.5,UI Component Specifications
+Frontend Developer,9000,40,225.0,Component Testing Standards
+Frontend Developer,9500,42,226.19,Frontend Tech Stack Agreement
+Frontend Developer,9800,43,227.91,Project Scope Statement
+Frontend Developer,4200,60,70.0,Project Scope Statement
+Frontend Developer,4800,60,80.0,Project Scope Statement
+Frontend Developer,5000,58,86.21,Browser Compatibility Matrix
+Frontend Developer,5500,58,94.83,Performance Benchmarks
+Frontend Developer,6000,58,103.45,UI Component Specifications
+Frontend Developer,6500,58,112.07,State Management Plan
+Frontend Developer,3800,60,63.33,Third-Party Integrations List
+Frontend Developer,4000,55,72.73,SEO and Keywords Strategy
+Frontend Developer,4500,60,75.0,Responsive Design Spec
+Frontend Developer,5500,50,110.0,Browser Compatibility Matrix
+Frontend Developer,1800,75,24.0,SEO and Keywords Strategy
+Frontend Developer,2200,70,31.43,Third-Party Integrations List
+Frontend Developer,2400,75,32.0,Third-Party Integrations List
+Frontend Developer,3500,75,46.67,SEO and Keywords Strategy
+Frontend Developer,1000,65,15.38,SEO and Keywords Strategy
+Frontend Developer,2600,72,36.11,Third-Party Integrations List
+Frontend Developer,2000,65,30.77,SEO and Keywords Strategy
+Frontend Developer,3100,78,39.74,Third-Party Integrations List
+Frontend Developer,1600,68,23.53,SEO and Keywords Strategy
+Frontend Developer,2900,76,38.16,Third-Party Integrations List
+Backend Developer,800,60,13.33,Health Check Endpoint Spec
+Backend Developer,1000,70,14.29,Health Check Endpoint Spec
+Backend Developer,1200,80,15.0,Health Check Endpoint Spec
+Backend Developer,1800,75,24.0,Health Check Endpoint Spec
+Backend Developer,2200,70,31.43,Health Check Endpoint Spec
+Backend Developer,2500,70,35.71,Rate Limiting Policy
+Backend Developer,3000,80,37.5,Rate Limiting Policy
+Backend Developer,3200,75,42.67,API Response Envelope Standard
+Backend Developer,3500,80,43.75,Rate Limiting Policy
+Backend Developer,3500,75,46.67,API Response Envelope Standard
+Backend Developer,3000,55,54.55,API Response Envelope Standard
+Backend Developer,3800,60,63.33,Database ERD
+Backend Developer,4000,55,72.73,Rate Limiting Policy
+Backend Developer,4500,55,81.82,Database ERD
+Backend Developer,5000,60,83.33,API Response Envelope Standard
+Backend Developer,5000,55,90.91,Database ERD
+Backend Developer,5500,55,100.0,Rate Limiting Policy
+Backend Developer,6000,55,109.09,Database ERD
+Backend Developer,6500,58,112.07,Health Check Endpoint Spec
+Backend Developer,6500,55,118.18,API Response Envelope Standard
+Backend Developer,5500,38,144.74,API Documentation
+Backend Developer,6000,38,157.89,Authentication and Security
+Backend Developer,6500,38,171.05,Error Handling Standards
+Backend Developer,7000,40,175.0,Database Migration Plan
+Backend Developer,7500,40,187.5,GDPR Compliance Checklist
+Backend Developer,8000,40,200.0,Data Retention Policy
+Backend Developer,8500,40,212.5,API Documentation
+Backend Developer,9000,40,225.0,Authentication and Security
+Backend Developer,9500,42,226.19,GDPR Compliance Checklist
+Backend Developer,9800,43,227.91,Database Migration Plan
+Backend Developer,4200,60,70.0,Database ERD
+Backend Developer,4800,60,80.0,Rate Limiting Policy
+Backend Developer,5500,58,94.83,Database ERD
+Backend Developer,6000,58,103.45,Health Check Endpoint Spec
+Backend Developer,7000,38,184.21,Error Handling Standards
+Backend Developer,7500,38,197.37,API Documentation
+Backend Developer,8000,38,210.53,GDPR Compliance Checklist
+Backend Developer,8500,38,223.68,Data Retention Policy
+Backend Developer,1500,70,21.43,Health Check Endpoint Spec
+Backend Developer,2800,75,37.33,API Response Envelope Standard
+Backend Developer,2000,80,25.0,Health Check Endpoint Spec
+Backend Developer,4000,60,66.67,Database ERD
+Backend Developer,5000,50,100.0,Rate Limiting Policy
+Backend Developer,6000,40,150.0,API Documentation
+Backend Developer,7000,45,155.56,Authentication and Security
+Backend Developer,8000,45,177.78,Error Handling Standards
+Backend Developer,9000,45,200.0,Database Migration Plan
+Backend Developer,3500,60,58.33,Rate Limiting Policy
+Backend Developer,4500,60,75.0,API Response Envelope Standard
+Backend Developer,5500,50,110.0,Database ERD
+Full Stack Developer,800,60,13.33,Project Scope Statement
+Full Stack Developer,1200,80,15.0,Project Scope Statement
+Full Stack Developer,2000,80,25.0,Project Scope Statement
+Full Stack Developer,2500,70,35.71,Project Scope Statement
+Full Stack Developer,3000,80,37.5,Project Scope Statement
+Full Stack Developer,3500,80,43.75,Project Scope Statement
+Full Stack Developer,3500,75,46.67,Project Scope Statement
+Full Stack Developer,1500,70,21.43,Project Scope Statement
+Full Stack Developer,1800,75,24.0,Project Scope Statement
+Full Stack Developer,2800,75,37.33,Project Scope Statement
+Full Stack Developer,3800,60,63.33,Database ERD
+Full Stack Developer,4000,55,72.73,Database ERD
+Full Stack Developer,4500,55,81.82,API Documentation
+Full Stack Developer,5000,60,83.33,API Documentation
+Full Stack Developer,5000,55,90.91,Database ERD
+Full Stack Developer,5500,55,100.0,API Documentation
+Full Stack Developer,6000,55,109.09,Database ERD
+Full Stack Developer,6500,55,118.18,Performance Benchmarks
+Full Stack Developer,4200,60,70.0,Database ERD
+Full Stack Developer,4800,60,80.0,API Documentation
+Full Stack Developer,6000,38,157.89,Authentication and Security
+Full Stack Developer,6500,38,171.05,Deployment Checklist
+Full Stack Developer,7000,40,175.0,User Roles and Permissions Matrix
+Full Stack Developer,7500,40,187.5,Payment Gateway Integration Doc
+Full Stack Developer,8000,40,200.0,Logging and Audit Trail Spec
+Full Stack Developer,8500,40,212.5,Admin Panel Requirements
+Full Stack Developer,9000,40,225.0,Deployment Checklist
+Full Stack Developer,9500,42,226.19,User Roles and Permissions Matrix
+Full Stack Developer,9800,43,227.91,Payment Gateway Integration Doc
+Full Stack Developer,7000,38,184.21,Authentication and Security
+Full Stack Developer,5500,38,144.74,Performance Benchmarks
+Full Stack Developer,7500,38,197.37,Logging and Audit Trail Spec
+Full Stack Developer,8000,38,210.53,Admin Panel Requirements
+Full Stack Developer,8500,38,223.68,Deployment Checklist
+Full Stack Developer,3000,55,54.55,Database ERD
+Full Stack Developer,3500,60,58.33,API Documentation
+Full Stack Developer,4000,60,66.67,Performance Benchmarks
+Full Stack Developer,6000,40,150.0,Authentication and Security
+Full Stack Developer,7000,45,155.56,Deployment Checklist
+Full Stack Developer,8000,45,177.78,User Roles and Permissions Matrix
+Full Stack Developer,5500,50,110.0,API Documentation
+Full Stack Developer,6500,58,112.07,Database ERD
+Full Stack Developer,9000,45,200.0,Payment Gateway Integration Doc
+Full Stack Developer,2200,70,31.43,Project Scope Statement
+Full Stack Developer,3200,75,42.67,Project Scope Statement
+Full Stack Developer,4500,60,75.0,Database ERD
+Full Stack Developer,5000,50,100.0,API Documentation
+Full Stack Developer,6500,40,162.5,Authentication and Security
+Full Stack Developer,7500,45,166.67,Deployment Checklist
+Full Stack Developer,9000,38,236.84,Admin Panel Requirements
+UI/UX Designer,800,60,13.33,Brand Style Guide
+UI/UX Designer,1000,70,14.29,Brand Style Guide
+UI/UX Designer,1200,80,15.0,Brand Style Guide
+UI/UX Designer,1800,75,24.0,User Persona Profiles
+UI/UX Designer,2200,70,31.43,User Persona Profiles
+UI/UX Designer,2500,70,35.71,Brand Style Guide
+UI/UX Designer,3000,80,37.5,User Persona Profiles
+UI/UX Designer,3200,75,42.67,Brand Style Guide
+UI/UX Designer,3500,80,43.75,User Persona Profiles
+UI/UX Designer,3500,75,46.67,Brand Style Guide
+UI/UX Designer,3000,55,54.55,Usability Testing Report
+UI/UX Designer,3500,60,58.33,Wireframes and Mockups
+UI/UX Designer,4000,60,66.67,Usability Testing Report
+UI/UX Designer,4200,55,76.36,Wireframes and Mockups
+UI/UX Designer,4500,55,81.82,Usability Testing Report
+UI/UX Designer,5000,60,83.33,Wireframes and Mockups
+UI/UX Designer,5000,55,90.91,Usability Testing Report
+UI/UX Designer,5500,55,100.0,Wireframes and Mockups
+UI/UX Designer,6000,55,109.09,Usability Testing Report
+UI/UX Designer,6500,55,118.18,Wireframes and Mockups
+UI/UX Designer,5500,38,144.74,Figma or XD Source Files
+UI/UX Designer,6000,38,157.89,Accessibility Requirements
+UI/UX Designer,6500,38,171.05,Prototype Link and Credentials
+UI/UX Designer,7000,40,175.0,Component Library Documentation
+UI/UX Designer,7500,40,187.5,Design Tokens Export
+UI/UX Designer,8000,40,200.0,Onboarding UX Flow
+UI/UX Designer,8500,40,212.5,Figma or XD Source Files
+UI/UX Designer,9000,40,225.0,Accessibility Requirements
+UI/UX Designer,9500,42,226.19,Component Library Documentation
+UI/UX Designer,9800,43,227.91,Design Tokens Export
+UI/UX Designer,4200,60,70.0,Wireframes and Mockups
+UI/UX Designer,4800,60,80.0,Usability Testing Report
+UI/UX Designer,5500,58,94.83,Wireframes and Mockups
+UI/UX Designer,6000,58,103.45,Usability Testing Report
+UI/UX Designer,7000,38,184.21,Prototype Link and Credentials
+UI/UX Designer,7500,38,197.37,Design Tokens Export
+UI/UX Designer,8000,38,210.53,Onboarding UX Flow
+UI/UX Designer,8500,38,223.68,Component Library Documentation
+UI/UX Designer,1500,70,21.43,Brand Style Guide
+UI/UX Designer,2800,75,37.33,User Persona Profiles
+UI/UX Designer,3800,60,63.33,Wireframes and Mockups
+UI/UX Designer,4000,55,72.73,Usability Testing Report
+UI/UX Designer,5500,50,110.0,Wireframes and Mockups
+UI/UX Designer,6000,40,150.0,Figma or XD Source Files
+UI/UX Designer,7000,45,155.56,Accessibility Requirements
+UI/UX Designer,8000,45,177.78,Prototype Link and Credentials
+UI/UX Designer,9000,45,200.0,Design Tokens Export
+UI/UX Designer,6500,40,162.5,Component Library Documentation
+UI/UX Designer,7500,45,166.67,Figma or XD Source Files
+UI/UX Designer,9000,38,236.84,Onboarding UX Flow
+Mobile App Developer,800,60,13.33,Push Notification Plan
+Mobile App Developer,1000,70,14.29,Push Notification Plan
+Mobile App Developer,1200,80,15.0,Push Notification Plan
+Mobile App Developer,1800,75,24.0,Push Notification Plan
+Mobile App Developer,2200,70,31.43,Push Notification Plan
+Mobile App Developer,2500,70,35.71,Device and OS Target List
+Mobile App Developer,3000,80,37.5,Device and OS Target List
+Mobile App Developer,3200,75,42.67,Push Notification Plan
+Mobile App Developer,3500,80,43.75,Device and OS Target List
+Mobile App Developer,3500,75,46.67,Push Notification Plan
+Mobile App Developer,3000,55,54.55,Network Error Handling Spec
+Mobile App Developer,3500,60,58.33,App Store Assets Package
+Mobile App Developer,4000,60,66.67,Network Error Handling Spec
+Mobile App Developer,4200,55,76.36,App Store Assets Package
+Mobile App Developer,4500,55,81.82,Network Error Handling Spec
+Mobile App Developer,5000,60,83.33,App Store Assets Package
+Mobile App Developer,5000,55,90.91,Network Error Handling Spec
+Mobile App Developer,5500,55,100.0,App Store Assets Package
+Mobile App Developer,6000,55,109.09,Network Error Handling Spec
+Mobile App Developer,6500,55,118.18,App Store Assets Package
+Mobile App Developer,5500,38,144.74,App Permissions Justification
+Mobile App Developer,6000,38,157.89,Mobile Security Checklist
+Mobile App Developer,6500,38,171.05,Analytics Event Tracking Spec
+Mobile App Developer,7000,40,175.0,Deep Linking Configuration
+Mobile App Developer,7500,40,187.5,App Onboarding Flow Spec
+Mobile App Developer,8000,40,200.0,App Accessibility Guidelines
+Mobile App Developer,8500,40,212.5,Mobile Security Checklist
+Mobile App Developer,9000,40,225.0,Analytics Event Tracking Spec
+Mobile App Developer,9500,42,226.19,App Onboarding Flow Spec
+Mobile App Developer,9800,43,227.91,App Accessibility Guidelines
+Mobile App Developer,4200,60,70.0,App Store Assets Package
+Mobile App Developer,4800,60,80.0,Network Error Handling Spec
+Mobile App Developer,5500,58,94.83,App Store Assets Package
+Mobile App Developer,7000,38,184.21,Deep Linking Configuration
+Mobile App Developer,7500,38,197.37,App Onboarding Flow Spec
+Mobile App Developer,8000,38,210.53,App Accessibility Guidelines
+Mobile App Developer,1500,70,21.43,Push Notification Plan
+Mobile App Developer,2800,75,37.33,Device and OS Target List
+Mobile App Developer,3800,60,63.33,Network Error Handling Spec
+Mobile App Developer,4000,55,72.73,App Store Assets Package
+Mobile App Developer,5500,50,110.0,Network Error Handling Spec
+Mobile App Developer,6000,40,150.0,App Permissions Justification
+Mobile App Developer,7000,45,155.56,Mobile Security Checklist
+Mobile App Developer,8000,45,177.78,Analytics Event Tracking Spec
+Mobile App Developer,9000,45,200.0,Deep Linking Configuration
+Mobile App Developer,6500,40,162.5,App Permissions Justification
+Mobile App Developer,7500,45,166.67,Mobile Security Checklist
+Mobile App Developer,9000,38,236.84,App Onboarding Flow Spec
+Mobile App Developer,8500,38,223.68,App Accessibility Guidelines
+Mobile App Developer,6000,58,103.45,Network Error Handling Spec
+DevOps Engineer,800,60,13.33,Environment Parity Checklist
+DevOps Engineer,1000,70,14.29,Environment Parity Checklist
+DevOps Engineer,1200,80,15.0,Environment Parity Checklist
+DevOps Engineer,1800,75,24.0,Environment Parity Checklist
+DevOps Engineer,2200,70,31.43,Environment Parity Checklist
+DevOps Engineer,2500,70,35.71,Environment Parity Checklist
+DevOps Engineer,3000,80,37.5,Environment Parity Checklist
+DevOps Engineer,3200,75,42.67,Environment Parity Checklist
+DevOps Engineer,3500,80,43.75,Environment Parity Checklist
+DevOps Engineer,3500,75,46.67,Environment Parity Checklist
+DevOps Engineer,3000,55,54.55,Docker and Container Config
+DevOps Engineer,3500,60,58.33,Docker and Container Config
+DevOps Engineer,4000,60,66.67,Docker and Container Config
+DevOps Engineer,4200,55,76.36,Docker and Container Config
+DevOps Engineer,4500,55,81.82,Docker and Container Config
+DevOps Engineer,5000,60,83.33,Docker and Container Config
+DevOps Engineer,5000,55,90.91,Network Topology Diagram
+DevOps Engineer,5500,55,100.0,Network Topology Diagram
+DevOps Engineer,6000,55,109.09,Network Topology Diagram
+DevOps Engineer,6500,55,118.18,Network Topology Diagram
+DevOps Engineer,5500,38,144.74,CI/CD Pipeline Configuration
+DevOps Engineer,6000,38,157.89,Infrastructure Architecture
+DevOps Engineer,6500,38,171.05,Secrets Management Policy
+DevOps Engineer,7000,40,175.0,Load Testing Report
+DevOps Engineer,7500,40,187.5,Observability Stack Architecture
+DevOps Engineer,8000,40,200.0,Rollback Decision Playbook
+DevOps Engineer,8500,40,212.5,Disaster Recovery Plan
+DevOps Engineer,9000,40,225.0,CI/CD Pipeline Configuration
+DevOps Engineer,9500,42,226.19,Infrastructure Architecture
+DevOps Engineer,9800,43,227.91,Secrets Management Policy
+DevOps Engineer,4200,60,70.0,Docker and Container Config
+DevOps Engineer,4800,60,80.0,Network Topology Diagram
+DevOps Engineer,5500,58,94.83,Docker and Container Config
+DevOps Engineer,6000,58,103.45,Network Topology Diagram
+DevOps Engineer,7000,38,184.21,Load Testing Report
+DevOps Engineer,7500,38,197.37,Observability Stack Architecture
+DevOps Engineer,8000,38,210.53,Rollback Decision Playbook
+DevOps Engineer,8500,38,223.68,Disaster Recovery Plan
+DevOps Engineer,1500,70,21.43,Environment Parity Checklist
+DevOps Engineer,2800,75,37.33,Environment Parity Checklist
+DevOps Engineer,3800,60,63.33,Docker and Container Config
+DevOps Engineer,4000,55,72.73,Network Topology Diagram
+DevOps Engineer,5500,50,110.0,Docker and Container Config
+DevOps Engineer,6000,40,150.0,CI/CD Pipeline Configuration
+DevOps Engineer,7000,45,155.56,Infrastructure Architecture
+DevOps Engineer,8000,45,177.78,Secrets Management Policy
+DevOps Engineer,9000,45,200.0,Load Testing Report
+DevOps Engineer,6500,40,162.5,Observability Stack Architecture
+DevOps Engineer,7500,45,166.67,Rollback Decision Playbook
+DevOps Engineer,9000,38,236.84,Disaster Recovery Plan
+Frontend Developer,15000,30,500.0,Performance Benchmarks
+Frontend Developer,15000,30,500.0,Responsive Design Spec
+Frontend Developer,15000,30,500.0,Frontend Tech Stack Agreement
+Frontend Developer,15000,30,500.0,Cross-Device Testing Report
+Frontend Developer,15000,30,500.0,Accessibility Audit Report
+Frontend Developer,12000,28,428.57,UI Component Specifications
+Frontend Developer,12000,28,428.57,Font and Icon License Files
+Frontend Developer,12000,28,428.57,Build and Bundle Config
+Frontend Developer,10000,25,400.0,Performance Benchmarks
+Frontend Developer,10000,25,400.0,Browser Compatibility Matrix
+Frontend Developer,9000,45,200.0,Responsive Design Spec
+Frontend Developer,9000,45,200.0,State Management Plan
+Frontend Developer,9000,45,200.0,Frontend Tech Stack Agreement
+Frontend Developer,8000,40,200.0,Accessibility Audit Report
+Frontend Developer,8000,40,200.0,Cross-Device Testing Report
+Frontend Developer,7500,50,150.0,Animation and Motion Guidelines
+Frontend Developer,7500,50,150.0,Error Boundary Strategy
+Frontend Developer,6500,40,162.5,PWA Manifest and Config
+Frontend Developer,6000,35,171.43,UI Component Specifications
+Frontend Developer,6000,35,171.43,Browser Compatibility Matrix
+Frontend Developer,5000,60,83.33,Asset Delivery Guidelines
+Frontend Developer,5000,60,83.33,State Management Plan
+Frontend Developer,5000,60,83.33,Animation and Motion Guidelines
+Frontend Developer,4500,55,81.82,SEO and Keywords Strategy
+Frontend Developer,4500,55,81.82,Third-Party Integrations List
+Frontend Developer,4000,65,61.54,Error Boundary Strategy
+Frontend Developer,4000,65,61.54,Build and Bundle Config
+Frontend Developer,3500,55,63.64,PWA Manifest and Config
+Frontend Developer,3500,55,63.64,Device and OS Target List
+Frontend Developer,3000,55,54.55,Browser Compatibility Matrix
+Frontend Developer,2500,80,31.25,SEO and Keywords Strategy
+Frontend Developer,2500,80,31.25,Project Scope Statement
+Frontend Developer,2000,75,26.67,Third-Party Integrations List
+Frontend Developer,2000,75,26.67,Environment Parity Checklist
+Frontend Developer,1800,90,20.0,SEO and Keywords Strategy
+Frontend Developer,1800,90,20.0,Project Scope Statement
+Frontend Developer,1500,100,15.0,Environment Parity Checklist
+Frontend Developer,1500,100,15.0,Device and OS Target List
+Frontend Developer,1200,90,13.33,SEO and Keywords Strategy
+Frontend Developer,1000,80,12.5,Project Scope Statement
+Frontend Developer,7000,40,175.0,Responsive Design Spec
+Frontend Developer,7000,40,175.0,Performance Benchmarks
+Frontend Developer,5500,70,78.57,State Management Plan
+Frontend Developer,4800,60,80.0,Asset Delivery Guidelines
+Frontend Developer,3200,65,49.23,Third-Party Integrations List
+Frontend Developer,2200,85,25.88,SEO and Keywords Strategy
+Frontend Developer,8500,45,188.89,Frontend Tech Stack Agreement
+Frontend Developer,6800,38,178.95,Cross-Device Testing Report
+Frontend Developer,3800,70,54.29,Animation and Motion Guidelines
+Frontend Developer,1600,95,16.84,Environment Parity Checklist
+Backend Developer,25000,45,555.56,Microservices Architecture Doc
+Backend Developer,25000,45,555.56,GDPR Compliance Checklist
+Backend Developer,25000,45,555.56,API Versioning Strategy
+Backend Developer,20000,40,500.0,Caching Strategy Document
+Backend Developer,20000,40,500.0,Data Anonymization Plan
+Backend Developer,18000,42,428.57,Queue Architecture Doc
+Backend Developer,18000,42,428.57,Error Handling Standards
+Backend Developer,16000,38,421.05,Database Migration Plan
+Backend Developer,15000,35,428.57,Authentication and Security
+Backend Developer,15000,35,428.57,GDPR Compliance Checklist
+Backend Developer,12000,55,218.18,API Documentation
+Backend Developer,12000,55,218.18,Microservices Architecture Doc
+Backend Developer,11000,50,220.0,Error Handling Standards
+Backend Developer,11000,50,220.0,Webhook Integration Guide
+Backend Developer,10000,55,181.82,Authentication and Security
+Backend Developer,10000,55,181.82,Caching Strategy Document
+Backend Developer,9500,45,211.11,Rate Limiting Policy
+Backend Developer,9000,50,180.0,API Versioning Strategy
+Backend Developer,8500,45,188.89,Background Jobs Specification
+Backend Developer,8000,40,200.0,Database Migration Plan
+Backend Developer,7000,75,93.33,Rate Limiting Policy
+Backend Developer,7000,75,93.33,Webhook Integration Guide
+Backend Developer,6500,70,92.86,Search and Indexing Strategy
+Backend Developer,6000,65,92.31,Background Jobs Specification
+Backend Developer,5500,65,84.62,Pagination Standard
+Backend Developer,5000,60,83.33,Third-Party API Contracts
+Backend Developer,4500,60,75.0,API Documentation
+Backend Developer,4500,60,75.0,Search and Indexing Strategy
+Backend Developer,4000,65,61.54,Pagination Standard
+Backend Developer,3800,55,69.09,CI/CD Pipeline Configuration
+Backend Developer,3000,90,33.33,Health Check Endpoint Spec
+Backend Developer,3000,90,33.33,Environment Parity Checklist
+Backend Developer,2500,80,31.25,Health Check Endpoint Spec
+Backend Developer,2000,80,25.0,API Response Envelope Standard
+Backend Developer,2000,80,25.0,Rate Limiting Policy
+Backend Developer,1500,100,15.0,Health Check Endpoint Spec
+Backend Developer,1500,100,15.0,Environment Parity Checklist
+Backend Developer,1200,90,13.33,API Response Envelope Standard
+Backend Developer,1000,85,11.76,Health Check Endpoint Spec
+Backend Developer,900,80,11.25,Project Scope Statement
+Backend Developer,14000,50,280.0,Queue Architecture Doc
+Backend Developer,13000,48,270.83,Microservices Architecture Doc
+Backend Developer,8800,55,160.0,Caching Strategy Document
+Backend Developer,7200,72,100.0,Webhook Integration Guide
+Backend Developer,5200,65,80.0,Background Jobs Specification
+Backend Developer,3500,85,41.18,Health Check Endpoint Spec
+Backend Developer,16500,40,412.5,Data Anonymization Plan
+Backend Developer,9200,46,200.0,Error Handling Standards
+Backend Developer,4200,60,70.0,Search and Indexing Strategy
+Backend Developer,1800,95,18.95,API Response Envelope Standard
+Full Stack Developer,28000,40,700.0,Infrastructure as Code Setup
+Full Stack Developer,28000,40,700.0,Multi-tenancy Architecture Doc
+Full Stack Developer,28000,40,700.0,Payment Gateway Integration Doc
+Full Stack Developer,22000,42,523.81,Logging and Audit Trail Spec
+Full Stack Developer,22000,42,523.81,Real-Time Feature Spec
+Full Stack Developer,20000,38,526.32,Session Management Policy
+Full Stack Developer,20000,38,526.32,Deployment Checklist
+Full Stack Developer,18000,40,450.0,Admin Panel Requirements
+Full Stack Developer,18000,40,450.0,Multi-tenancy Architecture Doc
+Full Stack Developer,15000,35,428.57,Payment Gateway Integration Doc
+Full Stack Developer,14000,55,254.55,Real-Time Feature Spec
+Full Stack Developer,14000,55,254.55,Infrastructure as Code Setup
+Full Stack Developer,12000,50,240.0,Logging and Audit Trail Spec
+Full Stack Developer,12000,50,240.0,Session Management Policy
+Full Stack Developer,10000,45,222.22,Admin Panel Requirements
+Full Stack Developer,10000,45,222.22,Deployment Checklist
+Full Stack Developer,9500,48,197.92,Feature Flag Configuration
+Full Stack Developer,9000,50,180.0,Email and Notification Templates
+Full Stack Developer,8500,45,188.89,File Upload Specification
+Full Stack Developer,8000,42,190.48,Real-Time Feature Spec
+Full Stack Developer,7500,65,115.38,Feature Flag Configuration
+Full Stack Developer,7500,65,115.38,Search Feature Requirements
+Full Stack Developer,7000,70,100.0,Onboarding Flow Documentation
+Full Stack Developer,6500,65,100.0,Localization and i18n Plan
+Full Stack Developer,6000,70,85.71,File Upload Specification
+Full Stack Developer,5500,65,84.62,Email and Notification Templates
+Full Stack Developer,5000,60,83.33,Search Feature Requirements
+Full Stack Developer,4500,60,75.0,Localization and i18n Plan
+Full Stack Developer,4000,60,66.67,Onboarding Flow Documentation
+Full Stack Developer,3800,55,69.09,Database ERD
+Full Stack Developer,3000,90,33.33,Project Scope Statement
+Full Stack Developer,3000,90,33.33,Database ERD
+Full Stack Developer,2500,80,31.25,Environment Parity Checklist
+Full Stack Developer,2000,75,26.67,Project Scope Statement
+Full Stack Developer,2000,75,26.67,Third-Party Integrations List
+Full Stack Developer,1800,85,21.18,Database ERD
+Full Stack Developer,1500,90,16.67,Project Scope Statement
+Full Stack Developer,1200,80,15.0,Environment Parity Checklist
+Full Stack Developer,1000,90,11.11,Project Scope Statement
+Full Stack Developer,900,85,10.59,Third-Party Integrations List
+Full Stack Developer,16000,42,380.95,Infrastructure as Code Setup
+Full Stack Developer,11500,50,230.0,Session Management Policy
+Full Stack Developer,8200,44,186.36,Real-Time Feature Spec
+Full Stack Developer,6200,68,91.18,Search Feature Requirements
+Full Stack Developer,4800,62,77.42,File Upload Specification
+Full Stack Developer,3200,88,36.36,Database ERD
+Full Stack Developer,24000,45,533.33,Multi-tenancy Architecture Doc
+Full Stack Developer,13000,52,250.0,Payment Gateway Integration Doc
+Full Stack Developer,5800,68,85.29,Feature Flag Configuration
+Full Stack Developer,1600,88,18.18,Project Scope Statement
+UI/UX Designer,14000,25,560.0,Component Library Documentation
+UI/UX Designer,14000,25,560.0,Design Tokens Export
+UI/UX Designer,14000,25,560.0,User Journey Maps
+UI/UX Designer,12000,28,428.57,Prototype Link and Credentials
+UI/UX Designer,12000,28,428.57,Design QA Checklist
+UI/UX Designer,10000,25,400.0,Component Library Documentation
+UI/UX Designer,10000,25,400.0,Figma or XD Source Files
+UI/UX Designer,9500,25,380.0,Design Tokens Export
+UI/UX Designer,9500,25,380.0,Dark Mode Design Spec
+UI/UX Designer,9000,24,375.0,User Journey Maps
+UI/UX Designer,8500,38,223.68,Component Library Documentation
+UI/UX Designer,8500,38,223.68,Wireframes and Mockups
+UI/UX Designer,8000,40,200.0,Onboarding UX Flow
+UI/UX Designer,8000,40,200.0,Accessibility Requirements
+UI/UX Designer,7500,38,197.37,Design QA Checklist
+UI/UX Designer,7500,38,197.37,Icon Set Source Files
+UI/UX Designer,7000,40,175.0,Motion Design Spec
+UI/UX Designer,7000,40,175.0,User Journey Maps
+UI/UX Designer,6500,38,171.05,Prototype Link and Credentials
+UI/UX Designer,6000,35,171.43,Information Architecture Doc
+UI/UX Designer,5500,55,100.0,Usability Testing Report
+UI/UX Designer,5500,55,100.0,Wireframes and Mockups
+UI/UX Designer,5000,55,90.91,User Persona Profiles
+UI/UX Designer,4500,55,81.82,Brand Style Guide
+UI/UX Designer,4500,55,81.82,Heuristic Evaluation Report
+UI/UX Designer,4000,50,80.0,Content Audit Document
+UI/UX Designer,4000,50,80.0,Competitor UX Analysis
+UI/UX Designer,3800,55,69.09,Copy and Microcopy Guidelines
+UI/UX Designer,3500,60,58.33,Information Architecture Doc
+UI/UX Designer,3200,55,58.18,Heuristic Evaluation Report
+UI/UX Designer,2800,80,35.0,User Persona Profiles
+UI/UX Designer,2800,80,35.0,Brand Style Guide
+UI/UX Designer,2500,75,33.33,Wireframes and Mockups
+UI/UX Designer,2000,70,28.57,Copy and Microcopy Guidelines
+UI/UX Designer,2000,70,28.57,User Persona Profiles
+UI/UX Designer,1800,80,22.5,Brand Style Guide
+UI/UX Designer,1500,80,18.75,Wireframes and Mockups
+UI/UX Designer,1500,80,18.75,Content Audit Document
+UI/UX Designer,1200,75,16.0,User Persona Profiles
+UI/UX Designer,1000,70,14.29,Brand Style Guide
+UI/UX Designer,11500,26,442.31,Component Library Documentation
+UI/UX Designer,9200,36,255.56,Design Tokens Export
+UI/UX Designer,7200,42,171.43,Accessibility Requirements
+UI/UX Designer,5200,58,89.66,Competitor UX Analysis
+UI/UX Designer,4200,52,80.77,Usability Testing Report
+UI/UX Designer,3000,78,38.46,User Persona Profiles
+UI/UX Designer,13500,27,500.0,Design QA Checklist
+UI/UX Designer,8200,39,210.26,Icon Set Source Files
+UI/UX Designer,5800,62,93.55,Motion Design Spec
+UI/UX Designer,2200,72,30.56,Copy and Microcopy Guidelines
+Mobile App Developer,20000,30,666.67,App Permissions Justification
+Mobile App Developer,20000,30,666.67,Mobile CI/CD Pipeline Config
+Mobile App Developer,18000,32,562.5,Analytics Event Tracking Spec
+Mobile App Developer,18000,32,562.5,Biometric Auth Specification
+Mobile App Developer,16000,35,457.14,Deep Linking Configuration
+Mobile App Developer,16000,35,457.14,App Store Assets Package
+Mobile App Developer,14000,32,437.5,Crash Reporting Setup
+Mobile App Developer,14000,32,437.5,Push Notification Strategy
+Mobile App Developer,12000,30,400.0,App Onboarding Flow Spec
+Mobile App Developer,12000,30,400.0,Mobile Security Checklist
+Mobile App Developer,10000,45,222.22,Analytics Event Tracking Spec
+Mobile App Developer,10000,45,222.22,Deep Linking Configuration
+Mobile App Developer,9500,42,226.19,App Permissions Justification
+Mobile App Developer,9000,45,200.0,Mobile CI/CD Pipeline Config
+Mobile App Developer,8500,45,188.89,Crash Reporting Setup
+Mobile App Developer,8500,45,188.89,App Accessibility Guidelines
+Mobile App Developer,8000,42,190.48,Push Notification Strategy
+Mobile App Developer,7500,40,187.5,App Onboarding Flow Spec
+Mobile App Developer,7000,40,175.0,Biometric Auth Specification
+Mobile App Developer,6800,40,170.0,Mobile Security Checklist
+Mobile App Developer,6000,65,92.31,Beta Testing Plan
+Mobile App Developer,6000,65,92.31,In-App Review Strategy
+Mobile App Developer,5500,65,84.62,Localization String Files
+Mobile App Developer,5000,60,83.33,Analytics Event Tracking Spec
+Mobile App Developer,4800,60,80.0,App Store Assets Package
+Mobile App Developer,4500,60,75.0,Beta Testing Plan
+Mobile App Developer,4200,55,76.36,Offline Mode Specification
+Mobile App Developer,4000,55,72.73,Background Task Specification
+Mobile App Developer,3800,55,69.09,In-App Review Strategy
+Mobile App Developer,3500,60,58.33,Localization String Files
+Mobile App Developer,3000,85,35.29,Device and OS Target List
+Mobile App Developer,3000,85,35.29,Background Task Specification
+Mobile App Developer,2500,80,31.25,Device and OS Target List
+Mobile App Developer,2500,80,31.25,App Store Assets Package
+Mobile App Developer,2000,75,26.67,Offline Mode Specification
+Mobile App Developer,2000,75,26.67,Localization String Files
+Mobile App Developer,1500,80,18.75,Device and OS Target List
+Mobile App Developer,1500,80,18.75,Background Task Specification
+Mobile App Developer,1200,85,14.12,Device and OS Target List
+Mobile App Developer,1000,90,11.11,Push Notification Plan
+Mobile App Developer,15000,33,454.55,Crash Reporting Setup
+Mobile App Developer,11000,44,250.0,Deep Linking Configuration
+Mobile App Developer,8200,43,190.7,App Onboarding Flow Spec
+Mobile App Developer,5800,62,93.55,Offline Mode Specification
+Mobile App Developer,4600,58,79.31,Beta Testing Plan
+Mobile App Developer,3200,82,39.02,Background Task Specification
+Mobile App Developer,17000,34,500.0,Mobile CI/CD Pipeline Config
+Mobile App Developer,9200,46,200.0,Analytics Event Tracking Spec
+Mobile App Developer,6200,66,93.94,In-App Review Strategy
+Mobile App Developer,1800,88,20.45,Device and OS Target List
+DevOps Engineer,22000,35,628.57,Multi-Region Deployment Plan
+DevOps Engineer,22000,35,628.57,Container Security Baseline
+DevOps Engineer,20000,38,526.32,Kubernetes Cluster Config
+DevOps Engineer,20000,38,526.32,SLA and SLO Definitions
+DevOps Engineer,18000,40,450.0,Observability Stack Architecture
+DevOps Engineer,18000,40,450.0,Secrets Management Policy
+DevOps Engineer,15000,35,428.57,Alerting and On-Call Runbook
+DevOps Engineer,15000,35,428.57,Compliance and Audit Log Setup
+DevOps Engineer,12000,30,400.0,Network Topology Diagram
+DevOps Engineer,12000,30,400.0,Multi-Region Deployment Plan
+DevOps Engineer,10000,45,222.22,Observability Stack Architecture
+DevOps Engineer,10000,45,222.22,Kubernetes Cluster Config
+DevOps Engineer,9500,45,211.11,Alerting and On-Call Runbook
+DevOps Engineer,9000,45,200.0,Rollback Decision Playbook
+DevOps Engineer,8500,42,202.38,SLA and SLO Definitions
+DevOps Engineer,8500,42,202.38,Load Testing Report
+DevOps Engineer,8000,42,190.48,Backup and Restore Test Results
+DevOps Engineer,7500,40,187.5,Secrets Management Policy
+DevOps Engineer,7000,40,175.0,Container Security Baseline
+DevOps Engineer,7000,40,175.0,Runbook Documentation
+DevOps Engineer,6500,65,100.0,Log Aggregation Setup
+DevOps Engineer,6500,65,100.0,Rollback Decision Playbook
+DevOps Engineer,6000,65,92.31,CI/CD Pipeline Configuration
+DevOps Engineer,5500,65,84.62,Infrastructure Architecture
+DevOps Engineer,5000,60,83.33,Cloud Resource Tagging Policy
+DevOps Engineer,4800,60,80.0,Runbook Documentation
+DevOps Engineer,4500,60,75.0,Cost Optimization Report
+DevOps Engineer,4200,60,70.0,SSL and TLS Certificate Plan
+DevOps Engineer,4000,60,66.67,Backup and Restore Test Results
+DevOps Engineer,3800,58,65.52,Incident Post-Mortem Template
+DevOps Engineer,3000,55,54.55,Docker and Container Config
+DevOps Engineer,3000,55,54.55,Environment Parity Checklist
+DevOps Engineer,2500,55,45.45,CI/CD Pipeline Configuration
+DevOps Engineer,2500,55,45.45,Docker and Container Config
+DevOps Engineer,2000,60,33.33,Environment Parity Checklist
+DevOps Engineer,2000,60,33.33,SSL and TLS Certificate Plan
+DevOps Engineer,1500,65,23.08,Docker and Container Config
+DevOps Engineer,1500,65,23.08,Cloud Resource Tagging Policy
+DevOps Engineer,1200,70,17.14,Environment Parity Checklist
+DevOps Engineer,1000,65,15.38,Docker and Container Config
+DevOps Engineer,16500,38,434.21,Container Security Baseline
+DevOps Engineer,13000,42,309.52,Kubernetes Cluster Config
+DevOps Engineer,8800,44,200.0,Load Testing Report
+DevOps Engineer,6200,66,93.94,Log Aggregation Setup
+DevOps Engineer,5200,62,83.87,Cost Optimization Report
+DevOps Engineer,3200,58,55.17,Rollback Decision Playbook
+DevOps Engineer,19000,36,527.78,Multi-Region Deployment Plan
+DevOps Engineer,9500,48,197.92,Alerting and On-Call Runbook
+DevOps Engineer,5800,64,90.63,Incident Post-Mortem Template
+DevOps Engineer,1800,68,26.47,CI/CD Pipeline Configuration
+Full Stack Developer,2402,85,28.26,Real-Time Feature Spec
+Full Stack Developer,6148,68,90.41,Real-Time Feature Spec
+Full Stack Developer,9906,49,202.16,Real-Time Feature Spec
+Full Stack Developer,19820,43,460.93,Real-Time Feature Spec
+Mobile App Developer,2421,79,30.65,Background Task Specification
+Mobile App Developer,5014,61,82.2,Background Task Specification
+Mobile App Developer,8887,45,197.49,Background Task Specification
+Mobile App Developer,15899,33,481.79,Background Task Specification
+Backend Developer,1949,91,21.42,Microservices Architecture Doc
+Backend Developer,5057,65,77.8,Microservices Architecture Doc
+Backend Developer,9093,48,189.44,Microservices Architecture Doc
+Backend Developer,17991,40,449.77,Microservices Architecture Doc
+Backend Developer,2076,87,23.86,Microservices Architecture Doc
+Frontend Developer,1613,92,17.53,Cross-Device Testing Report
+Frontend Developer,4052,60,67.53,Cross-Device Testing Report
+Frontend Developer,7144,37,193.08,Cross-Device Testing Report
+Frontend Developer,11858,31,382.52,Cross-Device Testing Report
+Frontend Developer,1469,90,16.32,Cross-Device Testing Report
+Full Stack Developer,2487,88,28.26,Multi-tenancy Architecture Doc
+Full Stack Developer,5989,67,89.39,Multi-tenancy Architecture Doc
+Full Stack Developer,9974,50,199.48,Multi-tenancy Architecture Doc
+Full Stack Developer,19850,40,496.25,Multi-tenancy Architecture Doc
+Full Stack Developer,2354,85,27.69,Multi-tenancy Architecture Doc
+Full Stack Developer,2619,82,31.94,Session Management Policy
+Full Stack Developer,5930,66,89.85,Session Management Policy
+Full Stack Developer,10106,51,198.16,Session Management Policy
+Full Stack Developer,19820,37,535.68,Session Management Policy
+Full Stack Developer,2466,83,29.71,Session Management Policy
+Full Stack Developer,2687,82,32.77,Feature Flag Configuration
+Full Stack Developer,6115,67,91.27,Feature Flag Configuration
+Full Stack Developer,10041,46,218.28,Feature Flag Configuration
+Full Stack Developer,20064,38,528.0,Feature Flag Configuration
+Full Stack Developer,2352,83,28.34,Feature Flag Configuration
+Full Stack Developer,2639,85,31.05,Infrastructure as Code Setup
+Full Stack Developer,6166,65,94.86,Infrastructure as Code Setup
+Full Stack Developer,10063,51,197.31,Infrastructure as Code Setup
+Full Stack Developer,19834,42,472.24,Infrastructure as Code Setup
+Full Stack Developer,2380,85,28.0,Infrastructure as Code Setup
+Backend Developer,1849,90,20.54,Background Jobs Specification
+Backend Developer,4801,67,71.66,Background Jobs Specification
+Backend Developer,9189,52,176.71,Background Jobs Specification
+Backend Developer,17905,40,447.62,Background Jobs Specification
+Backend Developer,2109,91,23.18,Background Jobs Specification
+Backend Developer,1990,88,22.61,Search and Indexing Strategy
+Backend Developer,5017,65,77.18,Search and Indexing Strategy
+Backend Developer,8961,48,186.69,Search and Indexing Strategy
+Backend Developer,18069,43,420.21,Search and Indexing Strategy
+Backend Developer,2103,93,22.61,Search and Indexing Strategy
+Backend Developer,2014,90,22.38,Webhook Integration Guide
+Backend Developer,4989,66,75.59,Webhook Integration Guide
+Backend Developer,9007,51,176.61,Webhook Integration Guide
+Backend Developer,18137,43,421.79,Webhook Integration Guide
+Backend Developer,1852,88,21.05,Webhook Integration Guide
+Backend Developer,2016,90,22.4,Caching Strategy Document
+Backend Developer,4987,65,76.72,Caching Strategy Document
+Backend Developer,8840,51,173.33,Caching Strategy Document
+Backend Developer,17814,41,434.49,Caching Strategy Document
+Backend Developer,1864,87,21.43,Caching Strategy Document
+Full Stack Developer,2626,82,32.02,Search Feature Requirements
+Full Stack Developer,6143,62,99.08,Search Feature Requirements
+Full Stack Developer,9935,51,194.8,Search Feature Requirements
+Full Stack Developer,19938,39,511.23,Search Feature Requirements
+Full Stack Developer,2380,84,28.33,Search Feature Requirements
+Full Stack Developer,2588,84,30.81,File Upload Specification
+Full Stack Developer,6060,63,96.19,File Upload Specification
+Full Stack Developer,10030,46,218.04,File Upload Specification
+Full Stack Developer,19840,40,496.0,File Upload Specification
+Full Stack Developer,2434,82,29.68,File Upload Specification
+Mobile App Developer,2627,80,32.84,Offline Mode Specification
+Mobile App Developer,4832,65,74.34,Offline Mode Specification
+Mobile App Developer,8861,45,196.91,Offline Mode Specification
+Mobile App Developer,15898,34,467.59,Offline Mode Specification
+Mobile App Developer,2659,82,32.43,Offline Mode Specification
+Mobile App Developer,2334,77,30.31,Localization String Files
+Mobile App Developer,5026,63,79.78,Localization String Files
+Mobile App Developer,8930,41,217.8,Localization String Files
+Mobile App Developer,15804,32,493.88,Localization String Files
+Mobile App Developer,2554,82,31.15,Localization String Files
+DevOps Engineer,2158,64,33.72,Container Security Baseline
+DevOps Engineer,4692,61,76.92,Container Security Baseline
+DevOps Engineer,7814,40,195.35,Container Security Baseline
+DevOps Engineer,17841,38,469.5,Container Security Baseline
+DevOps Engineer,1978,68,29.09,Container Security Baseline
+DevOps Engineer,2151,68,31.63,Kubernetes Cluster Config
+DevOps Engineer,4540,58,78.28,Kubernetes Cluster Config
+DevOps Engineer,7895,42,187.98,Kubernetes Cluster Config
+DevOps Engineer,18021,39,462.08,Kubernetes Cluster Config
+DevOps Engineer,2030,66,30.76,Kubernetes Cluster Config
+DevOps Engineer,1942,64,30.34,Alerting and On-Call Runbook
+DevOps Engineer,4328,58,74.62,Alerting and On-Call Runbook
+DevOps Engineer,7812,45,173.6,Alerting and On-Call Runbook
+DevOps Engineer,17986,37,486.11,Alerting and On-Call Runbook
+DevOps Engineer,1885,65,29.0,Alerting and On-Call Runbook
+DevOps Engineer,1865,63,29.6,Multi-Region Deployment Plan
+DevOps Engineer,4344,60,72.4,Multi-Region Deployment Plan
+DevOps Engineer,7933,42,188.88,Multi-Region Deployment Plan
+DevOps Engineer,17827,38,469.13,Multi-Region Deployment Plan
+DevOps Engineer,1843,65,28.35,Multi-Region Deployment Plan
+Mobile App Developer,2585,82,31.52,In-App Review Strategy
+Mobile App Developer,5130,60,85.5,In-App Review Strategy
+Mobile App Developer,9147,41,223.1,In-App Review Strategy
+Mobile App Developer,16030,36,445.28,In-App Review Strategy
+Mobile App Developer,2524,77,32.78,In-App Review Strategy
+UI/UX Designer,2176,74,29.41,Copy and Microcopy Guidelines
+UI/UX Designer,4420,55,80.36,Copy and Microcopy Guidelines
+UI/UX Designer,7532,37,203.57,Copy and Microcopy Guidelines
+UI/UX Designer,12158,28,434.21,Copy and Microcopy Guidelines
+UI/UX Designer,1936,77,25.14,Copy and Microcopy Guidelines
+Mobile App Developer,2464,77,32.0,Beta Testing Plan
+Mobile App Developer,5106,60,85.1,Beta Testing Plan
+Mobile App Developer,8971,47,190.87,Beta Testing Plan
+Mobile App Developer,16114,36,447.61,Beta Testing Plan
+Mobile App Developer,2459,77,31.94,Beta Testing Plan
+Mobile App Developer,2479,77,32.19,Crash Reporting Setup
+Mobile App Developer,5117,59,86.73,Crash Reporting Setup
+Mobile App Developer,8851,44,201.16,Crash Reporting Setup
+Mobile App Developer,16094,32,502.94,Crash Reporting Setup
+Mobile App Developer,2686,77,34.88,Crash Reporting Setup
+UI/UX Designer,1900,72,26.39,Design QA Checklist
+UI/UX Designer,4380,54,81.11,Design QA Checklist
+UI/UX Designer,7412,36,205.89,Design QA Checklist
+UI/UX Designer,11929,26,458.81,Design QA Checklist
+UI/UX Designer,1853,78,23.76,Design QA Checklist
+Mobile App Developer,2523,77,32.77,Mobile CI/CD Pipeline Config
+Mobile App Developer,5184,61,84.98,Mobile CI/CD Pipeline Config
+Mobile App Developer,8925,42,212.5,Mobile CI/CD Pipeline Config
+Mobile App Developer,15852,34,466.24,Mobile CI/CD Pipeline Config
+Mobile App Developer,2517,82,30.7,Mobile CI/CD Pipeline Config
+UI/UX Designer,2046,75,27.28,User Journey Maps
+UI/UX Designer,4502,54,83.37,User Journey Maps
+UI/UX Designer,7700,41,187.8,User Journey Maps
+UI/UX Designer,12093,27,447.89,User Journey Maps
+UI/UX Designer,2171,73,29.74,User Journey Maps
+Frontend Developer,1497,92,16.27,Animation and Motion Guidelines
+Frontend Developer,4194,63,66.57,Animation and Motion Guidelines
+Frontend Developer,7039,37,190.24,Animation and Motion Guidelines
+Frontend Developer,12000,28,428.57,Animation and Motion Guidelines
+Frontend Developer,1486,92,16.15,Animation and Motion Guidelines
+DevOps Engineer,2148,64,33.56,Backup and Restore Test Results
+DevOps Engineer,4447,58,76.67,Backup and Restore Test Results
+DevOps Engineer,8145,41,198.66,Backup and Restore Test Results
+DevOps Engineer,17946,38,472.26,Backup and Restore Test Results
+DevOps Engineer,2151,68,31.63,Backup and Restore Test Results
+DevOps Engineer,4607,55,83.76,Backup and Restore Test Results
+Mobile App Developer,2427,83,29.24,Push Notification Strategy
+Mobile App Developer,5137,59,87.07,Push Notification Strategy
+Mobile App Developer,9066,44,206.05,Push Notification Strategy
+Mobile App Developer,15950,37,431.08,Push Notification Strategy
+Mobile App Developer,2597,79,32.87,Push Notification Strategy
+Mobile App Developer,5062,62,81.65,Push Notification Strategy
+Full Stack Developer,2443,83,29.43,Email and Notification Templates
+Full Stack Developer,5911,62,95.34,Email and Notification Templates
+Full Stack Developer,9859,45,219.09,Email and Notification Templates
+Full Stack Developer,19801,37,535.16,Email and Notification Templates
+Full Stack Developer,2603,87,29.92,Email and Notification Templates
+Full Stack Developer,5939,66,89.98,Email and Notification Templates
+Full Stack Developer,2336,84,27.81,Localization and i18n Plan
+Full Stack Developer,5808,62,93.68,Localization and i18n Plan
+Full Stack Developer,9898,47,210.6,Localization and i18n Plan
+Full Stack Developer,20103,39,515.46,Localization and i18n Plan
+Full Stack Developer,2451,87,28.17,Localization and i18n Plan
+Full Stack Developer,5919,62,95.47,Localization and i18n Plan
+Backend Developer,1915,89,21.52,Pagination Standard
+Backend Developer,4912,65,75.57,Pagination Standard
+Backend Developer,8903,50,178.06,Pagination Standard
+Backend Developer,18053,39,462.9,Pagination Standard
+Backend Developer,1911,92,20.77,Pagination Standard
+Backend Developer,4898,62,79.0,Pagination Standard
+Backend Developer,2148,88,24.41,Queue Architecture Doc
+Backend Developer,5183,67,77.36,Queue Architecture Doc
+Backend Developer,9137,48,190.35,Queue Architecture Doc
+Backend Developer,18109,39,464.33,Queue Architecture Doc
+Backend Developer,2007,91,22.05,Queue Architecture Doc
+Backend Developer,4968,65,76.43,Queue Architecture Doc
+Backend Developer,1960,90,21.78,Data Anonymization Plan
+Backend Developer,5088,67,75.94,Data Anonymization Plan
+Backend Developer,9076,50,181.52,Data Anonymization Plan
+Backend Developer,18183,43,422.86,Data Anonymization Plan
+Backend Developer,1994,87,22.92,Data Anonymization Plan
+Backend Developer,4927,62,79.47,Data Anonymization Plan
+Full Stack Developer,2475,85,29.12,Onboarding Flow Documentation
+Full Stack Developer,6170,67,92.09,Onboarding Flow Documentation
+Full Stack Developer,10174,50,203.48,Onboarding Flow Documentation
+Full Stack Developer,20037,42,477.07,Onboarding Flow Documentation
+Full Stack Developer,2337,87,26.86,Onboarding Flow Documentation
+Full Stack Developer,6164,64,96.31,Onboarding Flow Documentation
+Frontend Developer,1563,89,17.56,Asset Delivery Guidelines
+Frontend Developer,3826,58,65.97,Asset Delivery Guidelines
+Frontend Developer,7076,42,168.48,Asset Delivery Guidelines
+Frontend Developer,11896,28,424.86,Asset Delivery Guidelines
+Frontend Developer,1666,87,19.15,Asset Delivery Guidelines
+Frontend Developer,4116,59,69.76,Asset Delivery Guidelines
+Frontend Developer,1303,89,14.64,Build and Bundle Config
+Frontend Developer,3991,57,70.02,Build and Bundle Config
+Frontend Developer,6816,40,170.4,Build and Bundle Config
+Frontend Developer,12019,30,400.63,Build and Bundle Config
+Frontend Developer,1345,91,14.78,Build and Bundle Config
+Frontend Developer,3805,59,64.49,Build and Bundle Config
+Frontend Developer,1679,87,19.3,Accessibility Audit Report
+Frontend Developer,3836,61,62.89,Accessibility Audit Report
+Frontend Developer,7101,41,173.2,Accessibility Audit Report
+Frontend Developer,11894,27,440.52,Accessibility Audit Report
+Frontend Developer,1487,87,17.09,Accessibility Audit Report
+Frontend Developer,3915,63,62.14,Accessibility Audit Report
+Frontend Developer,1552,91,17.05,Error Boundary Strategy
+Frontend Developer,3960,59,67.12,Error Boundary Strategy
+Frontend Developer,6927,38,182.29,Error Boundary Strategy
+Frontend Developer,12080,26,464.62,Error Boundary Strategy
+Frontend Developer,1522,92,16.54,Error Boundary Strategy
+Frontend Developer,3857,59,65.37,Error Boundary Strategy
+Backend Developer,2159,92,23.47,API Versioning Strategy
+Backend Developer,5079,63,80.62,API Versioning Strategy
+Backend Developer,9087,53,171.45,API Versioning Strategy
+Backend Developer,18141,43,421.88,API Versioning Strategy
+Backend Developer,1926,89,21.64,API Versioning Strategy
+Backend Developer,5185,63,82.3,API Versioning Strategy
+Frontend Developer,1572,87,18.07,PWA Manifest and Config
+Frontend Developer,4192,59,71.05,PWA Manifest and Config
+Frontend Developer,7045,43,163.84,PWA Manifest and Config
+Frontend Developer,11969,31,386.1,PWA Manifest and Config
+Frontend Developer,1325,89,14.89,PWA Manifest and Config
+Frontend Developer,4105,57,72.02,PWA Manifest and Config
+UI/UX Designer,1812,75,24.16,Motion Design Spec
+UI/UX Designer,4690,52,90.19,Motion Design Spec
+UI/UX Designer,7335,39,188.08,Motion Design Spec
+UI/UX Designer,11819,23,513.87,Motion Design Spec
+UI/UX Designer,2063,77,26.79,Motion Design Spec
+UI/UX Designer,4699,57,82.44,Motion Design Spec
+UI/UX Designer,2170,78,27.82,Icon Set Source Files
+UI/UX Designer,4442,55,80.76,Icon Set Source Files
+UI/UX Designer,7653,36,212.58,Icon Set Source Files
+UI/UX Designer,12087,29,416.79,Icon Set Source Files
+UI/UX Designer,2141,74,28.93,Icon Set Source Files
+UI/UX Designer,4452,53,84.0,Icon Set Source Files
+DevOps Engineer,1862,67,27.79,SSL and TLS Certificate Plan
+DevOps Engineer,4424,60,73.73,SSL and TLS Certificate Plan
+DevOps Engineer,8113,40,202.82,SSL and TLS Certificate Plan
+DevOps Engineer,18141,35,518.31,SSL and TLS Certificate Plan
+DevOps Engineer,1979,63,31.41,SSL and TLS Certificate Plan
+DevOps Engineer,4625,61,75.82,SSL and TLS Certificate Plan
+DevOps Engineer,1853,64,28.95,Runbook Documentation
+DevOps Engineer,4400,55,80.0,Runbook Documentation
+DevOps Engineer,8063,43,187.51,Runbook Documentation
+DevOps Engineer,17859,38,469.97,Runbook Documentation
+DevOps Engineer,1907,66,28.89,Runbook Documentation
+DevOps Engineer,4402,58,75.9,Runbook Documentation
+UI/UX Designer,2061,76,27.12,Competitor UX Analysis
+UI/UX Designer,4671,57,81.95,Competitor UX Analysis
+UI/UX Designer,7346,37,198.54,Competitor UX Analysis
+UI/UX Designer,12110,26,465.77,Competitor UX Analysis
+UI/UX Designer,1943,76,25.57,Competitor UX Analysis
+UI/UX Designer,4669,55,84.89,Competitor UX Analysis
+Mobile App Developer,2405,82,29.33,Biometric Auth Specification
+Mobile App Developer,4946,59,83.83,Biometric Auth Specification
+Mobile App Developer,8919,47,189.77,Biometric Auth Specification
+Mobile App Developer,16074,34,472.76,Biometric Auth Specification
+Mobile App Developer,2357,83,28.4,Biometric Auth Specification
+Mobile App Developer,5145,63,81.67,Biometric Auth Specification
+UI/UX Designer,1916,77,24.88,Heuristic Evaluation Report
+UI/UX Designer,4578,58,78.93,Heuristic Evaluation Report
+UI/UX Designer,7692,38,202.42,Heuristic Evaluation Report
+UI/UX Designer,11928,24,497.0,Heuristic Evaluation Report
+UI/UX Designer,1921,72,26.68,Heuristic Evaluation Report
+UI/UX Designer,4538,53,85.62,Heuristic Evaluation Report
+UI/UX Designer,1895,77,24.61,Information Architecture Doc
+UI/UX Designer,4417,52,84.94,Information Architecture Doc
+UI/UX Designer,7536,39,193.23,Information Architecture Doc
+UI/UX Designer,12184,27,451.26,Information Architecture Doc
+UI/UX Designer,1991,78,25.53,Information Architecture Doc
+UI/UX Designer,4368,57,76.63,Information Architecture Doc
+UI/UX Designer,2148,78,27.54,Content Audit Document
+UI/UX Designer,4375,53,82.55,Content Audit Document
+UI/UX Designer,7443,37,201.16,Content Audit Document
+UI/UX Designer,11885,23,516.74,Content Audit Document
+UI/UX Designer,2084,77,27.06,Content Audit Document
+UI/UX Designer,4519,56,80.7,Content Audit Document
+DevOps Engineer,1846,62,29.77,SLA and SLO Definitions
+DevOps Engineer,4393,60,73.22,SLA and SLO Definitions
+DevOps Engineer,8003,40,200.07,SLA and SLO Definitions
+DevOps Engineer,18140,41,442.44,SLA and SLO Definitions
+DevOps Engineer,1899,62,30.63,SLA and SLO Definitions
+DevOps Engineer,4553,60,75.88,SLA and SLO Definitions
+DevOps Engineer,2156,68,31.71,Incident Post-Mortem Template
+DevOps Engineer,4549,56,81.23,Incident Post-Mortem Template
+DevOps Engineer,8045,43,187.09,Incident Post-Mortem Template
+DevOps Engineer,17899,36,497.19,Incident Post-Mortem Template
+DevOps Engineer,1979,68,29.1,Incident Post-Mortem Template
+DevOps Engineer,4693,56,83.8,Incident Post-Mortem Template
+DevOps Engineer,1946,63,30.89,Cost Optimization Report
+DevOps Engineer,4395,55,79.91,Cost Optimization Report
+DevOps Engineer,8124,43,188.93,Cost Optimization Report
+DevOps Engineer,17803,41,434.22,Cost Optimization Report
+DevOps Engineer,2057,62,33.18,Cost Optimization Report
+DevOps Engineer,4683,57,82.16,Cost Optimization Report
+DevOps Engineer,2139,65,32.91,Log Aggregation Setup
+DevOps Engineer,4477,57,78.54,Log Aggregation Setup
+DevOps Engineer,8179,39,209.72,Log Aggregation Setup
+DevOps Engineer,17978,37,485.89,Log Aggregation Setup
+DevOps Engineer,1900,65,29.23,Log Aggregation Setup
+DevOps Engineer,4622,55,84.04,Log Aggregation Setup
+DevOps Engineer,1967,63,31.22,Cloud Resource Tagging Policy
+DevOps Engineer,4342,58,74.86,Cloud Resource Tagging Policy
+DevOps Engineer,8084,43,188.0,Cloud Resource Tagging Policy
+DevOps Engineer,17811,41,434.41,Cloud Resource Tagging Policy
+DevOps Engineer,2101,63,33.35,Cloud Resource Tagging Policy
+DevOps Engineer,4552,57,79.86,Cloud Resource Tagging Policy
+Backend Developer,2041,89,22.93,Third-Party API Contracts
+Backend Developer,5014,62,80.87,Third-Party API Contracts
+Backend Developer,8889,51,174.29,Third-Party API Contracts
+Backend Developer,17889,42,425.93,Third-Party API Contracts
+Backend Developer,1914,87,22.0,Third-Party API Contracts
+Backend Developer,5190,65,79.85,Third-Party API Contracts
+Backend Developer,9113,51,178.69,Third-Party API Contracts
+Frontend Developer,1413,91,15.53,Font and Icon License Files
+Frontend Developer,3874,61,63.51,Font and Icon License Files
+Frontend Developer,7175,40,179.38,Font and Icon License Files
+Frontend Developer,12016,29,414.34,Font and Icon License Files
+Frontend Developer,1548,90,17.2,Font and Icon License Files
+Frontend Developer,4193,61,68.74,Font and Icon License Files
+Frontend Developer,6991,39,179.26,Font and Icon License Files
+UI/UX Designer,1976,74,26.7,Dark Mode Design Spec
+UI/UX Designer,4335,53,81.79,Dark Mode Design Spec
+UI/UX Designer,7395,41,180.37,Dark Mode Design Spec
+UI/UX Designer,11989,27,444.04,Dark Mode Design Spec
+UI/UX Designer,2067,72,28.71,Dark Mode Design Spec
+UI/UX Designer,4482,56,80.04,Dark Mode Design Spec
+UI/UX Designer,7578,35,216.51,Dark Mode Design Spec
+DevOps Engineer,2154,62,34.74,Compliance and Audit Log Setup
+DevOps Engineer,4585,55,83.36,Compliance and Audit Log Setup
+DevOps Engineer,8168,44,185.64,Compliance and Audit Log Setup
+DevOps Engineer,17883,35,510.94,Compliance and Audit Log Setup
+DevOps Engineer,2141,66,32.44,Compliance and Audit Log Setup
+DevOps Engineer,4486,57,78.7,Compliance and Audit Log Setup
+DevOps Engineer,7976,42,189.9,Compliance and Audit Log Setup
+Backend Developer,19000,38,500.0,Authentication and Security
+Backend Developer,19000,38,500.0,GDPR Compliance Checklist
+Backend Developer,17000,40,425.0,Authentication and Security
+Backend Developer,17000,40,425.0,GDPR Compliance Checklist
+Backend Developer,16000,38,421.05,Microservices Architecture Doc
+Backend Developer,16000,38,421.05,Data Anonymization Plan
+Backend Developer,15000,36,416.67,Authentication and Security
+Backend Developer,15000,36,416.67,Database Migration Plan
+Backend Developer,14000,35,400.0,GDPR Compliance Checklist
+Backend Developer,14000,35,400.0,Caching Strategy Document
+Backend Developer,13000,38,342.11,API Versioning Strategy
+Backend Developer,13000,38,342.11,Queue Architecture Doc
+Backend Developer,12000,36,333.33,Authentication and Security
+Backend Developer,12000,36,333.33,Error Handling Standards
+Backend Developer,11000,35,314.29,GDPR Compliance Checklist
+Backend Developer,11000,35,314.29,Database Migration Plan
+Backend Developer,10000,50,200.0,Authentication and Security
+Backend Developer,10000,50,200.0,API Documentation
+Backend Developer,9500,48,197.92,Rate Limiting Policy
+Backend Developer,9500,48,197.92,Webhook Integration Guide
+Backend Developer,9000,50,180.0,GDPR Compliance Checklist
+Backend Developer,9000,50,180.0,Caching Strategy Document
+Backend Developer,8500,48,177.08,Authentication and Security
+Backend Developer,8500,48,177.08,Background Jobs Specification
+Backend Developer,8000,50,160.0,API Versioning Strategy
+Backend Developer,8000,50,160.0,Search and Indexing Strategy
+Backend Developer,6500,68,95.59,Rate Limiting Policy
+Backend Developer,6500,68,95.59,Pagination Standard
+Backend Developer,6000,66,90.91,Webhook Integration Guide
+Backend Developer,6000,66,90.91,Third-Party API Contracts
+Backend Developer,5500,64,85.94,Background Jobs Specification
+Backend Developer,5500,64,85.94,Search and Indexing Strategy
+Backend Developer,5000,62,80.65,API Response Envelope Standard
+Backend Developer,5000,62,80.65,Error Handling Standards
+Backend Developer,2800,88,31.82,Health Check Endpoint Spec
+Backend Developer,2800,88,31.82,API Response Envelope Standard
+Backend Developer,2200,85,25.88,Health Check Endpoint Spec
+Backend Developer,1800,92,19.57,Health Check Endpoint Spec
+Backend Developer,1600,95,16.84,Environment Parity Checklist
+Backend Developer,1400,92,15.22,Health Check Endpoint Spec
+Backend Developer,1100,88,12.5,Health Check Endpoint Spec
+Backend Developer,950,85,11.18,Project Scope Statement
+Backend Developer,20000,42,476.19,Authentication and Security
+Backend Developer,18500,44,420.45,GDPR Compliance Checklist
+Backend Developer,7500,52,144.23,Caching Strategy Document
+Backend Developer,7000,55,127.27,Microservices Architecture Doc
+Backend Developer,4200,60,70.0,Pagination Standard
+Backend Developer,3500,82,42.68,Health Check Endpoint Spec
+Backend Developer,16500,39,423.08,Queue Architecture Doc
+Backend Developer,10500,52,201.92,Authentication and Security
+Backend Developer,6800,70,97.14,Search and Indexing Strategy
+Backend Developer,3000,86,34.88,API Response Envelope Standard
+Backend Developer,21000,44,477.27,Authentication and Security
+Backend Developer,21000,44,477.27,GDPR Compliance Checklist
+Backend Developer,13500,37,364.86,Database Migration Plan
+Backend Developer,9200,49,187.76,API Versioning Strategy
+Backend Developer,5800,63,92.06,Webhook Integration Guide
+Backend Developer,2500,82,30.49,Health Check Endpoint Spec
+Backend Developer,11500,40,287.5,Authentication and Security
+Backend Developer,7800,54,144.44,Error Handling Standards
+Backend Developer,4600,58,79.31,Rate Limiting Policy
+Backend Developer,1700,90,18.89,Health Check Endpoint Spec
+DevOps Engineer,22000,36,611.11,Secrets Management Policy
+DevOps Engineer,22000,36,611.11,SLA and SLO Definitions
+DevOps Engineer,20000,36,555.56,SSL and TLS Certificate Plan
+DevOps Engineer,20000,36,555.56,Compliance and Audit Log Setup
+DevOps Engineer,18000,36,500.0,Disaster Recovery Plan
+DevOps Engineer,18000,36,500.0,Backup and Restore Test Results
+DevOps Engineer,16000,35,457.14,Container Security Baseline
+DevOps Engineer,16000,35,457.14,Multi-Region Deployment Plan
+DevOps Engineer,15000,34,441.18,Secrets Management Policy
+DevOps Engineer,15000,34,441.18,Kubernetes Cluster Config
+DevOps Engineer,14000,33,424.24,SLA and SLO Definitions
+DevOps Engineer,14000,33,424.24,Alerting and On-Call Runbook
+DevOps Engineer,13000,32,406.25,SSL and TLS Certificate Plan
+DevOps Engineer,13000,32,406.25,Compliance and Audit Log Setup
+DevOps Engineer,12000,32,375.0,Disaster Recovery Plan
+DevOps Engineer,12000,32,375.0,Container Security Baseline
+DevOps Engineer,11000,30,366.67,Secrets Management Policy
+DevOps Engineer,11000,30,366.67,Observability Stack Architecture
+DevOps Engineer,10000,44,227.27,Observability Stack Architecture
+DevOps Engineer,10000,44,227.27,SLA and SLO Definitions
+DevOps Engineer,9500,44,215.91,Secrets Management Policy
+DevOps Engineer,9500,44,215.91,Rollback Decision Playbook
+DevOps Engineer,9000,46,195.65,SSL and TLS Certificate Plan
+DevOps Engineer,9000,46,195.65,Load Testing Report
+DevOps Engineer,8500,45,188.89,Disaster Recovery Plan
+DevOps Engineer,8500,45,188.89,Network Topology Diagram
+DevOps Engineer,8000,44,181.82,Container Security Baseline
+DevOps Engineer,8000,44,181.82,Backup and Restore Test Results
+DevOps Engineer,6800,65,104.62,CI/CD Pipeline Configuration
+DevOps Engineer,6800,65,104.62,Log Aggregation Setup
+DevOps Engineer,6200,65,95.38,Runbook Documentation
+DevOps Engineer,6200,65,95.38,Incident Post-Mortem Template
+DevOps Engineer,5500,62,88.71,Cost Optimization Report
+DevOps Engineer,5500,62,88.71,Cloud Resource Tagging Policy
+DevOps Engineer,5000,60,83.33,Infrastructure Architecture
+DevOps Engineer,5000,60,83.33,SSL and TLS Certificate Plan
+DevOps Engineer,2800,62,45.16,Docker and Container Config
+DevOps Engineer,2500,62,40.32,Docker and Container Config
+DevOps Engineer,2200,60,36.67,CI/CD Pipeline Configuration
+DevOps Engineer,1800,65,27.69,Environment Parity Checklist
+DevOps Engineer,1600,65,24.62,Docker and Container Config
+DevOps Engineer,1300,68,19.12,Docker and Container Config
+DevOps Engineer,1100,70,15.71,Environment Parity Checklist
+DevOps Engineer,900,68,13.24,Docker and Container Config
+DevOps Engineer,24000,38,631.58,Secrets Management Policy
+DevOps Engineer,24000,38,631.58,SLA and SLO Definitions
+DevOps Engineer,19000,37,513.51,SSL and TLS Certificate Plan
+DevOps Engineer,17500,36,486.11,Compliance and Audit Log Setup
+DevOps Engineer,10500,46,228.26,Observability Stack Architecture
+DevOps Engineer,7500,43,174.42,Disaster Recovery Plan
+DevOps Engineer,6000,64,93.75,Incident Post-Mortem Template
+DevOps Engineer,4200,58,72.41,Runbook Documentation
+DevOps Engineer,2600,64,40.63,Docker and Container Config
+DevOps Engineer,21500,40,537.5,Container Security Baseline
+DevOps Engineer,13500,34,397.06,Kubernetes Cluster Config
+DevOps Engineer,9200,45,204.44,Backup and Restore Test Results
+DevOps Engineer,6500,66,98.48,Log Aggregation Setup
+DevOps Engineer,3200,60,53.33,CI/CD Pipeline Configuration
+DevOps Engineer,16800,36,466.67,Multi-Region Deployment Plan
+DevOps Engineer,8200,43,190.7,SLA and SLO Definitions
+DevOps Engineer,5200,60,86.67,Cost Optimization Report
+DevOps Engineer,2000,62,32.26,Docker and Container Config
+DevOps Engineer,11800,32,368.75,Alerting and On-Call Runbook
+DevOps Engineer,7200,44,163.64,Network Topology Diagram
+DevOps Engineer,4500,56,80.36,Cloud Resource Tagging Policy
+DevOps Engineer,1500,66,22.73,Docker and Container Config
+Mobile App Developer,19000,32,593.75,Biometric Auth Specification
+Mobile App Developer,19000,32,593.75,App Permissions Justification
+Mobile App Developer,18000,33,545.45,Mobile Security Checklist
+Mobile App Developer,18000,33,545.45,Mobile CI/CD Pipeline Config
+Mobile App Developer,17000,34,500.0,Biometric Auth Specification
+Mobile App Developer,17000,34,500.0,Deep Linking Configuration
+Mobile App Developer,15000,33,454.55,App Permissions Justification
+Mobile App Developer,15000,33,454.55,Analytics Event Tracking Spec
+Mobile App Developer,14000,32,437.5,Mobile Security Checklist
+Mobile App Developer,14000,32,437.5,Crash Reporting Setup
+Mobile App Developer,13000,32,406.25,Biometric Auth Specification
+Mobile App Developer,13000,32,406.25,App Onboarding Flow Spec
+Mobile App Developer,12000,30,400.0,App Permissions Justification
+Mobile App Developer,12000,30,400.0,Mobile Security Checklist
+Mobile App Developer,11000,30,366.67,Push Notification Strategy
+Mobile App Developer,11000,30,366.67,App Store Assets Package
+Mobile App Developer,10000,44,227.27,Biometric Auth Specification
+Mobile App Developer,10000,44,227.27,Analytics Event Tracking Spec
+Mobile App Developer,9500,44,215.91,App Permissions Justification
+Mobile App Developer,9000,44,204.55,Mobile Security Checklist
+Mobile App Developer,8500,44,193.18,Crash Reporting Setup
+Mobile App Developer,8000,42,190.48,Deep Linking Configuration
+Mobile App Developer,7500,42,178.57,Push Notification Strategy
+Mobile App Developer,7000,40,175.0,App Onboarding Flow Spec
+Mobile App Developer,6000,63,95.24,Beta Testing Plan
+Mobile App Developer,6000,63,95.24,In-App Review Strategy
+Mobile App Developer,5500,62,88.71,Localization String Files
+Mobile App Developer,5000,60,83.33,Offline Mode Specification
+Mobile App Developer,4500,58,77.59,Background Task Specification
+Mobile App Developer,4000,56,71.43,App Store Assets Package
+Mobile App Developer,3800,56,67.86,Beta Testing Plan
+Mobile App Developer,3500,58,60.34,In-App Review Strategy
+Mobile App Developer,2800,82,34.15,Device and OS Target List
+Mobile App Developer,2500,82,30.49,Device and OS Target List
+Mobile App Developer,2000,78,25.64,Background Task Specification
+Mobile App Developer,1800,82,21.95,Device and OS Target List
+Mobile App Developer,1500,82,18.29,Offline Mode Specification
+Mobile App Developer,1200,85,14.12,Device and OS Target List
+Mobile App Developer,1000,88,11.36,Background Task Specification
+Mobile App Developer,900,86,10.47,Device and OS Target List
+Mobile App Developer,20000,33,606.06,Biometric Auth Specification
+Mobile App Developer,16500,35,471.43,Mobile Security Checklist
+Mobile App Developer,10500,46,228.26,App Permissions Justification
+Mobile App Developer,8200,42,195.24,Analytics Event Tracking Spec
+Mobile App Developer,6500,65,100.0,Localization String Files
+Mobile App Developer,4200,57,73.68,Offline Mode Specification
+Mobile App Developer,2600,80,32.5,Device and OS Target List
+Mobile App Developer,21000,35,600.0,Biometric Auth Specification
+Mobile App Developer,13500,33,409.09,Deep Linking Configuration
+Mobile App Developer,9200,43,213.95,Mobile Security Checklist
+Mobile App Developer,6800,66,103.03,In-App Review Strategy
+Mobile App Developer,3200,56,57.14,Beta Testing Plan
+Mobile App Developer,17500,34,514.71,App Permissions Justification
+Mobile App Developer,7800,41,190.24,Crash Reporting Setup
+Mobile App Developer,5200,60,86.67,Background Task Specification
+Mobile App Developer,1600,84,19.05,Device and OS Target List
+Mobile App Developer,11500,32,359.38,Push Notification Strategy
+Mobile App Developer,8800,45,195.56,App Store Assets Package
+Mobile App Developer,5800,64,90.63,Beta Testing Plan
+Mobile App Developer,2300,80,28.75,Offline Mode Specification
+Full Stack Developer,26000,42,619.05,Logging and Audit Trail Spec
+Full Stack Developer,26000,42,619.05,Payment Gateway Integration Doc
+Full Stack Developer,24000,42,571.43,User Roles and Permissions Matrix
+Full Stack Developer,24000,42,571.43,Multi-tenancy Architecture Doc
+Full Stack Developer,22000,42,523.81,Real-Time Feature Spec
+Full Stack Developer,22000,42,523.81,Session Management Policy
+Full Stack Developer,20000,40,500.0,Logging and Audit Trail Spec
+Full Stack Developer,20000,40,500.0,Infrastructure as Code Setup
+Full Stack Developer,18000,40,450.0,Payment Gateway Integration Doc
+Full Stack Developer,18000,40,450.0,Admin Panel Requirements
+Full Stack Developer,16000,38,421.05,User Roles and Permissions Matrix
+Full Stack Developer,16000,38,421.05,Deployment Checklist
+Full Stack Developer,14000,36,388.89,Logging and Audit Trail Spec
+Full Stack Developer,14000,36,388.89,Real-Time Feature Spec
+Full Stack Developer,12000,34,352.94,Payment Gateway Integration Doc
+Full Stack Developer,12000,34,352.94,Feature Flag Configuration
+Full Stack Developer,11000,48,229.17,Logging and Audit Trail Spec
+Full Stack Developer,11000,48,229.17,Admin Panel Requirements
+Full Stack Developer,10000,46,217.39,Payment Gateway Integration Doc
+Full Stack Developer,10000,46,217.39,User Roles and Permissions Matrix
+Full Stack Developer,9500,46,206.52,Real-Time Feature Spec
+Full Stack Developer,9000,46,195.65,Session Management Policy
+Full Stack Developer,8500,44,193.18,Infrastructure as Code Setup
+Full Stack Developer,8000,44,181.82,Deployment Checklist
+Full Stack Developer,7000,68,102.94,Search Feature Requirements
+Full Stack Developer,7000,68,102.94,File Upload Specification
+Full Stack Developer,6500,68,95.59,Email and Notification Templates
+Full Stack Developer,6000,68,88.24,Onboarding Flow Documentation
+Full Stack Developer,5500,66,83.33,Localization and i18n Plan
+Full Stack Developer,5000,64,78.13,Feature Flag Configuration
+Full Stack Developer,4500,64,70.31,Search Feature Requirements
+Full Stack Developer,4000,62,64.52,File Upload Specification
+Full Stack Developer,3200,88,36.36,Database ERD
+Full Stack Developer,2800,86,32.56,Project Scope Statement
+Full Stack Developer,2400,84,28.57,Database ERD
+Full Stack Developer,2000,82,24.39,Environment Parity Checklist
+Full Stack Developer,1600,80,20.0,Project Scope Statement
+Full Stack Developer,1400,80,17.5,Database ERD
+Full Stack Developer,1100,82,13.41,Project Scope Statement
+Full Stack Developer,900,80,11.25,Database ERD
+Full Stack Developer,27000,44,613.64,Logging and Audit Trail Spec
+Full Stack Developer,27000,44,613.64,Payment Gateway Integration Doc
+Full Stack Developer,15000,37,405.41,Multi-tenancy Architecture Doc
+Full Stack Developer,13000,35,371.43,User Roles and Permissions Matrix
+Full Stack Developer,9200,47,195.74,Real-Time Feature Spec
+Full Stack Developer,7500,70,107.14,Email and Notification Templates
+Full Stack Developer,5200,65,80.0,Search Feature Requirements
+Full Stack Developer,3000,85,35.29,Database ERD
+Full Stack Developer,23000,43,534.88,Logging and Audit Trail Spec
+Full Stack Developer,19000,40,475.0,Payment Gateway Integration Doc
+Full Stack Developer,10500,47,223.4,Admin Panel Requirements
+Full Stack Developer,8200,45,182.22,Deployment Checklist
+Full Stack Developer,6200,67,92.54,Onboarding Flow Documentation
+Full Stack Developer,4200,63,66.67,Localization and i18n Plan
+Full Stack Developer,2600,83,31.33,Project Scope Statement
+Full Stack Developer,17500,39,448.72,Infrastructure as Code Setup
+Full Stack Developer,9800,48,204.17,Session Management Policy
+Full Stack Developer,7200,70,102.86,File Upload Specification
+Full Stack Developer,4800,64,75.0,Feature Flag Configuration
+Full Stack Developer,1800,82,21.95,Database ERD
+UI/UX Designer,15000,24,625.0,Component Library Documentation
+UI/UX Designer,15000,24,625.0,User Journey Maps
+UI/UX Designer,14000,24,583.33,Design Tokens Export
+UI/UX Designer,14000,24,583.33,Content Audit Document
+UI/UX Designer,13000,25,520.0,Component Library Documentation
+UI/UX Designer,13000,25,520.0,Design QA Checklist
+UI/UX Designer,12000,26,461.54,User Journey Maps
+UI/UX Designer,12000,26,461.54,Figma or XD Source Files
+UI/UX Designer,11000,26,423.08,Design Tokens Export
+UI/UX Designer,11000,26,423.08,Prototype Link and Credentials
+UI/UX Designer,10000,25,400.0,Content Audit Document
+UI/UX Designer,10000,25,400.0,Icon Set Source Files
+UI/UX Designer,9500,25,380.0,Component Library Documentation
+UI/UX Designer,9500,25,380.0,Dark Mode Design Spec
+UI/UX Designer,9000,26,346.15,User Journey Maps
+UI/UX Designer,9000,26,346.15,Heuristic Evaluation Report
+UI/UX Designer,8500,38,223.68,Component Library Documentation
+UI/UX Designer,8500,38,223.68,Content Audit Document
+UI/UX Designer,8000,40,200.0,User Journey Maps
+UI/UX Designer,8000,40,200.0,Accessibility Requirements
+UI/UX Designer,7500,40,187.5,Design QA Checklist
+UI/UX Designer,7500,40,187.5,Motion Design Spec
+UI/UX Designer,7000,40,175.0,Competitor UX Analysis
+UI/UX Designer,7000,40,175.0,Onboarding UX Flow
+UI/UX Designer,6500,38,171.05,Information Architecture Doc
+UI/UX Designer,6500,38,171.05,Icon Set Source Files
+UI/UX Designer,5500,55,100.0,Usability Testing Report
+UI/UX Designer,5500,55,100.0,Content Audit Document
+UI/UX Designer,5000,55,90.91,Wireframes and Mockups
+UI/UX Designer,5000,55,90.91,Heuristic Evaluation Report
+UI/UX Designer,4500,55,81.82,User Persona Profiles
+UI/UX Designer,4500,55,81.82,Competitor UX Analysis
+UI/UX Designer,4000,52,76.92,Copy and Microcopy Guidelines
+UI/UX Designer,4000,52,76.92,Information Architecture Doc
+UI/UX Designer,2800,78,35.9,User Persona Profiles
+UI/UX Designer,2800,78,35.9,Brand Style Guide
+UI/UX Designer,2400,76,31.58,Wireframes and Mockups
+UI/UX Designer,2000,74,27.03,User Persona Profiles
+UI/UX Designer,1800,78,23.08,Brand Style Guide
+UI/UX Designer,1500,78,19.23,Wireframes and Mockups
+UI/UX Designer,1200,76,15.79,User Persona Profiles
+UI/UX Designer,1000,74,13.51,Brand Style Guide
+UI/UX Designer,16000,26,615.38,Content Audit Document
+UI/UX Designer,16000,26,615.38,Component Library Documentation
+UI/UX Designer,13500,26,519.23,User Journey Maps
+UI/UX Designer,11500,27,425.93,Content Audit Document
+UI/UX Designer,9800,27,362.96,Design Tokens Export
+UI/UX Designer,8200,40,205.0,Component Library Documentation
+UI/UX Designer,7200,40,180.0,Content Audit Document
+UI/UX Designer,6000,57,105.26,User Journey Maps
+UI/UX Designer,5200,56,92.86,Usability Testing Report
+UI/UX Designer,4200,54,77.78,Copy and Microcopy Guidelines
+UI/UX Designer,3200,76,42.11,Wireframes and Mockups
+UI/UX Designer,2200,76,28.95,User Persona Profiles
+UI/UX Designer,14500,25,580.0,Content Audit Document
+UI/UX Designer,10500,26,403.85,Heuristic Evaluation Report
+UI/UX Designer,8800,40,220.0,Accessibility Requirements
+UI/UX Designer,6800,57,119.3,Competitor UX Analysis
+UI/UX Designer,4800,56,85.71,Motion Design Spec
+UI/UX Designer,2600,78,33.33,Brand Style Guide
+UI/UX Designer,12500,27,462.96,User Journey Maps
+UI/UX Designer,9500,27,351.85,Design QA Checklist
+UI/UX Designer,7500,40,187.5,Icon Set Source Files
+UI/UX Designer,5800,57,101.75,Information Architecture Doc
+UI/UX Designer,3800,55,69.09,Usability Testing Report
+UI/UX Designer,1800,76,23.68,User Persona Profiles
+UI/UX Designer,17000,28,607.14,Content Audit Document
+UI/UX Designer,17000,28,607.14,User Journey Maps
+UI/UX Designer,11200,27,414.81,Component Library Documentation
+UI/UX Designer,7800,40,195.0,Dark Mode Design Spec
+UI/UX Designer,6200,58,106.9,Copy and Microcopy Guidelines
+UI/UX Designer,3400,77,44.16,Wireframes and Mockups
+UI/UX Designer,1300,76,17.11,Brand Style Guide
+Frontend Developer,16000,30,533.33,Performance Benchmarks
+Frontend Developer,16000,30,533.33,Accessibility Audit Report
+Frontend Developer,14000,30,466.67,Responsive Design Spec
+Frontend Developer,14000,30,466.67,Frontend Tech Stack Agreement
+Frontend Developer,13000,29,448.28,Accessibility Audit Report
+Frontend Developer,13000,29,448.28,UI Component Specifications
+Frontend Developer,12000,28,428.57,Performance Benchmarks
+Frontend Developer,12000,28,428.57,Cross-Device Testing Report
+Frontend Developer,11000,28,392.86,Accessibility Audit Report
+Frontend Developer,11000,28,392.86,Build and Bundle Config
+Frontend Developer,10000,26,384.62,Font and Icon License Files
+Frontend Developer,10000,26,384.62,PWA Manifest and Config
+Frontend Developer,9500,26,365.38,Accessibility Audit Report
+Frontend Developer,9500,26,365.38,Browser Compatibility Matrix
+Frontend Developer,9000,27,333.33,Performance Benchmarks
+Frontend Developer,9000,27,333.33,Responsive Design Spec
+Frontend Developer,8500,44,193.18,Accessibility Audit Report
+Frontend Developer,8500,44,193.18,Frontend Tech Stack Agreement
+Frontend Developer,8000,44,181.82,Performance Benchmarks
+Frontend Developer,8000,44,181.82,State Management Plan
+Frontend Developer,7500,44,170.45,Responsive Design Spec
+Frontend Developer,7500,44,170.45,Error Boundary Strategy
+Frontend Developer,7000,42,166.67,Animation and Motion Guidelines
+Frontend Developer,7000,42,166.67,Cross-Device Testing Report
+Frontend Developer,6500,42,154.76,Accessibility Audit Report
+Frontend Developer,6500,42,154.76,UI Component Specifications
+Frontend Developer,5500,58,94.83,Asset Delivery Guidelines
+Frontend Developer,5500,58,94.83,Animation and Motion Guidelines
+Frontend Developer,5000,58,86.21,State Management Plan
+Frontend Developer,5000,58,86.21,Browser Compatibility Matrix
+Frontend Developer,4500,56,80.36,Error Boundary Strategy
+Frontend Developer,4500,56,80.36,Build and Bundle Config
+Frontend Developer,4000,55,72.73,PWA Manifest and Config
+Frontend Developer,4000,55,72.73,Asset Delivery Guidelines
+Frontend Developer,2500,80,31.25,SEO and Keywords Strategy
+Frontend Developer,2500,80,31.25,Project Scope Statement
+Frontend Developer,2200,80,27.5,Third-Party Integrations List
+Frontend Developer,1900,80,23.75,SEO and Keywords Strategy
+Frontend Developer,1700,85,20.0,Project Scope Statement
+Frontend Developer,1400,85,16.47,Environment Parity Checklist
+Frontend Developer,1200,85,14.12,SEO and Keywords Strategy
+Frontend Developer,1000,88,11.36,Device and OS Target List
+Frontend Developer,17000,32,531.25,Accessibility Audit Report
+Frontend Developer,17000,32,531.25,Performance Benchmarks
+Frontend Developer,15000,31,483.87,Frontend Tech Stack Agreement
+Frontend Developer,11500,29,396.55,UI Component Specifications
+Frontend Developer,9800,27,362.96,Responsive Design Spec
+Frontend Developer,8200,43,190.7,Accessibility Audit Report
+Frontend Developer,7200,43,167.44,State Management Plan
+Frontend Developer,6000,58,103.45,Animation and Motion Guidelines
+Frontend Developer,4800,57,84.21,Browser Compatibility Matrix
+Frontend Developer,3500,82,42.68,SEO and Keywords Strategy
+Frontend Developer,2000,82,24.39,Project Scope Statement
+Frontend Developer,18000,33,545.45,Accessibility Audit Report
+Frontend Developer,12500,28,446.43,Performance Benchmarks
+Frontend Developer,9200,28,328.57,Cross-Device Testing Report
+Frontend Developer,7800,43,181.4,Frontend Tech Stack Agreement
+Frontend Developer,6200,58,106.9,Error Boundary Strategy
+Frontend Developer,4400,56,78.57,Build and Bundle Config
+Frontend Developer,2800,82,34.15,SEO and Keywords Strategy
+Frontend Developer,10200,27,377.78,Accessibility Audit Report
+Frontend Developer,7600,43,176.74,Responsive Design Spec
+Frontend Developer,5400,57,94.74,PWA Manifest and Config
+Frontend Developer,3200,80,40.0,Third-Party Integrations List
+Frontend Developer,13500,29,465.52,Accessibility Audit Report
+Frontend Developer,8600,43,200.0,Performance Benchmarks
+Frontend Developer,6400,58,110.34,Asset Delivery Guidelines
+Frontend Developer,3800,80,47.5,Environment Parity Checklist

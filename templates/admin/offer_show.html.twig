@@ -1,0 +1,46 @@
+{% extends 'layout_admin.html.twig' %}
+
+{% set topbar_title = 'Offer Details' %}
+
+{% block title %}Offer #{{ offer.id }} - Orion{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .detail-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .detail-card:hover {
+            transform: translateY(-1px);
+        }
+        .status-glow {
+            animation: status-pulse 3s ease-in-out infinite;
+        }
+        @keyframes status-pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        .info-section {
+            position: relative;
+        }
+        .info-section::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            border-radius: 9999px;
+        }
+        .info-section-emerald::before { background: linear-gradient(to bottom, #10b981, #059669); }
+        .info-section-blue::before { background: linear-gradient(to bottom, #3b82f6, #2563eb); }
+        .info-section-purple::before { background: linear-gradient(to bottom, #8b5cf6, #7c3aed); }
+        .info-section-amber::before { background: linear-gradient(to bottom, #f59e0b, #d97706); }
+    </style>
+{% endblock %}
+
+{% block main %}
+<div class="space-y-8">
+    {# ...rest of template from old project... #}
+</div>
+{% endblock %}

@@ -1,0 +1,16 @@
+{
+  "title": "06 06 06 06 06",
+  "bio": "Etudiante en 3*™ année de Licence, passionnée de langues étrangeres et dotée d'un bon sens relationnel. Je recherche un emploi étudiant en tant quihétesse d'accueil dans un hotel",
+  "experience_years": 10,
+  "hourly_rate": "",
+  "location": "Paris, France",
+  "skills": [
+    "Photoshop",
+    "Montage Vidéo",
+    "Rédaction",
+    "Anglais",
+    "Italien"
+  ],
+  "confidence": 86,
+  "strategy": "enhanced_regex"
+}

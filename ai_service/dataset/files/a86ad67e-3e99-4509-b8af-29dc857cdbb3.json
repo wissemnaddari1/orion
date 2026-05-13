@@ -1,0 +1,14 @@
+{
+  "title": "Plombier Certifié – 8 ans d’expérience",
+  "bio": "Plombier qualifié avec plus de 8 ans d’expérience dans l’installation, la maintenance et la",
+  "experience_years": 8,
+  "hourly_rate": "50",
+  "location": "Tunis, Tunisie",
+  "skills": [
+    "Plomberie"
+  ],
+  "phoneNumber": "+216 22 456 789",
+  "email": "ahmed.bensalah@email.com",
+  "confidence": 76,
+  "strategy": "enhanced_regex"
+}

@@ -1,0 +1,350 @@
+{% extends 'layout_app.html.twig' %}
+
+{% block main %}
+<div class="max-w-3xl mx-auto space-y-6">
+    {# Header #}
+    <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+        <div class="flex items-center gap-4">
+            <div class="flex h-14 w-14 items-center justify-center rounded-xl bg-emerald-100 dark:bg-emerald-900/30">
+                <svg class="h-7 w-7 text-emerald-600 dark:text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                </svg>
+            </div>
+            <div>
+                <h1 class="text-xl font-bold text-slate-900 dark:text-white">Face Login Settings</h1>
+                <p class="text-sm text-slate-500 dark:text-slate-400">Enroll your face for quick and secure login</p>
+            </div>
+        </div>
+    </div>
+
+    {# Face enrollment: User columns and/or separate FaceProfile (JSON embedding). #}
+    {% set has_face_enrollment = user.faceEnrolledAt or user.faceImagePath or user.faceEmbedding
+        or (faceProfile is not null and faceProfile.embedding|length > 0) %}
+
+    {# Current Status #}
+    <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+        <h2 class="mb-4 text-lg font-bold text-slate-900 dark:text-white">Current Status</h2>
+        
+        {% if has_face_enrollment %}
+
+            <div class="flex items-center gap-4 p-4 rounded-xl bg-emerald-50 dark:bg-emerald-900/20">
+                <div class="flex h-12 w-12 items-center justify-center rounded-full bg-emerald-100 dark:bg-emerald-900/50">
+                    <svg class="h-6 w-6 text-emerald-600 dark:text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                    </svg>
+                </div>
+                <div class="flex-1">
+                    <p class="font-semibold text-emerald-700 dark:text-emerald-300">Face Enrolled</p>
+                    <p class="text-sm text-emerald-600 dark:text-emerald-400">
+                        {% if user.faceEnrolledAt %}
+                            Enrolled: {{ user.faceEnrolledAt|date('M d, Y H:i') }}
+                        {% endif %}
+                        {% if user.faceLastVerified %}
+                            — Last login: {{ user.faceLastVerified|date('M d, Y H:i') }}
+                        {% elseif user.faceEnrolledAt is empty %}
+
+                            Ready for use
+                        {% endif %}
+                    </p>
+                </div>
+                {% if user.faceImagePath %}
+                <img src="{{ user.faceImagePath }}" alt="Enrolled face" class="h-16 w-16 rounded-lg object-cover border-2 border-emerald-200 dark:border-emerald-800">
+                {% endif %}
+
+            </div>
+        {% else %}
+            <div class="flex items-center gap-4 p-4 rounded-xl bg-amber-50 dark:bg-amber-900/20">
+                <div class="flex h-12 w-12 items-center justify-center rounded-full bg-amber-100 dark:bg-amber-900/50">
+                    <svg class="h-6 w-6 text-amber-600 dark:text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                    </svg>
+                </div>
+                <div>
+                    <p class="font-semibold text-amber-700 dark:text-amber-300">No Face Enrolled</p>
+                    <p class="text-sm text-amber-600 dark:text-amber-400">Enroll your face below to enable face login</p>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
+    {# Face Enrollment #}
+    <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+        <h2 class="mb-4 text-lg font-bold text-slate-900 dark:text-white">
+            {% if user.faceImagePath %}Update{% else %}Enroll{% endif %} Your Face
+        </h2>
+        
+        <div class="space-y-4">
+            {# Camera Preview #}
+            <div class="relative aspect-video w-full overflow-hidden rounded-xl bg-slate-100 dark:bg-slate-800">
+                <video id="camera-preview" autoplay playsinline class="h-full w-full object-cover hidden"></video>
+                <canvas id="capture-canvas" class="hidden"></canvas>
+                
+                {# Placeholder when camera is off #}
+                <div id="camera-placeholder" class="absolute inset-0 flex flex-col items-center justify-center">
+                    <svg class="h-16 w-16 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                    </svg>
+                    <p class="mt-2 text-slate-500 dark:text-slate-400">Camera preview will appear here</p>
+                </div>
+
+                {# Face guide overlay #}
+                <div id="face-guide" class="absolute inset-0 hidden items-center justify-center pointer-events-none">
+                    <div class="h-48 w-40 rounded-full border-4 border-dashed border-emerald-500 opacity-50"></div>
+                </div>
+            </div>
+
+            {# Captured Image Preview #}
+            <div id="captured-preview" class="hidden">
+                <p class="mb-2 text-sm font-medium text-slate-700 dark:text-slate-300">Captured Image:</p>
+                <img id="captured-image" class="h-32 w-32 rounded-xl object-cover border-2 border-slate-200 dark:border-slate-700">
+            </div>
+
+            {# Status Messages #}
+            <div id="status-message" class="hidden p-4 rounded-xl"></div>
+
+            {# Action Buttons: Start Camera (then auto-capture + auto-enroll), Retake to try again #}
+
+            <div class="flex flex-wrap gap-3">
+                <button type="button" id="btn-start-camera" 
+                        class="inline-flex items-center gap-2 rounded-xl bg-slate-100 px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700">
+                    <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                    </svg>
+                    Start Camera
+                </button>
+
+
+                <button type="button" id="btn-retake" disabled
+                        class="inline-flex items-center gap-2 rounded-xl bg-slate-100 px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed">
+                    <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                    </svg>
+                    Try Again
+
+                </button>
+            </div>
+        </div>
+
+        {# Tips #}
+        <div class="mt-6 p-4 rounded-xl bg-blue-50 dark:bg-blue-900/20">
+            <h3 class="font-semibold text-blue-700 dark:text-blue-300 mb-2">Tips for best results:</h3>
+            <ul class="text-sm text-blue-600 dark:text-blue-400 space-y-1 list-disc list-inside">
+                <li>Ensure good lighting on your face</li>
+                <li>Look directly at the camera</li>
+                <li>Remove glasses or hats if possible</li>
+                <li>Keep a neutral expression</li>
+                <li>Make sure only your face is in the frame</li>
+            </ul>
+        </div>
+    </div>
+
+    {% if has_face_enrollment %}
+
+    {# Remove Face #}
+    <div class="rounded-2xl border border-red-200 bg-red-50 p-6 shadow-sm dark:border-red-900 dark:bg-red-900/20">
+        <h2 class="mb-2 text-lg font-bold text-red-700 dark:text-red-300">Remove Face Enrollment</h2>
+        <p class="mb-4 text-sm text-red-600 dark:text-red-400">This will disable face login for your account. You can re-enroll anytime.</p>
+        <button type="button" id="btn-remove-face"
+                class="inline-flex items-center gap-2 rounded-xl bg-red-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-red-700">
+            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+            </svg>
+            Remove Face
+        </button>
+    </div>
+    {% endif %}
+
+    {# Back Link #}
+    <div class="text-center">
+        <a href="{{ path('profile_show') }}" class="text-sm text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200">
+            ← Back to Profile
+        </a>
+    </div>
+</div>
+
+<script>
+(function() {
+    function initFaceSettings() {
+        const container = document.querySelector('.max-w-3xl.mx-auto.space-y-6');
+        if (!container || container.dataset.faceSettingsInited === 'true') return;
+        container.dataset.faceSettingsInited = 'true';
+
+        const video = document.getElementById('camera-preview');
+        const canvas = document.getElementById('capture-canvas');
+        const placeholder = document.getElementById('camera-placeholder');
+        const faceGuide = document.getElementById('face-guide');
+        const capturedPreview = document.getElementById('captured-preview');
+        const capturedImage = document.getElementById('captured-image');
+        const statusMessage = document.getElementById('status-message');
+
+        const btnStartCamera = document.getElementById('btn-start-camera');
+        const btnRetake = document.getElementById('btn-retake');
+        const btnRemoveFace = document.getElementById('btn-remove-face');
+        if (!btnStartCamera) return;
+
+        const enrollUrl = '{{ path('profile_face_enroll') }}';
+    
+    let stream = null;
+    let capturedDataUrl = null;
+    let isSubmitting = false;
+    let countdownInterval = null;
+
+
+    function showStatus(message, type = 'info') {
+        statusMessage.className = 'p-4 rounded-xl';
+        if (type === 'success') {
+            statusMessage.className += ' bg-emerald-50 text-emerald-700 dark:bg-emerald-900/20 dark:text-emerald-300';
+        } else if (type === 'error') {
+            statusMessage.className += ' bg-red-50 text-red-700 dark:bg-red-900/20 dark:text-red-300';
+        } else {
+            statusMessage.className += ' bg-blue-50 text-blue-700 dark:bg-blue-900/20 dark:text-blue-300';
+        }
+        statusMessage.textContent = message;
+        statusMessage.classList.remove('hidden');
+    }
+
+    function hideStatus() {
+        statusMessage.classList.add('hidden');
+    }
+
+    function stopCamera() {
+        if (stream) {
+            stream.getTracks().forEach(track => track.stop());
+            stream = null;
+        }
+        video.srcObject = null;
+        video.classList.add('hidden');
+        faceGuide.classList.add('hidden');
+        faceGuide.classList.remove('flex');
+        placeholder.classList.remove('hidden');
+    }
+
+    function captureAndEnroll() {
+        if (isSubmitting || !video.videoWidth || !video.videoHeight) return;
+        isSubmitting = true;
+        if (countdownInterval) clearInterval(countdownInterval);
+        countdownInterval = null;
+
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(video, 0, 0);
+        capturedDataUrl = canvas.toDataURL('image/jpeg', 0.9);
+
+        stopCamera();
+        btnStartCamera.disabled = true;
+        showStatus('Enrolling face… Please wait.', 'info');
+
+        fetch(enrollUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ image: capturedDataUrl })
+        })
+        .then(function(res) { return res.json().catch(function() { return {}; }).then(function(data) { return { res: res, data: data }; }); })
+        .then(function(_ref) {
+            var res = _ref.res;
+            var data = _ref.data;
+            if (data.ok) {
+                showStatus(data.message || 'Face enrolled successfully.', 'success');
+                setTimeout(function() { location.reload(); }, 1500);
+                return;
+            }
+            showStatus(data.message || 'Enrollment failed. Click "Try Again" to retake.', 'error');
+            capturedImage.src = capturedDataUrl;
+            capturedPreview.classList.remove('hidden');
+            btnRetake.disabled = false;
+            isSubmitting = false;
+        })
+        .catch(function(err) {
+            showStatus('Network error. Please try again.', 'error');
+            capturedImage.src = capturedDataUrl;
+            capturedPreview.classList.remove('hidden');
+            btnRetake.disabled = false;
+            isSubmitting = false;
+        });
+    }
+
+    function startAutoEnrollLoop() {
+        if (isSubmitting || !video.srcObject || !video.videoWidth || !video.videoHeight) return;
+        var countdown = 2;
+        showStatus('Position your face in the frame. Capturing in 2 seconds…', 'info');
+        countdownInterval = setInterval(function() {
+            if (isSubmitting) { clearInterval(countdownInterval); return; }
+            if (countdown > 0) {
+                showStatus('Hold still. Capturing in ' + countdown + '…', 'info');
+                countdown--;
+            } else {
+                clearInterval(countdownInterval);
+                countdownInterval = null;
+                captureAndEnroll();
+            }
+        }, 1000);
+    }
+
+    btnStartCamera.addEventListener('click', async function() {
+        if (isSubmitting) return;
+
+        try {
+            stream = await navigator.mediaDevices.getUserMedia({ 
+                video: { facingMode: 'user', width: { ideal: 640 }, height: { ideal: 480 } } 
+            });
+            video.srcObject = stream;
+            video.classList.remove('hidden');
+            placeholder.classList.add('hidden');
+            faceGuide.classList.remove('hidden');
+            faceGuide.classList.add('flex');
+            btnStartCamera.disabled = true;
+            btnRetake.disabled = true;
+            capturedPreview.classList.add('hidden');
+            hideStatus();
+            video.onloadedmetadata = function() {
+                video.onloadedmetadata = null;
+                if (!isSubmitting) startAutoEnrollLoop();
+            };
+
+        } catch (err) {
+            showStatus('Could not access camera. Please allow camera permissions.', 'error');
+        }
+    });
+
+    btnRetake.addEventListener('click', function() {
+        capturedDataUrl = null;
+        capturedPreview.classList.add('hidden');
+        btnRetake.disabled = true;
+        btnStartCamera.disabled = false;
+        stopCamera();
+        hideStatus();
+    });
+
+    if (btnRemoveFace) {
+        btnRemoveFace.addEventListener('click', async function() {
+            if (!confirm('Are you sure you want to remove your face enrollment?')) return;
+
+
+            try {
+                const response = await fetch('{{ path('profile_face_remove') }}', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                const data = await response.json();
+
+
+                if (data.ok) {
+                    showStatus(data.message, 'success');
+                    setTimeout(() => location.reload(), 1500);
+                } else {
+                    showStatus(data.message || 'Failed to remove face.', 'error');
+                }
+            } catch (err) {
+                showStatus('Network error. Please try again.', 'error');
+            }
+        });
+    }
+    }
+
+    document.addEventListener('DOMContentLoaded', initFaceSettings);
+    document.addEventListener('turbo:load', initFaceSettings);
+})();
+
+</script>
+{% endblock %}

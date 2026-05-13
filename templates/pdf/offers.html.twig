@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: Helvetica, Arial, sans-serif; font-size: 11px; color: #1e293b; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; table-layout: fixed; }
+        th, td { border: 1px solid #ccc; padding: 6px; text-align: left; word-wrap: break-word; overflow_wrap: break-word; }
+
+        th { background: #0FAF7A; color: #fff; }
+        h2 { color: #0FAF7A; }
+    </style>
+</head>
+<body>
+    <h2>Offers List</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Service Request</th>
+                <th>Worker</th>
+                <th>Status</th>
+                <th>Price</th>
+                <th>Created At</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for offer in offers %}
+            <tr>
+                <td>{{ offer.id }}</td>
+                <td>{{ offer.serviceRequest.title }}</td>
+                <td>{{ offer.worker.fullName }}</td>
+                <td>{{ offer.status }}</td>
+                <td>{{ offer.price }}</td>
+                <td>{{ offer.createdAt|date('Y-m-d H:i') }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

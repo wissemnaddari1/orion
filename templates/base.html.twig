@@ -1,0 +1,236 @@
+{# templates/base.html.twig #}
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth {% block html_class %}{% endblock %}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>{% block title %}Orion{% endblock %}</title>
+
+  {# ✅ Browser UI color (will be updated by JS too) #}
+  <meta name="theme-color" content="#0FAF7A">
+
+  {# ✅ Favicon (we will swap it in JS if you have dark icon) #}
+  <link id="app-favicon" rel="icon" type="image/png" href="{{ asset('images/light_icon.png') }}">
+
+  {# ✅ Tailwind (CDN for dev). For production compile Tailwind. #}
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: { extend: {} },
+      // Utilities used only in dynamically-inserted DOM (e.g. ticket popup JS)
+      // need to be safelisted for Tailwind CDN JIT.
+      safelist: [
+        // Ticket popup floating button + unread badge
+        'fixed', 'bottom-6', 'right-6', 'z-50',
+        'bg-gradient-to-br', 'from-blue-500', 'to-purple-600',
+        'hover:from-blue-600', 'hover:to-purple-700',
+        'text-white', 'rounded-full', 'p-4', 'shadow-2xl',
+        'transition-all', 'duration-300', 'hover:scale-110',
+        'absolute', '-top-1', '-right-1', 'bg-red-500', 'text-xs',
+        'font-bold', 'h-6', 'w-6', 'flex', 'items-center', 'justify-center',
+        'ring-2', 'ring-white', 'animate-pulse', 'hidden',
+
+        // Ticket popup panel positioning/slide-in
+        'bottom-0', 'right-0', 'w-full', 'h-full', 'transform',
+        'translate-x-full', 'translate-x-0',
+        'md:bottom-6', 'md:right-6', 'md:w-[420px]', 'md:h-[680px]', 'md:rounded-2xl',
+        'md:translate-x-[calc(100%+24px)]',
+        'bg-white', 'dark:bg-slate-900', 'overflow-hidden', 'flex-col',
+
+        // Password checklist (dynamically toggled via JS)
+        'text-emerald-500', 'dark:text-emerald-400',
+        'text-slate-400', 'dark:text-slate-500',
+        'flex-shrink-0', 'w-4', 'h-4',
+
+        // Support popup tabs (Tickets | Messagerie)
+        'support-popup-tabs', 'tab-tickets', 'tab-messagerie',
+        'border-transparent', 'border-b-2',
+        'text-slate-500', 'dark:text-slate-400',
+        'text-slate-700', 'dark:hover:text-slate-200',
+        'bg-slate-50', 'dark:bg-slate-800/50',
+        'border-slate-200', 'dark:border-slate-800',
+        'py-3', 'px-4', 'flex-1', 'text-sm', 'font-medium',
+
+        // Message bubbles (Tickets + Messagerie) — JS-injected HTML
+        'message-bubble-left', 'message-bubble-right',
+        'from-emerald-500', 'to-teal-600', 'rounded-2xl', 'rounded-bl-sm', 'rounded-br-sm',
+        'shadow-md', 'shadow-lg', 'px-4', 'py-2.5', 'mb-1',
+        'max-w-[75%]', 'whitespace-pre-wrap', 'break-words',
+        'dark:bg-slate-800', 'text-emerald-600', 'dark:text-emerald-400',
+        'text-slate-800', 'dark:text-slate-200', 'text-slate-400', 'dark:text-slate-500',
+        'mt-1', 'ml-2', 'mr-2', 'flex-col', 'items-end', 'gap-2',
+        'overflow-y-auto', 'space-y-4', 'dark:bg-slate-950'
+      ]
+    };
+  </script>
+
+  {# ✅ Alpine.js for interactive components #}
+  <style>[x-cloak]{display:none!important}</style>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+  {# ✅ Theme bootstrap BEFORE paint (prevents flash) #}
+  <script>
+    (function () {
+      const root = document.documentElement;
+      const saved = localStorage.getItem("theme"); // "dark" | "light" | null (system)
+      const mq = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)");
+
+      const mode =
+        (saved === "dark" || saved === "light")
+          ? saved
+          : ((mq && mq.matches) ? "dark" : "light");
+
+      if (mode === "dark") root.classList.add("dark");
+      else root.classList.remove("dark");
+    })();
+  </script>
+
+  {% block stylesheets %}
+    {% block importmap %}{{ importmap('app') }}{% endblock %}
+  {% endblock %}
+</head>
+
+<body class="min-h-screen antialiased flex flex-col bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-50 {% block body_class %}{% endblock %}">
+  {% block body %}{% endblock %}
+
+  {# ✅ Global JS API: theme + custom dropdown (select replacement) #}
+  <script>
+    // -------------------------
+    // THEME (GLOBAL + RELIABLE)
+    // -------------------------
+    (function () {
+      const root = document.documentElement;
+
+      function setMetaThemeColor(mode) {
+        const meta = document.querySelector('meta[name="theme-color"]');
+        if (!meta) return;
+        meta.setAttribute("content", mode === "dark" ? "#020617" : "#0FAF7A");
+      }
+
+      function setFavicon(mode) {
+        // Optional: only if you have images/dark_icon.png
+        const fav = document.getElementById("app-favicon");
+        if (!fav) return;
+
+        const lightIcon = "{{ asset('images/light_icon.png') }}";
+        const darkIcon  = "{{ asset('images/dark_icon.png') }}"; // create this or remove this function
+
+        fav.setAttribute("href", mode === "dark" ? darkIcon : lightIcon);
+      }
+
+      function applyTheme(mode) {
+        if (mode === "dark") root.classList.add("dark");
+        else root.classList.remove("dark");
+
+        setMetaThemeColor(mode);
+        setFavicon(mode);
+      }
+
+      // ✅ Make functions GLOBAL (used by Twig components)
+      window.setTheme = function (mode) {
+        // mode: "dark" | "light" | "system"
+        if (mode === "system") {
+          localStorage.removeItem("theme");
+          const mq = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)");
+          applyTheme(mq && mq.matches ? "dark" : "light");
+          return;
+        }
+
+        localStorage.setItem("theme", mode);
+        applyTheme(mode);
+      };
+
+      window.toggleTheme = function () {
+        const next = root.classList.contains("dark") ? "light" : "dark";
+        localStorage.setItem("theme", next);
+        applyTheme(next);
+      };
+
+      // ✅ On load: apply stored or system to meta/favicon too
+      (function initThemeOnce() {
+        const saved = localStorage.getItem("theme");
+        if (saved === "dark" || saved === "light") {
+          applyTheme(saved);
+          return;
+        }
+        const mq = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)");
+        applyTheme(mq && mq.matches ? "dark" : "light");
+      })();
+
+      // ✅ If system mode, react to OS changes
+      (function watchSystemTheme() {
+        const saved = localStorage.getItem("theme");
+        if (saved === "dark" || saved === "light") return;
+
+        const mq = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)");
+        if (!mq) return;
+
+        const handler = () => applyTheme(mq.matches ? "dark" : "light");
+        if (mq.addEventListener) mq.addEventListener("change", handler);
+        else if (mq.addListener) mq.addListener(handler);
+      })();
+    })();
+
+    // ---------------------------------------
+    // CUSTOM DROPDOWN (select replacement)
+    // ---------------------------------------
+    (function () {
+      function closeAll() {
+        document.querySelectorAll('[data-dd-menu]').forEach(m => m.classList.add('hidden'));
+      }
+
+      document.addEventListener('click', (e) => {
+        const wrap = e.target.closest('[data-dd]');
+        if (!wrap) { closeAll(); return; }
+
+        const menu  = wrap.querySelector('[data-dd-menu]');
+        const label = wrap.querySelector('[data-dd-label]');
+        const input = wrap.querySelector('[data-dd-input]');
+
+        // Toggle open/close
+        if (e.target.closest('[data-dd-btn]')) {
+          const isHidden = menu.classList.contains('hidden');
+          closeAll();
+          if (isHidden) menu.classList.remove('hidden');
+          return;
+        }
+
+        // Select item
+        const item = e.target.closest('[data-dd-item]');
+        if (item) {
+          const text = item.getAttribute('data-dd-item');
+          label.textContent = text;
+
+          if (input) {
+            const value = item.getAttribute('data-dd-value');
+            if (value) {
+              input.value = value;
+            } else {
+              const map = {
+                'Sort: Best match': 'best_match',
+                'Sort: Highest budget': 'highest_budget',
+                'Sort: Newest': 'newest'
+              };
+              input.value = map[text] || text;
+            }
+          }
+
+          menu.classList.add('hidden');
+        }
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeAll();
+      });
+    })();
+  </script>
+
+  {% block javascripts %}
+    {# TEMPORARY: localStorage JWT helper for API calls (dev only). Not secure for production. #}
+    <script src="{{ asset('js/auth-helper.js') }}"></script>
+    <script src="{{ asset('js/form-validation.js') }}"></script>
+  {% endblock %}
+</body>
+</html>

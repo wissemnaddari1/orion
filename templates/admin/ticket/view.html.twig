@@ -1,0 +1,880 @@
+{% extends 'layout_admin.html.twig' %}
+
+{% block title %}Admin - Ticket #{{ ticket.id }} - {{ ticket.subject }}{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('vendor/frappe-gantt/frappe-gantt.css') }}">
+    <style>
+        .gantt .bar-wrapper.bar-phase-created .bar { fill: #3b82f6; }
+        .gantt .bar-wrapper.bar-phase-created .bar-progress { fill: #2563eb; }
+        .gantt .bar-wrapper.bar-phase-in_progress .bar { fill: #f59e0b; }
+        .gantt .bar-wrapper.bar-phase-in_progress .bar-progress { fill: #d97706; }
+        .gantt .bar-wrapper.bar-phase-acknowledged .bar { fill: #10b981; }
+        .gantt .bar-wrapper.bar-phase-acknowledged .bar-progress { fill: #059669; }
+        .gantt .bar-wrapper.bar-phase-closed .bar { fill: #64748b; }
+        .gantt .bar-wrapper.bar-phase-closed .bar-progress { fill: #475569; }
+        .gantt .bar-wrapper.bar-phase-waiting_user .bar { fill: #a855f7; }
+        .gantt .bar-wrapper.bar-phase-waiting_user .bar-progress { fill: #9333ea; }
+        .gantt-container { border-radius: 8px; overflow-x: auto !important; }
+        .gantt .bar-label { font-size: 11px; font-weight: 500; }
+        #ticket-lifecycle-gantt .gantt-container { max-width: 100%; }
+        #ticket-lifecycle-gantt svg.gantt { max-width: none; }
+        #ticket-lifecycle-gantt .lower-text, #ticket-lifecycle-gantt .upper-text { font-size: 10px !important; }
+        #ticket-lifecycle-gantt .gantt .grid-header { overflow: visible; }
+
+        /* Collapsible message body */
+        .msg-body-collapsed {
+            max-height: 6rem;
+            overflow: hidden;
+            position: relative;
+        }
+        .msg-body-collapsed::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 2rem;
+            background: linear-gradient(transparent, var(--msg-fade, #ffffff));
+        }
+        .dark .msg-body-collapsed::after {
+            --msg-fade: #0f172a;
+        }
+
+        /* Sidebar sticky */
+        .ticket-sidebar {
+            position: sticky;
+            top: 1rem;
+            max-height: calc(100vh - 2rem);
+            overflow-y: auto;
+        }
+        .ticket-sidebar::-webkit-scrollbar { width: 4px; }
+        .ticket-sidebar::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 4px; }
+
+        /* Smooth expand animation */
+        .sidebar-collapsible-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        .sidebar-collapsible-content.expanded {
+            max-height: 600px;
+        }
+        .collapse-chevron {
+            transition: transform 0.2s ease;
+        }
+        .collapse-chevron.rotated {
+            transform: rotate(180deg);
+        }
+
+        /* Message hover */
+        .msg-card:hover {
+            border-color: #10b981;
+        }
+
+        @keyframes shake-admin {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-4px); }
+            20%, 40%, 60%, 80% { transform: translateX(4px); }
+        }
+        .animate-shake-admin {
+            animation: shake-admin 0.5s ease-in-out;
+        }
+
+        /* Print enhancements for ticket timeline */
+        @media print {
+            @page {
+                size: A4 landscape;
+                margin: 10mm;
+            }
+
+            .no-print {
+                display: none !important;
+            }
+
+            .ticket-sidebar {
+                position: static !important;
+                max-height: none !important;
+                overflow: visible !important;
+            }
+
+            .sidebar-collapsible-content {
+                max-height: none !important;
+                overflow: visible !important;
+            }
+
+            body.printing-ticket-timeline .ticket-sidebar > :not(.print-gantt-card) {
+                display: none !important;
+            }
+
+            body.printing-ticket-timeline .print-gantt-card {
+                border: 1px solid #cbd5e1 !important;
+                box-shadow: none !important;
+                break-inside: avoid;
+                page-break-inside: avoid;
+                background: #ffffff !important;
+            }
+
+            body.printing-ticket-timeline #ticket-lifecycle-gantt {
+                overflow: visible !important;
+            }
+
+            body.printing-ticket-timeline #ticket-lifecycle-gantt .gantt-container {
+                overflow: visible !important;
+            }
+
+            body.printing-ticket-timeline #ticket-lifecycle-gantt svg.gantt {
+                width: 100% !important;
+                height: auto !important;
+            }
+
+            body.printing-ticket-timeline .gantt .bar-label,
+            body.printing-ticket-timeline .gantt .lower-text,
+            body.printing-ticket-timeline .gantt .upper-text {
+                fill: #0f172a !important;
+                color: #0f172a !important;
+                font-weight: 600 !important;
+            }
+        }
+    </style>
+{% endblock %}
+
+{% block main %}
+<div class="max-w-[1400px] mx-auto">
+
+    {# ÔòÉÔòÉÔòÉ TOP HEADER BAR ÔòÉÔòÉÔòÉ #}
+    <div class="bg-gradient-to-r from-emerald-600 to-teal-600 rounded-xl px-6 py-4 mb-6 shadow-lg">
+        <div class="flex items-center justify-between flex-wrap gap-3">
+            <div class="flex-1 min-w-0">
+                <div class="flex items-center gap-3">
+                    <a href="{{ path('admin_ticket_list') }}" class="text-white/70 hover:text-white transition-colors flex-shrink-0" title="Back to tickets">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                        </svg>
+                    </a>
+                    <div class="min-w-0">
+                        <h1 class="text-xl font-bold text-white truncate">{{ ticket.subject }}</h1>
+                        <p class="text-sm text-emerald-100 mt-0.5">
+                            <span class="font-semibold">Ticket #{{ ticket.id }}</span>
+                            ÔÇó {{ ticket.createdAt|date('M d, Y H:i') }}
+                            ÔÇó {{ ticket.createdBy.firstName ~ ' ' ~ ticket.createdBy.lastName }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="flex items-center gap-3 flex-shrink-0">
+                {# Status Badge #}
+                {% if ticket.status == 'OPEN' %}
+                    <span class="px-3 py-1 text-xs font-bold rounded-full bg-blue-500 text-white">­ƒöÁ OPEN</span>
+                {% elseif ticket.status == 'IN_PROGRESS' %}
+                    <span class="px-3 py-1 text-xs font-bold rounded-full bg-amber-500 text-white">­ƒƒá IN PROGRESS</span>
+                {% elseif ticket.status == 'WAITING_USER' %}
+                    <span class="px-3 py-1 text-xs font-bold rounded-full bg-purple-500 text-white">­ƒƒú WAITING USER</span>
+                {% elseif ticket.status == 'CLOSED' %}
+                    <span class="px-3 py-1 text-xs font-bold rounded-full bg-slate-500 text-white">Ô£à CLOSED</span>
+                {% endif %}
+                {# Acknowledge Button #}
+                {% if not ticket.acknowledgedByAd %}
+                    <form method="POST" action="{{ path('admin_ticket_acknowledge', {'id': ticket.id}) }}">
+                        <input type="hidden" name="_token" value="{{ csrf_token('acknowledge' ~ ticket.id) }}">
+                        <button type="submit" class="inline-flex items-center px-3 py-1.5 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white rounded-lg text-sm font-medium transition-all border border-white/30">
+                            <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            Acknowledge
+                        </button>
+                    </form>
+                {% else %}
+                    <div class="px-3 py-1.5 bg-white/20 backdrop-blur-sm text-white rounded-lg text-sm border border-white/30 flex items-center gap-1.5">
+                        <svg class="w-4 h-4 text-green-300" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"/>
+                        </svg>
+                        <span class="font-semibold">Acknowledged</span>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    {# ÔòÉÔòÉÔòÉ SPLIT PANE LAYOUT ÔòÉÔòÉÔòÉ #}
+    <div class="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-6 items-start">
+
+        {# ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ #}
+        {#  LEFT COLUMN ÔÇö Conversation Thread + Reply Form        #}
+        {# ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ #}
+        <div class="space-y-0">
+
+            {# ÔöÇÔöÇ Conversation Header ÔöÇÔöÇ #}
+            <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-t-xl px-5 py-3 flex items-center justify-between">
+                <h2 class="text-sm font-bold text-slate-700 dark:text-slate-200 flex items-center gap-2">
+                    <svg class="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/>
+                    </svg>
+                    Conversation
+                </h2>
+                <span class="text-xs text-slate-500 dark:text-slate-400">{{ messages|length }} message{{ messages|length != 1 ? 's' : '' }}</span>
+            </div>
+
+            {# ÔöÇÔöÇ Message Thread ÔöÇÔöÇ #}
+            <div class="bg-slate-50 dark:bg-slate-950 border-x border-slate-200 dark:border-slate-800 divide-y divide-slate-200 dark:divide-slate-800">
+                {% for message in messages %}
+                    {% set isAdmin = message.senderRole == 'ADMIN' %}
+                    {% set isInternal = message.isInternal %}
+
+                    <div class="msg-card px-5 py-4 transition-colors duration-150 {% if isInternal %}bg-amber-50/60 dark:bg-amber-900/10{% elseif isAdmin %}bg-emerald-50/30 dark:bg-emerald-900/5{% else %}bg-white dark:bg-slate-900{% endif %}">
+                        {# Message header: avatar + name + badge + timestamp #}
+                        <div class="flex items-center gap-3 mb-2">
+                            <div class="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0 shadow-sm
+                                {% if isInternal %}bg-amber-500
+                                {% elseif isAdmin %}bg-gradient-to-br from-emerald-500 to-teal-600
+                                {% else %}bg-gradient-to-br from-slate-500 to-slate-600{% endif %}">
+                                {% if isInternal %}
+                                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"/></svg>
+                                {% else %}
+                                    {{ message.sender.firstName|first }}{{ message.sender.lastName|first }}
+                                {% endif %}
+                            </div>
+                            <div class="flex items-center gap-2 flex-wrap flex-1 min-w-0">
+                                <span class="font-semibold text-sm text-slate-800 dark:text-slate-200">{{ message.sender.firstName ~ ' ' ~ message.sender.lastName }}</span>
+                                {% if isInternal %}
+                                    <span class="px-1.5 py-0.5 text-[10px] font-bold uppercase rounded bg-amber-500 text-white leading-none">Internal Note</span>
+                                {% elseif isAdmin %}
+                                    <span class="px-1.5 py-0.5 text-[10px] font-bold uppercase rounded bg-gradient-to-r from-emerald-500 to-teal-600 text-white leading-none">Admin</span>
+                                {% elseif message.senderRole == 'WORKER' %}
+                                    <span class="px-1.5 py-0.5 text-[10px] font-bold uppercase rounded bg-gradient-to-r from-green-500 to-emerald-600 text-white leading-none">Worker</span>
+                                {% else %}
+                                    <span class="px-1.5 py-0.5 text-[10px] font-bold uppercase rounded bg-slate-500 text-white leading-none">Client</span>
+                                {% endif %}
+                            </div>
+                            <span class="text-xs text-slate-400 dark:text-slate-500 flex-shrink-0 tabular-nums">
+                                {{ message.createdAt|date('M d, H:i') }}
+                                {% if message.isEdited %}<span class="italic ml-1">(edited)</span>{% endif %}
+                            </span>
+                        </div>
+
+                        {# Message body ÔÇö collapsible #}
+                        <div class="pl-11">
+                            <div class="msg-body text-sm text-slate-700 dark:text-slate-300 whitespace-pre-line break-words" data-msg-body>{{ message.message }}</div>
+                            <button type="button" class="msg-toggle hidden text-xs text-emerald-600 dark:text-emerald-400 hover:text-emerald-800 dark:hover:text-emerald-300 font-medium mt-1 cursor-pointer" data-msg-toggle>
+                                Show more Ôû¥
+                            </button>
+
+                            {# Attachment #}
+                            {% if message.fileName %}
+                                <div class="mt-3 pt-3 border-t border-slate-200 dark:border-slate-700">
+                                    {% set fileExtension = message.fileName|split('.')|last|lower %}
+                                    {% if fileExtension in ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg'] %}
+                                        <a href="{{ message.filePath }}" target="_blank" class="block group">
+                                            <img src="{{ message.filePath }}" alt="{{ message.fileName }}" class="max-w-xs max-h-48 rounded-lg border border-slate-300 dark:border-slate-600 group-hover:opacity-90 transition-opacity">
+                                            <span class="text-xs text-slate-500 dark:text-slate-400 mt-1 inline-block">{{ message.fileName }} ({{ (message.fileSize / 1024)|round(2) }} KB)</span>
+                                        </a>
+                                    {% else %}
+                                        <a href="{{ message.filePath }}" target="_blank" class="inline-flex items-center text-sm text-emerald-600 dark:text-emerald-400 hover:text-emerald-800 dark:hover:text-emerald-300 font-medium">
+                                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"></path>
+                                            </svg>
+                                            {{ message.fileName }} <span class="text-xs opacity-75 ml-1">({{ (message.fileSize / 1024)|round(2) }} KB)</span>
+                                        </a>
+                                    {% endif %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="px-5 py-12 text-center text-slate-400 dark:text-slate-500">
+                        <svg class="w-12 h-12 mx-auto mb-3 opacity-30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/>
+                        </svg>
+                        <p class="text-sm">No messages yet</p>
+                    </div>
+                {% endfor %}
+            </div>
+
+            {# ÔöÇÔöÇ Reply Form (pinned at bottom of conversation) ÔöÇÔöÇ #}
+            <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-b-xl shadow-sm">
+                <div class="px-5 py-3 border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50">
+                    <h3 class="text-sm font-bold text-slate-700 dark:text-slate-200 flex items-center gap-2">
+                        <svg class="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
+                        </svg>
+                        Reply
+                    </h3>
+                </div>
+                <div class="p-5">
+                    {{ form_start(replyForm, {'action': path('admin_ticket_reply', {'id': ticket.id}), 'attr': {'class': 'space-y-3', 'data-validate': 'admin-ticket-reply', 'novalidate': 'novalidate'}}) }}
+                        {# Textarea #}
+                        <div>
+                            {{ form_widget(replyForm.message, {'attr': {'class': 'block w-full rounded-lg border-slate-300 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 transition-all text-sm', 'rows': 3, 'placeholder': 'Type your reply...'}}) }}
+                            {{ form_errors(replyForm.message) }}
+                            <div id="admin-moderation-error" class="hidden mt-3 p-3 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-300 dark:border-red-700 animate-shake-admin">
+                                <div class="flex items-center gap-2">
+                                    <svg class="w-5 h-5 text-red-600 dark:text-red-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"/>
+                                    </svg>
+                                    <div>
+                                        <p class="font-semibold text-sm text-red-800 dark:text-red-300">Message Blocked</p>
+                                        <p id="admin-moderation-error-text" class="text-xs text-red-700 dark:text-red-400 mt-0.5">Your message contains inappropriate content and cannot be sent.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {# Bottom row: internal note + attachment + send button #}
+                        <div class="flex items-center justify-between gap-3 flex-wrap">
+                            <div class="flex items-center gap-4">
+                                {% if replyForm.isInternal is defined %}
+                                    <label class="flex items-center gap-2 cursor-pointer px-3 py-1.5 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700 rounded-lg hover:bg-amber-100 dark:hover:bg-amber-900/30 transition-colors">
+                                        {{ form_widget(replyForm.isInternal, {'attr': {'class': 'h-3.5 w-3.5 text-amber-600 focus:ring-amber-500 border-amber-300 dark:border-amber-700 rounded cursor-pointer'}}) }}
+                                        <span class="text-xs font-medium text-amber-800 dark:text-amber-300">Internal Note</span>
+                                    </label>
+                                {% endif %}
+                                <label class="flex items-center gap-1.5 cursor-pointer text-xs text-slate-500 dark:text-slate-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"></path>
+                                    </svg>
+                                    {{ form_widget(replyForm.attachment, {'attr': {'class': 'hidden', 'id': 'admin-reply-attachment'}}) }}
+                                    <span id="admin-attachment-label">Attach file</span>
+                                </label>
+                            </div>
+                            {{ form_widget(replyForm._token) }}
+                            <button type="submit" class="inline-flex items-center px-5 py-2 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white rounded-lg text-sm font-medium transition-all shadow-md shadow-emerald-500/25 hover:shadow-emerald-500/40">
+                                <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
+                                </svg>
+                                Send
+                            </button>
+                        </div>
+                    {{ form_end(replyForm, {'render_rest': false}) }}
+                </div>
+            </div>
+        </div>
+
+
+        {# ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ #}
+        {#  RIGHT COLUMN ÔÇö Sticky Sidebar                         #}
+        {# ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ #}
+        <div class="ticket-sidebar space-y-4">
+
+            {# ÔöÇÔöÇ Gantt Timeline (expanded by default, top of sidebar) ÔöÇÔöÇ #}
+            <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden print-gantt-card">
+                <div class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
+                    <button type="button" onclick="toggleSidebarSection('gantt-section')" class="inline-flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity">
+                        <h3 class="text-xs font-bold text-slate-600 dark:text-slate-300 uppercase tracking-wide flex items-center gap-1.5">
+                            <svg class="w-3.5 h-3.5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                            </svg>
+                            Lifecycle Timeline
+                        </h3>
+                        <svg class="w-4 h-4 text-slate-400 collapse-chevron rotated" id="gantt-section-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </button>
+                    <button type="button"
+                            class="no-print inline-flex items-center px-2 py-1 text-[10px] font-semibold rounded bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-600 transition"
+                            onclick="printTicketTimeline();">
+                        Print
+                    </button>
+                </div>
+                <div id="gantt-section" class="sidebar-collapsible-content expanded">
+                    <div class="p-3">
+                        <div class="flex gap-1 bg-slate-100 dark:bg-slate-800 rounded-lg p-0.5 mb-3" id="ticket-gantt-view-buttons">
+                            <button type="button" data-ticket-gantt-view="Day" class="flex-1 px-2 py-0.5 text-[10px] font-semibold rounded bg-emerald-600 text-white transition-all">Day</button>
+                            <button type="button" data-ticket-gantt-view="Week" class="flex-1 px-2 py-0.5 text-[10px] font-semibold rounded text-slate-600 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-700 transition-all">Week</button>
+                            <button type="button" data-ticket-gantt-view="Month" class="flex-1 px-2 py-0.5 text-[10px] font-semibold rounded text-slate-600 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-700 transition-all">Month</button>
+                        </div>
+                        <div id="ticket-lifecycle-gantt"></div>
+                        <div class="mt-2 flex flex-wrap gap-2 text-[10px] text-slate-500 dark:text-slate-400">
+                            <span class="inline-flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-blue-500"></span>Open</span>
+                            <span class="inline-flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-amber-500"></span>In Progress</span>
+                            <span class="inline-flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-purple-500"></span>Waiting</span>
+                            <span class="inline-flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-slate-500"></span>Closed</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {# ÔöÇÔöÇ Ticket Creator ÔöÇÔöÇ #}
+            <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-4 shadow-sm">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-white font-bold text-sm shadow-md">
+                        {{ ticket.createdBy.firstName|first }}{{ ticket.createdBy.lastName|first }}
+                    </div>
+                    <div class="min-w-0">
+                        <div class="text-sm font-semibold text-slate-800 dark:text-slate-200 truncate">
+                            {% if created_by_admin %}
+                                <span class="text-emerald-600 dark:text-emerald-400">Support Team</span> for
+                            {% endif %}
+                            {{ ticket.createdBy.firstName ~ ' ' ~ ticket.createdBy.lastName }}
+                        </div>
+                        <div class="text-xs text-slate-500 dark:text-slate-400 truncate">{{ ticket.createdBy.email }}</div>
+                    </div>
+                </div>
+            </div>
+
+            {# ÔöÇÔöÇ Ticket Details (collapsible, expanded by default) ÔöÇÔöÇ #}
+            <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+                <button type="button" onclick="toggleSidebarSection('details-section')" class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+                    <h3 class="text-xs font-bold text-slate-600 dark:text-slate-300 uppercase tracking-wide">Details</h3>
+                    <svg class="w-4 h-4 text-slate-400 collapse-chevron rotated" id="details-section-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                </button>
+                <div id="details-section" class="sidebar-collapsible-content expanded">
+                    <div class="divide-y divide-slate-100 dark:divide-slate-800">
+                        <div class="flex items-center justify-between px-4 py-2.5">
+                            <span class="text-xs text-slate-500 dark:text-slate-400">Category</span>
+                            <span class="text-sm font-semibold text-slate-800 dark:text-slate-200">{{ ticket.category.name }}</span>
+                        </div>
+                        <div class="flex items-center justify-between px-4 py-2.5">
+                            <span class="text-xs text-slate-500 dark:text-slate-400">Priority</span>
+                            {% if ticket.priority == 'LOW' %}
+                                <span class="inline-flex items-center px-2 py-0.5 text-[10px] font-bold rounded-full bg-gradient-to-r from-green-500 to-emerald-600 text-white">LOW</span>
+                            {% elseif ticket.priority == 'MEDIUM' %}
+                                <span class="inline-flex items-center px-2 py-0.5 text-[10px] font-bold rounded-full bg-gradient-to-r from-yellow-500 to-orange-600 text-white">MEDIUM</span>
+                            {% elseif ticket.priority == 'HIGH' %}
+                                <span class="inline-flex items-center px-2 py-0.5 text-[10px] font-bold rounded-full bg-gradient-to-r from-red-500 to-rose-600 text-white">HIGH</span>
+                            {% endif %}
+                        </div>
+                        <div class="flex items-center justify-between px-4 py-2.5">
+                            <span class="text-xs text-slate-500 dark:text-slate-400">Messages</span>
+                            <span class="text-sm font-semibold text-slate-800 dark:text-slate-200">{{ ticket.messageCount }}</span>
+                        </div>
+                        <div class="flex items-center justify-between px-4 py-2.5">
+                            <span class="text-xs text-slate-500 dark:text-slate-400">Last Activity</span>
+                            <span class="text-xs font-medium text-slate-700 dark:text-slate-300">{{ ticket.lastMessageAt ? ticket.lastMessageAt|date('M d, H:i') : 'N/A' }}</span>
+                        </div>
+                        {% if ticket.acknowledgedByAd %}
+                        <div class="flex items-center justify-between px-4 py-2.5">
+                            <span class="text-xs text-slate-500 dark:text-slate-400">Acknowledged</span>
+                            <span class="text-xs font-medium text-emerald-600 dark:text-emerald-400">{{ ticket.acknowledgedAt|date('M d, H:i') }}</span>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            {# ÔöÇÔöÇ AI Insight (collapsible) ÔöÇÔöÇ #}
+            {% if ticket.aiSummary or ticket.aiSentiment or ticket.aiUrgency or ticket.aiSuggestedPriority %}
+            <div class="bg-white dark:bg-slate-900 rounded-xl border border-emerald-200 dark:border-emerald-800 shadow-sm overflow-hidden">
+                <button type="button" onclick="toggleSidebarSection('ai-section')" class="w-full px-4 py-3 bg-emerald-50 dark:bg-emerald-900/20 border-b border-emerald-200 dark:border-emerald-800 flex items-center justify-between cursor-pointer hover:bg-emerald-100 dark:hover:bg-emerald-900/30 transition-colors">
+                    <h3 class="text-xs font-bold text-emerald-700 dark:text-emerald-300 uppercase tracking-wide flex items-center gap-1.5">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                        AI Insight
+                    </h3>
+                    <svg class="w-4 h-4 text-emerald-400 collapse-chevron" id="ai-section-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                </button>
+                <div id="ai-section" class="sidebar-collapsible-content">
+                    <div class="divide-y divide-emerald-100 dark:divide-emerald-900/50">
+                        <div class="flex items-center justify-between px-4 py-2.5">
+                            <span class="text-xs text-slate-500 dark:text-slate-400">Sentiment</span>
+                            <span class="text-sm font-semibold text-slate-800 dark:text-slate-200">{{ ticket.aiSentiment ?: 'N/A' }}</span>
+                        </div>
+                        <div class="flex items-center justify-between px-4 py-2.5">
+                            <span class="text-xs text-slate-500 dark:text-slate-400">Urgency</span>
+                            <span class="text-sm font-semibold text-slate-800 dark:text-slate-200">{{ ticket.aiUrgency ?: 'N/A' }}</span>
+                        </div>
+                        <div class="flex items-center justify-between px-4 py-2.5">
+                            <span class="text-xs text-slate-500 dark:text-slate-400">Suggested Priority</span>
+                            <span class="text-sm font-semibold text-slate-800 dark:text-slate-200">{{ ticket.aiSuggestedPriority ?: 'N/A' }}</span>
+                        </div>
+                        {% if ticket.aiSummary %}
+                        <div class="px-4 py-3">
+                            <p class="text-xs text-slate-500 dark:text-slate-400 mb-1">Summary</p>
+                            <p class="text-xs text-slate-700 dark:text-slate-300 leading-relaxed">{{ ticket.aiSummary }}</p>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            {# ÔöÇÔöÇ Status Management (collapsible) ÔöÇÔöÇ #}
+            <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+                <button type="button" onclick="toggleSidebarSection('status-section')" class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+                    <h3 class="text-xs font-bold text-slate-600 dark:text-slate-300 uppercase tracking-wide">Update Status</h3>
+                    <svg class="w-4 h-4 text-slate-400 collapse-chevron" id="status-section-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                </button>
+                <div id="status-section" class="sidebar-collapsible-content">
+                    <div class="p-4">
+                        <div class="mb-3 p-2.5 bg-emerald-50 dark:bg-emerald-900/20 border-l-3 border-emerald-500 rounded text-xs text-emerald-800 dark:text-emerald-200">
+                            <strong>Tip:</strong> Set to "CLOSED" to resolve. Do NOT delete unless spam.
+                        </div>
+                        <form method="POST" action="{{ path('admin_ticket_status', {'id': ticket.id}) }}" class="space-y-3" data-validate="admin-ticket-status" novalidate>
+                            <input type="hidden" name="_token" value="{{ csrf_token('status' ~ ticket.id) }}">
+                            <select name="status" class="w-full text-sm rounded-lg border-slate-300 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 transition-all">
+                                <option value="OPEN" {% if ticket.status == 'OPEN' %}selected{% endif %}>­ƒöÁ OPEN</option>
+                                <option value="IN_PROGRESS" {% if ticket.status == 'IN_PROGRESS' %}selected{% endif %}>­ƒƒá IN PROGRESS</option>
+                                <option value="WAITING_USER" {% if ticket.status == 'WAITING_USER' %}selected{% endif %}>­ƒƒú WAITING USER</option>
+                                <option value="CLOSED" {% if ticket.status == 'CLOSED' %}selected{% endif %}>Ô£à CLOSED</option>
+                            </select>
+                            <input type="text" name="resolution" placeholder="Resolution note (optional)..." class="w-full text-sm rounded-lg border-slate-300 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 transition-all">
+                            <button type="submit" class="w-full inline-flex items-center justify-center px-4 py-2 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white rounded-lg text-sm font-medium transition-all shadow-md shadow-emerald-500/25">
+                                <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                                </svg>
+                                Update Status
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            {# ÔöÇÔöÇ Danger Zone (collapsible) ÔöÇÔöÇ #}
+            <div class="bg-white dark:bg-slate-900 rounded-xl border border-red-200 dark:border-red-900/50 shadow-sm overflow-hidden">
+                <button type="button" onclick="toggleSidebarSection('danger-section')" class="w-full px-4 py-3 bg-red-50 dark:bg-red-900/10 border-b border-red-200 dark:border-red-900/50 flex items-center justify-between cursor-pointer hover:bg-red-100 dark:hover:bg-red-900/20 transition-colors">
+                    <h3 class="text-xs font-bold text-red-600 dark:text-red-400 uppercase tracking-wide flex items-center gap-1.5">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                        </svg>
+                        Danger Zone
+                    </h3>
+                    <svg class="w-4 h-4 text-red-400 collapse-chevron" id="danger-section-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                </button>
+                <div id="danger-section" class="sidebar-collapsible-content">
+                    <div class="p-4 space-y-3">
+                        <p class="text-xs text-red-700 dark:text-red-300">Permanently removes this ticket and all messages. <strong>Cannot be undone.</strong></p>
+                        <p class="text-[10px] text-slate-500 dark:text-slate-400">Only delete if spam, duplicate, or inappropriate.</p>
+                        <form method="POST" action="{{ path('admin_ticket_delete', {'id': ticket.id}) }}" onsubmit="return confirm('ÔÜá´©Å FINAL WARNING ÔÜá´©Å\n\nDeleting this ticket will:\nÔØî Remove it from the user\'s view\nÔØî Prevent user feedback\nÔØî Delete all messages permanently\n\nAre you ABSOLUTELY SURE?\n\n(Use CLOSED status instead if resolving normally)');">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete_ticket_' ~ ticket.id) }}">
+                            <button type="submit" class="w-full inline-flex items-center justify-center gap-1.5 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg text-xs font-bold transition-all shadow-sm">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                                </svg>
+                                Delete Permanently
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>{# end sidebar #}
+
+    </div>{# end split pane #}
+</div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('vendor/frappe-gantt/frappe-gantt.umd.js') }}"></script>
+
+    {# ÔöÇÔöÇ Sidebar collapsible toggle ÔöÇÔöÇ #}
+    <script>
+    function toggleSidebarSection(id) {
+        const el = document.getElementById(id);
+        const chevron = document.getElementById(id + '-chevron');
+        if (!el) return;
+        el.classList.toggle('expanded');
+        if (chevron) chevron.classList.toggle('rotated');
+    }
+    </script>
+
+    {# ÔöÇÔöÇ Collapsible messages ÔöÇÔöÇ #}
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const LINE_HEIGHT = 20;
+        const MAX_LINES = 5;
+        const THRESHOLD = LINE_HEIGHT * MAX_LINES;
+
+        document.querySelectorAll('[data-msg-body]').forEach(function(body) {
+            if (body.scrollHeight > THRESHOLD + 20) {
+                body.classList.add('msg-body-collapsed');
+                const toggle = body.parentElement.querySelector('[data-msg-toggle]');
+                if (toggle) {
+                    toggle.classList.remove('hidden');
+                    toggle.addEventListener('click', function() {
+                        const isCollapsed = body.classList.contains('msg-body-collapsed');
+                        body.classList.toggle('msg-body-collapsed');
+                        toggle.textContent = isCollapsed ? 'Show less Ôû┤' : 'Show more Ôû¥';
+                    });
+                }
+            }
+        });
+
+        {# ÔöÇÔöÇ Attachment file label ÔöÇÔöÇ #}
+        const attachInput = document.getElementById('admin-reply-attachment');
+        const attachLabel = document.getElementById('admin-attachment-label');
+        if (attachInput && attachLabel) {
+            attachInput.addEventListener('change', function() {
+                attachLabel.textContent = this.files.length ? this.files[0].name : 'Attach file';
+            });
+        }
+    });
+    </script>
+
+    {# ÔöÇÔöÇ Gantt Chart ÔöÇÔöÇ #}
+    <script>
+        function printTicketTimeline() {
+            const ganttSection = document.getElementById('gantt-section');
+            const chevron = document.getElementById('gantt-section-chevron');
+            if (ganttSection && !ganttSection.classList.contains('expanded')) {
+                ganttSection.classList.add('expanded');
+            }
+            if (chevron && !chevron.classList.contains('rotated')) {
+                chevron.classList.add('rotated');
+            }
+
+            const weekBtn = document.querySelector('[data-ticket-gantt-view="Week"]');
+            if (weekBtn) weekBtn.click();
+
+            document.body.classList.add('printing-ticket-timeline');
+            setTimeout(() => {
+                window.print();
+                setTimeout(() => {
+                    document.body.classList.remove('printing-ticket-timeline');
+                }, 300);
+            }, 120);
+        }
+
+        (function () {
+            function initTicketLifecycleGantt() {
+                const container = document.getElementById('ticket-lifecycle-gantt');
+                if (!container) return;
+
+                if (typeof Gantt === 'undefined') {
+                    container.innerHTML = '<p class="text-sm text-slate-500 dark:text-slate-400">Loading timeline...</p>';
+                    setTimeout(initTicketLifecycleGantt, 150);
+                    return;
+                }
+
+                const now = new Date();
+                const nowStr = now.toISOString().split('T')[0];
+
+                const createdAt = '{{ ticket.createdAt ? ticket.createdAt|date("Y-m-d") : "" }}';
+                const acknowledgedAt = '{{ ticket.acknowledgedAt ? ticket.acknowledgedAt|date("Y-m-d") : "" }}';
+                const closedAt = '{{ ticket.closedAt ? ticket.closedAt|date("Y-m-d") : "" }}';
+                const status = '{{ ticket.status }}';
+
+                if (!createdAt) {
+                    container.innerHTML = '<p class="text-sm text-slate-500 dark:text-slate-400">No date information available.</p>';
+                    return;
+                }
+
+                const tasks = [];
+
+                const openEnd = acknowledgedAt || closedAt || nowStr;
+                let openEndDate = new Date(openEnd);
+                const openStartDate = new Date(createdAt);
+                if (openEndDate <= openStartDate) openEndDate = new Date(openStartDate.getTime() + 86400000);
+                tasks.push({
+                    id: 'phase-created',
+                    name: 'Open / Created',
+                    start: createdAt,
+                    end: openEndDate.toISOString().split('T')[0],
+                    progress: 100,
+                    custom_class: 'bar-phase-created'
+                });
+
+                if (acknowledgedAt) {
+                    const ackEnd = closedAt || nowStr;
+                    let ackEndDate = new Date(ackEnd);
+                    const ackStartDate = new Date(acknowledgedAt);
+                    if (ackEndDate <= ackStartDate) ackEndDate = new Date(ackStartDate.getTime() + 86400000);
+
+                    const inProgressProgress = status === 'CLOSED' ? 100 : (status === 'IN_PROGRESS' ? 60 : 40);
+                    tasks.push({
+                        id: 'phase-in-progress',
+                        name: 'In Progress',
+                        start: acknowledgedAt,
+                        end: ackEndDate.toISOString().split('T')[0],
+                        progress: inProgressProgress,
+                        custom_class: 'bar-phase-in_progress',
+                        dependencies: 'phase-created'
+                    });
+                }
+
+                if (status === 'WAITING_USER') {
+                    const wuStart = acknowledgedAt || createdAt;
+                    const wuStartDate = new Date(wuStart);
+                    let wuEndDate = new Date(nowStr);
+                    if (wuEndDate <= wuStartDate) wuEndDate = new Date(wuStartDate.getTime() + 86400000);
+                    tasks.push({
+                        id: 'phase-waiting',
+                        name: 'Waiting User',
+                        start: wuStartDate.toISOString().split('T')[0],
+                        end: wuEndDate.toISOString().split('T')[0],
+                        progress: 50,
+                        custom_class: 'bar-phase-waiting_user',
+                        dependencies: acknowledgedAt ? 'phase-in-progress' : 'phase-created'
+                    });
+                }
+
+                if (closedAt) {
+                    const closedStartDate = new Date(closedAt);
+                    const closedEndDate = new Date(closedStartDate.getTime() + 86400000);
+                    tasks.push({
+                        id: 'phase-closed',
+                        name: 'Closed / Resolved',
+                        start: closedAt,
+                        end: closedEndDate.toISOString().split('T')[0],
+                        progress: 100,
+                        custom_class: 'bar-phase-closed',
+                        dependencies: acknowledgedAt ? 'phase-in-progress' : 'phase-created'
+                    });
+                }
+
+                if (tasks.length === 0) return;
+
+                container.style.overflowX = 'auto';
+                container.style.overflowY = 'hidden';
+
+                const columnWidths = { Day: 24, Week: 80, Month: 60 };
+                const defaultMode = container.dataset.viewMode || 'Day';
+
+                const renderGantt = (mode) => {
+                    container.innerHTML = '';
+                    container.dataset.viewMode = mode;
+                    new Gantt(container, tasks, {
+                        view_mode: mode,
+                        bar_height: 22,
+                        bar_corner_radius: 4,
+                        column_width: columnWidths[mode] || 30,
+                        padding: 18,
+                        infinite_padding: false,
+                        scroll_to: 'start',
+                        today_button: false,
+                        readonly: true,
+                        readonly_dates: true,
+                        readonly_progress: true,
+                        popup: ({ task, set_title, set_subtitle, set_details }) => {
+                            set_title(task.name);
+                            set_subtitle('From ' + task.start + ' to ' + task.end);
+                            set_details('Progress: ' + task.progress + '%');
+                        }
+                    });
+                };
+
+                renderGantt(defaultMode);
+
+                const viewButtons = document.querySelectorAll('[data-ticket-gantt-view]');
+                viewButtons.forEach((btn) => {
+                    if (btn.dataset.ganttBound === '1') return;
+                    btn.dataset.ganttBound = '1';
+                    btn.addEventListener('click', () => {
+                        const mode = btn.dataset.ticketGanttView;
+                        renderGantt(mode);
+
+                        viewButtons.forEach((b) => {
+                            b.classList.remove('bg-emerald-600', 'text-white');
+                            b.classList.add('text-slate-600', 'dark:text-slate-300');
+                        });
+                        btn.classList.add('bg-emerald-600', 'text-white');
+                        btn.classList.remove('text-slate-600', 'dark:text-slate-300');
+                    });
+                });
+
+                const activeMode = container.dataset.viewMode || 'Day';
+                viewButtons.forEach((b) => {
+                    const isActive = b.dataset.ticketGanttView === activeMode;
+                    b.classList.toggle('bg-emerald-600', isActive);
+                    b.classList.toggle('text-white', isActive);
+                    if (!isActive) {
+                        b.classList.add('text-slate-600', 'dark:text-slate-300');
+                    } else {
+                        b.classList.remove('text-slate-600', 'dark:text-slate-300');
+                    }
+                });
+            }
+
+            initTicketLifecycleGantt();
+            document.addEventListener('DOMContentLoaded', initTicketLifecycleGantt);
+            document.addEventListener('turbo:load', initTicketLifecycleGantt);
+            document.addEventListener('turbo:render', initTicketLifecycleGantt);
+            window.addEventListener('pageshow', initTicketLifecycleGantt);
+        })();
+    </script>
+
+    {# ÔöÇÔöÇ AJAX Reply + Moderation ÔöÇÔöÇ #}
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const replyForm = document.querySelector('form[data-validate="admin-ticket-reply"]');
+        if (!replyForm) return;
+
+        const textarea = replyForm.querySelector('textarea');
+        const errorBox = document.getElementById('admin-moderation-error');
+        const errorText = document.getElementById('admin-moderation-error-text');
+        const submitBtn = replyForm.querySelector('button[type="submit"]');
+
+        replyForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Hide previous error
+            if (errorBox) {
+                errorBox.classList.add('hidden');
+                errorBox.classList.remove('animate-shake-admin');
+            }
+            if (textarea) {
+                textarea.classList.remove('border-red-500', 'ring-2', 'ring-red-300');
+            }
+
+            // Disable button, show loading
+            const originalBtnHTML = submitBtn.innerHTML;
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = `
+                <svg class="w-4 h-4 animate-spin mr-1.5" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Sending...
+            `;
+
+            // Send via AJAX
+            const formData = new FormData(replyForm);
+
+            fetch(replyForm.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(async response => {
+                const data = await response.json().catch(() => null);
+
+                if (!response.ok || (data && data.success === false)) {
+                    const errorMessage = (data && (data.error || data.message)) || 'Your message contains inappropriate content and cannot be sent. Please revise your message.';
+
+                    if (errorBox) {
+                        errorText.textContent = errorMessage;
+                        errorBox.classList.remove('hidden');
+                        void errorBox.offsetWidth;
+                        errorBox.classList.add('animate-shake-admin');
+                    }
+                    if (textarea) {
+                        textarea.classList.add('border-red-500', 'ring-2', 'ring-red-300');
+                        textarea.focus();
+                    }
+
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalBtnHTML;
+                    return;
+                }
+
+                // Success ÔÇö reload page
+                window.location.reload();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                replyForm.removeEventListener('submit', arguments.callee);
+                replyForm.submit();
+            });
+        });
+
+        // Clear error when typing
+        if (textarea) {
+            textarea.addEventListener('input', function() {
+                if (errorBox && !errorBox.classList.contains('hidden')) {
+                    errorBox.classList.add('hidden');
+                    textarea.classList.remove('border-red-500', 'ring-2', 'ring-red-300');
+                }
+            });
+        }
+    });
+    </script>
+{% endblock %}

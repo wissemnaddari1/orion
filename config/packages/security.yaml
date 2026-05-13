@@ -1,0 +1,89 @@
+security:
+    hide_user_not_found: true
+
+    role_hierarchy:
+        ROLE_SUPER_ADMIN: ROLE_ADMIN
+
+    # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
+    password_hashers:
+        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
+        App\Entity\User:
+            algorithm: auto
+
+    # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
+    # Custom provider uses findOneByEmailForAuth() so auth query does not LEFT JOIN face_profiles.
+    providers:
+        app_user_provider:
+            id: App\Security\AppUserProvider
+
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js|assets)/
+            security: false
+
+        # API firewall: stateless JWT only (Authorization header / JS-provided header)
+        api:
+            pattern: ^/api
+            stateless: true
+            provider: app_user_provider
+            user_checker: App\Security\UserChecker
+            custom_authenticators:
+                - App\Security\JwtAuthenticator
+            entry_point: App\Security\JwtAuthenticator
+
+        # Web firewall: stateless JWT for ALL Twig pages (header-based; no cookies, no sessions)
+        main:
+            pattern: ^/
+            stateless: true
+            provider: app_user_provider
+            user_checker: App\Security\UserChecker
+            custom_authenticators:
+                - App\Security\JwtAuthenticator
+            entry_point: App\Security\JwtAuthenticator
+            access_denied_handler: App\Security\AccessDeniedHandler
+
+    access_control:
+        # Public routes (web)
+        - { path: ^/$, roles: PUBLIC_ACCESS }
+        - { path: ^/login, roles: PUBLIC_ACCESS }
+        - { path: ^/2fa, roles: PUBLIC_ACCESS }
+        - { path: ^/forgot-password, roles: PUBLIC_ACCESS }
+        - { path: ^/reset-password, roles: PUBLIC_ACCESS }
+        - { path: ^/register, roles: PUBLIC_ACCESS }
+        - { path: ^/verify-email, roles: PUBLIC_ACCESS }
+        - { path: ^/resend-verification, roles: PUBLIC_ACCESS }
+        - { path: ^/test, roles: PUBLIC_ACCESS }
+        - { path: ^/stripe/webhook, roles: PUBLIC_ACCESS }
+        # Auth: face login and enroll pages/verify are public (enroll POST requires auth in controller)
+        - { path: ^/auth/face, roles: PUBLIC_ACCESS }
+        # Auth API: login, logout, face-login, and 2FA verify are public
+        - { path: ^/api/login, roles: PUBLIC_ACCESS }
+        - { path: ^/api/logout, roles: PUBLIC_ACCESS }
+        - { path: ^/api/face-login, roles: PUBLIC_ACCESS }
+        - { path: ^/api/auth/2fa/verify, roles: PUBLIC_ACCESS }
+        # All other API routes require JWT (includes /api/face/enroll)
+        - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
+        # Role-based dashboard access
+        - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/worker, roles: ROLE_WORKER }
+        - { path: ^/client, roles: ROLE_CLIENT }
+        # Banned users can only access /banned and /logout (enforced by BanSubscriber)
+        - { path: ^/banned, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/logout, roles: IS_AUTHENTICATED_FULLY }
+        # Ticket and profile require authentication (TEMP PUBLIC)
+        - { path: ^/ticket, roles: PUBLIC_ACCESS }
+        # Profile pages require authentication
+        - { path: ^/profile, roles: IS_AUTHENTICATED_FULLY }
+
+when@test:
+    security:
+        password_hashers:
+            # By default, password hashers are resource intensive and take time. This is
+            # important to generate secure password hashes. In tests however, secure hashes
+            # are not important, waste resources and increase test times. The following
+            # reduces the work factor to the lowest possible values.
+            Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface:
+                algorithm: auto
+                cost: 4 # Lowest possible value for bcrypt
+                time_cost: 3 # Lowest possible value for argon
+                memory_cost: 10 # Lowest possible value for argon

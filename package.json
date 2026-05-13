@@ -1,0 +1,26 @@
+{
+  "name": "orion",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "copy:zego": "node -e \"const fs=require('fs');const path=require('path');const src=path.join('node_modules','@zegocloud','zego-uikit-prebuilt','zego-uikit-prebuilt.js');const dest=path.join('public','vendor','zego','zego-uikit-prebuilt.js');fs.mkdirSync(path.dirname(dest),{recursive:true});fs.copyFileSync(src,dest);console.log('ZEGO UIKit copied to public/vendor/zego/');\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "autoprefixer": "^10.4.24",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.1.18"
+  },
+  "dependencies": {
+    "@zegocloud/zego-uikit-prebuilt": "^2.17.2",
+    "frappe-gantt": "^1.2.1"
+  }
+}

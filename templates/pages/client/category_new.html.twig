@@ -1,0 +1,26 @@
+{% extends 'layout_client.html.twig' %}
+
+{% set topbar_title = 'New Worker Category' %}
+{% set user_name = 'Jane Client' %}
+{% set notification_count = 2 %}
+
+{% block main %}
+    <div class="space-y-6 max-w-2xl">
+        
+        {# Header #}
+        <div>
+            <a href="{{ path('client_categories_index') }}" class="text-sm text-[#0FAF7A] hover:underline mb-2">
+                ← Back to categories
+            </a>
+            <h1 class="text-3xl font-bold text-[#000000]">Create New Worker Category</h1>
+            <p class="mt-1 text-slate-600">Add a new worker category to the system</p>
+        </div>
+
+        {# Form #}
+        <div class="rounded-xl border border-gray-200 bg-white shadow-sm p-6">
+            <form method="POST" enctype="multipart/form-data" class="space-y-6">
+                {% include 'pages/client/_category_form_fields.html.twig' with { submit_label: 'Create Category' } %}
+            </form>
+        </div>
+    </div>
+{% endblock %}

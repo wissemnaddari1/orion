@@ -1,0 +1,14 @@
+{
+  "title": "Certified Electrician – 6 Years of Experience",
+  "bio": "Highly skilled electrician with 6 years of experience in residential and commercial electrical",
+  "experience_years": 6,
+  "hourly_rate": "20",
+  "location": "Sousse, Tunisia",
+  "skills": [
+    "Electrical"
+  ],
+  "phoneNumber": "+216 98 123 456",
+  "email": "mohamed.ayari@email.com",
+  "confidence": 76,
+  "strategy": "enhanced_regex"
+}

@@ -1,0 +1,35 @@
+{% extends 'emails/base.html.twig' %}
+
+{% block body %}
+    <h2>Offer Update</h2>
+    <p>Hello {{ worker.firstName }},</p>
+    
+    {% if status == 'ACCEPTED' %}
+        <p style="color: #059669; font-weight: bold; font-size: 1.1em;">
+            Congratulations! Your offer has been accepted.
+        </p>
+        <p>
+            The client <strong>{{ offer.serviceRequest.client.fullName }}</strong> has accepted your offer for 
+            <strong>{{ offer.serviceRequest.title }}</strong>.
+        </p>
+        <p>You can now proceed with the work.</p>
+    {% elseif status == 'REJECTED' %}
+        <p style="color: #dc2626;">
+            Your offer for <strong>{{ offer.serviceRequest.title }}</strong> was rejected at this time.
+        </p>
+        <p>Don't be discouraged! There are many other opportunities waiting for you.</p>
+    {% elseif status == 'NEGOTIATING' %}
+        <p style="color: #d97706;">
+            The client wants to negotiate your offer for <strong>{{ offer.serviceRequest.title }}</strong>.
+        </p>
+        <p>They have proposed a counter-offer or requested changes. Please check the platform for details.</p>
+    {% else %}
+        <p>The status of your offer for <strong>{{ offer.serviceRequest.title }}</strong> has changed to <strong>{{ status }}</strong>.</p>
+    {% endif %}
+
+    <p style="margin-top: 20px;">
+        <a href="{{ url('worker_offer_show', {id: offer.id}) }}" style="background-color: #3b82f6; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">
+            View Offer Details
+        </a>
+    </p>
+{% endblock %}

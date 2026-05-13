@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ callType == 'video' ? '🎥 Video Call' : '📞 Voice Call' }} — {{ contractTitle }}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>tailwind.config = { darkMode: 'class' };</script>
+    <style>
+        #zego-root { width: 100%; height: 100%; }
+        #zego-root > div { height: 100% !important; }
+        #loading-overlay {
+            position: fixed; inset: 0;
+            background: #0f172a;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            z-index: 50; transition: opacity 0.4s;
+        }
+        #loading-overlay.fade-out { opacity: 0; pointer-events: none; }
+        .spinner {
+            width: 3rem; height: 3rem; border-radius: 50%;
+            border: 4px solid rgba(16,185,129,0.2);
+            border-top-color: #10b981;
+            animation: spin 0.9s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+    </style>
+</head>
+<body class="bg-slate-900 h-full w-full" style="margin:0;padding:0;overflow:hidden;">
+
+    <!-- Loading overlay while fetching token and joining room -->
+    <div id="loading-overlay">
+        <div style="margin-bottom:2rem;">
+            <div class="spinner"></div>
+        </div>
+        <p style="color:#10b981;font-weight:700;font-size:1.25rem;margin-bottom:0.5rem;">
+            {{ callType == 'video' ? '🎥 Starting video call…' : '📞 Starting voice call…' }}
+        </p>
+        <p style="color:#94a3b8;font-size:0.875rem;">
+            Connecting with <strong style="color:#e2e8f0;">{{ otherName }}</strong>
+            for <em>{{ contractTitle }}</em>
+        </p>
+    </div>
+
+    <!-- Error state (shown if token fetch or join fails) -->
+    <div id="error-overlay" style="display:none;position:fixed;inset:0;background:#0f172a;display:none;flex-direction:column;align-items:center;justify-content:center;z-index:60;">
+        <div style="text-align:center;padding:2rem;max-width:28rem;">
+            <div style="font-size:3rem;margin-bottom:1rem;">❌</div>
+            <h2 style="color:#f87171;font-weight:700;font-size:1.25rem;margin-bottom:0.5rem;">Could not start the call</h2>
+            <p id="error-msg" style="color:#94a3b8;font-size:0.875rem;margin-bottom:1.5rem;"></p>
+            <a href="{{ backUrl }}" style="display:inline-block;padding:0.625rem 1.5rem;background:linear-gradient(135deg,#10b981,#0d9488);color:white;border-radius:0.5rem;font-weight:600;text-decoration:none;">
+                ← Back to Messagerie
+            </a>
+        </div>
+    </div>
+
+    <!-- ZEGO UIKit mounts here -->
+    <div id="zego-root" style="width:100vw;height:100vh;"></div>
+
+    <!-- Back button (always visible after joining) -->
+    <a id="back-link" href="{{ backUrl }}"
+       style="position:fixed;top:1rem;left:1rem;z-index:100;display:none;
+              padding:0.5rem 1rem;border-radius:0.5rem;
+              background:rgba(15,23,42,0.75);color:#e2e8f0;
+              font-size:0.875rem;font-weight:600;text-decoration:none;
+              backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,0.1);">
+        ← Back
+    </a>
+
+    <!-- ZEGO UIKit Prebuilt — loaded from our own assets (no CDN dependency) -->
+    <script src="{{ asset('vendor/zego/zego-uikit-prebuilt.js') }}"></script>
+
+    <script>
+    (function () {
+        var TOKEN_URL  = {{ tokenUrl|json_encode|raw }};
+        var CALL_TYPE  = {{ callType|json_encode|raw }};
+        var OTHER_NAME = {{ otherName|json_encode|raw }};
+
+        // Debug: confirm ZEGO is available (helps diagnose CSP/adblock/404)
+        console.log('ZEGO call page loaded. ZegoUIKitPrebuilt:', typeof window.ZegoUIKitPrebuilt);
+
+        function showError(msg) {
+            document.getElementById('loading-overlay').style.display = 'none';
+            var overlay = document.getElementById('error-overlay');
+            overlay.style.display = 'flex';
+            document.getElementById('error-msg').textContent = msg;
+        }
+
+        function hideLoading() {
+            var el = document.getElementById('loading-overlay');
+            el.classList.add('fade-out');
+            setTimeout(function () { el.style.display = 'none'; }, 400);
+            document.getElementById('back-link').style.display = 'inline-block';
+        }
+
+        async function startCall() {
+            // 1. Fetch token from backend
+            var res;
+            try {
+                res = await fetch(TOKEN_URL, {
+                    headers: { 'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
+                    credentials: 'same-origin'
+                });
+            } catch (e) {
+                showError('Network error: could not reach the server. ' + e.message);
+                return;
+            }
+
+            var data;
+            try { data = await res.json(); } catch (e) { showError('Invalid server response.'); return; }
+
+            if (!res.ok || data.error) {
+                showError(data.error || 'Token generation failed (HTTP ' + res.status + ').');
+                return;
+            }
+
+            var { appId, token, userId, userName, roomId } = data;
+
+            if (typeof window.ZegoUIKitPrebuilt === 'undefined') {
+                console.error('ZEGO UIKit not loaded. Check CSP, Adblock, or asset build. Network tab: ensure vendor/zego/zego-uikit-prebuilt.js returned 200.');
+                showError('ZEGO library failed to load. Please refresh the page or disable ad-blockers for this site.');
+                return;
+            }
+
+            // 2. Generate kit token for production (backend-signed token)
+            var kitToken;
+            try {
+                kitToken = ZegoUIKitPrebuilt.generateKitTokenForProduction(
+                    Number(appId), token, roomId, userId, userName
+                );
+            } catch (e) {
+                showError('Could not build kit token: ' + e.message);
+                return;
+            }
+
+            // 3. Mount UIKit into #zego-root
+            var zp = ZegoUIKitPrebuilt.create(kitToken);
+
+            var isVideo = (CALL_TYPE === 'video');
+
+            // Timeout: if we're still "connecting" after this, show an error (avoids infinite loading)
+            var joinTimeout = setTimeout(function () {
+                if (document.getElementById('loading-overlay').style.display !== 'none') {
+                    console.error('ZEGO join timeout — room did not connect in time.');
+                    showError('Connection is taking too long. Please check your internet connection and try again.');
+                }
+            }, 20000);
+
+            var config = {
+                container: document.getElementById('zego-root'),
+                scenario: { mode: ZegoUIKitPrebuilt.OneONoneCall },
+                showRoomTimer: true,
+                showPreJoinView: true,
+                turnOnCameraWhenJoining: isVideo,
+                turnOnMicrophoneWhenJoining: true,
+                showLeavingView: true,
+                onJoinRoom: function () {
+                    clearTimeout(joinTimeout);
+                    hideLoading();
+                },
+                onLeaveRoom: function () {
+                    window.location.href = {{ backUrl|json_encode|raw }};
+                },
+                onUserLeave: function (users) {},
+            };
+
+            // For voice calls: disable camera button and default to camera-off
+            if (!isVideo) {
+                config.showCameraToggleButton = false;
+                config.turnOnCameraWhenJoining = false;
+            }
+
+            try {
+                zp.joinRoom(config);
+                // Our loading overlay was covering ZEGO's pre-join screen (camera/mic + "Join" button).
+                // Hide it so the user can see and click "Join" in the ZEGO UI.
+                hideLoading();
+            } catch (e) {
+                clearTimeout(joinTimeout);
+                showError('Failed to join room: ' + e.message);
+            }
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', startCall);
+        } else {
+            startCall();
+        }
+    })();
+    </script>
+</body>
+</html>

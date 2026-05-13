@@ -1,0 +1,21 @@
+{
+  "title": "Student in languages &",
+  "bio": "",
+  "experience_years": 6,
+  "hourly_rate": "",
+  "location": "France",
+  "skills": [
+    "cooks",
+    "ete",
+    "Ember",
+    "Excel",
+    "Word",
+    "French",
+    "English",
+    "German"
+  ],
+  "phoneNumber": "",
+  "email": "",
+  "confidence": 70,
+  "strategy": "enhanced_regex"
+}

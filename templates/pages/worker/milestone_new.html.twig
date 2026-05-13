@@ -1,0 +1,140 @@
+{% extends 'layout_app.html.twig' %}
+
+{% block main %}
+    <div class="max-w-3xl mx-auto space-y-6">
+
+        {# Back link #}
+        <div class="flex items-center gap-3">
+            <a href="{{ path('worker_contract_show', {id: contract.id}) }}"
+               class="inline-flex items-center gap-1 text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 transition text-sm">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                </svg>
+                Back to {{ contract.title }}
+            </a>
+        </div>
+
+        {# Heading #}
+        <div>
+            <h1 class="text-2xl font-bold text-slate-900 dark:text-white">Create New Milestone</h1>
+            <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">For contract: {{ contract.title }}</p>
+        </div>
+
+        <form method="POST" action="{{ path('worker_milestone_create', {id: contract.id}) }}" class="space-y-6" novalidate data-validate="milestone">
+            <input type="hidden" name="_token" value="{{ csrf_token('milestone_create') }}">
+            <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+                <h2 class="text-lg font-semibold text-slate-900 dark:text-white mb-5">Milestone Information</h2>
+
+                <div class="grid gap-5 md:grid-cols-2">
+                    {# Title #}
+                    <div class="md:col-span-2">
+                        <label for="title" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
+                            Title <span class="text-red-500">*</span>
+                        </label>
+                        <input type="text" id="title" name="title"
+                               value="{{ old.title|default('') }}"
+                               class="w-full rounded-lg border {{ errors.title is defined ? 'border-red-500' : 'border-gray-300 dark:border-slate-600' }} bg-white dark:bg-slate-800 px-4 py-2.5 text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:border-[#0FAF7A] focus:ring-2 focus:ring-[#0FAF7A]/20 transition"
+                               placeholder="e.g., Complete UI Design">
+                        {% if errors.title is defined %}
+                            <p class="mt-1 text-xs text-red-600 dark:text-red-400">{{ errors.title }}</p>
+                        {% else %}
+                            <p class="mt-1 text-xs text-slate-400">Between 3 and 200 characters.</p>
+                        {% endif %}
+                    </div>
+
+                    {# Description #}
+                    <div class="md:col-span-2">
+                        <label for="description" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
+                            Description <span class="text-slate-400 dark:text-slate-500">â€” optional</span>
+
+                        </label>
+                        <textarea id="description" name="description" rows="4"
+                                  class="w-full rounded-lg border {{ errors.description is defined ? 'border-red-500' : 'border-gray-300 dark:border-slate-600' }} bg-white dark:bg-slate-800 px-4 py-2.5 text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:border-[#0FAF7A] focus:ring-2 focus:ring-[#0FAF7A]/20 transition"
+                                  placeholder="Describe what needs to be accomplished...">{{ old.description|default('') }}</textarea>
+                        {% if errors.description is defined %}
+                            <p class="mt-1 text-xs text-red-600 dark:text-red-400">{{ errors.description }}</p>
+                        {% else %}
+                            <p class="mt-1 text-xs text-slate-400">Maximum 2000 characters.</p>
+                        {% endif %}
+                    </div>
+
+                    {# Due Date #}
+                    <div>
+                        <label for="due_date" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
+                            Due Date <span class="text-red-500">*</span>
+                        </label>
+                        <input type="date" id="due_date" name="due_date"
+                               value="{{ old.due_date|default('') }}"
+                               class="w-full rounded-lg border {{ errors.due_date is defined ? 'border-red-500' : 'border-gray-300 dark:border-slate-600' }} bg-white dark:bg-slate-800 px-4 py-2.5 text-sm text-slate-900 dark:text-white focus:border-[#0FAF7A] focus:ring-2 focus:ring-[#0FAF7A]/20 transition">
+                        {% if errors.due_date is defined %}
+                            <p class="mt-1 text-xs text-red-600 dark:text-red-400">{{ errors.due_date }}</p>
+                        {% endif %}
+                    </div>
+
+                    {# Order #}
+                    <div>
+                        <label for="order_index" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
+                            Order (Position) <span class="text-red-500">*</span>
+                        </label>
+                        <input type="number" id="order_index" name="order_index" min="1"
+                               value="{{ old.order_index|default(contract.milestones|length + 1) }}"
+                               class="w-full rounded-lg border {{ errors.order_index is defined ? 'border-red-500' : 'border-gray-300 dark:border-slate-600' }} bg-white dark:bg-slate-800 px-4 py-2.5 text-sm text-slate-900 dark:text-white focus:border-[#0FAF7A] focus:ring-2 focus:ring-[#0FAF7A]/20 transition">
+                        {% if errors.order_index is defined %}
+                            <p class="mt-1 text-xs text-red-600 dark:text-red-400">{{ errors.order_index }}</p>
+                        {% else %}
+                            <p class="mt-1 text-xs text-slate-400">Current milestones: {{ contract.milestones|length }}</p>
+                        {% endif %}
+                    </div>
+
+                    {# Status #}
+                    <div>
+                        <label for="status" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
+                            Status <span class="text-red-500">*</span>
+                        </label>
+                        <select id="status" name="status"
+                                class="w-full rounded-lg border {{ errors.status is defined ? 'border-red-500' : 'border-gray-300 dark:border-slate-600' }} bg-white dark:bg-slate-800 px-4 py-2.5 text-sm text-slate-900 dark:text-white focus:border-[#0FAF7A] focus:ring-2 focus:ring-[#0FAF7A]/20 transition">
+                            <option value="PENDING"     {{ old.status|default('PENDING') == 'PENDING'     ? 'selected' : '' }}>Pending</option>
+                            <option value="IN_PROGRESS" {{ old.status|default('PENDING') == 'IN_PROGRESS' ? 'selected' : '' }}>In Progress</option>
+                            <option value="REVISION_REQUESTED" {{ old.status|default('PENDING') == 'REVISION_REQUESTED' ? 'selected' : '' }}>Revision Requested</option>
+
+                            <option value="CANCELLED"   {{ old.status|default('PENDING') == 'CANCELLED'   ? 'selected' : '' }}>Cancelled</option>
+                        </select>
+                        {% if errors.status is defined %}
+                            <p class="mt-1 text-xs text-red-600 dark:text-red-400">{{ errors.status }}</p>
+                        {% endif %}
+                    </div>
+
+                    {# Amount #}
+                    <div>
+                        <label for="amount" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
+                            Amount ({{ contract.currency }}) <span class="text-slate-400 dark:text-slate-500">â€” optional</span>
+
+                        </label>
+                        <input type="number" step="0.01" id="amount" name="amount" min="0"
+                               value="{{ old.amount|default('') }}"
+                               class="w-full rounded-lg border {{ errors.amount is defined ? 'border-red-500' : 'border-gray-300 dark:border-slate-600' }} bg-white dark:bg-slate-800 px-4 py-2.5 text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:border-[#0FAF7A] focus:ring-2 focus:ring-[#0FAF7A]/20 transition"
+                               placeholder="0.00">
+                        {% if errors.amount is defined %}
+                            <p class="mt-1 text-xs text-red-600 dark:text-red-400">{{ errors.amount }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            {# Submit #}
+            <div class="flex items-center gap-3">
+                <button type="submit"
+                        class="inline-flex items-center gap-2 rounded-lg bg-[#0FAF7A] px-6 py-2.5 text-sm font-semibold text-white transition hover:bg-emerald-600 shadow-sm">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                    </svg>
+                    Create Milestone
+                </button>
+                <a href="{{ path('worker_contract_show', {id: contract.id}) }}"
+                   class="inline-flex items-center gap-2 rounded-lg border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-6 py-2.5 text-sm font-semibold text-slate-700 dark:text-slate-300 transition hover:bg-gray-50 dark:hover:bg-slate-700">
+                    Cancel
+                </a>
+            </div>
+        </form>
+    </div>
+{% endblock %}

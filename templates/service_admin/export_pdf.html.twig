@@ -1,0 +1,68 @@
+{# templates/service_admin/export_pdf.html.twig #}
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { font-family: sans-serif; font-size: 10px; color: #1e293b; margin: 0; padding: 0; }
+        table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+        th { background-color: #0f172a; color: white; padding: 8px; text-align: left; font-weight: bold; text-transform: uppercase; }
+        td { padding: 8px; border-bottom: 1px solid #e2e8f0; vertical-align: top; word-wrap: break-word; }
+        
+        /* Column Width Adjustments */
+        .col-id { width: 30px; }
+        .col-budget { width: 60px; }
+        .col-level { width: 70px; }
+        .col-status { width: 50px; }
+        .col-desc { width: 130px; font-size: 9px; color: #64748b; }
+
+        .header { text-align: center; border-bottom: 2px solid #0f172a; padding: 20px 0; margin-bottom: 20px; }
+        .footer { position: fixed; bottom: -30px; left: 0; right: 0; text-align: right; font-size: 8px; color: #94a3b8; }
+        .pagenum:before { content: counter(page); }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1 style="margin:0; font-size: 18px;">Service Requests Report</h1>
+        <p style="margin:5px 0 0 0;">Generated: {{ "now"|date("d/m/Y H:i") }}</p>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th class="col-id">ID</th>
+                <th>Title</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Category</th>
+                <th class="col-budget">Min (€)</th>
+                <th class="col-budget">Max (€)</th>
+                <th>Duration</th>
+                <th class="col-status">Status</th>
+                <th class="col-level">Level</th>
+                <th class="col-desc">Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for req in services %}
+                <tr>
+                    <td>#{{ req.id }}</td>
+                    <td><strong>{{ req.title }}</strong></td>
+                    <td>{{ req.client.username }}</td>
+                    <td>{{ req.client.email }}</td>
+                    <td>{{ req.category.name }}</td>
+                    <td>{{ req.budgetMin|number_format(0, '.', ' ') }}</td>
+                    <td>{{ req.budgetMax|number_format(0, '.', ' ') }}</td>
+                    <td>{{ req.duration }} Days</td>
+                    <td>{{ req.status }}</td>
+                    <td>{{ req.level }}</td>
+                    <td class="col-desc">{{ req.description|slice(0, 150) }}{% if req.description|length > 150 %}...{% endif %}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="footer">
+        Orion Admin Systems | Page <span class="pagenum"></span>
+    </div>
+</body>
+</html>

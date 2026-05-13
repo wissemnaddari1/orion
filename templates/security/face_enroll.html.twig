@@ -1,0 +1,133 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Enroll Face — Orion{% endblock %}
+
+{% block body %}
+<div class="min-h-screen flex items-center justify-center px-4 py-12
+            bg-gradient-to-br from-emerald-600/10 via-white to-emerald-700/5
+            dark:from-emerald-500/10 dark:via-slate-950 dark:to-emerald-500/5">
+    <div class="w-full max-w-md">
+        <div class="rounded-2xl border border-slate-200 bg-white/90 p-8 shadow-xl backdrop-blur dark:border-slate-800 dark:bg-slate-950/70">
+            <div class="text-center mb-2">
+                <a href="{{ path('profile_show') }}" class="inline-flex items-center justify-center">
+                    <img src="{{ asset('images/orion_light_mode.png') }}" alt="Orion Logo"
+                         class="h-16 w-auto object-contain drop-shadow-[0_0_25px_rgba(16,185,129,0.55)]" />
+                </a>
+                <h1 class="mt-6 text-xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+                    Enroll Your Face
+                </h1>
+                <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">
+                    Capture your face to enable face login. One face per frame, good lighting.
+                </p>
+            </div>
+
+            <div id="face_message" class="mt-4 p-4 rounded-xl hidden" role="alert"></div>
+
+            <div class="mt-6 space-y-4">
+                <div class="rounded-xl border border-slate-300 dark:border-slate-700 overflow-hidden bg-slate-100 dark:bg-slate-900/50">
+                    <video id="face_video" autoplay playsinline muted class="w-full aspect-video object-cover"></video>
+                </div>
+                <canvas id="face_canvas" class="hidden"></canvas>
+                <p id="face_status" class="text-sm text-slate-600 dark:text-slate-400">Starting camera…</p>
+            </div>
+
+            <div class="mt-6 flex flex-col gap-3">
+                <button type="button" id="enroll_face_btn"
+                        class="w-full py-3 px-4 rounded-xl bg-emerald-600 text-white font-semibold
+                               hover:bg-emerald-700 focus:outline-none focus:ring-4 focus:ring-emerald-500/30
+                               disabled:opacity-50 disabled:cursor-not-allowed transition">
+                    Capture & Enroll Face
+                </button>
+                <a href="{{ path('profile_face_settings') }}" class="text-center text-sm text-emerald-600 hover:underline dark:text-emerald-400">
+                    ← Back to Face Settings
+                </a>
+            </div>
+
+            <div class="mt-6 p-4 rounded-xl bg-slate-100 dark:bg-slate-800/50 text-xs text-slate-600 dark:text-slate-400">
+                <strong>Tips:</strong> Face the camera directly, ensure good lighting, and ensure only one face is visible.
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+(function () {
+    const video = document.getElementById('face_video');
+    const canvas = document.getElementById('face_canvas');
+    const statusEl = document.getElementById('face_status');
+    const messageEl = document.getElementById('face_message');
+    const enrollBtn = document.getElementById('enroll_face_btn');
+
+    function showMessage(text, isError) {
+        if (!messageEl) return;
+        messageEl.textContent = text;
+        messageEl.classList.remove('hidden', 'bg-red-100', 'text-red-800', 'dark:bg-red-900/20', 'dark:text-red-400',
+                                    'bg-emerald-100', 'text-emerald-800', 'dark:bg-emerald-900/20', 'dark:text-emerald-400');
+        if (isError) {
+            messageEl.classList.add('bg-red-100', 'text-red-800', 'dark:bg-red-900/20', 'dark:text-red-400');
+        } else {
+            messageEl.classList.add('bg-emerald-100', 'text-emerald-800', 'dark:bg-emerald-900/20', 'dark:text-emerald-400');
+        }
+    }
+
+    function hideMessage() {
+        if (messageEl) messageEl.classList.add('hidden');
+    }
+
+    async function startCamera() {
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' }, audio: false });
+            video.srcObject = stream;
+            statusEl.textContent = 'Camera ready. Click "Capture & Enroll Face" to enroll.';
+        } catch (err) {
+            statusEl.textContent = 'Camera access denied or unavailable.';
+            showMessage('Unable to access camera. Please allow camera permissions.', true);
+        }
+    }
+
+    enrollBtn.addEventListener('click', async function () {
+        if (!video.srcObject || !video.videoWidth || !video.videoHeight) {
+            showMessage('Camera not ready. Please wait or allow camera access.', true);
+            return;
+        }
+
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+        const dataUrl = canvas.toDataURL('image/jpeg', 0.9);
+
+        hideMessage();
+        statusEl.textContent = 'Enrolling…';
+        enrollBtn.disabled = true;
+
+        try {
+            const res = await fetch('{{ path('auth_face_enroll_post') }}', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'same-origin',
+                body: JSON.stringify({ imageBase64: dataUrl })
+            });
+            const data = await res.json().catch(function () { return {}; });
+
+            if (res.ok && data.success) {
+                showMessage(data.message || 'Face enrolled successfully. Redirecting…', false);
+                statusEl.textContent = 'Success!';
+                setTimeout(function () { window.location.href = '{{ path('profile_face_settings') }}'; }, 1500);
+                return;
+            }
+
+            showMessage(data.error || 'Enrollment failed. Try again.', true);
+            statusEl.textContent = 'Try again.';
+        } catch (err) {
+            showMessage('Network error. Please try again.', true);
+            statusEl.textContent = 'Request failed. Try again.';
+        } finally {
+            enrollBtn.disabled = false;
+        }
+    });
+
+    startCamera();
+})();
+</script>
+{% endblock %}

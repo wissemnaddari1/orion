@@ -1,0 +1,10 @@
+fastapi==0.109.2
+uvicorn[standard]==0.27.1
+dlib-bin>=20.0.0  # Pre-built wheel for Windows (no CMake needed)
+face-recognition==1.3.0
+numpy>=2.0.0  # Updated for Python 3.13 compatibility (pre-built wheels available)
+Pillow>=10.2.0
+
+# For POST /auto-capture (automatic webcam face capture)
+opencv-python>=4.8.0
+mediapipe>=0.10.0

@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: "Times New Roman", Times, serif;
+            font-size: 11.5px;
+            color: #111827;
+            line-height: 1.55;
+            padding: 34px 40px;
+        }
+
+        .header {
+            border-bottom: 2px solid #111827;
+            padding-bottom: 10px;
+            margin-bottom: 18px;
+        }
+        .header-title {
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+        }
+        .header-subtitle {
+            text-align: center;
+            margin-top: 4px;
+            font-size: 10px;
+            color: #374151;
+        }
+
+        .meta {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 16px;
+        }
+        .meta td {
+            border: 1px solid #d1d5db;
+            padding: 6px 8px;
+            vertical-align: top;
+        }
+        .meta .label {
+            width: 30%;
+            font-weight: bold;
+            background: #f3f4f6;
+        }
+
+        .section {
+            margin-bottom: 14px;
+        }
+        .section-title {
+            font-size: 12.5px;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+            border-bottom: 1px solid #d1d5db;
+            padding-bottom: 3px;
+        }
+        .clause {
+            margin-bottom: 8px;
+            text-align: justify;
+        }
+        .clause-title {
+            font-weight: bold;
+        }
+
+        .parties {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 4px;
+        }
+        .parties td {
+            width: 50%;
+            vertical-align: top;
+            border: 1px solid #d1d5db;
+            padding: 8px;
+        }
+        .party-role {
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 10px;
+            margin-bottom: 4px;
+            color: #1f2937;
+        }
+
+        .box {
+            border: 1px solid #d1d5db;
+            background: #f9fafb;
+            padding: 8px;
+            margin-top: 6px;
+            white-space: pre-line;
+        }
+
+        .milestones {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 6px;
+        }
+        .milestones th,
+        .milestones td {
+            border: 1px solid #d1d5db;
+            padding: 6px;
+            font-size: 10.5px;
+        }
+        .milestones th {
+            background: #f3f4f6;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 9.5px;
+        }
+
+        .signatures {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        .signatures td {
+            width: 50%;
+            border: 1px solid #d1d5db;
+            padding: 10px;
+            vertical-align: top;
+            min-height: 125px;
+        }
+        .sign-role {
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 10px;
+
+            margin-bottom: 8px;
+        }
+        .sig-image {
+            max-width: 180px;
+            max-height: 55px;
+            margin: 6px 0;
+        }
+        .muted {
+            color: #4b5563;
+            font-size: 10px;
+        }
+
+        .footer {
+            margin-top: 16px;
+            border-top: 1px solid #d1d5db;
+            padding-top: 8px;
+            font-size: 9px;
+            color: #4b5563;
+            text-align: center;
+
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-title">Freelance Services Agreement</div>
+        <div class="header-subtitle">Official Contract Document</div>
+    </div>
+
+    <table class="meta">
+        <tr>
+            <td class="label">Contract Number</td>
+            <td>#{{ contract.id }}</td>
+            <td class="label">Status</td>
+            <td>{{ contract.status|replace({'_': ' '}) }}</td>
+        </tr>
+        <tr>
+            <td class="label">Effective Date</td>
+            <td>{{ contract.startDate ? contract.startDate|date('F d, Y') : 'N/A' }}</td>
+            <td class="label">Expiration Date</td>
+            <td>{{ contract.endDate ? contract.endDate|date('F d, Y') : 'N/A' }}</td>
+        </tr>
+        <tr>
+            <td class="label">Contract Value</td>
+            <td>{{ contract.agreedPrice|number_format(2, '.', ',') }} {{ contract.currency }}</td>
+            <td class="label">Generated On</td>
+            <td>{{ "now"|date('F d, Y H:i:s') }}</td>
+        </tr>
+        {% if contract.riskLevel is not null %}
+        <tr>
+            <td class="label">AI Risk Level</td>
+            <td style="font-weight:bold; color:{% if contract.riskLevel == 'LOW' %}#059669{% elseif contract.riskLevel == 'MEDIUM' %}#d97706{% else %}#dc2626{% endif %};">{{ contract.riskLevel }}</td>
+            <td class="label">Risk Score</td>
+            <td>{% if contract.riskScore is not null %}{{ (contract.riskScore * 100)|number_format(1) }}%{% else %}N/A{% endif %}</td>
+        </tr>
+        {% endif %}
+    </table>
+
+    <div class="section">
+        <div class="section-title">1. Contracting Parties</div>
+        <table class="parties">
+            <tr>
+                <td>
+                    <div class="party-role">Client</div>
+                    <div><strong>{{ contract.client ? (contract.client.firstName ~ ' ' ~ contract.client.lastName) : 'Not Assigned' }}</strong></div>
+                    <div class="muted">{{ contract.client ? contract.client.email : '' }}</div>
+                </td>
+                <td>
+                    <div class="party-role">Freelancer / Worker</div>
+                    <div><strong>{{ contract.worker ? (contract.worker.firstName ~ ' ' ~ contract.worker.lastName) : 'Not Assigned' }}</strong></div>
+                    <div class="muted">{{ contract.worker ? contract.worker.email : '' }}</div>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="section">
+        <div class="section-title">2. Background and Purpose</div>
+        <div class="clause">
+            This Agreement is entered into between the Client and the Freelancer for the provision of professional services described in this document.
+            The parties agree to collaborate in good faith and to comply with the terms, responsibilities, and deadlines set forth below.
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-title">3. Scope of Work</div>
+        <div class="box">{{ contract.scope }}</div>
+    </div>
+
+    <div class="section">
+        <div class="section-title">4. Term of Agreement</div>
+        <div class="clause">
+            <span class="clause-title">4.1 Commencement:</span>
+            The Agreement starts on {{ contract.startDate ? contract.startDate|date('F d, Y') : 'N/A' }}.
+        </div>
+        <div class="clause">
+            <span class="clause-title">4.2 Completion:</span>
+            The Agreement is scheduled to end on {{ contract.endDate ? contract.endDate|date('F d, Y') : 'N/A' }}, unless extended, terminated, or completed earlier under this Agreement.
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-title">5. Financial Terms</div>
+        <div class="clause">
+            <span class="clause-title">5.1 Total Contract Amount:</span>
+            {{ contract.agreedPrice|number_format(2, '.', ',') }} {{ contract.currency }}.
+        </div>
+        <div class="clause">
+            <span class="clause-title">5.2 Payment Basis:</span>
+            Payments are made against validated milestones and/or completion criteria agreed by both parties.
+        </div>
+        <div class="clause">
+            <span class="clause-title">5.3 Taxes and Fees:</span>
+            Each party remains responsible for its own applicable taxes, social contributions, and legal obligations unless mandatory law provides otherwise.
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-title">6. Milestones and Deliverables</div>
+        {% if contract.milestones|length > 0 %}
+            <table class="milestones">
+                <thead>
+                    <tr>
+                        <th style="width: 34px;">#</th>
+                        <th>Milestone</th>
+                        <th style="width: 92px;">Due Date</th>
+                        <th style="width: 92px;">Status</th>
+                        <th style="width: 110px;">Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for milestone in contract.milestones %}
+                        <tr>
+                            <td>{{ milestone.orderIndex }}</td>
+                            <td>
+                                <strong>{{ milestone.title }}</strong>
+                                {% if milestone.description %}
+                                    <div class="muted">{{ milestone.description|length > 110 ? milestone.description|slice(0, 110) ~ 'â€¦' : milestone.description }}</div>
+                                {% endif %}
+                            </td>
+                            <td>{{ milestone.dueDate|date('Y-m-d') }}</td>
+                            <td>{{ milestone.status|replace({'_': ' '}) }}</td>
+                            <td>
+                                {% if milestone.amount is not null %}
+                                    {{ milestone.amount|number_format(2, '.', ',') }} {{ contract.currency }}
+                                {% else %}
+                                    N/A
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class="muted" style="margin-top: 4px;">
+                Progress: {{ contract.getCompletedMilestonesCount() }} / {{ contract.milestones|length }} milestones completed ({{ contract.getProgressPercent() }}%).
+            </div>
+        {% else %}
+            <div class="clause">No milestones are currently defined in the system for this contract.</div>
+        {% endif %}
+    </div>
+
+    <div class="section">
+        <div class="section-title">7. Confidentiality and Intellectual Property</div>
+        <div class="clause">
+            <span class="clause-title">7.1 Confidentiality:</span>
+            Both parties shall keep non-public business, technical, and personal information confidential and use it solely for contract execution.
+        </div>
+        <div class="clause">
+            <span class="clause-title">7.2 Ownership:</span>
+            Upon full payment, deliverables created specifically under this Agreement are transferred to the Client unless otherwise specified in writing.
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-title">8. Breach, Delay and Termination</div>
+        <div class="clause">
+            <span class="clause-title">8.1 Delay:</span>
+            Repeated unjustified delays may constitute breach and may trigger corrective actions agreed between parties.
+        </div>
+        <div class="clause">
+            <span class="clause-title">8.2 Termination:</span>
+            The contract may be terminated according to platform rules and applicable law, with written reason and documented state of deliverables.
+        </div>
+        {% if contract.cancellationReason %}
+            <div class="clause"><span class="clause-title">Recorded Cancellation Reason:</span> {{ contract.cancellationReason }}</div>
+        {% endif %}
+    </div>
+
+    <div class="section">
+        <div class="section-title">9. Dispute Resolution and Governing Rules</div>
+        <div class="clause">
+            The parties shall first attempt amicable settlement. Failing that, disputes are handled under the applicable legal framework and competent jurisdiction configured for the project.
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-title">10. Electronic Signatures</div>
+        <div class="clause">
+            This Agreement may be executed electronically. Electronic signatures recorded by the platform constitute acceptance of the present terms.
+        </div>
+        <table class="signatures">
+            <tr>
+                <td>
+                    <div class="sign-role">Client Signature</div>
+                    {% if contract.clientSigned %}
+                        <div><strong>Signed</strong></div>
+                        {% if contract.clientSignatureData %}
+                            <img class="sig-image" src="{{ contract.clientSignatureData }}" alt="Client Signature">
+                        {% endif %}
+                        <div class="muted">
+                            {{ contract.client ? (contract.client.firstName ~ ' ' ~ contract.client.lastName) : '' }}<br>
+                            {{ contract.clientSignedAt ? contract.clientSignedAt|date('Y-m-d H:i') : '' }}
+                            {% if contract.clientSignatureIp %}<br>IP: {{ contract.clientSignatureIp }}{% endif %}
+                        </div>
+                    {% else %}
+                        <div class="muted">Not signed yet.</div>
+                    {% endif %}
+                </td>
+                <td>
+                    <div class="sign-role">Freelancer Signature</div>
+                    {% if contract.workerSigned %}
+                        <div><strong>Signed</strong></div>
+                        {% if contract.workerSignatureData %}
+                            <img class="sig-image" src="{{ contract.workerSignatureData }}" alt="Worker Signature">
+                        {% endif %}
+                        <div class="muted">
+                            {{ contract.worker ? (contract.worker.firstName ~ ' ' ~ contract.worker.lastName) : '' }}<br>
+                            {{ contract.workerSignedAt ? contract.workerSignedAt|date('Y-m-d H:i') : '' }}
+                            {% if contract.workerSignatureIp %}<br>IP: {{ contract.workerSignatureIp }}{% endif %}
+                        </div>
+                    {% else %}
+                        <div class="muted">Not signed yet.</div>
+                    {% endif %}
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="footer">
+        This document is generated by ORION Contract Platform â€¢ Contract #{{ contract.id }} â€¢ {{ "now"|date('Y-m-d H:i:s') }}
+    </div>
+
+</body>
+</html>

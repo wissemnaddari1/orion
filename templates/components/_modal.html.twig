@@ -1,0 +1,24 @@
+{# _modal.html.twig
+   Parameters: id (string), title (string), size (sm|md|lg|xl), show_footer (bool) #}
+{% set size_classes = { sm: 'max-w-sm', md: 'max-w-md', lg: 'max-w-lg', xl: 'max-w-xl' } %}
+<div id="{{ id|default('modal') }}" class="fixed inset-0 z-50 hidden overflow-y-auto" aria-modal="true" aria-labelledby="{{ id }}-title" role="dialog">
+    <div class="flex min-h-full items-center justify-center p-4">
+        <div class="fixed inset-0 bg-black/40 transition-opacity" aria-hidden="true" data-dismiss-backdrop></div>
+        <div class="relative w-full {{ size_classes[size|default('md')] }} rounded-2xl border border-gray-200 bg-white shadow-xl">
+            <div class="p-6">
+                <h2 id="{{ id }}-title" class="text-lg font-semibold text-[#000000]">{{ title|default('Modal') }}</h2>
+                <div class="mt-4">
+                    {% block modal_content %}{% endblock %}
+                </div>
+            </div>
+            {% if show_footer|default(true) %}
+                <div class="flex justify-end gap-3 border-t border-gray-100 px-6 py-4">
+                    {% block modal_footer %}
+                        {% include 'components/_button.html.twig' with { label: 'Close', variant: 'ghost' } %}
+                        {% include 'components/_button.html.twig' with { label: 'Confirm', variant: 'primary' } %}
+                    {% endblock %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>

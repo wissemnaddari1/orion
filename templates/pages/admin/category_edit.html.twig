@@ -1,0 +1,129 @@
+{% extends 'layout_admin.html.twig' %}
+
+{% block title %}Modifier CatÃ©gorie{% endblock %}
+
+
+
+{% block main %}
+<div class="max-w-3xl mx-auto space-y-6">
+    <div class="bg-gradient-to-br from-white to-slate-50 dark:from-slate-900 dark:to-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-lg p-6">
+        <div class="flex items-center justify-between">
+            <div class="flex items-center gap-4">
+                <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center shadow-lg">
+                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="text-2xl font-bold text-slate-900 dark:text-white">Edit Worker Category</h1>
+                    <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">Update category information</p>
+                </div>
+            </div>
+            <a href="{{ path('admin_categories_index') }}" class="inline-flex items-center gap-2 px-4 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 rounded-lg font-medium transition-all">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                </svg>
+                Back
+            </a>
+        </div>
+    </div>
+
+    <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-blue-600 to-purple-600 px-6 py-4">
+            <h2 class="text-lg font-bold text-white flex items-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                </svg>
+                Category Details
+
+            </h2>
+        </div>
+
+        <div class="p-6">
+            {{ form_start(form, {'attr': {'novalidate': 'novalidate', 'data-validate': 'worker-category'}}) }}
+
+            <div class="space-y-6">
+                <div class="bg-slate-50/70 dark:bg-slate-800/40 rounded-xl p-6 border border-slate-200/60 dark:border-slate-800">
+                    <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4">General Information</h3>
+                    <div class="space-y-5">
+                        <div>
+                            {{ form_label(form.name) }}
+                            {{ form_widget(form.name) }}
+                            {{ form_errors(form.name) }}
+                        </div>
+                        <div>
+                            {{ form_label(form.description) }}
+                            {{ form_widget(form.description) }}
+                            {{ form_errors(form.description) }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        {{ form_label(form.status) }}
+                        {{ form_widget(form.status) }}
+                        {{ form_errors(form.status) }}
+                    </div>
+                    <div>
+                        {{ form_label(form.display_order) }}
+                        {{ form_widget(form.display_order) }}
+                        {{ form_errors(form.display_order) }}
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        {{ form_label(form.total_workers) }}
+                        {{ form_widget(form.total_workers) }}
+                        {{ form_errors(form.total_workers) }}
+                    </div>
+                    <div>
+                        {{ form_label(form.average_hourly_rate) }}
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <span class="text-slate-500 text-sm">â‚¬</span>
+                            </div>
+                            {{ form_widget(form.average_hourly_rate, {'attr': {'class': 'pl-7 mt-1 block w-full rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50/70 dark:bg-slate-800/40 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 focus:ring-opacity-50 transition-all duration-200 sm:text-sm py-3'}}) }}
+                        </div>
+                        {{ form_errors(form.average_hourly_rate) }}
+                    </div>
+                </div>
+
+                <div class="border-t border-slate-200/70 dark:border-slate-800 pt-6">
+                    <div class="flex items-center justify-between mb-2">
+                        {{ form_label(form.iconFile) }}
+                        <span class="text-xs text-slate-400">Optional</span>
+                    </div>
+
+                    <div class="mt-2 flex justify-center px-6 pt-5 pb-6 border-2 border-slate-300 dark:border-slate-700 border-dashed rounded-xl hover:border-emerald-400/60 transition-colors bg-slate-50/50 dark:bg-slate-800/30">
+                        <div class="space-y-1 text-center">
+                            <svg class="mx-auto h-12 w-12 text-slate-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
+                                <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                            <div class="flex text-sm text-slate-600 dark:text-slate-400 justify-center">
+                                {{ form_widget(form.iconFile, {'attr': {'class': 'sr-only'}}) }}
+                                <label for="{{ form.iconFile.vars.id }}" class="relative cursor-pointer bg-white dark:bg-slate-900 rounded-md font-medium text-emerald-600 hover:text-emerald-700 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-emerald-500">
+                                    <span>Change icon</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    {{ form_errors(form.iconFile) }}
+                </div>
+            </div>
+
+            <div class="mt-8 flex items-center justify-between pt-6 border-t border-slate-200/70 dark:border-slate-800">
+                <a href="{{ path('admin_categories_index') }}" class="text-sm font-medium text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors">Back</a>
+                <div class="w-full sm:w-auto min-w-[200px]">
+                    {{ form_widget(form.submit, {'label': 'Update'}) }}
+
+                </div>
+            </div>
+
+            {{ form_end(form) }}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

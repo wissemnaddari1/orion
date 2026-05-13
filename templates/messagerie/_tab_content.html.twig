@@ -1,0 +1,50 @@
+{# Messagerie tab content: conversation list (left) + messages panel (right). Loaded into support popup. #}
+<div id="messagerie-tab-content" class="flex-1 flex flex-col overflow-hidden" data-csrf-message="{{ csrf_message }}" data-csrf-delete="{{ csrf_delete }}">
+    <div id="messagerie-conversation-list-view" class="flex-1 flex flex-col overflow-hidden">
+        <div class="p-4 border-b border-slate-200 dark:border-slate-800">
+            <p class="text-sm text-slate-600 dark:text-slate-400">Chat with the other party of your signed contracts.</p>
+        </div>
+        <div id="messagerie-conversation-list-container" class="flex-1 overflow-y-auto">
+            <div class="flex items-center justify-center h-32">
+                <div class="flex flex-col items-center gap-3">
+                    <div class="animate-spin rounded-full h-10 w-10 border-2 border-emerald-200 border-t-emerald-600"></div>
+                    <p class="text-slate-500 dark:text-slate-400 text-sm">Loading conversations...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="messagerie-chat-view" class="hidden flex-1 flex flex-col overflow-hidden border-t border-slate-200 dark:border-slate-800">
+        <div id="messagerie-chat-header" class="p-3 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
+            <div>
+                <p id="messagerie-chat-other-name" class="font-semibold text-slate-800 dark:text-slate-200"></p>
+                <p id="messagerie-chat-contract-title" class="text-xs text-slate-500 dark:text-slate-400"></p>
+            </div>
+            <button type="button" id="messagerie-back-to-list" class="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 md:hidden">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+            </button>
+        </div>
+        <div id="messagerie-messages-container" class="flex-1 overflow-y-auto messagerie-messages-area">
+            {# Messages injected by JS. Layout/background enforced by ticket-popup.js CSS + JS. #}
+        </div>
+        <div id="messagerie-closed-banner" class="hidden px-4 py-2 bg-amber-50 dark:bg-amber-900/20 border-t border-amber-200 dark:border-amber-800 text-center text-sm text-amber-800 dark:text-amber-200">
+            Conversation closed. No new messages allowed.
+        </div>
+        <div id="messagerie-send-area" class="p-4 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800">
+            <form id="messagerie-send-form" class="flex gap-2">
+                <input type="text" id="messagerie-message-input" placeholder="Type a message..." maxlength="2000"
+                       class="flex-1 px-4 py-2.5 rounded-lg border border-slate-300 dark:border-slate-700 dark:bg-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                <button type="submit" id="messagerie-send-btn" class="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-medium transition disabled:opacity-50 disabled:cursor-not-allowed">
+                    Send
+                </button>
+            </form>
+            <div id="messagerie-delete-wrap" class="hidden mt-3 pt-3 border-t border-slate-200 dark:border-slate-700">
+                <button type="button" id="messagerie-delete-conversation" class="text-sm text-red-600 dark:text-red-400 hover:underline">
+                    Delete conversation from my view
+                </button>
+            </div>
+        </div>
+    </div>
+    <div id="messagerie-empty-state" class="hidden flex-1 flex items-center justify-center p-6">
+        <p class="text-slate-500 dark:text-slate-400 text-center text-sm">No conversations yet. Sign a contract with a client or worker to start chatting.</p>
+    </div>
+</div>

@@ -1,0 +1,382 @@
+{% extends 'layout_admin.html.twig' %}
+
+{% block main %}
+<div class="max-w-6xl mx-auto">
+    {# Header Section #}
+    <div class="flex justify-between items-center mb-8">
+        <div>
+            <h1 class="text-2xl font-bold text-slate-900 dark:text-white">Service Requests</h1>
+            <p class="text-slate-500 dark:text-slate-400">Manage and track all service postings and their providers.</p>
+        </div>
+    </div>
+    
+    {# Simplified Header with Add Button #}
+    <div class="flex justify-between items-center mb-8">
+        <h1 class="text-3xl font-extrabold text-slate-900 dark:text-white">Service Management</h1>
+        <a href="{{ path('admin_service_create') }}" 
+           class="flex items-center gap-2 px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-bold transition-all shadow-md shadow-emerald-500/20">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+            Add Service
+        </a>
+    </div>
+
+    {# Stats Cards - Keep these as they are #}
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+        {# Card 1: Top Demand #}
+        <div class="bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 p-6 rounded-2xl shadow-sm dark:shadow-none backdrop-blur-sm">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em]">Top Demand</h3>
+                <svg class="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+            </div>
+            <div class="space-y-4">
+                {% for cat in stats.categories %}
+                    <div class="group flex items-center justify-between">
+                        <span class="text-sm text-slate-600 dark:text-slate-300 group-hover:text-indigo-600 dark:group-hover:text-white transition-colors">{{ cat.name }}</span>
+                        <div class="flex items-center gap-3">
+                            <div class="w-24 h-1.5 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+                                <div class="bg-emerald-500 h-full" style="width: {{ (cat.count / totalRequests * 100)|round }}%"></div>
+                            </div>
+                            <span class="text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400">{{ cat.count }}</span>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        {# Card 2: Levels #}
+        <div class="bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 p-6 rounded-2xl shadow-sm dark:shadow-none backdrop-blur-sm">
+            <h3 class="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em] mb-6">Level Distribution</h3>
+            <div class="grid grid-cols-2 gap-3">
+                {% for level in stats.levels %}
+                    <div class="bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-700/50 p-3 rounded-xl hover:border-indigo-400 dark:hover:border-indigo-500/50 transition-all group">
+                        <p class="text-[10px] text-slate-400 dark:text-slate-500 uppercase mb-1 font-semibold">{{ level.level }}</p>
+                        <p class="text-xl font-bold text-slate-800 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">{{ level.count }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        {# Card 3: Budget #}
+        <div class="relative overflow-hidden bg-gradient-to-br from-indigo-600 to-violet-700 p-6 rounded-2xl shadow-lg shadow-indigo-500/30 dark:shadow-indigo-500/10">
+            <div class="absolute -right-2 -top-2 w-24 h-24 bg-white/10 rounded-full blur-2xl"></div>
+            <div class="absolute -left-10 -bottom-10 w-32 h-32 bg-indigo-400/20 rounded-full blur-3xl"></div>
+            <h3 class="relative z-10 text-xs font-bold text-indigo-100 uppercase tracking-[0.2em] mb-8">Avg. Market Value</h3>
+            <div class="relative z-10 flex items-baseline gap-2">
+                <span class="text-4xl font-black text-white tracking-tight">{{ stats.avgBudget|number_format(0, '.', ' ') }}</span>
+                <span class="text-xl font-bold text-indigo-200">€</span>
+            </div>
+            <p class="relative z-10 mt-2 text-xs text-indigo-100/80">Based on {{ totalRequests }} service requests</p>
+            <div class="relative z-10 mt-6 flex items-center gap-2 text-[10px] font-black uppercase text-indigo-600 bg-white px-3 py-1.5 rounded-lg shadow-sm w-fit">
+                <span class="flex h-2 w-2">
+                    <span class="animate-ping absolute inline-flex h-2 w-2 rounded-full bg-indigo-400 opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"></span>
+                </span>
+                Live Market Data
+            </div>
+        </div>
+    </div>
+
+    {# Search + Filter Bar #}
+    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-4 mb-6 shadow-sm">
+        <div class="flex flex-wrap gap-4 items-end">
+
+            {# Search — takes remaining space #}
+            <div class="flex-1 min-w-[200px]">
+                <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">Search</label>
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <svg class="h-4 w-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                        </svg>
+                    </div>
+                    <input type="text"
+                        id="service-search"
+                        placeholder="Search services..."
+                        value="{{ app.request.query.get('q')|default('') }}"
+                        class="block w-full pl-9 pr-3 py-2.5 border border-slate-200 dark:border-slate-700 rounded-lg bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all text-sm">
+                    <div id="search-spinner" class="hidden absolute inset-y-0 right-0 pr-3 flex items-center">
+                        <svg class="animate-spin h-4 w-4 text-emerald-600" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            {# Divider #}
+            <div class="hidden md:block w-px h-10 bg-slate-200 dark:bg-slate-700 self-end mb-0.5"></div>
+
+            {# Category #}
+            <div class="flex-1 min-w-[160px]">
+                <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">Category</label>
+                <select name="category" form="filter-form"
+                    class="w-full py-2.5 px-3 text-sm border border-slate-200 dark:border-slate-700 rounded-lg bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                    <option value="">All Categories</option>
+                    {% for cat in categories %}
+                        <option value="{{ cat.id }}" {{ app.request.query.get('category') == cat.id ? 'selected' : '' }}>
+                            {{ cat.name }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            {# Sort #}
+            <div class="flex-1 min-w-[180px]">
+                <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">Sort By</label>
+                <select name="sort" form="filter-form"
+                    class="w-full py-2.5 px-3 text-sm border border-slate-200 dark:border-slate-700 rounded-lg bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                    <option value="date_newest"   {{ app.request.query.get('sort') == 'date_newest'   ? 'selected' : '' }}>📅 Newest First</option>
+                    <option value="date_oldest"   {{ app.request.query.get('sort') == 'date_oldest'   ? 'selected' : '' }}>📅 Oldest First</option>
+                    <option value="username_asc"  {{ app.request.query.get('sort') == 'username_asc'  ? 'selected' : '' }}>👤 Username </option>
+                    <option value="duration_asc"  {{ app.request.query.get('sort') == 'duration_asc'  ? 'selected' : '' }}>⏱ Duration ↑</option>
+                    <option value="duration_desc" {{ app.request.query.get('sort') == 'duration_desc' ? 'selected' : '' }}>⏱ Duration ↓</option>
+                    <option value="budget_asc"    {{ app.request.query.get('sort') == 'budget_asc'    ? 'selected' : '' }}>💰 Min Budget </option>
+                    <option value="budget_desc"   {{ app.request.query.get('sort') == 'budget_desc'   ? 'selected' : '' }}>💰 Max Budget </option>
+                </select>
+            </div>
+
+            {# Buttons #}
+            <div class="flex gap-2 self-end">
+                <button type="submit" form="filter-form"
+                    class="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold rounded-lg transition-all shadow-md shadow-emerald-500/20 whitespace-nowrap">
+                    Apply
+                </button>
+                <a href="{{ path('admin_services_index') }}"
+                    class="px-4 py-2.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 text-sm font-bold rounded-lg transition-all flex items-center gap-1.5 whitespace-nowrap">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                    Reset
+                </a>
+            </div>
+
+        </div>
+
+       
+
+    {# Hidden form for filter/sort — search input is NOT inside this #}
+    <form method="GET" action="{{ path('admin_services_index') }}" id="filter-form"></form>
+
+    {# Total Requests Card #}
+    <div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm mb-6">
+        <div class="flex items-center gap-4">
+            <div class="p-3 bg-blue-100 dark:bg-blue-900/30 text-blue-600 rounded-lg">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                </svg>
+            </div>
+            <div>
+                <p class="text-sm text-slate-500 dark:text-slate-400 font-medium">Total Requests</p>
+                <h3 class="text-2xl font-bold text-slate-900 dark:text-white">{{ totalRequests }}</h3>
+            </div>
+        </div>
+    </div>
+
+    {# SCROLLED TABLE with MAX HEIGHT (10 rows visible) #}
+    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-sm overflow-hidden">
+        <div class="max-h-[640px] overflow-y-auto scrollbar-thin scrollbar-thumb-slate-300 dark:scrollbar-thumb-slate-600 scrollbar-track-slate-100 dark:scrollbar-track-slate-800">
+            <table class="w-full text-left border-collapse min-w-[800px]">
+                <thead class="bg-slate-50 dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 sticky top-0">
+                    <tr>
+                        <th class="px-6 py-4 text-sm font-semibold text-slate-700 dark:text-slate-100">Service & Provider</th>
+                        <th class="px-6 py-4 text-sm font-semibold text-slate-700 dark:text-slate-100">Category</th>
+                        <th class="px-6 py-4 text-sm font-semibold text-slate-700 dark:text-slate-100">Budget Range</th>
+                        <th class="px-6 py-4 text-sm font-semibold text-slate-700 dark:text-slate-100">Freelancer Level</th>
+                        <th class="px-6 py-4 text-sm font-semibold text-slate-700 dark:text-slate-100">Duration</th>
+                        <th class="px-6 py-4 text-sm font-semibold text-slate-700 dark:text-slate-100 text-right">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="services-table-body" class="divide-y divide-slate-100 dark:divide-slate-800">
+                    {% for req in services %}
+                    <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
+                        <td class="px-6 py-4">
+                            <div class="flex flex-col">
+                                <span class="font-bold text-slate-900 dark:text-white">{{ req.title }}</span>
+                                <span class="text-xs text-slate-500 dark:text-slate-400 flex items-center gap-1">
+                                    <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path></svg>
+                                    {{ req.client.firstName|default('Unknown User') }} {{ req.client.lastName|default('') }}
+                                </span>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300">
+                                <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
+                                </svg>
+                                {{ req.category.name|default('General') }}
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">
+                            {{ req.budgetMin|number_format(0, '.', ' ') }}€ - {{ req.budgetMax|number_format(0, '.', ' ') }}€
+                        </td>
+                        <td class="px-6 py-4">
+                            <span class="px-2 py-1 rounded-full bg-slate-800 text-slate-300 text-sm">
+                                {{ req.level }}
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">
+                            {% if req.duration %}
+                                <div class="flex items-center gap-1">
+                                    <svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                    {{ req.duration }} Days
+                                </div>
+                            {% else %}
+                                <span class="text-slate-400 italic">Not set</span>
+                            {% endif %}
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="flex items-center justify-end gap-3">
+                                <a href="{{ path('admin_service_requirements', {id: req.id}) }}" class="p-2 text-slate-400 hover:text-blue-600 transition-colors" title="Requirements">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
+                                </a>
+                                <a href="{{ path('admin_service_edit', {id: req.id}) }}" class="text-amber-600 hover:text-amber-700 font-medium text-sm">Edit</a>
+                                <a href="#" class="px-3 py-1 bg-emerald-600 hover:bg-emerald-700 text-white text-[10px] font-bold rounded uppercase shadow-sm transition-all">
+                                    Start
+                                </a>
+                                <form method="POST" action="{{ path('admin_service_delete', {id: req.id}) }}" class="inline" onsubmit="return confirm('Are you sure?')">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ req.id) }}">
+                                    <button class="text-red-600 hover:text-red-700 transition-colors">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="6" class="px-6 py-12 text-center text-slate-500 dark:text-slate-400">
+                            <div class="flex flex-col items-center">
+                                <svg class="w-12 h-12 text-slate-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 9.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                                <p class="text-lg font-medium">No services found</p>
+                                <p class="text-sm">Try searching or create a new service.</p>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    {# Pagination #}
+    {% if total_pages is defined and total_pages > 1 %}
+    <div class="flex items-center justify-between mt-6 px-2">
+        <span class="text-sm text-slate-500 dark:text-slate-400">
+            Showing page {{ page }} of {{ total_pages }} &mdash; {{ total }} total
+        </span>
+        <div class="flex items-center gap-2">
+            {% if page > 1 %}
+            <a href="{{ path('admin_services_index', app.request.query.all|merge({page: page - 1})) }}"
+               class="px-3 py-1.5 text-sm font-medium bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
+                &larr; Prev
+            </a>
+            {% endif %}
+            {% for p in max(1, page - 2)..min(total_pages, page + 2) %}
+            <a href="{{ path('admin_services_index', app.request.query.all|merge({page: p})) }}"
+               class="px-3 py-1.5 text-sm font-medium rounded-lg transition-colors {{ p == page ? 'bg-emerald-600 text-white' : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700' }}">
+                {{ p }}
+            </a>
+            {% endfor %}
+            {% if page < total_pages %}
+            <a href="{{ path('admin_services_index', app.request.query.all|merge({page: page + 1})) }}"
+               class="px-3 py-1.5 text-sm font-medium bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
+                Next &rarr;
+            </a>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+
+    {# Export Buttons #}
+    <div class="flex w-full mt-6">
+        <div class="ml-auto flex items-center gap-3">
+            <a href="{{ path('admin_service_export_excel') }}?{{ app.request.queryString }}" 
+               class="flex items-center gap-2 px-4 py-2.5 bg-emerald-500/5 hover:bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 rounded-xl text-xs font-bold transition-all hover:-translate-y-0.5 shadow-lg shadow-emerald-500/5">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                </svg>
+                <span class="hidden sm:inline">Export Excel</span>
+                <span class="sm:hidden">Excel</span>
+            </a>
+            <a href="{{ path('admin_service_export_pdf') }}?{{ app.request.queryString }}" 
+               class="flex items-center gap-2 px-4 py-2.5 bg-rose-500/5 hover:bg-rose-500/10 text-rose-500 border border-rose-500/20 rounded-xl text-xs font-bold transition-all hover:-translate-y-0.5 shadow-lg shadow-rose-500/5">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+                </svg>
+                <span class="hidden sm:inline">Download PDF</span>
+                <span class="sm:hidden">PDF</span>
+            </a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block javascripts %}
+<script>
+(function() {
+    // --- SEARCH LOGIC (EXACT COPY FROM WORKING TEMPLATE) ---
+    const initSearch = () => {
+        const searchInput = document.getElementById('service-search');
+        const tableBody = document.getElementById('services-table-body');
+        const spinner = document.getElementById('search-spinner');
+        let debounceTimer;
+
+        searchInput?.addEventListener('input', (e) => {
+            clearTimeout(debounceTimer);
+            spinner?.classList.remove('hidden');
+
+            debounceTimer = setTimeout(async () => {
+                try {
+                    const query = encodeURIComponent(e.target.value);
+                    // EXACT SAME PATH LOGIC
+                    const response = await fetch(`{{ path('admin_service_search') }}?q=${query}`, {
+                        headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                    });
+                    
+                    const html = await response.text();
+                    tableBody.innerHTML = html;
+
+                } catch (error) {
+                    console.error('Search error:', error);
+                } finally {
+                    spinner?.classList.add('hidden');
+                }
+            }, 300);
+        });
+    };
+
+    // Initial launch
+    initSearch();
+})();
+</script>
+
+{# Custom Scrollbar Styles #}
+<style>
+.scrollbar-thin {
+    scrollbar-width: thin;
+}
+.scrollbar-thin::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+.scrollbar-thumb-slate-300 {
+    scrollbar-color: #cbd5e1 transparent;
+}
+.scrollbar-thumb-slate-300::-webkit-scrollbar-thumb {
+    background-color: #cbd5e1;
+    border-radius: 4px;
+}
+.scrollbar-thumb-slate-600::-webkit-scrollbar-thumb {
+    background-color: #64748b;
+}
+.scrollbar-track-slate-100::-webkit-scrollbar-track {
+    background: #f1f5f9;
+}
+.scrollbar-track-slate-800::-webkit-scrollbar-track {
+    background: #1e293b;
+}
+</style>
+{% endblock %}

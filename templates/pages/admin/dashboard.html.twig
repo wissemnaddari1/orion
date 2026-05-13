@@ -1,0 +1,901 @@
+{% extends 'layout_admin.html.twig' %}
+
+{% block title %}Admin Dashboard - Orion{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock %}
+
+{% block main %}
+<div class="space-y-6">
+    {# Page Header #}
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+            <h1 class="text-2xl font-bold text-slate-900 dark:text-white">Admin Dashboard</h1>
+            <p class="text-slate-600 dark:text-slate-400 mt-1">Overview of your platform</p>
+        </div>
+        <div class="flex gap-3">
+            <a href="{{ path('admin_users_new') }}" 
+               class="inline-flex items-center gap-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-medium transition">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                </svg>
+                Add User
+            </a>
+        </div>
+    </div>
+
+    {# Stats Cards #}
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {% include 'components/_stats_card.html.twig' with {
+            title: 'Total Users',
+            value: stats.total_users,
+            icon: '<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>',
+            color: 'emerald',
+            subtitle: stats.growth_rate ~ '% growth this month'
+        } %}
+
+        {% include 'components/_stats_card.html.twig' with {
+            title: 'Active Users',
+            value: stats.active_users,
+            icon: '<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>',
+            color: 'blue',
+            subtitle: 'Currently active'
+        } %}
+
+        {% include 'components/_stats_card.html.twig' with {
+            title: 'Freelancers',
+            value: stats.workers,
+            icon: '<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>',
+            color: 'purple',
+            subtitle: 'Approved freelancers'
+        } %}
+
+        {% include 'components/_stats_card.html.twig' with {
+            title: 'Pending Certificates',
+            value: stats.pending_certificates,
+            icon: '<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>',
+            color: 'amber',
+            subtitle: 'Awaiting review'
+        } %}
+    </div>
+
+    {# Main Content Grid #}
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {# Pending Certificates #}
+        <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+            <div class="p-6 border-b border-slate-200 dark:border-slate-800">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-lg font-semibold text-slate-900 dark:text-white">Pending Certificates</h2>
+                    <a href="{{ path('admin_certificates_index') }}" 
+                       class="text-sm text-emerald-600 hover:text-emerald-700 dark:text-emerald-400 font-medium">
+                        View All
+                    </a>
+                </div>
+            </div>
+            <div class="p-6">
+                {% if pending_certificates|length > 0 %}
+                    <div class="space-y-4">
+                        {% for user in pending_certificates %}
+                            <div class="flex items-center justify-between p-4 bg-slate-50 dark:bg-slate-800/50 rounded-lg">
+                                <div class="flex items-center gap-4">
+                                    <div class="w-10 h-10 rounded-full bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center">
+                                        <svg class="w-5 h-5 text-amber-600 dark:text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <p class="font-medium text-slate-900 dark:text-white">{{ user.fullName }}</p>
+                                        <p class="text-sm text-slate-500 dark:text-slate-400">{{ user.certificateUploadedAt|date('M d, Y') }}</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    {% set verdict = user.certificateAiVerdict|default('pending') %}
+                                    <span class="px-2 py-1 text-xs font-medium rounded-full
+                                        {% if verdict == 'valid' %}bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-400
+                                        {% elseif verdict == 'fake' %}bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400
+                                        {% else %}bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400{% endif %}">
+                                        {{ verdict|upper }}
+                                    </span>
+                                    <a href="{{ path('admin_certificates_show', {id: user.id}) }}" 
+                                       class="p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="text-center py-8">
+                        <svg class="w-12 h-12 mx-auto text-slate-300 dark:text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        <p class="mt-4 text-slate-500 dark:text-slate-400">No pending certificates</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        {# Recent Users #}
+        <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+            <div class="p-6 border-b border-slate-200 dark:border-slate-800">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-lg font-semibold text-slate-900 dark:text-white">Recent Users</h2>
+                    <a href="{{ path('admin_users_index') }}" 
+                       class="text-sm text-emerald-600 hover:text-emerald-700 dark:text-emerald-400 font-medium">
+                        View All
+                    </a>
+                </div>
+            </div>
+            <div class="p-6">
+                {% if recent_users|length > 0 %}
+                    <div class="space-y-4">
+                        {% for user in recent_users %}
+                            <div class="flex items-center justify-between p-4 bg-slate-50 dark:bg-slate-800/50 rounded-lg">
+                                <div class="flex items-center gap-4">
+                                    <div class="relative w-10 h-10 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center overflow-hidden flex-shrink-0">
+                                        {% if user.profilePicture %}
+                                            <img src="{{ user.profilePicture }}" 
+                                                 alt="{{ user.fullName }}" 
+                                                 class="w-full h-full object-cover"
+                                                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                            <span class="hidden absolute inset-0 items-center justify-center text-emerald-600 dark:text-emerald-400 font-semibold text-sm">
+                                                {{ (user.firstName|first|upper)|default('U') }}{{ (user.lastName|first|upper)|default('') }}
+                                            </span>
+                                        {% else %}
+                                            <span class="text-emerald-600 dark:text-emerald-400 font-semibold text-sm">
+                                                {{ (user.firstName|first|upper)|default('U') }}{{ (user.lastName|first|upper)|default('') }}
+                                            </span>
+                                        {% endif %}
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <p class="font-medium text-slate-900 dark:text-white truncate">{{ user.fullName }}</p>
+                                        <p class="text-sm text-slate-500 dark:text-slate-400 truncate">{{ user.email }}</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <span class="px-2 py-1 text-xs font-medium rounded-full 
+                                        {% if user.role.value == 'ADMIN' %}bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400
+                                        {% elseif user.role.value == 'WORKER' %}bg-teal-100 text-teal-800 dark:bg-teal-900/30 dark:text-teal-400
+                                        {% else %}bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-400{% endif %}">
+                                        {{ user.role.value }}
+                                    </span>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="text-center py-8">
+                        <p class="text-slate-500 dark:text-slate-400">No users yet</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    {# User Distribution #}
+    <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm p-6">
+        <h2 class="text-lg font-semibold text-slate-900 dark:text-white mb-6">User Distribution</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="text-center">
+                <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-emerald-100 dark:bg-emerald-900/30 mb-4">
+                    <span class="text-2xl font-bold text-emerald-600 dark:text-emerald-400">{{ distribution.clients }}%</span>
+                </div>
+                <p class="text-slate-600 dark:text-slate-400">Clients</p>
+                <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ stats.clients }}</p>
+            </div>
+            <div class="text-center">
+                <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-teal-100 dark:bg-teal-900/30 mb-4">
+                    <span class="text-2xl font-bold text-teal-600 dark:text-teal-400">{{ distribution.workers }}%</span>
+                </div>
+                <p class="text-slate-600 dark:text-slate-400">Freelancers</p>
+                <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ stats.workers }}</p>
+            </div>
+            <div class="text-center">
+                <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-red-100 dark:bg-red-900/30 mb-4">
+                    <span class="text-2xl font-bold text-red-600 dark:text-red-400">{{ distribution.admins }}%</span>
+                </div>
+                <p class="text-slate-600 dark:text-slate-400">Admins</p>
+                <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ stats.admins }}</p>
+            </div>
+        </div>
+    </div>
+
+    {# Analytics Section #}
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="lg:col-span-2 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm p-6">
+            <div class="flex items-center justify-between mb-8">
+                <div>
+                    <h3 class="text-lg font-semibold text-slate-900 dark:text-white">Marketplace Insights</h3>
+                    <p class="text-xs text-slate-500 font-bold uppercase tracking-widest mt-1">Offer Conversion</p>
+                </div>
+                <div class="px-3 py-1 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 text-[10px] font-black rounded-lg uppercase tracking-tighter">Real-time Data</div>
+            </div>
+            <div class="relative h-[300px]">
+                <div id="loaderFunnel" class="absolute inset-0 flex items-center justify-center bg-white/50 dark:bg-slate-900/50 z-10 transition-opacity duration-300">
+                    <div class="w-10 h-10 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin"></div>
+                </div>
+                <canvas id="offerFunnelChart"></canvas>
+            </div>
+        </div>
+        <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm p-6 flex flex-col justify-between">
+            <div>
+                <h3 class="text-lg font-semibold text-slate-900 dark:text-white mb-2">Platform Health</h3>
+                <p class="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">
+                    The conversion rate monitors how effectively offers transition from submission to signed contracts across the entire marketplace.
+                </p>
+            </div>
+            
+            <div class="space-y-6 mt-6">
+                <div>
+                    <div class="flex justify-between items-end mb-2">
+                        <span class="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">Global Conv. Rate</span>
+                        <span class="text-3xl font-bold text-slate-900 dark:text-white">{{ offer_stats.conversion_rate }}%</span>
+                    </div>
+                    <div class="h-2 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+                        <div class="h-full bg-emerald-500 rounded-full transition-all duration-1000" style="width: {{ offer_stats.conversion_rate }}%"></div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4 pt-4 border-t border-slate-100 dark:border-slate-800">
+                    <div>
+                        <p class="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest mb-1">Avg. Offer Price</p>
+                        <p class="text-xl font-bold text-slate-900 dark:text-white">${{ offer_stats.average_price|number_format(0) }}</p>
+                    </div>
+                    <div>
+                        <p class="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest mb-1">Vol. Index</p>
+                        <p class="text-xl font-bold text-slate-900 dark:text-white">High</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# Trend & AI Section #}
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
+        <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm p-6">
+            <div class="flex items-center justify-between mb-6">
+                <div>
+                    <h3 class="text-lg font-semibold text-slate-900 dark:text-white">Acceptance Rate Trend</h3>
+                    <p class="text-xs text-slate-500 font-bold uppercase tracking-widest mt-1">14-Day Evolution</p>
+                </div>
+            </div>
+            <div class="relative h-[300px]">
+                <div id="loaderTrend" class="absolute inset-0 flex items-center justify-center bg-white/50 dark:bg-slate-900/50 z-10 transition-opacity duration-300">
+                    <div class="w-10 h-10 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin"></div>
+                </div>
+                <canvas id="offerTrendChart"></canvas>
+            </div>
+        </div>
+        
+        <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm p-6">
+            <div class="flex items-center justify-between mb-6">
+                <div>
+                    <h3 class="text-lg font-semibold text-slate-900 dark:text-white">AI Score vs Acceptance Rate</h3>
+                    <p class="text-xs text-slate-500 font-bold uppercase tracking-widest mt-1">ML Prediction Impact</p>
+                </div>
+            </div>
+            <div class="relative h-[300px]">
+                <div id="loaderAiImpact" class="absolute inset-0 flex items-center justify-center bg-white/50 dark:bg-slate-900/50 z-10 transition-opacity duration-300">
+                    <div class="w-10 h-10 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin"></div>
+                </div>
+                <canvas id="offerAiImpactChart"></canvas>
+            </div>
+        </div>
+    </div>
+        {# ── SERVICE REQUEST CHARTS ── #}
+    <div class="mt-8">
+        <div class="flex items-center gap-3 mb-6">
+            <div class="w-1 h-6 bg-emerald-500 rounded-full"></div>
+            <h2 class="text-lg font-bold text-slate-900 dark:text-white">Service Request Analytics</h2>
+        </div>
+
+        {# Line chart full width #}
+        <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm p-6 mb-6">
+            <div class="flex items-center justify-between mb-6">
+                <div>
+                    <h3 class="font-semibold text-slate-900 dark:text-white">Requests Over Time</h3>
+                    <p class="text-xs text-slate-400 mt-0.5">Daily service requests posted on the platform</p>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="inline-flex items-center gap-1 px-2 py-1 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 text-xs font-bold rounded-full">
+                        <span class="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></span> Live
+                    </span>
+                    <div class="flex rounded-lg border border-slate-200 dark:border-slate-700 overflow-hidden text-xs font-semibold">
+                        <button data-days="7"  class="period-btn px-3 py-1.5 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">7d</button>
+                        <button data-days="14" class="period-btn px-3 py-1.5 bg-emerald-600 text-white">14d</button>
+                        <button data-days="30" class="period-btn px-3 py-1.5 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">30d</button>
+                        <button data-days="365" class="period-btn px-3 py-1.5 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">1y</button>
+                    </div>
+                </div>
+            </div>
+            <div style="height: 220px; position: relative;">
+                <canvas id="chart-requests-time"></canvas>
+            </div>
+        </div>
+
+        {# 3 charts row #}
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+
+            {# Category bar #}
+            <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm p-6">
+                <div class="flex items-center gap-2 mb-1">
+                    <div class="w-2 h-2 rounded-full bg-indigo-500"></div>
+                    <h3 class="font-semibold text-slate-900 dark:text-white text-sm">Requests by Category</h3>
+                </div>
+                <p class="text-xs text-slate-400 mb-4 ml-4">Most demanded skills</p>
+                <div style="height: 200px; position: relative;">
+                    <canvas id="chart-category"></canvas>
+                </div>
+            </div>
+
+            {# Level doughnut #}
+            <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm p-6">
+                <div class="flex items-center gap-2 mb-1">
+                    <div class="w-2 h-2 rounded-full bg-emerald-500"></div>
+                    <h3 class="font-semibold text-slate-900 dark:text-white text-sm">Freelancer Level Demand</h3>
+                </div>
+                <p class="text-xs text-slate-400 mb-4 ml-4">Entry → Specialist split</p>
+                <div style="height: 200px; position: relative;">
+                    <canvas id="chart-levels"></canvas>
+                </div>
+            </div>
+
+            {# Priority pie #}
+            <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm p-6">
+                <div class="flex items-center gap-2 mb-1">
+                    <div class="w-2 h-2 rounded-full bg-amber-500"></div>
+                    <h3 class="font-semibold text-slate-900 dark:text-white text-sm">Requirements by Priority</h3>
+                </div>
+                <p class="text-xs text-slate-400 mb-4 ml-4">Low / Medium / High split</p>
+                <div style="height: 200px; position: relative;">
+                    <canvas id="chart-priority"></canvas>
+                </div>
+            </div>
+        </div>
+
+        {# Budget bar full width #}
+        <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm p-6">
+            <div class="flex items-center justify-between mb-6">
+                <div>
+                    <div class="flex items-center gap-2 mb-1">
+                        <div class="w-2 h-2 rounded-full bg-violet-500"></div>
+                        <h3 class="font-semibold text-slate-900 dark:text-white text-sm">Budget Distribution</h3>
+                    </div>
+                    <p class="text-xs text-slate-400 ml-4">How clients are sizing their project budgets</p>
+                </div>
+            </div>
+            <div style="height: 220px; position: relative;">
+                <canvas id="chart-budget"></canvas>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script>
+    document.addEventListener('turbo:load', () => {
+        // Ensure we are strictly on the Dashboard before initializing
+        if (!document.getElementById('offerFunnelChart')) return;
+
+        // --- Analytics Chart ---
+        const funnelCtx = document.getElementById('offerFunnelChart').getContext('2d');
+        
+        // Destroy existing chart to prevent 'Canvas is already in use' error
+        if (window.funnelChart instanceof Chart) window.funnelChart.destroy();
+
+        window.initFunnelChart = function() {
+            fetch('{{ path('admin_offers_stats_funnel') }}')
+                .then(res => res.json())
+                .then(data => {
+                    const loader = document.getElementById('loaderFunnel');
+                    if (loader) {
+                        loader.classList.add('opacity-0');
+                        setTimeout(() => loader.remove(), 300);
+                    }
+                    const chartData = {
+                        labels: ['Total Offers', 'In Negotiation', 'Accepted Offers', 'Converted Offers'],
+                        datasets: [{
+                            label: 'Offer Lifecycle',
+                            data: [
+                                data.total_offers,
+                                data.negotiations,
+                                data.accepted,
+                                data.converted
+                            ],
+                            backgroundColor: [
+                                'rgba(71, 85, 105, 0.1)',
+                                'rgba(79, 70, 229, 0.2)',
+                                'rgba(16, 185, 129, 0.4)',
+                                'rgba(16, 185, 129, 0.8)'
+                            ],
+                            borderColor: [
+                                '#475569',
+                                '#4f46e5',
+                                '#10b981',
+                                '#059669'
+                            ],
+                            borderWidth: 2,
+                            borderRadius: 12,
+                            barThickness: 50,
+                        }]
+                    };
+
+                    window.funnelChart = new Chart(funnelCtx, {
+                        type: 'bar',
+                        data: chartData,
+                        options: {
+                            indexAxis: 'y',
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: { display: false },
+                                tooltip: {
+                                    backgroundColor: '#1e293b',
+                                    titleFont: { size: 13, weight: 'bold' },
+                                    bodyFont: { size: 13 },
+                                    padding: 14,
+                                    cornerRadius: 8,
+                                    displayColors: false
+                                }
+                            },
+                            scales: {
+                                x: {
+                                    grid: { display: false },
+                                    ticks: { font: { weight: 'bold' } }
+                                },
+                                y: {
+                                    grid: { display: false },
+                                    ticks: { 
+                                        font: { weight: 'black', size: 12 },
+                                        color: '#64748b',
+                                        padding: 12
+                                    },
+                                    afterFit: function(scaleInstance) {
+                                        scaleInstance.width = 140; 
+                                    }
+                                }
+                            },
+                            animation: {
+                                duration: 2000,
+                                easing: 'easeOutQuart'
+                            }
+                        }
+                    });
+                });
+        };
+
+        // --- Trend Chart ---
+        const trendCtx = document.getElementById('offerTrendChart').getContext('2d');
+        if (window.trendChart instanceof Chart) window.trendChart.destroy();
+
+        window.initTrendChart = function() {
+            fetch('{{ path('admin_offers_stats_acceptance_trend') }}')
+                .then(res => res.json())
+                .then(data => {
+                    const loader = document.getElementById('loaderTrend');
+                    if (loader) {
+                        loader.classList.add('opacity-0');
+                        setTimeout(() => loader.remove(), 300);
+                    }
+                    const labels = data.map(item => {
+                        const d = new Date(item.date);
+                        return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+                    });
+                    const rates = data.map(item => item.acceptance_rate);
+
+                    window.trendChart = new Chart(trendCtx, {
+                        type: 'line',
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                label: 'Acceptance Rate (%)',
+                                data: rates,
+                                borderColor: '#10b981',
+                                backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                                borderWidth: 3,
+                                fill: true,
+                                tension: 0.4,
+                                pointBackgroundColor: '#fff',
+                                pointBorderColor: '#10b981',
+                                pointBorderWidth: 2,
+                                pointRadius: 4,
+                                pointHoverRadius: 6
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: { display: false },
+                                tooltip: {
+                                    backgroundColor: '#1e293b',
+                                    titleFont: { size: 13, weight: 'bold' },
+                                    bodyFont: { size: 13 },
+                                    padding: 14,
+                                    cornerRadius: 8,
+                                    displayColors: false,
+                                    callbacks: {
+                                        label: function(context) {
+                                            return context.parsed.y + '% Acceptance';
+                                        }
+                                    }
+                                }
+                            },
+                            scales: {
+                                x: {
+                                    grid: { display: false, drawBorder: false },
+                                    ticks: { font: { weight: 'bold' }, color: '#64748b' }
+                                },
+                                y: {
+                                    border: { dash: [4, 4], display: false },
+                                    grid: { color: 'rgba(148, 163, 184, 0.1)' },
+                                    ticks: {
+                                        font: { weight: 'bold' },
+                                        color: '#64748b',
+                                        callback: function(value) { return value + '%'; }
+                                    },
+                                    beginAtZero: true,
+                                    suggestedMax: 100
+                                }
+                            },
+                            animation: {
+                                duration: 2000,
+                                easing: 'easeOutQuart'
+                            }
+                        }
+                    });
+                });
+        };
+
+        // --- AI Impact Chart ---
+        const aiImpactCtx = document.getElementById('offerAiImpactChart').getContext('2d');
+        if (window.aiImpactChart instanceof Chart) window.aiImpactChart.destroy();
+
+        window.initAiImpactChart = function() {
+            fetch('{{ path('admin_offers_stats_ai_impact') }}')
+                .then(res => res.json())
+                .then(data => {
+                    const loader = document.getElementById('loaderAiImpact');
+                    if (loader) {
+                        loader.classList.add('opacity-0');
+                        setTimeout(() => loader.remove(), 300);
+                    }
+                    const labels = data.map(item => item.range + ' Score');
+                    const rates = data.map(item => item.rate);
+
+                    window.aiImpactChart = new Chart(aiImpactCtx, {
+                        type: 'bar',
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                label: 'Acceptance Rate (%)',
+                                data: rates,
+                                backgroundColor: [
+                                    'rgba(239, 68, 68, 0.2)', // Red for 0-40
+                                    'rgba(245, 158, 11, 0.2)', // Amber for 40-60
+                                    'rgba(16, 185, 129, 0.4)', // Green for 60-80
+                                    'rgba(16, 185, 129, 0.8)'  // Dark Green for 80-100
+                                ],
+                                borderColor: [
+                                    '#ef4444',
+                                    '#f59e0b',
+                                    '#10b981',
+                                    '#059669'
+                                ],
+                                borderWidth: 2,
+                                borderRadius: 8,
+                                barThickness: 40,
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: { display: false },
+                                tooltip: {
+                                    backgroundColor: '#1e293b',
+                                    titleFont: { size: 13, weight: 'bold' },
+                                    bodyFont: { size: 13 },
+                                    padding: 14,
+                                    cornerRadius: 8,
+                                    displayColors: false,
+                                    callbacks: {
+                                        label: function(context) {
+                                            return context.parsed.y + '% Acceptance';
+                                        }
+                                    }
+                                }
+                            },
+                            scales: {
+                                x: {
+                                    grid: { display: false },
+                                    ticks: { font: { weight: 'bold' }, color: '#64748b' }
+                                },
+                                y: {
+                                    border: { dash: [4, 4], display: false },
+                                    grid: { color: 'rgba(148, 163, 184, 0.1)' },
+                                    ticks: {
+                                        font: { weight: 'bold' },
+                                        color: '#64748b',
+                                        callback: function(value) { return value + '%'; }
+                                    },
+                                    beginAtZero: true,
+                                    suggestedMax: 100
+                                }
+                            },
+                            animation: {
+                                duration: 2000,
+                                easing: 'easeOutQuart'
+                            }
+                        }
+                    });
+                });
+        };
+                // ── SERVICE REQUEST CHARTS ─────────────────────────────────────────────────
+        const isDark     = () => document.documentElement.classList.contains('dark');
+        const gridColor  = () => isDark() ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.05)';
+        const labelColor = () => isDark() ? '#94a3b8' : '#64748b';
+        const EMERALD = '#10b981';
+        const COLORS6 = ['#10b981','#6366f1','#f59e0b','#ef4444','#3b82f6','#8b5cf6'];
+
+        const sharedTooltip = {
+            backgroundColor: '#0f172a',
+            titleColor: '#f1f5f9',
+            bodyColor: '#94a3b8',
+            padding: 12,
+            cornerRadius: 8,
+            displayColors: false,
+            titleFont: { size: 12, weight: 'bold' },
+            bodyFont: { size: 12 },
+        };
+
+        if (document.getElementById('chart-requests-time')) {
+
+            // 1. LINE: Requests over time
+            const allTimeRaw = {{ chart_requests_over_time|raw }};
+            const dayMap = {};
+            allTimeRaw.forEach(r => { dayMap[r.day] = parseInt(r.total); });
+
+            function buildPeriodData(days) {
+                const labels = [], values = [];
+                for (let i = days - 1; i >= 0; i--) {
+                    const d = new Date();
+                    d.setDate(d.getDate() - i);
+                    const key = d.toISOString().slice(0, 10);
+                    labels.push(days === 365 ? key.slice(0, 7) : key);
+                    values.push(dayMap[key] ?? 0);
+                }
+                if (days === 365) {
+                    const mm = {};
+                    labels.forEach((m, i) => { mm[m] = (mm[m] ?? 0) + values[i]; });
+                    return { labels: Object.keys(mm), values: Object.values(mm) };
+                }
+                return { labels, values };
+            }
+
+            const timeChart = new Chart(document.getElementById('chart-requests-time'), {
+                type: 'line',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        label: 'Requests',
+                        data: [],
+                        borderColor: EMERALD,
+                        backgroundColor: 'rgba(16,185,129,0.08)',
+                        borderWidth: 2.5,
+                        pointBackgroundColor: EMERALD,
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        pointRadius: 4,
+                        pointHoverRadius: 6,
+                        fill: true,
+                        tension: 0.4,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: { ...sharedTooltip }
+                    },
+                    scales: {
+                        x: {
+                            grid: { display: false },
+                            border: { display: false },
+                            ticks: { color: labelColor(), font: { size: 11 }, maxTicksLimit: 10 }
+                        },
+                        y: {
+                            grid: { color: gridColor() },
+                            border: { display: false, dash: [4,4] },
+                            ticks: { color: labelColor(), font: { size: 11 }, stepSize: 1 },
+                            beginAtZero: true
+                        }
+                    },
+                    animation: { duration: 800, easing: 'easeOutQuart' }
+                }
+            });
+
+            function updateTimeChart(days) {
+                const { labels, values } = buildPeriodData(days);
+                timeChart.data.labels = labels;
+                timeChart.data.datasets[0].data = values;
+                timeChart.update();
+                document.querySelectorAll('.period-btn').forEach(btn => {
+                    const active = parseInt(btn.dataset.days) === days;
+                    btn.className = `period-btn px-3 py-1.5 text-xs font-semibold transition-colors ${
+                        active ? 'bg-emerald-600 text-white' : 'text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800'
+                    }`;
+                });
+            }
+            updateTimeChart(14);
+            document.querySelectorAll('.period-btn').forEach(btn => {
+                btn.addEventListener('click', () => updateTimeChart(parseInt(btn.dataset.days)));
+            });
+
+            // 2. HORIZONTAL BAR: By category
+            const catRaw = {{ chart_requests_by_category|raw }};
+            new Chart(document.getElementById('chart-category'), {
+                type: 'bar',
+                data: {
+                    labels: catRaw.map(r => r.category),
+                    datasets: [{
+                        data: catRaw.map(r => r.total),
+                        backgroundColor: COLORS6,
+                        borderRadius: 6,
+                        borderSkipped: false,
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false }, tooltip: { ...sharedTooltip } },
+                    scales: {
+                        x: {
+                            grid: { color: gridColor() },
+                            border: { display: false },
+                            ticks: { color: labelColor(), font: { size: 11 }, stepSize: 1 },
+                            beginAtZero: true
+                        },
+                        y: {
+                            grid: { display: false },
+                            border: { display: false },
+                            ticks: { color: labelColor(), font: { size: 11 } }
+                        }
+                    },
+                    animation: { duration: 800 }
+                }
+            });
+
+            // 3. DOUGHNUT: Level demand
+            const levelRaw = {{ chart_level_distribution|raw }};
+            new Chart(document.getElementById('chart-levels'), {
+                type: 'doughnut',
+                data: {
+                    labels: levelRaw.map(r => r.level),
+                    datasets: [{
+                        data: levelRaw.map(r => r.total),
+                        backgroundColor: COLORS6,
+                        borderWidth: 3,
+                        borderColor: isDark() ? '#0f172a' : '#ffffff',
+                        hoverOffset: 8,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '68%',
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: labelColor(),
+                                padding: 12,
+                                font: { size: 11 },
+                                usePointStyle: true,
+                                pointStyleWidth: 8,
+                            }
+                        },
+                        tooltip: { ...sharedTooltip }
+                    },
+                    animation: { duration: 800 }
+                }
+            });
+
+            // 4. PIE: Requirements priority
+            const priorityRaw = {{ chart_requirements_priority|raw }};
+            const pLabels = { '1': 'Low', '2': 'Medium', '3': 'High' };
+            const pColors = { '1': '#94a3b8', '2': '#f59e0b', '3': '#ef4444' };
+            new Chart(document.getElementById('chart-priority'), {
+                type: 'doughnut',
+                data: {
+                    labels: priorityRaw.map(r => pLabels[r.priority] ?? r.priority),
+                    datasets: [{
+                        data: priorityRaw.map(r => r.total),
+                        backgroundColor: priorityRaw.map(r => pColors[r.priority] ?? '#6366f1'),
+                        borderWidth: 3,
+                        borderColor: isDark() ? '#0f172a' : '#ffffff',
+                        hoverOffset: 8,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '68%',
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: labelColor(),
+                                padding: 12,
+                                font: { size: 11 },
+                                usePointStyle: true,
+                                pointStyleWidth: 8,
+                            }
+                        },
+                        tooltip: { ...sharedTooltip }
+                    },
+                    animation: { duration: 800 }
+                }
+            });
+
+            // 5. BAR: Budget distribution
+            const budgetRaw = {{ chart_budget_ranges|raw }};
+            const budgetColors = ['#10b981','#6366f1','#f59e0b','#ef4444','#8b5cf6'];
+            new Chart(document.getElementById('chart-budget'), {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(budgetRaw).map(k => k + ' €'),
+                    datasets: [{
+                        label: 'Requests',
+                        data: Object.values(budgetRaw),
+                        backgroundColor: budgetColors,
+                        borderRadius: 8,
+                        borderSkipped: false,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            ...sharedTooltip,
+                            callbacks: {
+                                label: ctx => ` ${ctx.raw} service request${ctx.raw !== 1 ? 's' : ''}`
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: { display: false },
+                            border: { display: false },
+                            ticks: { color: labelColor(), font: { size: 11 } }
+                        },
+                        y: {
+                            grid: { color: gridColor() },
+                            border: { display: false, dash: [4,4] },
+                            ticks: { color: labelColor(), font: { size: 11 }, stepSize: 1 },
+                            beginAtZero: true
+                        }
+                    },
+                    animation: { duration: 800, easing: 'easeOutQuart' }
+                }
+            });
+        }
+
+        // Fire initialization naturally
+        window.initFunnelChart();
+        window.initTrendChart();
+        window.initAiImpactChart();
+    });
+</script>
+{% endblock %}

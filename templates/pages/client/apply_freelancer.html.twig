@@ -1,0 +1,166 @@
+{% extends 'layout_client.html.twig' %}
+
+{% block main %}
+<div class="max-w-2xl mx-auto space-y-6">
+    {# Page Header #}
+    <div>
+        <h1 class="text-2xl font-bold text-slate-900 dark:text-white">Apply as Freelancer</h1>
+        <p class="text-slate-600 dark:text-slate-400 mt-1">Submit your professional certificate to become a freelancer</p>
+    </div>
+
+    {# Info Banner #}
+    <div class="bg-emerald-50 dark:bg-emerald-900/20 rounded-xl border border-emerald-200 dark:border-emerald-800 p-6">
+        <div class="flex items-start gap-4">
+            <div class="flex-shrink-0">
+                <svg class="w-6 h-6 text-emerald-600 dark:text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+            </div>
+            <div>
+                <h3 class="font-semibold text-emerald-800 dark:text-emerald-200">How it works</h3>
+                <ol class="mt-2 text-sm text-emerald-700 dark:text-emerald-300 space-y-2">
+                    <li class="flex items-start gap-2">
+                        <span class="w-5 h-5 rounded-full bg-emerald-200 dark:bg-emerald-800 flex items-center justify-center flex-shrink-0 text-xs font-bold">1</span>
+                        <span>Upload your professional certificate or diploma</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                        <span class="w-5 h-5 rounded-full bg-emerald-200 dark:bg-emerald-800 flex items-center justify-center flex-shrink-0 text-xs font-bold">2</span>
+                        <span>Our AI system will analyze your document for authenticity</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                        <span class="w-5 h-5 rounded-full bg-emerald-200 dark:bg-emerald-800 flex items-center justify-center flex-shrink-0 text-xs font-bold">3</span>
+                        <span>An admin will review your application and approve/reject it</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                        <span class="w-5 h-5 rounded-full bg-emerald-200 dark:bg-emerald-800 flex items-center justify-center flex-shrink-0 text-xs font-bold">4</span>
+
+                        <span>Once approved, you'll gain access to the freelancer dashboard</span>
+                    </li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    {# Application Form #}
+    <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+        <div class="p-6 border-b border-slate-200 dark:border-slate-800">
+            <h2 class="text-lg font-semibold text-slate-900 dark:text-white">Upload Your Certificate</h2>
+        </div>
+        <div class="p-6">
+            {{ form_start(form, {'attr': {'class': 'space-y-6', 'novalidate': 'novalidate'}}) }}
+                {# Certificate Upload: label wraps dropzone so clicking anywhere opens file input; input is sr-only (visually hidden, still clickable) #}
+                <div>
+                    <span class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-3">Professional Certificate</span>
+                    <label for="{{ form.certificateFile.vars.id }}" class="block border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-xl p-8 text-center hover:border-emerald-500 dark:hover:border-emerald-500 transition cursor-pointer focus-within:ring-2 focus-within:ring-emerald-500 focus-within:ring-offset-2 dark:focus-within:ring-offset-slate-900">
+                        {{ form_widget(form.certificateFile, {'attr': {'class': 'sr-only', 'accept': '.pdf,.jpg,.jpeg,.png,.webp'}}) }}
+                        <svg class="w-12 h-12 mx-auto text-slate-400 dark:text-slate-500 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+                        </svg>
+                        <p class="mt-4 text-slate-600 dark:text-slate-400 pointer-events-none">
+                            <span class="font-medium text-emerald-600 dark:text-emerald-400">Click to upload</span> or drag and drop
+                        </p>
+                        <p class="mt-2 text-xs text-slate-500 dark:text-slate-500 pointer-events-none">
+                            PDF, JPEG, PNG or WebP (max 5MB)
+                        </p>
+                    </label>
+                    {{ form_errors(form.certificateFile) }}
+                </div>
+
+                {# File Preview (JavaScript will populate this) #}
+                <div id="filePreview" class="hidden p-4 bg-slate-50 dark:bg-slate-800/50 rounded-lg">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-lg bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center">
+                            <svg class="w-6 h-6 text-emerald-600 dark:text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                            </svg>
+                        </div>
+                        <div class="flex-1">
+                            <p id="fileName" class="font-medium text-slate-900 dark:text-white"></p>
+                            <p id="fileSize" class="text-sm text-slate-500 dark:text-slate-400"></p>
+                        </div>
+                        <button type="button" id="removeFile" class="p-2 text-slate-400 hover:text-red-500 transition">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                {# Submit #}
+                <div class="flex gap-4">
+                    <a href="{{ path('client_dashboard') }}" 
+                       class="flex-1 py-3 px-4 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-semibold rounded-lg text-center transition">
+                        Cancel
+                    </a>
+                    <button type="submit" 
+                            class="flex-1 py-3 px-4 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-lg transition">
+                        Submit Certificate
+                    </button>
+                </div>
+
+            {{ form_end(form) }}
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const fileInput = document.getElementById('{{ form.certificateFile.vars.id }}');
+    const filePreview = document.getElementById('filePreview');
+    const fileName = document.getElementById('fileName');
+    const fileSize = document.getElementById('fileSize');
+    const removeFile = document.getElementById('removeFile');
+    const dropZone = fileInput.closest('label');
+
+    function showPreview(file) {
+        if (!file) return;
+        fileName.textContent = file.name;
+        fileSize.textContent = formatFileSize(file.size);
+        filePreview.classList.remove('hidden');
+    }
+
+    fileInput.addEventListener('change', function() {
+        if (this.files && this.files[0]) showPreview(this.files[0]);
+    });
+
+    if (dropZone) {
+        dropZone.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            this.classList.add('border-emerald-500', 'bg-emerald-500/5');
+        });
+        dropZone.addEventListener('dragleave', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            this.classList.remove('border-emerald-500', 'bg-emerald-500/5');
+        });
+        dropZone.addEventListener('drop', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            this.classList.remove('border-emerald-500', 'bg-emerald-500/5');
+            var files = e.dataTransfer && e.dataTransfer.files;
+            if (files && files.length) {
+                var dt = new DataTransfer();
+                dt.items.add(files[0]);
+                fileInput.files = dt.files;
+                showPreview(files[0]);
+            }
+        });
+    }
+
+    removeFile.addEventListener('click', function() {
+        fileInput.value = '';
+        filePreview.classList.add('hidden');
+    });
+
+    function formatFileSize(bytes) {
+        if (bytes === 0) return '0 Bytes';
+        var k = 1024;
+        var sizes = ['Bytes', 'KB', 'MB', 'GB'];
+        var i = Math.floor(Math.log(bytes) / Math.log(k));
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    }
+});
+</script>
+{% endblock %}

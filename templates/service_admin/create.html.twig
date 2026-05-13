@@ -1,0 +1,254 @@
+{% extends 'layout_admin.html.twig' %}
+
+{% block main %}
+<div class="max-w-4xl mx-auto">
+    <div class="mb-8 flex justify-between items-center">
+        <h1 class="text-2xl font-bold text-slate-900 dark:text-white">Emergency Add: New Service</h1>
+        <a href="{{ path('admin_services_index') }}" class="text-sm text-slate-500 hover:text-emerald-600 transition-colors">Back to Management</a>
+    </div>
+
+    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-sm">
+        <form id="admin-service-form" method="POST" onsubmit="handleCreate(event)" class="p-6 lg:p-8 space-y-6">
+            
+            {# 1. USER SELECTION (Admin Specific) #}
+            <div class="p-4 bg-emerald-50/50 dark:bg-emerald-900/10 rounded-xl border border-emerald-100 dark:border-emerald-800/50">
+                <label class="block text-sm font-bold text-emerald-700 dark:text-emerald-400 mb-2">Assign to Client</label>
+                <select name="client_id" required class="w-full px-4 py-3 bg-white dark:bg-slate-950 border border-emerald-200 dark:border-emerald-800 rounded-lg dark:text-white outline-none focus:ring-2 focus:ring-emerald-500">
+                    <option value="" disabled selected>-- Search and Select User --</option>
+                    {% for user in users %}
+                        <option value="{{ user.id }}">{{ user.fullName }} (@{{ user.username }})</option>
+                    {% endfor %}
+                </select>
+                <p class="mt-2 text-xs text-emerald-600/70 dark:text-emerald-500/50 italic">* This service will be created on behalf of this user.</p>
+            </div>
+
+            {# 2. SERVICE TITLE #}
+            <div>
+                <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Service Title</label>
+                <input type="text" name="title" required placeholder="e.g. Urgent Infrastructure Setup"
+                    class="w-full px-4 py-2 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg dark:text-white outline-none focus:ring-2 focus:ring-emerald-500">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Service Category</label>
+                <select name="category_id" required class="w-full px-4 py-2 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg dark:text-white outline-none focus:ring-2 focus:ring-emerald-500">
+                    <option value="" disabled selected>-- Select a Category --</option>
+                    {% for category in categories %}
+                        <option value="{{ category.id }}">{{ category.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            {# 3. BUDGET (Simplified - No Sliders) #}
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="bg-slate-50 dark:bg-slate-950 p-4 rounded-lg border border-slate-200 dark:border-slate-800">
+                    <label class="text-[10px] uppercase tracking-wider text-slate-500 block mb-1">Min Budget</label>
+                    <div class="flex items-center text-emerald-600 dark:text-emerald-400">
+                        <input type="number" name="budget_min" value="200" required
+                            class="w-full bg-transparent font-bold text-lg outline-none border-none p-0 focus:ring-0">
+                        <span class="font-bold text-lg">€</span>
+                    </div>
+                </div>
+                <div class="bg-slate-50 dark:bg-slate-950 p-4 rounded-lg border border-slate-200 dark:border-slate-800">
+                    <label class="text-[10px] uppercase tracking-wider text-slate-500 block mb-1">Max Budget</label>
+                    <div class="flex items-center text-emerald-600 dark:text-emerald-400">
+                        <input type="number" name="budget_max" value="500" required
+                            class="w-full bg-transparent font-bold text-lg outline-none border-none p-0 focus:ring-0">
+                        <span class="font-bold text-lg">€</span>
+                    </div>
+                </div>
+            </div>
+
+            {# 4. LEVEL & DURATION #}
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Required Freelancer Level</label>
+                    <select name="level" class="w-full px-4 py-2 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg dark:text-white outline-none focus:ring-2 focus:ring-emerald-500">
+                        <option value="Entry">Entry</option>
+                        <option value="Intermediate">Intermediate</option>
+                        <option value="Expert" selected>Expert</option>
+                        <option value="Specialist">Specialist</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Project Duration</label>
+                    <div class="relative flex items-center">
+                        <input type="number" name="duration" placeholder="e.g. 5" required
+                            class="w-full px-4 py-2 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg dark:text-white outline-none focus:ring-2 focus:ring-emerald-500">
+                        <span class="absolute right-4 text-slate-400 text-sm">Days</span>
+                    </div>
+                </div>
+            </div>
+                        {# GitHub Prefill #}
+            <div class="flex items-center gap-4 py-4 border-t border-slate-100 dark:border-slate-800">
+                <button type="button" id="github-btn"
+                    class="flex items-center gap-2 px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white text-sm font-medium rounded-lg transition-colors">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+                    </svg>
+                    Fill from GitHub
+                </button>
+                <span id="github-status" class="text-sm text-slate-400"></span>
+            </div>
+
+            {# GitHub Modal #}
+            <div id="github-modal" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center">
+                <div class="bg-white dark:bg-slate-900 rounded-xl shadow-xl p-6 w-full max-w-md mx-4">
+                    <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2">Fill from GitHub</h3>
+                    <p class="text-sm text-slate-500 mb-4">Paste a public GitHub repository URL. We'll pre-fill the form — you can edit everything before saving.</p>
+                    
+                    <input type="text" id="github-url-input"
+                        placeholder="https://github.com/username/repository"
+                        class="w-full px-4 py-2 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg dark:text-white outline-none focus:ring-2 focus:ring-emerald-500 mb-4">
+                    
+                    <div id="github-modal-error" class="hidden mb-4 p-3 bg-red-50 border border-red-200 text-red-600 text-sm rounded-lg"></div>
+
+                    <div class="flex gap-3">
+                        <button type="button" id="github-confirm-btn"
+                            class="flex-1 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-medium rounded-lg transition-colors">
+                            Fetch & Fill
+                        </button>
+                        <button type="button" id="github-cancel-btn"
+                            class="flex-1 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-white font-medium rounded-lg transition-colors">
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            {# 5. DESCRIPTION #}
+            <div>
+                <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Detailed Description</label>
+                <textarea name="description" rows="5" required placeholder="Describe the project scope..."
+                    class="w-full px-4 py-2 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg dark:text-white outline-none focus:ring-2 focus:ring-emerald-500"></textarea>
+            </div>
+
+            {# 6. ACTIONS #}
+            <div class="flex items-center justify-end gap-4 pt-4 border-t border-slate-100 dark:border-slate-800">
+                <a href="{{ path('admin_services_index') }}" class="text-slate-500 hover:text-slate-700 dark:hover:text-white transition-colors">Cancel</a>
+                <button type="submit" class="px-8 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-lg shadow-lg shadow-emerald-900/20 transition-all transform hover:-translate-y-0.5">
+                    Save Emergency Request
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function handleCreate(e) {
+        e.preventDefault();
+        const isConfirmed = confirm("This will create a service for the selected user. Continue?");
+        if (isConfirmed) {
+            e.target.submit();
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const githubBtn        = document.getElementById('github-btn');
+        const githubModal      = document.getElementById('github-modal');
+        const githubUrlInput   = document.getElementById('github-url-input');
+        const githubConfirmBtn = document.getElementById('github-confirm-btn');
+        const githubCancelBtn  = document.getElementById('github-cancel-btn');
+        const githubStatus     = document.getElementById('github-status');
+        const githubModalError = document.getElementById('github-modal-error');
+
+        // Open
+        githubBtn.addEventListener('click', () => {
+            githubUrlInput.value = '';
+            githubModalError.classList.add('hidden');
+            githubModal.classList.remove('hidden');
+            githubUrlInput.focus();
+        });
+
+        // Close
+        githubCancelBtn.addEventListener('click', () => githubModal.classList.add('hidden'));
+        githubModal.addEventListener('click', (e) => {
+            if (e.target === githubModal) githubModal.classList.add('hidden');
+        });
+
+        // Enter key
+        githubUrlInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') githubConfirmBtn.click();
+        });
+
+        // Fetch & Fill
+        githubConfirmBtn.addEventListener('click', async () => {
+            const url = githubUrlInput.value.trim();
+
+            if (!url.includes('github.com')) {
+                githubModalError.textContent = 'Please enter a valid GitHub URL.';
+                githubModalError.classList.remove('hidden');
+                return;
+            }
+
+            githubConfirmBtn.disabled = true;
+            githubConfirmBtn.innerHTML = `
+                <svg class="animate-spin w-4 h-4 inline mr-1" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+                </svg>
+                Analyzing with AI…`;
+            githubModalError.classList.add('hidden');
+
+            try {
+                const res = await fetch('/service-request/github-prefill?url=' + encodeURIComponent(url));
+                const contentType = res.headers.get('content-type') || '';
+                if (!contentType.includes('application/json')) {
+                    throw new Error('Server returned a non-JSON response. Please try again.');
+                }
+                const data = await res.json();
+
+                if (!res.ok || !data.success) throw new Error(data.error || 'GitHub prefill failed.');
+
+                document.querySelector('[name="title"]').value       = data.title;
+                document.querySelector('[name="description"]').value = data.description;
+
+                if (data.category_id) {
+                    document.querySelector('[name="category_id"]').value = data.category_id;
+                }
+                if (data.budget_min) {
+                    document.querySelector('[name="budget_min"]').value = data.budget_min;
+                }
+                if (data.budget_max) {
+                    document.querySelector('[name="budget_max"]').value = data.budget_max;
+                }
+                if (data.duration) {
+                    document.querySelector('[name="duration"]').value = data.duration;
+                }
+                if (data.level) {
+                    document.querySelector('[name="level"]').value = data.level;
+                }
+
+                githubModal.classList.add('hidden');
+                githubStatus.innerHTML = `
+                    ✅ Filled from <strong>${data.repo}</strong>
+                    · ${data.language}
+                    · AI estimated <strong>${data.duration} days</strong>
+                    · Budget <strong>${data.budget_min}€ – ${data.budget_max}€</strong>
+                    · Level <strong>${data.level}</strong>
+                    · Review and edit before saving.`;
+                githubStatus.className = 'text-sm text-emerald-600';
+
+            } catch (err) {
+                githubModalError.textContent = err.message ?? 'Repo not found or is private.';
+                githubModalError.classList.remove('hidden');
+            } finally {
+                githubConfirmBtn.disabled = false;
+                githubConfirmBtn.textContent = 'Fetch & Fill';
+            }
+        });
+    });
+</script>
+
+<style>
+    /* Remove default arrows from number inputs for a cleaner look */
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+    input[type=number] { -moz-appearance: textfield; }
+</style>
+
+{% for message in app.flashes('error') %}
+    <div class="max-w-4xl mx-auto mt-4 p-4 bg-red-50 border-l-4 border-red-500 text-red-700 rounded-lg">
+        {{ message }}
+    </div>
+{% endfor %}
+{% endblock %}

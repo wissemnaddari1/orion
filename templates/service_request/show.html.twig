@@ -1,0 +1,270 @@
+{# templates/service_request/show.html.twig #}
+{% extends 'layout_app.html.twig' %}
+
+{% block main %}
+<div class="max-w-5xl mx-auto">
+
+    {# Breadcrumb #}
+    <nav class="flex mb-6 text-sm text-slate-500">
+        <a href="{{ path('request_list') }}" class="hover:text-emerald-600">Requests</a>
+        <span class="mx-2">/</span>
+        <span class="text-slate-900 dark:text-white font-medium">{{ request.title }}</span>
+        
+    </nav>
+
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {# Left Column: Details #}
+        <div class="lg:col-span-2 space-y-6">
+            <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-8 shadow-sm">
+                <div class="flex justify-between items-start mb-6">
+                    <h1 class="text-3xl font-bold text-slate-900 dark:text-white">{{ request.title }}</h1>
+                    <div class="flex flex-col items-end gap-2">
+                        <span class="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
+                            {{ request.category.name|default('General Service') }}
+                        </span>
+                        <span class="px-3 py-1 text-sm font-semibold rounded-full bg-emerald-100 text-emerald-700">
+                            {{ request.level }}
+                        </span>
+                        <span class="px-3 py-1 text-sm font-semibold rounded-full bg-blue-100 text-blue-700">
+                            {{ request.status }}
+                        </span>
+                    </div>
+                </div>
+
+                <p class="text-slate-600 dark:text-slate-400 leading-relaxed mb-8">
+                    {{ request.description|default('No description provided.') }}
+                </p>
+
+                <div class="grid grid-cols-2 gap-4 pt-6 border-t border-slate-100 dark:border-slate-800">
+                    <div>
+                        <p class="text-xs text-slate-400 uppercase font-bold tracking-wider">Budget Range</p>
+                        <p id="budget-display" class="text-lg font-semibold text-slate-900 dark:text-white">
+                            {{ request.budgetMin|number_format }}€ – {{ request.budgetMax|number_format }}€
+                        </p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-400 uppercase font-bold tracking-wider">Estimated Duration</p>
+                        <p id="duration-display" class="text-lg font-semibold text-slate-900 dark:text-white">
+                            {{ request.duration|default('N/A') }} Days
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            {# AI Result Card — hidden until score arrives #}
+            <div id="ai-result-card" class="hidden bg-white dark:bg-slate-900 border border-emerald-300 dark:border-emerald-700 rounded-xl p-6 shadow-sm">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center">
+                        <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.346.9H9.013l-.346-.9z"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-bold text-slate-900 dark:text-white">AI Evaluation Result</h3>
+                    <span id="ai-score-badge" class="ml-auto px-3 py-1 text-xs font-bold rounded-full bg-emerald-100 text-emerald-700"></span>
+                </div>
+
+                <div id="ai-feedback" class="text-sm text-slate-600 dark:text-slate-400 mb-5 leading-relaxed"></div>
+
+                {# Suggested values #}
+                <div class="grid grid-cols-3 gap-4 mb-5">
+                    <div class="bg-slate-50 dark:bg-slate-800 rounded-lg p-3 text-center">
+                        <p class="text-xs text-slate-400 uppercase font-bold tracking-wider mb-1">Suggested Min</p>
+                        <p id="ai-price-min" class="text-lg font-bold text-emerald-600"></p>
+                    </div>
+                    <div class="bg-slate-50 dark:bg-slate-800 rounded-lg p-3 text-center">
+                        <p class="text-xs text-slate-400 uppercase font-bold tracking-wider mb-1">Suggested Max</p>
+                        <p id="ai-price-max" class="text-lg font-bold text-emerald-600"></p>
+                    </div>
+                    <div class="bg-slate-50 dark:bg-slate-800 rounded-lg p-3 text-center">
+                        <p class="text-xs text-slate-400 uppercase font-bold tracking-wider mb-1">Suggested Days</p>
+                        <p id="ai-duration" class="text-lg font-bold text-emerald-600"></p>
+                    </div>
+                </div>
+
+                <button id="apply-btn"
+                    class="w-full py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-medium transition-colors">
+                    Apply AI Suggestions
+                </button>
+                <p id="apply-success" class="hidden mt-3 text-center text-sm text-emerald-600 font-medium">✓ Suggestions applied successfully!</p>
+            </div>
+
+            <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-6 shadow-sm">
+                <h3 class="font-bold text-slate-900 dark:text-white mb-4">AI Matchmaking Recommendations</h3>
+                {% if ai_recommendations is defined and ai_recommendations|length > 0 %}
+                    <div class="space-y-3">
+                        {% for rec in ai_recommendations|slice(0, 5) %}
+                            <div class="rounded-lg border border-slate-200 dark:border-slate-700 p-3">
+                                <div class="flex items-center justify-between">
+                                    <p class="text-sm font-semibold text-slate-900 dark:text-white">
+                                        {{ rec.user.fullName }}
+                                    </p>
+                                    <span class="text-xs font-bold text-emerald-600 dark:text-emerald-400">
+                                        {{ (rec.score * 100)|round }}% match
+                                    </span>
+                                </div>
+                                {% if rec.explanations is defined and rec.explanations|length > 0 %}
+                                    <ul class="mt-2 text-xs text-slate-600 dark:text-slate-400 list-disc list-inside space-y-1">
+                                        {% for explanation in rec.explanations|slice(0, 2) %}
+                                            <li>{{ explanation }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p class="text-sm text-slate-500 dark:text-slate-400">
+                        No AI recommendations available yet. Run matchmaking or check candidate profile completeness.
+                    </p>
+                {% endif %}
+            </div>
+        </div>
+
+        {# Right Column: Actions #}
+        <div class="space-y-6">
+            <div class="bg-slate-900 text-white rounded-xl p-6 shadow-lg">
+                <h3 class="font-bold mb-4">Actions</h3>
+                <div class="space-y-3">
+                    <a href="{{ path('request_edit', {id: request.id}) }}"
+                        class="block w-full text-center py-2 bg-white/10 hover:bg-white/20 rounded-lg font-medium transition-colors">
+                        Edit Request
+                    </a>
+                    <a href="{{ path('requirement_manage', {id: request.id}) }}"
+                        class="block w-full text-center py-2 bg-emerald-600 hover:bg-emerald-700 rounded-lg font-medium transition-colors">
+                        See Requirements
+                    </a>
+                    <button id="ai-score-btn"
+                        data-score-url="{{ path('request_ai_score', {id: request.id}) }}"
+                        data-apply-url="{{ path('request_apply_score', {id: request.id}) }}"
+                        class="flex items-center justify-center gap-2 w-full text-center py-2 bg-violet-600 hover:bg-violet-700 rounded-lg font-medium transition-colors">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.346.9H9.013l-.346-.9z"/>
+                        </svg>
+                        Evaluate with AI
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('turbo:load', () => {
+    console.log('✅ turbo:load fired');
+
+    const scoreBtn = document.getElementById('ai-score-btn');
+    if (!scoreBtn) return; // guard: only run on this page
+
+    const applyBtn   = document.getElementById('apply-btn');
+    const resultCard = document.getElementById('ai-result-card');
+
+    const SCORE_URL = scoreBtn.dataset.scoreUrl;
+    const APPLY_URL = scoreBtn.dataset.applyUrl;
+
+    scoreBtn.disabled = false;
+
+    // Remove old listeners to prevent duplicates across Turbo navigations
+    const newScoreBtn = scoreBtn.cloneNode(true);
+    scoreBtn.parentNode.replaceChild(newScoreBtn, scoreBtn);
+
+    const newApplyBtn = applyBtn.cloneNode(true);
+    applyBtn.parentNode.replaceChild(newApplyBtn, applyBtn);
+
+    // Re-grab fresh references after clone
+    const btn   = document.getElementById('ai-score-btn');
+    const apply = document.getElementById('apply-btn');
+
+    // ── STEP 1: Evaluate ─────────────────────────────────────────────────────
+    btn.addEventListener('click', async () => {
+        if (btn.disabled) return;
+        btn.disabled = true;
+        btn.innerHTML = `
+            <svg class="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+            </svg>
+            Evaluating…`;
+
+        try {
+            const res  = await fetch(SCORE_URL, {
+                method: 'POST',
+                headers: { 'X-Requested-With': 'XMLHttpRequest' },
+            });
+
+            if (!res.ok) throw new Error(`Server error: ${res.status}`);
+            const data = await res.json();
+            if (!data.success) throw new Error(data.error ?? 'Unknown error');
+
+            document.getElementById('ai-score-badge').textContent = `${data.suggested_price_min ?? '—'}€ – ${data.suggested_price_max ?? '—'}€`;
+            document.getElementById('ai-feedback').textContent     = data.reasoning ?? '';
+            document.getElementById('ai-price-min').textContent    = (data.suggested_price_min ?? '—') + '€';
+            document.getElementById('ai-price-max').textContent    = (data.suggested_price_max ?? '—') + '€';
+            document.getElementById('ai-duration').textContent     = (data.suggested_duration  ?? '—') + ' days';
+
+            apply.dataset.priceMin = data.suggested_price_min;
+            apply.dataset.priceMax = data.suggested_price_max;
+            apply.dataset.duration = data.suggested_duration;
+
+            apply.disabled = false;
+            apply.textContent = 'Apply AI Suggestions';
+            apply.className = 'w-full py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-medium transition-colors';
+            document.getElementById('apply-success').classList.add('hidden');
+
+            resultCard.classList.remove('hidden');
+            resultCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+        } catch (err) {
+            alert('AI evaluation failed: ' + err.message);
+        } finally {
+            btn.disabled = false;
+            btn.innerHTML = `
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.346.9H9.013l-.346-.9z"/>
+                </svg>
+                Re-evaluate with AI`;
+        }
+    });
+
+    // ── STEP 2: Apply ────────────────────────────────────────────────────────
+    apply.addEventListener('click', async () => {
+        if (apply.disabled) return;
+        apply.disabled = true;
+        apply.textContent = 'Applying…';
+
+        try {
+            const res = await fetch(APPLY_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest',
+                },
+                body: JSON.stringify({
+                    price_min: parseFloat(apply.dataset.priceMin),
+                    price_max: parseFloat(apply.dataset.priceMax),
+                    duration:  parseInt(apply.dataset.duration),
+                }),
+            });
+
+            if (!res.ok) throw new Error(`Server error: ${res.level}`);
+            const data = await res.json();
+            if (!data.success) throw new Error(data.error ?? 'Apply failed');
+
+            document.getElementById('budget-display').textContent =
+                `${Number(data.price_min).toLocaleString()}€ – ${Number(data.price_max).toLocaleString()}€`;
+            document.getElementById('duration-display').textContent =
+                `${data.duration} Days`;
+
+            document.getElementById('apply-success').classList.remove('hidden');
+            apply.className = 'w-full py-2 bg-slate-400 text-white rounded-lg font-medium cursor-not-allowed';
+            apply.textContent = 'Applied ✓';
+
+        } catch (err) {
+            alert('Could not apply suggestions: ' + err.message);
+            apply.disabled = false;
+            apply.textContent = 'Apply AI Suggestions';
+        }
+    });
+});
+</script>
+{% endblock %}

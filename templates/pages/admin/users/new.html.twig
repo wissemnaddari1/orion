@@ -1,0 +1,351 @@
+{% extends 'layout_admin.html.twig' %}
+
+{% block title %}Create User - Orion{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .form-error {
+            display: block;
+            margin-top: 0.5rem;
+            font-size: 0.875rem;
+            color: #dc2626;
+        }
+        .dark .form-error {
+            color: #f87171;
+        }
+        .form-error ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .form-error li {
+            margin: 0.25rem 0;
+        }
+        .is-invalid {
+            border-color: #dc2626 !important;
+        }
+        .dark .is-invalid {
+            border-color: #ef4444 !important;
+        }
+        
+        /* Professional Form Styling */
+        .form-section-title {
+            position: relative;
+            padding-bottom: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+        .form-section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 48px;
+            height: 3px;
+            background: linear-gradient(to right, #10b981, #059669);
+            border-radius: 2px;
+        }
+        
+        /* Enhanced Input Styling */
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="password"],
+        input[type="number"],
+        select {
+            transition: all 0.2s ease;
+        }
+        
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="tel"]:focus,
+        input[type="password"]:focus,
+        input[type="number"]:focus,
+        select:focus {
+            border-color: #10b981 !important;
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1) !important;
+        }
+        
+        .dark input[type="text"]:focus,
+        .dark input[type="email"]:focus,
+        .dark input[type="tel"]:focus,
+        .dark input[type="password"]:focus,
+        .dark input[type="number"]:focus,
+        .dark select:focus {
+            border-color: #10b981 !important;
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15) !important;
+        }
+        
+        /* File Input Styling */
+        input[type="file"] {
+            padding: 0.625rem 1rem !important;
+        }
+        
+        /* Checkbox Styling */
+        input[type="checkbox"] {
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        input[type="checkbox"]:checked {
+            background-color: #10b981 !important;
+            border-color: #10b981 !important;
+        }
+        
+        /* Section Container */
+        .form-section {
+            background: transparent;
+        }
+    </style>
+{% endblock %}
+
+{% block main %}
+<div class="max-w-4xl mx-auto space-y-6">
+    <div class="flex items-center justify-between">
+        <div>
+            <h2 class="text-2xl font-bold text-slate-900 dark:text-white">Create User</h2>
+            <p class="text-slate-600 dark:text-slate-400 mt-1">Add a new user to the system</p>
+        </div>
+        <a href="{{ path('admin_users_index') }}"
+           class="text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white">
+            Cancel
+        </a>
+    </div>
+
+    <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-lg">
+        {{ form_start(form, {'attr': {'novalidate': 'novalidate', 'enctype': 'multipart/form-data'}}) }}
+            <div class="space-y-0">
+                {# Basic Information Section #}
+                <div class="p-8 form-section">
+                    <h3 class="form-section-title text-xl font-bold text-slate-900 dark:text-white">Basic Information</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            {{ form_label(form.username, null, {'label_attr': {'class': 'block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2'}}) }}
+                            {{ form_widget(form.username) }}
+                            <div class="form-error">{{ form_errors(form.username) }}</div>
+                        </div>
+                        <div>
+                            {{ form_label(form.email, null, {'label_attr': {'class': 'block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2'}}) }}
+                            {{ form_widget(form.email) }}
+                            <div class="form-error">{{ form_errors(form.email) }}</div>
+                        </div>
+                        <div>
+                            {{ form_label(form.firstName, null, {'label_attr': {'class': 'block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2'}}) }}
+                            {{ form_widget(form.firstName) }}
+                            <div class="form-error">{{ form_errors(form.firstName) }}</div>
+                        </div>
+                        <div>
+                            {{ form_label(form.lastName, null, {'label_attr': {'class': 'block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2'}}) }}
+                            {{ form_widget(form.lastName) }}
+                            <div class="form-error">{{ form_errors(form.lastName) }}</div>
+                        </div>
+                        <div>
+                            {{ form_label(form.phone, null, {'label_attr': {'class': 'block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2'}}) }}
+                            {{ form_widget(form.phone) }}
+                            <div class="form-error">{{ form_errors(form.phone) }}</div>
+                        </div>
+                        <div>
+                            {{ form_label(form.profilePictureFile, null, {'label_attr': {'class': 'block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2'}}) }}
+                            {{ form_widget(form.profilePictureFile) }}
+                            <div class="form-error">{{ form_errors(form.profilePictureFile) }}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="border-t border-slate-200 dark:border-slate-800"></div>
+
+                {# Account Settings Section #}
+                <div class="p-8 form-section">
+                    <h3 class="form-section-title text-xl font-bold text-slate-900 dark:text-white">Account Settings</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            {{ form_label(form.role, null, {'label_attr': {'class': 'block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2'}}) }}
+                            {{ form_widget(form.role) }}
+                            <div class="form-error">{{ form_errors(form.role) }}</div>
+                        </div>
+                        <div>
+                            {{ form_label(form.status, null, {'label_attr': {'class': 'block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2'}}) }}
+                            {{ form_widget(form.status) }}
+                            <div class="form-error">{{ form_errors(form.status) }}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="border-t border-slate-200 dark:border-slate-800"></div>
+
+                {# Password Section #}
+                <div class="p-8 form-section">
+                    <h3 class="form-section-title text-xl font-bold text-slate-900 dark:text-white">Security</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            {{ form_label(form.plainPassword.first, null, {'label_attr': {'class': 'block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2'}}) }}
+                            {{ form_widget(form.plainPassword.first) }}
+                            <div class="form-error">{{ form_errors(form.plainPassword.first) }}</div>
+                        </div>
+                        <div>
+                            {{ form_label(form.plainPassword.second, null, {'label_attr': {'class': 'block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2'}}) }}
+                            {{ form_widget(form.plainPassword.second) }}
+                            <div class="form-error">{{ form_errors(form.plainPassword.second) }}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="border-t border-slate-200 dark:border-slate-800"></div>
+
+                {# Location Information Section #}
+                <div class="p-8 form-section">
+                    <h3 class="form-section-title text-xl font-bold text-slate-900 dark:text-white">Location & Timezone</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div>
+                            {{ form_label(form.country, null, {'label_attr': {'class': 'block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2'}}) }}
+                            {{ form_widget(form.country) }}
+                            <div class="form-error">{{ form_errors(form.country) }}</div>
+                        </div>
+                        <div>
+                            {{ form_label(form.city, null, {'label_attr': {'class': 'block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2'}}) }}
+                            {{ form_widget(form.city) }}
+                            <div class="form-error">{{ form_errors(form.city) }}</div>
+                        </div>
+                        <div>
+                            {{ form_label(form.timezone, null, {'label_attr': {'class': 'block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2'}}) }}
+                            {{ form_widget(form.timezone) }}
+                            <div class="form-error">{{ form_errors(form.timezone) }}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="border-t border-slate-200 dark:border-slate-800"></div>
+
+                {# Wallet Information Section #}
+                <div class="p-8 form-section">
+                    <h3 class="form-section-title text-xl font-bold text-slate-900 dark:text-white">Wallet & Balance</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            {{ form_label(form.walletCurrency, null, {'label_attr': {'class': 'block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2'}}) }}
+                            {{ form_widget(form.walletCurrency) }}
+                            <div class="form-error">{{ form_errors(form.walletCurrency) }}</div>
+                        </div>
+                        <div>
+                            {{ form_label(form.accountBalance, null, {'label_attr': {'class': 'block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2'}}) }}
+                            {{ form_widget(form.accountBalance) }}
+                            <div class="form-error">{{ form_errors(form.accountBalance) }}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="border-t border-slate-200 dark:border-slate-800"></div>
+
+                {# Verification Settings Section #}
+                <div class="p-8 form-section">
+                    <h3 class="form-section-title text-xl font-bold text-slate-900 dark:text-white">Verification & Security</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                        {# Email Verified Card #}
+                        <div class="group relative bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-800/50 dark:to-slate-800/30 rounded-xl p-6 border-2 border-slate-200 dark:border-slate-700 hover:border-emerald-400 dark:hover:border-emerald-500 hover:shadow-lg hover:shadow-emerald-500/10 transition-all duration-300 cursor-pointer">
+                            <label class="cursor-pointer">
+                                <div class="flex items-start gap-4">
+                                    {# Icon Container #}
+                                    <div class="flex-shrink-0 w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center shadow-lg shadow-emerald-500/30 group-hover:scale-110 transition-transform duration-300">
+                                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                                        </svg>
+                                    </div>
+                                    
+                                    {# Content #}
+                                    <div class="flex-1">
+                                        <div class="flex items-center gap-2 mb-1">
+                                            <span class="block font-bold text-slate-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">Email Verified</span>
+                                        </div>
+                                        <p class="text-xs text-slate-600 dark:text-slate-400 mb-3">Mark email as verified</p>
+                                        
+                                        {# Checkbox #}
+                                        <div class="flex items-center gap-2">
+                                            {{ form_widget(form.emailVerified) }}
+                                            <span class="text-xs font-medium text-slate-700 dark:text-slate-300">Enable verification</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </label>
+                            <div class="form-error mt-2">{{ form_errors(form.emailVerified) }}</div>
+                        </div>
+
+                        {# Phone Verified Card #}
+                        <div class="group relative bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-800/50 dark:to-slate-800/30 rounded-xl p-6 border-2 border-slate-200 dark:border-slate-700 hover:border-emerald-400 dark:hover:border-emerald-500 hover:shadow-lg hover:shadow-emerald-500/10 transition-all duration-300 cursor-pointer">
+                            <label class="cursor-pointer">
+                                <div class="flex items-start gap-4">
+                                    {# Icon Container #}
+                                    <div class="flex-shrink-0 w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center shadow-lg shadow-emerald-500/30 group-hover:scale-110 transition-transform duration-300">
+                                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                                        </svg>
+                                    </div>
+                                    
+                                    {# Content #}
+                                    <div class="flex-1">
+                                        <div class="flex items-center gap-2 mb-1">
+                                            <span class="block font-bold text-slate-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">Phone Verified</span>
+                                        </div>
+                                        <p class="text-xs text-slate-600 dark:text-slate-400 mb-3">Mark phone as verified</p>
+                                        
+                                        {# Checkbox #}
+                                        <div class="flex items-center gap-2">
+                                            {{ form_widget(form.phoneVerified) }}
+                                            <span class="text-xs font-medium text-slate-700 dark:text-slate-300">Enable verification</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </label>
+                            <div class="form-error mt-2">{{ form_errors(form.phoneVerified) }}</div>
+                        </div>
+
+                        {# Two-Factor Auth Card #}
+                        <div class="group relative bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-800/50 dark:to-slate-800/30 rounded-xl p-6 border-2 border-slate-200 dark:border-slate-700 hover:border-emerald-400 dark:hover:border-emerald-500 hover:shadow-lg hover:shadow-emerald-500/10 transition-all duration-300 cursor-pointer">
+                            <label class="cursor-pointer">
+                                <div class="flex items-start gap-4">
+                                    {# Icon Container #}
+                                    <div class="flex-shrink-0 w-12 h-12 rounded-xl bg-gradient-to-br from-teal-500 to-teal-600 flex items-center justify-center shadow-lg shadow-teal-500/30 group-hover:scale-110 transition-transform duration-300">
+                                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                                        </svg>
+                                    </div>
+                                    
+                                    {# Content #}
+                                    <div class="flex-1">
+                                        <div class="flex items-center gap-2 mb-1">
+                                            <span class="block font-bold text-slate-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">Two-Factor Auth</span>
+                                        </div>
+                                        <p class="text-xs text-slate-600 dark:text-slate-400 mb-3">Enable 2FA security</p>
+                                        
+                                        {# Checkbox #}
+                                        <div class="flex items-center gap-2">
+                                            {{ form_widget(form.twoFactorEnabled) }}
+                                            <span class="text-xs font-medium text-slate-700 dark:text-slate-300">Enable 2FA</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </label>
+                            <div class="form-error mt-2">{{ form_errors(form.twoFactorEnabled) }}</div>
+                        </div>
+                    </div>
+                </div>
+
+                {# Action Buttons #}
+                <div class="px-8 py-6 flex items-center justify-between gap-4 bg-slate-50 dark:bg-slate-900/50 border-t border-slate-200 dark:border-slate-800 rounded-b-xl">
+                    <a href="{{ path('admin_users_index') }}"
+                       class="px-5 py-2.5 text-sm font-medium text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white border border-slate-300 dark:border-slate-700 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-all">
+                        Cancel
+                    </a>
+                    <button type="submit" 
+                            class="px-8 py-2.5 bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white font-semibold rounded-lg transition-all shadow-lg shadow-emerald-500/30 hover:shadow-xl hover:shadow-emerald-500/40 hover:scale-105">
+                        <span class="flex items-center gap-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                            </svg>
+                            Create User
+                        </span>
+                    </button>
+                </div>
+            </div>
+        {{ form_end(form) }}
+    </div>
+</div>
+{% endblock %}

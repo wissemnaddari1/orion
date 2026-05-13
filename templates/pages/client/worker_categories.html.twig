@@ -1,0 +1,91 @@
+{% extends 'layout_client.html.twig' %}
+
+{% block main %}
+    <div class="space-y-6">
+        
+        <div class="flex flex-wrap items-center justify-between gap-4">
+            <div>
+                <h1 class="text-2xl font-bold text-slate-900 dark:text-white">{{ topbar_title|default('Categories') }}</h1>
+                <p class="mt-1 text-sm text-slate-600 dark:text-slate-400">Browse worker categories. {{ categories|length }} found.</p>
+            </div>
+        </div>
+
+        {# Search â€” q param for name/description #}
+        <div class="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm p-4">
+            <form method="GET" action="{{ path('client_categories_index') }}" class="flex gap-2">
+                <input type="search" name="q" value="{{ q|default(search|default('')) }}" placeholder="Search by name or description…" 
+                       class="flex-1 block rounded-lg border border-slate-300 dark:border-slate-700 px-4 py-2 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 dark:bg-slate-800" />
+                <button type="submit" class="rounded-lg bg-emerald-600 px-6 py-2 text-sm font-semibold text-white hover:bg-emerald-700">
+                    Search
+                </button>
+                {% if q|default(search|default('')) %}
+                    <a href="{{ path('client_categories_index') }}" class="rounded-lg border border-slate-300 dark:border-slate-700 px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800">
+                        Clear
+                    </a>
+                {% endif %}
+            </form>
+        </div>
+
+        {% if app.flashes %}
+            {% for message in app.flashes('success') %}
+                <div class="rounded-lg bg-emerald-50 border border-emerald-200 p-4 text-emerald-800">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            
+            {% for category in categories %}
+                <div class="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm hover:shadow-md transition overflow-hidden">
+                    {% set colors = ['from-blue-500 to-blue-600', 'from-purple-500 to-purple-600', 'from-orange-500 to-orange-600', 'from-green-500 to-green-600', 'from-red-500 to-red-600', 'from-pink-500 to-pink-600'] %}
+                    {% set colorIndex = category.id % 6 %}
+                    {% set gradient = colors[colorIndex] %}
+                    
+                    <div class="bg-gradient-to-r {{ gradient }} h-32 flex items-center justify-center overflow-hidden">
+                        {% if category.icon and category.icon != 'default-icon' %}
+                            <img src="{{ asset('images/icons/' ~ category.icon) }}" alt="{{ category.name }}" class="w-16 h-16 object-contain" />
+                        {% else %}
+                            <img src="{{ asset('images/icons/default.svg') }}" alt="{{ category.name }}" class="w-16 h-16 object-contain opacity-50" />
+                        {% endif %}
+                    </div>
+
+                    <div class="p-5">
+                        <h3 class="text-lg font-bold text-slate-900 dark:text-white">{{ category.name }}</h3>
+                        <p class="mt-2 text-sm text-slate-600 dark:text-slate-400 line-clamp-2">{{ category.description ?? 'No description' }}</p>
+                        
+                        <div class="mt-4 space-y-2 border-t border-slate-100 dark:border-slate-800 pt-4">
+                            <div class="flex justify-between text-sm">
+                                <span class="text-slate-600 dark:text-slate-400">Available workers</span>
+                                <span class="font-semibold text-slate-900 dark:text-white">{{ category.totalWorkers ?? 0 }}</span>
+                            </div>
+                            <div class="flex justify-between text-sm">
+                                <span class="text-slate-600 dark:text-slate-400">Avg. hourly rate</span>
+                                <span class="font-semibold text-emerald-600 dark:text-emerald-400">€{{ category.averageHourlyRate ?? '0.00' }}</span>
+                            </div>
+                            <div class="flex justify-between text-sm">
+                                <span class="text-slate-600 dark:text-slate-400">Status</span>
+                                {% if category.status == 'actif' or category.status == 'active' %}
+                                    <span class="inline-flex rounded-full bg-emerald-100 dark:bg-emerald-900/30 px-2 py-1 text-xs font-medium text-emerald-800 dark:text-emerald-400">Active</span>
+                                {% else %}
+                                    <span class="inline-flex rounded-full bg-slate-100 dark:bg-slate-800 px-2 py-1 text-xs font-medium text-slate-800 dark:text-slate-300">Inactive</span>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <a href="{{ path('client_categories_detail', {id: category.id}) }}" 
+                           class="mt-4 block text-center rounded-lg bg-emerald-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-emerald-700 transition">
+                            View details
+                        </a>
+                    </div>
+                </div>
+            {% else %}
+                <div class="col-span-full rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-8 text-center">
+                    <p class="text-lg text-slate-600 dark:text-slate-400">No categories found. {% if q|default(search|default('')) %}Try a different search or {% endif %}<a href="{{ path('client_categories_index') }}" class="text-emerald-600 dark:text-emerald-400 hover:underline">clear filters</a>.</p>
+                </div>
+            {% endfor %}
+
+        </div>
+
+    </div>
+{% endblock %}

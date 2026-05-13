@@ -1,0 +1,140 @@
+{% extends 'layout_client.html.twig' %}
+
+{% block main %}
+    <div class="space-y-6">
+        
+        {# Header #}
+        <div class="flex items-center justify-between">
+            <div>
+                <a href="{{ path('client_categories_index') }}" class="text-sm text-[#0FAF7A] hover:underline mb-2">
+                    â† Back to categories
+                </a>
+                <h1 class="text-3xl font-bold text-[#000000]">{{ category.name }}</h1>
+                <p class="mt-2 text-slate-600">{{ category.description }}</p>
+
+            </div>
+            {# Client view: edit/delete removed (admin only) #}
+        </div>
+
+        {# Category Info Cards #}
+        <div class="grid gap-4 sm:grid-cols-4">
+            <div class="rounded-xl border border-gray-200 bg-white shadow-sm p-4">
+                <p class="text-sm font-medium text-slate-600">Available Workers</p>
+                <p class="mt-2 text-3xl font-bold text-[#0FAF7A]">{{ category.totalWorkers ?? 0 }}</p>
+            </div>
+            <div class="rounded-xl border border-gray-200 bg-white shadow-sm p-4">
+                <p class="text-sm font-medium text-slate-600">Avg. Hourly Rate</p>
+                <p class="mt-2 text-3xl font-bold text-[#000000]">â‚¬{{ category.averageHourlyRate ?? '0.00' }}</p>
+
+            </div>
+            <div class="rounded-xl border border-gray-200 bg-white shadow-sm p-4">
+                <p class="text-sm font-medium text-slate-600">Status</p>
+                <p class="mt-2 text-lg font-semibold">
+                    {% if category.status == 'actif' or category.status == 'active' %}
+                        <span class="inline-flex rounded-full bg-emerald-100 px-3 py-1 text-xs font-bold text-emerald-800">Active</span>
+                    {% else %}
+                        <span class="inline-flex rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-800">Inactive</span>
+                    {% endif %}
+                </p>
+            </div>
+            <div class="rounded-xl border border-gray-200 bg-white shadow-sm p-4">
+                <p class="text-sm font-medium text-slate-600">Display Order</p>
+                <p class="mt-2 text-3xl font-bold text-slate-700">#{{ category.displayOrder ?? 'â€”' }}</p>
+
+            </div>
+        </div>
+
+        {# Workers List #}
+        <div class="rounded-xl border border-gray-200 bg-white shadow-sm">
+            <div class="border-b border-gray-100 px-6 py-4">
+                <h2 class="text-lg font-bold text-[#000000]">Available Workers ({{ workers|length }})</h2>
+            </div>
+
+            {% if workers|length > 0 %}
+                <div class="divide-y divide-gray-100">
+                    {% for worker in workers %}
+                        <div class="p-6 hover:bg-slate-50 transition">
+                            <div class="flex items-start justify-between">
+                                <div class="flex-1">
+                                    <h3 class="text-lg font-bold text-[#000000]">{{ worker.title }}</h3>
+                                    <p class="mt-1 text-sm text-slate-600">{{ worker.bio }}</p>
+                                    
+                                    <div class="mt-4 grid gap-4 sm:grid-cols-4">
+                                        <div>
+                                            <p class="text-xs text-slate-500">Hourly Rate</p>
+                                            <p class="mt-1 font-semibold text-[#0FAF7A]">â‚¬{{ worker.hourlyRate }}</p>
+
+                                        </div>
+                                        <div>
+                                            <p class="text-xs text-slate-500">Experience</p>
+                                            <p class="mt-1 font-semibold">{{ worker.experienceYears }} years</p>
+                                        </div>
+                                        <div>
+                                            <p class="text-xs text-slate-500">Location</p>
+                                            <p class="mt-1 font-semibold">{{ worker.location }}</p>
+                                        </div>
+                                        <div>
+                                            <p class="text-xs text-slate-500">Availability</p>
+                                            <span class="mt-1 inline-flex rounded-full 
+                                                {% if worker.availabilityStatus == 'available' %}
+                                                    bg-emerald-100 text-emerald-800
+                                                {% else %}
+                                                    bg-slate-100 text-slate-800
+                                                {% endif %}
+                                                px-2.5 py-1 text-xs font-semibold">
+                                                {{ worker.availabilityStatus }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="ml-4 shrink-0">
+                                    {% if worker.verified %}
+                                        <span class="inline-flex rounded-full bg-blue-100 px-3 py-1 text-xs font-bold text-blue-800">âœ“ Verified</span>
+
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <div class="border-t border-gray-100 px-6 py-4">
+                    <a href="#" class="inline-block rounded-lg bg-[#0FAF7A] px-6 py-2.5 text-sm font-semibold text-white hover:bg-[#0a9a6f]">
+                        Request Service
+                    </a>
+                </div>
+            {% else %}
+                <div class="p-8 text-center">
+                    <p class="text-slate-600">No workers available in this category</p>
+                </div>
+            {% endif %}
+        </div>
+
+        {# Additional Info #}
+        <div class="rounded-xl border border-gray-200 bg-white shadow-sm p-6">
+            <h3 class="text-lg font-bold text-[#000000] mb-4">Category Details</h3>
+            <div class="grid gap-6 sm:grid-cols-2">
+                <div>
+                    <p class="text-sm font-medium text-slate-600">Created</p>
+                    <p class="mt-1 font-semibold">{{ category.createdAt ? category.createdAt|date('d/m/Y H:i') : 'â€”' }}</p>
+                </div>
+                <div>
+                    <p class="text-sm font-medium text-slate-600">Last Updated</p>
+                    <p class="mt-1 font-semibold">{{ category.updateAt ? category.updateAt|date('d/m/Y H:i') : 'â€”' }}</p>
+
+                </div>
+            </div>
+        </div>
+
+        {# Back Button #}
+        <div>
+            <a href="{{ path('client_categories_index') }}" class="inline-flex items-center justify-center rounded-lg border border-gray-300 px-6 py-2.5 text-sm font-semibold text-slate-700 hover:bg-gray-50">
+                â† Back to categories
+
+            </a>
+        </div>
+
+    </div>
+{% endblock %}
+

@@ -1,0 +1,16 @@
+{# _toast.html.twig
+   Parameters: message (string), variant (success|error|info|warning), id (string), dismissible (bool) #}
+{% set variant_styles = {
+    success: 'bg-emerald-50 border-emerald-200 text-[#008F6A]',
+    error: 'bg-red-50 border-red-200 text-red-700',
+    info: 'bg-blue-50 border-blue-200 text-blue-700',
+    warning: 'bg-[#FFF1A8]/60 border-amber-200 text-[#3F3F3F]'
+} %}
+<div id="{{ id|default('toast') }}" class="flex items-center gap-3 rounded-lg border px-4 py-3 shadow-lg {{ variant_styles[variant|default('success')] }}" role="alert">
+    <span class="flex-1 text-sm font-medium">{{ message|default('Done.') }}</span>
+    {% if dismissible|default(true) %}
+        <button type="button" class="rounded p-1 hover:bg-black/10 transition" aria-label="Dismiss">
+            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+    {% endif %}
+</div>

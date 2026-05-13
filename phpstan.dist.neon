@@ -1,0 +1,16 @@
+# Default PHPStan config (level 8, src only).
+# Local overrides: use phpstan.neon (optional, see .gitignore).
+parameters:
+    level: 8
+    paths:
+        - src
+
+    reportUnmatchedIgnoredErrors: false
+
+    ignoreErrors:
+        - '#Call to an undefined method Symfony\\Component\\Security\\Core\\User\\UserInterface::getFullName\(\)#'
+        - '#Call to an undefined method Symfony\\Component\\Security\\Core\\User\\UserInterface::getUsername\(\)#'
+        - '#Method .*::getAdminSidebarItems\(\) return type has no value type specified in iterable type array#'
+
+includes:
+    - phpstan-baseline.neon

@@ -1,4 +1,5 @@
 # Optional Render Blueprint — adjust name/region/plan as needed.
+# Dashboard: Root Directory = BLANK (not "Dockerfile"). Dockerfile path = Dockerfile.
 services:
   - type: web
     name: orion

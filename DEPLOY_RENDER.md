@@ -46,12 +46,16 @@ Internet → Render edge (TLS) → container :PORT → Apache → public/index.p
 
 ## Render: root directory & Docker paths
 
+**Critical:** In the Render dashboard, **Root Directory** must be **completely empty** (default). It is the **subfolder inside the Git repo** that becomes the build root (e.g. `apps/api`). It is **not** the path to your Dockerfile.
+
+If you set Root Directory to `Dockerfile`, Render looks for a **folder** named `Dockerfile` and fails with: *Root directory "Dockerfile" does not exist.*
+
 | Setting | Value |
 |---------|--------|
-| **Root Directory** | *(empty)* — the Symfony app and `composer.json` live at the **Git repository root**. |
+| **Root Directory** | **Leave blank** — repo root contains `composer.json` and `Dockerfile`. |
 | **Environment** | **Docker** |
-| **Dockerfile path** | `./Dockerfile` (default when the file is at repo root) |
-| **Docker build context** | `.` (repository root) |
+| **Dockerfile Path** | `Dockerfile` (or `./Dockerfile`) — this is a **separate** field from Root Directory. |
+| **Docker Build Context** | `.` (repository root; same as blank root directory) |
 
 ---
 
@@ -137,7 +141,7 @@ Set `DATABASE_URL` locally and run the same command against the production datab
 
 1. `docker/entrypoint.sh` sets Apache **`Listen $PORT`** and matches `<VirtualHost *:$PORT>`.
 2. Creates `var/cache`, `var/log`, and `public/uploads/*` trees.
-3. Runs `php bin/console cache:warmup --env=prod --no-debug` (ignored if env incomplete).
+3. Runs `cache:clear --no-warmup` then `cache:warmup` (best-effort if env vars are incomplete).
 4. `chown`/`chmod` for `www-data` on `var/` and `public/uploads/`.
 5. `apache2-foreground` serves **`/public`** with **`mod_rewrite`**.
 
@@ -147,6 +151,7 @@ Set `DATABASE_URL` locally and run the same command against the production datab
 
 | Symptom | Likely cause | Fix |
 |---------|----------------|-----|
+| **Root directory "Dockerfile" does not exist** | **Root Directory** was set to `Dockerfile` | Clear **Root Directory** (blank). Set **Dockerfile Path** to `Dockerfile` instead — that is a different setting. |
 | Build fails on `composer install` | Network / lock file | Ensure `composer.lock` is committed; retry deploy. |
 | **403** on all URLs | `AllowOverride` / missing rewrite | Image enables `mod_rewrite` and `AllowOverride All`; ensure `public/.htaccess` is in the repo. |
 | **404** on non-`/` routes | Rewrite / docroot | Confirm Render uses this Dockerfile; docroot must be `public/`. |

@@ -27,3 +27,13 @@ when@test:
         session:
             enabled: true
             storage_factory_id: session.storage.factory.mock_file
+
+when@prod:
+    framework:
+        # Render terminates TLS; trust forwarded scheme/host from their edge.
+        trusted_proxies: '127.0.0.1,REMOTE_ADDR'
+        trusted_headers:
+            - x-forwarded-for
+            - x-forwarded-proto
+            - x-forwarded-port
+            - x-forwarded-host

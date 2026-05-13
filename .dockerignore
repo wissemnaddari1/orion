@@ -1,0 +1,32 @@
+# Git / IDE
+.git
+.cursor
+.idea
+.vscode
+
+# Local env and secrets — never copy into the image
+.env
+.env.*
+
+# Symfony runtime (rebuilt in container)
+/var
+!/var/.gitkeep
+/vendor
+
+# Node / Python bytecode
+node_modules
+.venv
+venv
+**/__pycache__
+*.pyc
+
+# Not required for the Symfony web container (deploy separately if needed)
+.phpunit.cache
+phpunit.xml
+tests
+ai_service
+ai_face_service
+ai_matchmaking
+ai_contract_generator
+ai_request_service
+payment_service

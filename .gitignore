@@ -62,6 +62,8 @@ composer.lock.resolved
 ###> repo-specific secrets (never commit) ###
 /.env
 /.env.ORION_LOCAL
+/.env.prod.local
+/.env.production.local
 /ai_service/.env
 ###< repo-specific secrets ###
 

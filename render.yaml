@@ -1,0 +1,16 @@
+# Optional Render Blueprint — adjust name/region/plan as needed.
+services:
+  - type: web
+    name: orion
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    plan: starter
+    healthCheckPath: /
+    envVars:
+      - key: APP_ENV
+        value: prod
+      - key: APP_DEBUG
+        value: "0"
+      - key: APP_TIMEZONE
+        value: UTC

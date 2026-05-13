@@ -4,6 +4,10 @@
 # See https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
     payment_provider_default: 'mock'
+    # Used when DATABASE_SERVER_VERSION is not set (e.g. Hostinger MySQL 8).
+    doctrine.default_server_version: '8.0'
+    # When MESSENGER_TRANSPORT_DSN is unset (e.g. Render without Redis).
+    messenger_async_dsn_default: 'doctrine://default?auto_setup=0'
 
 services:
     _defaults:

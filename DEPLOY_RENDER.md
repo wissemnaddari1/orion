@@ -28,7 +28,8 @@ Internet → Render edge (TLS) → container :PORT → Apache → public/index.p
 
 | Item | Purpose |
 |------|---------|
-| **`Dockerfile`** | `php:8.2-apache-bookworm`, required extensions, Composer **`install --no-dev --optimize-autoloader`**, authoritative autoload, Apache docroot `public/`, production `opcache` ini. |
+| **`Dockerfile`** | `php:8.2-apache-bookworm`, required extensions, Composer **`install --no-dev --optimize-autoloader`**, authoritative autoload, Apache docroot `public/`, production `opcache` ini. Creates a **minimal** `.env` in the image (see next row). |
+| **`.env` inside the image** | Symfony’s runtime loads `.env` via Dotenv; the real repo `.env` is excluded from the build (`.dockerignore`). The Dockerfile adds a tiny file with only `APP_ENV` / `APP_DEBUG`. **`APP_SECRET`, `DATABASE_URL`, and all secrets** must be set in **Render environment variables** (they override file values). |
 | **`docker/apache/000-default.conf`** | VirtualHost: `DocumentRoot` `/var/www/html/public`, `AllowOverride All` for `.htaccess`. |
 | **`docker/entrypoint.sh`** | Render **`PORT`** → Apache `Listen` / vhost; dirs + permissions; **`cache:clear --no-warmup`** then **`cache:warmup`** (non-fatal if env incomplete); `apache2-foreground`. |
 | **`public/.htaccess`** | `mod_rewrite` rules so all non-file requests hit `index.php` (required for Apache + Symfony routing); forwards `Authorization` for JWT/API. |
@@ -151,6 +152,7 @@ Set `DATABASE_URL` locally and run the same command against the production datab
 
 | Symptom | Likely cause | Fix |
 |---------|----------------|-----|
+| **Unable to read `/var/www/html/.env`** | Image had no `.env` (excluded for security) | Fixed in Dockerfile: minimal `.env` is created at build time; set real config in Render env vars. Redeploy after pulling latest `main`. |
 | **Root directory "Dockerfile" does not exist** | **Root Directory** was set to `Dockerfile` | Clear **Root Directory** (blank). Set **Dockerfile Path** to `Dockerfile` instead — that is a different setting. |
 | Build fails on `composer install` | Network / lock file | Ensure `composer.lock` is committed; retry deploy. |
 | **403** on all URLs | `AllowOverride` / missing rewrite | Image enables `mod_rewrite` and `AllowOverride All`; ensure `public/.htaccess` is in the repo. |

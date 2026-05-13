@@ -55,6 +55,14 @@ RUN composer install \
 
 COPY . .
 
+# .dockerignore excludes secrets; Symfony Runtime still expects a readable `.env` path.
+# Real values must come from Render (or `docker run -e`); exported env overrides these lines.
+RUN printf '%s\n' \
+    '# Container defaults only. Set secrets via environment variables on Render.' \
+    'APP_ENV=prod' \
+    'APP_DEBUG=0' \
+    > .env
+
 # Refresh autoload + metadata after full tree; scripts optional (may need runtime env).
 RUN composer install \
     --no-dev \
